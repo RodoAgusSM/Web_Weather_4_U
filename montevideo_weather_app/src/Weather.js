@@ -40,7 +40,7 @@ function Weather() {
     }, []);
     return (
         <div className="weatherDiv" id="weatherCard">
-            <img src={logo} alt="Logo" />
+            <img id="logoApp" src={logo} alt="Logo" />
             <div>
                 <h2>Clima actual en Montevideo</h2>
             </div>
