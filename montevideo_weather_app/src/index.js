@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 //import './index.css';
 //import App from './App';
+import './Weather.css';
 import Weather from './Weather';
 import reportWebVitals from './reportWebVitals';
 
