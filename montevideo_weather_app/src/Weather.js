@@ -31,7 +31,7 @@ function Weather() {
             setMaxTemp(response.data.main.temp_max);
             setWindSpeed(parseInt(response.data.wind.speed) * 3.6);
             let degrees = parseInt(response.data.wind.deg);
-            let directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
+            let directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSO", "SO", "OSO", "O", "ONO", "NO", "NNO"]
             let cardinal = parseInt((degrees + 11.25) / 22.5);
             setWindDirection(directions[cardinal % 16]);
         };
