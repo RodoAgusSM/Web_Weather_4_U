@@ -47,9 +47,9 @@ function Weather() {
             <img id="weatherIcon" src={"https://openweathermap.org/img/w/" + icon + ".png"} alt="Icon" />
             <div id="weatherMain">
                 <code id="weatherMainTemp">{realFeel}°C</code><br />
+                <code id="description">{description}</code><br />
                 <code >Mín.: {minTemp}°C - Máx.: {maxTemp}°C</code><br />
-                <code>Sensación térmica: {feelsLike}°C</code><br />             
-                <code id="description">{description}</code>
+                <code>Sensación térmica: {feelsLike}°C</code>          
             </div>
             <div id="weatherData">
                 <code>Humedad: {humidity}%</code><br />
