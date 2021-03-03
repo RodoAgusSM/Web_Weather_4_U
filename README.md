@@ -1,2 +1,2 @@
 # MontevideoWeather
-A small app to View the actual Weather of Montevideo (Uruguay).
+A small app to view the actual Weather of Montevideo (Uruguay).
