@@ -42,11 +42,11 @@ function Weather() {
         <div className="weatherDiv" id="weatherCard">
             <img id="logoApp" src={logo} alt="Logo" />
             <div>
-                <h2>Clima actual en Montevideo</h2>
+                <h2>Tiempo en {cityName} ({countryNameShort})</h2>
             </div>
             <div id="weatherMain">
-                <code>Ciudad: {cityName} ({countryNameShort})</code><br />
-                <code>Temperatura: {realFeel} °C</code><br />
+                <code>Temperatura actual: {realFeel} °C</code><br /><br />
+                <code>Mín.: {minTemp} °C  Máx.: {maxTemp} °C</code><br />
                 <img id="weatherIcon" src={"https://openweathermap.org/img/w/" + icon + ".png"} alt="Icon" /><br />
                 <code>Descripción: {description}</code>
             </div>
@@ -54,8 +54,6 @@ function Weather() {
                 <code>Sensación termica: {feelsLike} °C</code><br />
                 <code>Humedad: {humidity} %</code><br />
                 <code>Presión: {pressure} hPa</code><br />
-                <code>Temperatura mínima: {minTemp} °C</code><br />
-                <code>Temperatura máxima: {maxTemp} °C</code>
             </div>
             <div id="weatherWind">
                 <code>Dirección del viento: {windDirection}</code><br />
