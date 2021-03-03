@@ -18,7 +18,8 @@ function Weather() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axios.get("https://api.openweathermap.org/data/2.5/weather?q=Montevideo&units=Metric&lang=sp&APPID=" + process.env.REACT_APP_OPENWEATHERMAP_API_KEY);
+            var weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=Montevideo&units=Metric&lang=sp&APPID=" + process.env.REACT_APP_OPENWEATHERMAP_API_KEY;
+            const response = await axios.get(weatherUrl);
             setCityName(response.data.name);
             setCountryNameShort(response.data.sys.country);
             setRealFeel(response.data.main.temp);
