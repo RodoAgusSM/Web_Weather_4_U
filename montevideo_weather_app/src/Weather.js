@@ -48,7 +48,7 @@ function Weather() {
             <div id="weatherMain">
                 <code id="weatherMainTemp">{realFeel}°C</code><br />
                 <code >Mín.: {minTemp}°C - Máx.: {maxTemp}°C</code><br />
-                <code>Sensación termica: {feelsLike}°C</code><br />             
+                <code>Sensación térmica: {feelsLike}°C</code><br />             
                 <code id="description">{description}</code>
             </div>
             <div id="weatherData">
