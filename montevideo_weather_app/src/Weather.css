@@ -19,14 +19,13 @@ body {
   }
 
   div #weatherIcon{
-    display: block;
-    margin-left: 135px;
+    display: inline-block;
     margin-right: auto;
-    margin-top: 18px;
     border-color: #f0e5d8;
     background-color:#fce1be; 
     border-style: solid;
     border-radius:20px;
+    width: 78px;
   }
 
   div #weatherCard{
@@ -37,29 +36,24 @@ body {
     border-radius:20px;
   }
 
+  div #weatherMainTemp{
+    font-size: 21px;
+    font-weight: bold;
+  }
+
   div #weatherMain{
-    margin-top: 15px;
-    margin-left: 35px;
-    font-size: 18px;
+    margin-top: -88px;
+    margin-left: 110px;
+    font-size: 17px;
   }
 
   div #weatherData{
     margin-top: 15px;
-    margin-left: 35px;
-    font-size: 15px;
-  }
-
-  div #weatherWind{
-    margin-top: 15px;
-    margin-left: 35px;
-    font-size: 15px;
+    margin-left: 110px;
+    font-size: 14px;
   }
 
   div #logoApp{
     margin-bottom: -5px;
     width: 385px;
-  }
-
-  div #description{
-    margin-left: 100px;
   }

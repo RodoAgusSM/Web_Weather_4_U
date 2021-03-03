@@ -44,20 +44,17 @@ function Weather() {
             <div>
                 <h2>Tiempo actual en {cityName} ({countryNameShort})</h2>
             </div>
+            <img id="weatherIcon" src={"https://openweathermap.org/img/w/" + icon + ".png"} alt="Icon" />
             <div id="weatherMain">
-                <code>Temperatura: {realFeel} °C</code><br />
-                <code>Mín.: {minTemp} °C - Máx.: {maxTemp} °C</code><br />
-                <code>Sensación termica: {feelsLike} °C</code><br />
-                <img id="weatherIcon" src={"https://openweathermap.org/img/w/" + icon + ".png"} alt="Icon" /><br />
+                <code id="weatherMainTemp">{realFeel}°C</code><br />
+                <code >Mín.: {minTemp}°C - Máx.: {maxTemp}°C</code><br />
+                <code>Sensación termica: {feelsLike}°C</code><br />             
                 <code id="description">{description}</code>
             </div>
             <div id="weatherData">
-                <code>Humedad: {humidity} %</code><br />
+                <code>Humedad: {humidity}%</code><br />
                 <code>Presión: {pressure} hPa</code><br />
-            </div>
-            <div id="weatherWind">
-                <code>Dirección del viento: {windDirection}</code><br />
-                <code>Velocidad del viento: {windSpeed} km/h</code>
+                <code>Viento: {windDirection} {windSpeed} km/h</code>
             </div>
         </div>
     );
