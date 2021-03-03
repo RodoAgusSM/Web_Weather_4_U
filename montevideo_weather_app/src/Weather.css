@@ -21,11 +21,12 @@ body {
   div #weatherIcon{
     display: inline-block;
     margin-right: auto;
+    margin-left: 3px;
     border-color: #f0e5d8;
     background-color:#fce1be; 
     border-style: solid;
     border-radius:20px;
-    width: 78px;
+    width: 83px;
   }
 
   div #weatherCard{
@@ -37,20 +38,20 @@ body {
   }
 
   div #weatherMainTemp{
-    font-size: 21px;
+    font-size: 23px;
     font-weight: bold;
   }
 
   div #weatherMain{
-    margin-top: -88px;
-    margin-left: 110px;
-    font-size: 17px;
+    margin-top: -93px;
+    margin-left: 117px;
+    font-size: 19px;
   }
 
   div #weatherData{
     margin-top: 15px;
-    margin-left: 110px;
-    font-size: 14px;
+    margin-left: 117px;
+    font-size: 17px;
   }
 
   div #logoApp{

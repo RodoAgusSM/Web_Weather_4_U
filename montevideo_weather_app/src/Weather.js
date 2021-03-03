@@ -18,19 +18,19 @@ function Weather() {
 
     useEffect(() => {
         const fetchData = async () => {
-            var weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=Montevideo&units=Metric&lang=sp&APPID=" + process.env.REACT_APP_OPENWEATHERMAP_API_KEY;
+            var weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=Londres&units=Metric&lang=sp&APPID=" + process.env.REACT_APP_OPENWEATHERMAP_API_KEY;
             const response = await axios.get(weatherUrl);
             setCityName(response.data.name);
             setCountryNameShort(response.data.sys.country);
-            setRealFeel(response.data.main.temp);
+            setRealFeel(Math.trunc(response.data.main.temp));
             setIcon(response.data.weather[0].icon);
             setDescription(response.data.weather[0].description);
-            setFeelsLike(response.data.main.feels_like);
+            setFeelsLike(Math.trunc(response.data.main.feels_like));
             setHumidity(response.data.main.humidity);
             setPressure(response.data.main.pressure);
-            setMinTemp(response.data.main.temp_min);
-            setMaxTemp(response.data.main.temp_max);
-            setWindSpeed(parseInt(response.data.wind.speed) * 3.6);
+            setMinTemp(Math.trunc(response.data.main.temp_min));
+            setMaxTemp(Math.trunc(response.data.main.temp_max));
+            setWindSpeed(parseInt(Math.trunc(response.data.wind.speed) * 3.6));
             let degrees = parseInt(response.data.wind.deg);
             let directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSO", "SO", "OSO", "O", "ONO", "NO", "NNO"]
             let cardinal = parseInt((degrees + 11.25) / 22.5);
