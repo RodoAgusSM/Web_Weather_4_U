@@ -42,16 +42,16 @@ function Weather() {
         <div className="weatherDiv" id="weatherCard">
             <img id="logoApp" src={logo} alt="Logo" />
             <div>
-                <h2>Tiempo en {cityName} ({countryNameShort})</h2>
+                <h2>Tiempo actual en {cityName} ({countryNameShort})</h2>
             </div>
             <div id="weatherMain">
-                <code>Temperatura actual: {realFeel} °C</code><br /><br />
-                <code>Mín.: {minTemp} °C  Máx.: {maxTemp} °C</code><br />
+                <code>Temperatura: {realFeel} °C</code><br />
+                <code>Mín.: {minTemp} °C - Máx.: {maxTemp} °C</code><br />
+                <code>Sensación termica: {feelsLike} °C</code><br />
                 <img id="weatherIcon" src={"https://openweathermap.org/img/w/" + icon + ".png"} alt="Icon" /><br />
-                <code>Descripción: {description}</code>
+                <code id="description">{description}</code>
             </div>
             <div id="weatherData">
-                <code>Sensación termica: {feelsLike} °C</code><br />
                 <code>Humedad: {humidity} %</code><br />
                 <code>Presión: {pressure} hPa</code><br />
             </div>

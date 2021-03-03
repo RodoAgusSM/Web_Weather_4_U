@@ -20,7 +20,7 @@ body {
 
   div #weatherIcon{
     display: block;
-    margin-left: auto;
+    margin-left: 135px;
     margin-right: auto;
     margin-top: 18px;
     border-color: #f0e5d8;
@@ -39,16 +39,27 @@ body {
 
   div #weatherMain{
     margin-top: 15px;
+    margin-left: 35px;
+    font-size: 18px;
   }
 
   div #weatherData{
     margin-top: 15px;
+    margin-left: 35px;
+    font-size: 15px;
   }
 
   div #weatherWind{
     margin-top: 15px;
+    margin-left: 35px;
+    font-size: 15px;
   }
 
   div #logoApp{
     margin-bottom: -5px;
+    width: 385px;
+  }
+
+  div #description{
+    margin-left: 100px;
   }
