@@ -11,10 +11,9 @@ function Weather() {
     let [feelsLike, setFeelsLike] = useState([]);
     let [humidity, setHumidity] = useState([]);
     let [pressure, setPressure] = useState([]);
-    let [minTemp, setMinTemp] = useState([]);
-    let [maxTemp, setMaxTemp] = useState([]);
     let [windSpeed, setWindSpeed] = useState([]);
     let [windDirection, setWindDirection] = useState([]);
+    let [date, setDate] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,13 +27,16 @@ function Weather() {
             setFeelsLike(Math.trunc(response.data.main.feels_like));
             setHumidity(response.data.main.humidity);
             setPressure(response.data.main.pressure);
-            setMinTemp(Math.trunc(response.data.main.temp_min));
-            setMaxTemp(Math.trunc(response.data.main.temp_max));
             setWindSpeed(parseInt(Math.trunc(response.data.wind.speed) * 3.6));
             let degrees = parseInt(response.data.wind.deg);
             let directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSO", "SO", "OSO", "O", "ONO", "NO", "NNO"]
             let cardinal = parseInt((degrees + 11.25) / 22.5);
             setWindDirection(directions[cardinal % 16]);
+            var date = new Date();
+            var time = date.getHours() + ":" + date.getMinutes() + " " + date.getDay() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+            //var time = new Date(initialDate).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'});
+            console.log(time);
+            setDate(time);
         };
         fetchData();
     }, []);
@@ -48,13 +50,13 @@ function Weather() {
             <div id="weatherMain">
                 <code id="weatherMainTemp">{realFeel}°C</code><br />
                 <code id="description">{description}</code><br />
-                <code >Mín.: {minTemp}°C - Máx.: {maxTemp}°C</code><br />
-                <code>Sensación térmica: {feelsLike}°C</code>          
+                <code>Sensación térmica: {feelsLike}°C</code><br />
+                <code>{date}</code>
             </div>
             <div id="weatherData">
                 <code>Humedad: {humidity}%</code><br />
                 <code>Presión: {pressure} hPa</code><br />
-                <code>Viento: {windDirection} {windSpeed} km/h</code>
+                <code>Viento: {windDirection} {windSpeed} km/h</code><br />
             </div>
         </div>
     );
