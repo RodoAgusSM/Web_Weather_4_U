@@ -18,7 +18,7 @@ function Weather() {
 
     useEffect(() => {
         const fetchData = async () => {
-            var weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=Montevideo&units=Metric&lang=sp&APPID=" + process.env.REACT_APP_OPENWEATHERMAP_API_KEY;
+            var weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=Quito&units=Metric&lang=sp&APPID=" + process.env.REACT_APP_OPENWEATHERMAP_API_KEY;
             const response = await axios.get(weatherUrl);
             setCityName(response.data.name);
             setCountryNameShort(response.data.sys.country);
@@ -41,7 +41,7 @@ function Weather() {
     return (
         <div className="weatherDiv" id="weatherCard">
             <img id="logoApp" src={logo} alt="Logo" />
-            <div>
+            <div id="titleApp">
                 <h2>Tiempo actual en {cityName} ({countryNameShort})</h2>
             </div>
             <img id="weatherIcon" src={"https://openweathermap.org/img/w/" + icon + ".png"} alt="Icon" />

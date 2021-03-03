@@ -57,3 +57,7 @@ body {
     margin-bottom: -5px;
     width: 385px;
   }
+
+  div #titleApp{
+    text-align: center;
+  }
