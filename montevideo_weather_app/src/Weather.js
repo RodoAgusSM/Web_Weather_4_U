@@ -6,6 +6,7 @@ function Weather() {
     let [cityName, setCityName] = useState([]);
     let [countryNameShort, setCountryNameShort] = useState([]);
     let [realFeel, setRealFeel] = useState([]);
+    let [icon, setIcon] = useState([]);
     let [description, setDescription] = useState([]);
     let [feelsLike, setFeelsLike] = useState([]);
     let [humidity, setHumidity] = useState([]);
@@ -21,6 +22,7 @@ function Weather() {
             setCityName(response.data.name);
             setCountryNameShort(response.data.sys.country);
             setRealFeel(response.data.main.temp);
+            setIcon(response.data.weather[0].icon);
             setDescription(response.data.weather[0].description);
             setFeelsLike(response.data.main.feels_like);
             setHumidity(response.data.main.humidity);
@@ -44,6 +46,7 @@ function Weather() {
             <div>
                 <code>Ciudad: {cityName} ({countryNameShort})</code><br />
                 <code>Temperatura: {realFeel} °C</code><br /><br />
+                <img id="weatherIcon" src={"https://openweathermap.org/img/w/" + icon + ".png"} alt="Icon" /><br />
                 <code>Descripción: {description}</code>
             </div>
             <div>
