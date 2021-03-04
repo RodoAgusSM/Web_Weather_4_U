@@ -14,7 +14,6 @@ function Weather() {
     let [windSpeed, setWindSpeed] = useState([]);
     let [windDirection, setWindDirection] = useState([]);
     let [date, setDate] = useState([]);
-
     useEffect(() => {
         const fetchData = async () => {
             var weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=Montevideo&units=Metric&lang=sp&APPID=" + process.env.REACT_APP_OPENWEATHERMAP_API_KEY;
@@ -34,11 +33,12 @@ function Weather() {
             setWindDirection(directions[cardinal % 16]);
             var date = new Date();
             var time = date.getHours() + ":" + date.getMinutes() + " " + date.getDay() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-            //var time = new Date(initialDate).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'});
-            console.log(time);
             setDate(time);
         };
         fetchData();
+        setInterval(() => {
+            fetchData();
+        }, 300000);
     }, []);
     return (
         <div className="weatherDiv" id="weatherCard">
