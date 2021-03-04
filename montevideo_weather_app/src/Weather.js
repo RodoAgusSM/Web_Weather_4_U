@@ -38,7 +38,7 @@ function Weather() {
         fetchData();
         setInterval(() => {
             fetchData();
-        }, 300000);
+        }, 120000);
     }, []);
     return (
         <div className="weatherDiv" id="weatherCard">
