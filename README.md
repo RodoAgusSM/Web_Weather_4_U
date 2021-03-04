@@ -11,6 +11,7 @@ Aplicacion hecha en React JS para ver el clima actual de Montevideo (Uruguay)
 #### Catacterísticas
 La aplicación se actualiza sola cada 2 minutos
 Para actualizarla antes de los 2 minutos, actualizar el navegador web
+Para los tiempos de carga, se muestra un spinner indicando al usuario que la aplicación esta cargando
 
 #### Nota
 El único paquete npm instalado en este proyecto es axios
@@ -27,6 +28,7 @@ Application made in React JS to view the actual weather of Montevideo (Uruguay)
 #### Characteristics
 The application updates itself every 2 minutes
 To update before 2 minutes, update the web browser
+For the loading times, a spinner is shown indicating the user that the application is loading
 
 #### Note
 The only npm package installed in this project is axios
