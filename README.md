@@ -8,8 +8,8 @@ Aplicacion hecha en React JS para ver el clima actual de Montevideo (Uruguay)
 3. Para ejecutar el proyecto, escribir en la consola de comandos "npm start"
 4. Disfrute viendo el clima de Montevideo, la capital de Uruguay :)
 
-#### Catacteristicas
-La aplicacion se actualiza sola cada 2 minutos
+#### Catacterísticas
+La aplicación se actualiza sola cada 2 minutos
 Para actualizarla antes de los 2 minutos, actualizar el navegador web
 
 #### Nota
