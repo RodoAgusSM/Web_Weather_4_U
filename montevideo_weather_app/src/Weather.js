@@ -41,11 +41,11 @@ function Weather() {
         setIsLoading(true);
         fetchData();
         setInterval(() => {
-            fetchData();
+            setIsLoading(true);
         }, 120000);
     }, []);
     let toShow;
-    if (isLoading) toShow = <div><img id="spinner" src={loading} alt="Loading" />;</div>
+    if (isLoading) toShow = <div><img id="spinner" src={loading} alt="Loading" /></div>
     else toShow = <div className="weatherDiv" id="weatherCard">
         <img id="logoApp" src={logo} alt="Logo" />
         <div id="titleApp">
