@@ -7,7 +7,7 @@ import notFoundIcon from './imgs/not_found_icon.png'
 
 function Weather() {
     let [siteWorking, setIsSiteWorking] = useState([]);
-    let [iconWorking, setIconWorking] = useState([]);
+    let [iconWorking, setIsIconWorking] = useState([]);
     let [cityName, setCityName] = useState([]);
     let [countryNameShort, setCountryNameShort] = useState([]);
     let [realFeel, setRealFeel] = useState([]);
@@ -52,9 +52,9 @@ function Weather() {
             try {
                 let iconUrl = "https://openweathermap.org/img/w/" + iconValue.current + ".png";
                 await axios.get(iconUrl);
-                setIconWorking(true)
+                setIsIconWorking(true)
             } catch (error) {
-                setIconWorking(false)
+                setIsIconWorking(false)
             }
         };
         fetchData();
