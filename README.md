@@ -1,5 +1,5 @@
-# Guia en español
-## MontevideoWeather
+# MontevideoWeather
+## Guia en español
 Aplicacion hecha en React JS para ver el clima actual de Montevideo (Uruguay)
 
 ### Instalación
@@ -15,8 +15,7 @@ Para actualizarla antes de los 2 minutos, actualizar el navegador web
 #### Nota
 El único paquete npm instalado en este proyecto es axios
 
-# Guide in english
-## MontevideoWeather
+## Guide in english
 Application made in React JS to view the actual weather of Montevideo (Uruguay)
 
 ### Installation
