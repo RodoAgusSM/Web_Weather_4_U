@@ -57,10 +57,9 @@ function Weather() {
                 setIconWorking(false)
             }
         };
-        setIsLoading(true);
         fetchData();
         setInterval(() => {
-            setIsLoading(true);
+            fetchData();
         }, 120000);
     }, []);
     let toShow;
