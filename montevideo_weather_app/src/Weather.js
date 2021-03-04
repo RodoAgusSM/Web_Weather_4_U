@@ -6,8 +6,8 @@ import danger from './imgs/danger.png';
 import notFoundIcon from './imgs/not_found_icon.png'
 
 function Weather() {
-    let [siteOk, setIsSiteOk] = useState([]);
-    let [iconOk, setIconOk] = useState([]);
+    let [siteWorking, setIsSiteWorking] = useState([]);
+    let [iconWorking, setIconWorking] = useState([]);
     let [cityName, setCityName] = useState([]);
     let [countryNameShort, setCountryNameShort] = useState([]);
     let [realFeel, setRealFeel] = useState([]);
@@ -26,6 +26,7 @@ function Weather() {
             try {
                 let weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=Dubai&units=Metric&lang=sp&APPID=" + process.env.REACT_APP_OPENWEATHERMAP_API_KEY;
                 const response = await axios.get(weatherUrl);
+                setIsSiteWorking(true);
                 setCityName(response.data.name);
                 setCountryNameShort(response.data.sys.country);
                 setRealFeel(Math.trunc(response.data.main.temp));
@@ -44,17 +45,16 @@ function Weather() {
                 let time = date.getHours() + ":" + date.getMinutes() + " " + date.getDay() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
                 setDate(time);
                 setIsLoading(false);
-                setIsSiteOk(true);
             }
             catch (error) {
-                setIsSiteOk(false);
+                setIsSiteWorking(false);
             }
             try {
                 let iconUrl = "https://openweathermap.org/img/w/" + iconValue.current + ".png";
                 await axios.get(iconUrl);
-                setIconOk(true)
+                setIconWorking(true)
             } catch (error) {
-                setIconOk(false)
+                setIconWorking(false)
             }
         };
         setIsLoading(true);
@@ -64,9 +64,9 @@ function Weather() {
         }, 120000);
     }, []);
     let toShow;
-    if (siteOk) {
+    if (siteWorking) {
         let showIcon;
-        if (iconOk) showIcon = <img id="weatherIcon" src={"https://openweathermap.org/img/w/" + icon + ".png"} alt="Icon" />
+        if (iconWorking) showIcon = <img id="weatherIcon" src={"https://openweathermap.org/img/w/" + icon + ".png"} alt="Icon" />
         else showIcon = <img id="weatherIcon" src={notFoundIcon} alt="Icon" />
         if (isLoading) toShow = <div><img id="spinner" src={loading} alt="Loading" /></div>
         else toShow = <div className="weatherDiv" id="weatherCard">
@@ -90,7 +90,7 @@ function Weather() {
     }
     else toShow = <div>
         <img id="danger" src={danger} alt="Danger" /><br />
-        <code>Problemas en la conexion</code>
+        <code>Problema en la conexión con el proveedor del tiempo</code>
     </div>
     return (
         <div>
