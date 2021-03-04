@@ -19,7 +19,7 @@ function Weather() {
     let [windSpeed, setWindSpeed] = useState([]);
     let [windDirection, setWindDirection] = useState([]);
     let [date, setDate] = useState([]);
-    let [isLoading, setIsLoading] = useState([]);
+    let [isLoading, setIsLoading] = useState([true]);
     let iconValue = useRef(null);
     useEffect(() => {
         const fetchData = async () => {
