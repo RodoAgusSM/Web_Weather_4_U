@@ -1,6 +1,6 @@
 # MontevideoWeather
 ## Guia en español
-Aplicacion hecha en React JS para ver el clima actual de Montevideo (Uruguay)
+Aplicacion hecha en React JS para ver el clima actual de Montevideo (Uruguay).
 
 ### Instalación
 1. Clonar el proyecto o descargarlo como un .zip
@@ -9,15 +9,15 @@ Aplicacion hecha en React JS para ver el clima actual de Montevideo (Uruguay)
 4. Disfrute viendo el clima de Montevideo, la capital de Uruguay :)
 
 #### Catacterísticas
-La aplicación se actualiza sola cada 2 minutos
-Para actualizarla antes de los 2 minutos, actualizar el navegador web
-Para los tiempos de carga, se muestra un spinner indicando al usuario que la aplicación esta cargando
+La aplicación se actualiza sola cada 2 minutos.<br>
+Para actualizarla antes de los 2 minutos, actualizar el navegador web.<br>
+Para los tiempos de carga, se muestra un spinner indicando al usuario que la aplicación esta cargando.
 
 #### Nota
-El único paquete npm instalado en este proyecto es axios
+El único paquete npm instalado en este proyecto es axios.
 
 ## Guide in english
-Application made in React JS to view the actual weather of Montevideo (Uruguay)
+Application made in React JS to view the actual weather of Montevideo (Uruguay).
 
 ### Installation
 1. Clone the project or download as a .zip
@@ -26,9 +26,9 @@ Application made in React JS to view the actual weather of Montevideo (Uruguay)
 4. Enjoy watching the weather of Montevideo, the capital of Uruguay :)
 
 #### Characteristics
-The application updates itself every 2 minutes
-To update before 2 minutes, update the web browser
-For the loading times, a spinner is shown indicating the user that the application is loading
+The application updates itself every 2 minutes.<br>
+To update before 2 minutes, update the web browser.<br>
+For the loading times, a spinner is shown indicating the user that the application is loading.
 
 #### Note
-The only npm package installed in this project is axios
+The only npm package installed in this project is axios.
