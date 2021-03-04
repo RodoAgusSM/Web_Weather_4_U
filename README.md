@@ -8,6 +8,10 @@ Aplicacion hecha en React JS para ver el clima actual de Montevideo (Uruguay)
 3. Para ejecutar el proyecto, escribir en la consola de comandos "npm start"
 4. Disfrute viendo el clima de Montevideo, la capital de Uruguay :)
 
+#### Catacteristicas
+La aplicacion se actualiza sola cada 2 minutos
+Para actualizarla antes de los 2 minutos, actualizar el navegador web
+
 #### Nota
 El único paquete npm instalado en este proyecto es axios
 
@@ -20,6 +24,10 @@ Application made in React JS to view the actual weather of Montevideo (Uruguay)
 2. Inside the project type "npm i" to install the dependencies
 3. For running the proyect type "npm start"
 4. Enjoy watching the weather of Montevideo, the capital of Uruguay :)
+
+#### Characteristics
+The application updates itself every 2 minutes
+To update before 2 minutes, update the web browser
 
 #### Note
 The only npm package installed in this project is axios
