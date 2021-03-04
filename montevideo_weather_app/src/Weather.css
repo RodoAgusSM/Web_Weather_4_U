@@ -62,3 +62,8 @@ body {
   div #titleApp{
     text-align: center;
   }
+
+  div #spinner{
+    display: block;
+    margin: 0 auto;
+  }
