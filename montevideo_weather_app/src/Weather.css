@@ -67,3 +67,9 @@ body {
     display: block;
     margin: 0 auto;
   }
+
+  div #danger{
+    display: block;
+    margin: 0 auto;
+    width: 140px;
+  }

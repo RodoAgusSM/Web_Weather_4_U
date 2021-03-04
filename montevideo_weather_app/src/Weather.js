@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from 'axios';
-import logo from './imgs/sun-half.png';
+import logo from './imgs/sun_half.png';
 import loading from './imgs/loading.gif';
+import danger from './imgs/danger.png';
+import notFoundIcon from './imgs/not_found_icon.png'
 
 function Weather() {
+    let [siteOk, setIsSiteOk] = useState([]);
+    let [iconOk, setIconOk] = useState([]);
     let [cityName, setCityName] = useState([]);
     let [countryNameShort, setCountryNameShort] = useState([]);
     let [realFeel, setRealFeel] = useState([]);
@@ -16,27 +20,42 @@ function Weather() {
     let [windDirection, setWindDirection] = useState([]);
     let [date, setDate] = useState([]);
     let [isLoading, setIsLoading] = useState([]);
+    let iconValue = useRef(null);
     useEffect(() => {
         const fetchData = async () => {
-            let weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=Montevideo&units=Metric&lang=sp&APPID=" + process.env.REACT_APP_OPENWEATHERMAP_API_KEY;
-            const response = await axios.get(weatherUrl);
-            setCityName(response.data.name);
-            setCountryNameShort(response.data.sys.country);
-            setRealFeel(Math.trunc(response.data.main.temp));
-            setIcon(response.data.weather[0].icon);
-            setDescription(response.data.weather[0].description);
-            setFeelsLike(Math.trunc(response.data.main.feels_like));
-            setHumidity(response.data.main.humidity);
-            setPressure(response.data.main.pressure);
-            setWindSpeed(parseInt(Math.trunc(response.data.wind.speed) * 3.6));
-            let degrees = parseInt(response.data.wind.deg);
-            let directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSO", "SO", "OSO", "O", "ONO", "NO", "NNO"]
-            let cardinal = parseInt((degrees + 11.25) / 22.5);
-            setWindDirection(directions[cardinal % 16]);
-            let date = new Date();
-            let time = date.getHours() + ":" + date.getMinutes() + " " + date.getDay() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-            setDate(time);
-            setIsLoading(false);
+            try {
+                let weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=Dubai&units=Metric&lang=sp&APPID=" + process.env.REACT_APP_OPENWEATHERMAP_API_KEY;
+                const response = await axios.get(weatherUrl);
+                setCityName(response.data.name);
+                setCountryNameShort(response.data.sys.country);
+                setRealFeel(Math.trunc(response.data.main.temp));
+                setIcon(response.data.weather[0].icon);
+                iconValue.current = response.data.weather[0].icon;
+                setDescription(response.data.weather[0].description);
+                setFeelsLike(Math.trunc(response.data.main.feels_like));
+                setHumidity(response.data.main.humidity);
+                setPressure(response.data.main.pressure);
+                setWindSpeed(parseInt(Math.trunc(response.data.wind.speed) * 3.6));
+                let degrees = parseInt(response.data.wind.deg);
+                let directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSO", "SO", "OSO", "O", "ONO", "NO", "NNO"]
+                let cardinal = parseInt((degrees + 11.25) / 22.5);
+                setWindDirection(directions[cardinal % 16]);
+                let date = new Date();
+                let time = date.getHours() + ":" + date.getMinutes() + " " + date.getDay() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+                setDate(time);
+                setIsLoading(false);
+                setIsSiteOk(true);
+            }
+            catch (error) {
+                setIsSiteOk(false);
+            }
+            try {
+                let iconUrl = "https://openweathermap.org/img/w/" + iconValue.current + ".png";
+                await axios.get(iconUrl);
+                setIconOk(true)
+            } catch (error) {
+                setIconOk(false)
+            }
         };
         setIsLoading(true);
         fetchData();
@@ -45,25 +64,34 @@ function Weather() {
         }, 120000);
     }, []);
     let toShow;
-    if (isLoading) toShow = <div><img id="spinner" src={loading} alt="Loading" /></div>
-    else toShow = <div className="weatherDiv" id="weatherCard">
-        <img id="logoApp" src={logo} alt="Logo" />
-        <div id="titleApp">
-            <h2>Tiempo actual en {cityName} ({countryNameShort})</h2>
-        </div>
-        <img id="weatherIcon" src={"https://openweathermap.org/img/w/" + icon + ".png"} alt="Icon" />
-        <div id="weatherMain">
-            <code id="weatherMainTemp">{realFeel}°C</code><br />
-            <code id="description">{description}</code><br />
-            <code>Sensación térmica: {feelsLike}°C</code><br />
-            <code>{date}</code>
-        </div>
-        <div id="weatherData">
-            <code>Humedad: {humidity}%</code><br />
-            <code>Presión: {pressure} hPa</code><br />
-            <code>Viento: {windDirection} {windSpeed} km/h</code><br />
-        </div>
-    </div>;
+    if (siteOk) {
+        let showIcon;
+        if (iconOk) showIcon = <img id="weatherIcon" src={"https://openweathermap.org/img/w/" + icon + ".png"} alt="Icon" />
+        else showIcon = <img id="weatherIcon" src={notFoundIcon} alt="Icon" />
+        if (isLoading) toShow = <div><img id="spinner" src={loading} alt="Loading" /></div>
+        else toShow = <div className="weatherDiv" id="weatherCard">
+            <img id="logoApp" src={logo} alt="Logo" />
+            <div id="titleApp">
+                <h2>Tiempo actual en {cityName} ({countryNameShort})</h2>
+            </div>
+            {showIcon}
+            <div id="weatherMain">
+                <code id="weatherMainTemp">{realFeel}°C</code><br />
+                <code id="description">{description}</code><br />
+                <code>Sensación térmica: {feelsLike}°C</code><br />
+                <code>{date}</code>
+            </div>
+            <div id="weatherData">
+                <code>Humedad: {humidity}%</code><br />
+                <code>Presión: {pressure} hPa</code><br />
+                <code>Viento: {windDirection} {windSpeed} km/h</code><br />
+            </div>
+        </div>;
+    }
+    else toShow = <div>
+        <img id="danger" src={danger} alt="Danger" /><br />
+        <code>Problemas en la conexion</code>
+    </div>
     return (
         <div>
             {toShow}
