@@ -24,7 +24,6 @@ function Weather() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log(process.env.REACT_APP_OPENWEATHERMAP_API_KEY)
                 let weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=Montevideo&units=Metric&lang=sp&APPID=" + process.env.REACT_APP_OPENWEATHERMAP_API_KEY;
                 const response = await axios.get(weatherUrl);
                 setIsSiteWorking(true);
