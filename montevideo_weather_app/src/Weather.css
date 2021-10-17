@@ -73,7 +73,7 @@ div #danger {
 	width: 140px;
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
 	body {
 		background-color: '#75cfb8';
 	}
