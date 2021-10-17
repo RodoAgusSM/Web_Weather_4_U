@@ -1,75 +1,89 @@
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-right: -50%;
-    transform: translate(-50%, -50%);
-    background:#75cfb8;
-  }
-  
-  code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-      monospace;
-  }
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+		'Droid Sans', 'Helvetica Neue', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
+	background: #75cfb8;
+}
 
-  div #weatherIcon{
-    display: inline-block;
-    margin-right: auto;
-    margin-left: 3px;
-    border-color: #f0e5d8;
-    background-color:#fce1be; 
-    border-style: solid;
-    border-radius:20px;
-    width: 83px;
-  }
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
 
-  div #weatherCard{
-    border-color: #f0e5d8;
-    border-style: solid;
-    padding: 10px;
-    background-color:#bbdfc8;
-    border-radius:20px;
-  }
+div #weatherIcon {
+	display: inline-block;
+	margin-right: auto;
+	margin-left: 3px;
+	border-color: #f0e5d8;
+	background-color: #fce1be;
+	border-style: solid;
+	border-radius: 20px;
+	width: 83px;
+}
 
-  div #weatherMainTemp{
-    font-size: 23px;
-    font-weight: bold;
-  }
+div #weatherCard {
+	border-color: #f0e5d8;
+	border-style: solid;
+	padding: 10px;
+	background-color: #bbdfc8;
+	border-radius: 20px;
+	color: '#000000';
+}
 
-  div #weatherMain{
-    margin-top: -93px;
-    margin-left: 117px;
-    font-size: 19px;
-  }
+div #weatherMainTemp {
+	font-size: 23px;
+	font-weight: bold;
+}
 
-  div #weatherData{
-    margin-top: 15px;
-    margin-left: 117px;
-    font-size: 17px;
-  }
+div #weatherMain {
+	margin-top: -93px;
+	margin-left: 117px;
+	font-size: 19px;
+}
 
-  div #logoApp{
-    margin-bottom: -5px;
-    width: 385px;
-  }
+div #weatherData {
+	margin-top: 15px;
+	margin-left: 117px;
+	font-size: 17px;
+}
 
-  div #titleApp{
-    text-align: center;
-  }
+div #logoApp {
+	margin-bottom: -5px;
+	width: 385px;
+}
 
-  div #spinner{
-    display: block;
-    margin: 0 auto;
-  }
+div #titleApp {
+	text-align: center;
+}
 
-  div #danger{
-    display: block;
-    margin: 0 auto;
-    width: 140px;
-  }
+div #spinner {
+	display: block;
+	margin: 0 auto;
+}
+
+div #danger {
+	display: block;
+	margin: 0 auto;
+	width: 140px;
+}
+
+@media (prefers-color-scheme: light) {
+	body {
+		background-color: '#75cfb8';
+	}
+	div #weatherIcon {
+		border-color: #f0e5d8;
+		background-color: #fce1be;
+	}
+	div #weatherCard {
+		border-color: #f0e5d8;
+		background-color: #bbdfc8;
+		color: '#000000';
+	}
+}
