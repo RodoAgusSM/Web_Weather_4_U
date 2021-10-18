@@ -1,5 +1,8 @@
 import styled, { createGlobalStyle } from 'styled-components';
 
+let desktopWidth = 420 + 'px';
+let mobileWidth = window.innerWidth * 0.85 + 'px';
+
 export const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
@@ -21,11 +24,17 @@ export const WeatherIcon = styled.img.attrs((props) => ({
 }))`
 	display: inline-block;
 	margin-right: auto;
-	margin-left: 3px;
+	margin-left: 18px;
 	border-color: #f0e5d8;
 	background-color: #fce1be;
 	border-style: solid;
 	border-radius: 20px;
+	@media (max-width: 768px) {
+		margin-bottom: -5px;
+	}
+	@media only screen and (min-width: 376px) and (max-width: 712px) {
+		margin-left: 28px;
+	}
 	width: 83px;
 `;
 
@@ -43,12 +52,22 @@ export const WeatherCard = styled.div`
 	background-color: #bbdfc8;
 	border-radius: 20px;
 	color: '#000000';
+	@media (max-width: 768px) {
+		width: ${mobileWidth};
+	}
+	width: ${desktopWidth};
 `;
 
 export const LogoApp = styled.img.attrs((props) => ({
 	src: props.src,
 }))`
 	margin-bottom: -5px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	@media (max-width: 768px) {
+		width: 295px;
+	}
 	width: 385px;
 `;
 
@@ -56,22 +75,38 @@ export const TitleApp = styled.div`
 	text-align: center;
 `;
 
-export const Subtitle = styled.h2``;
+export const Subtitle = styled.h2`
+	@media (max-width: 768px) {
+		font-size: 18px;
+	}
+`;
 
 export const WeatherMain = styled.div`
 	margin-top: -93px;
 	margin-left: 117px;
-	font-size: 19px;
+	font-size: 18px;
 `;
 
 export const WeatherMainTemperature = styled.code`
+	margin-left: 10px;
 	font-size: 23px;
 	font-weight: bold;
+	@media only screen and (min-width: 376px) and (max-width: 712px) {
+		margin-left: 16px;
+	}
 `;
 
 export const BreakLine = styled.br``;
 
 export const Code = styled.code`
+	margin-left: 10px;
+	@media only screen and (max-width: 375px) {
+		font-size: 12px;
+	}
+	@media only screen and (min-width: 376px) and (max-width: 712px) {
+		font-size: 14px;
+		margin-left: 16px;
+	}
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 `;
 
