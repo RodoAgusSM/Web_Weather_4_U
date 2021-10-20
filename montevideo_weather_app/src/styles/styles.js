@@ -76,8 +76,11 @@ export const TitleApp = styled.div`
 `;
 
 export const Subtitle = styled.h2`
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+	font-size: 20px;
+	margin-left: 5px;
 	@media (max-width: 768px) {
-		font-size: 18px;
+		font-size: 16px;
 	}
 `;
 
