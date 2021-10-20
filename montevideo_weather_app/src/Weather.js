@@ -27,7 +27,7 @@ function Weather() {
 	let [cityName, setCityName] = useState([]);
 	let [countryNameShort, setCountryNameShort] = useState([]);
 	let [realFeel, setRealFeel] = useState([]);
-	let [icon, setIcon] = useState([]);
+	let [icon, setIcon] = useState('');
 	let [description, setDescription] = useState([]);
 	let [feelsLike, setFeelsLike] = useState([]);
 	let [humidity, setHumidity] = useState([]);
@@ -48,7 +48,6 @@ function Weather() {
 				setCityName(response.data.name);
 				setCountryNameShort(response.data.sys.country);
 				setRealFeel(Math.trunc(response.data.main.temp));
-				setIcon(response.data.weather[0].icon);
 				iconValue.current = response.data.weather[0].icon;
 				setDescription(response.data.weather[0].description);
 				setFeelsLike(Math.trunc(response.data.main.feels_like));
@@ -76,7 +75,8 @@ function Weather() {
 			}
 			try {
 				let iconUrl = URL + iconValue.current + Extension;
-				await axios.get(iconUrl);
+				let iconFetched = await axios.get(iconUrl);
+				setIcon(iconFetched?.config?.url);
 				setIsIconWorking(true);
 			} catch (error) {
 				setIsIconWorking(false);
@@ -87,12 +87,13 @@ function Weather() {
 			fetchData();
 		}, 120000);
 	}, []);
+
 	let toShow;
 	if (siteWorking) {
 		let showIcon;
-		if (iconWorking) showIcon = <WeatherIcon src={URL + icon + Extension} alt='' />;
+		if (iconWorking) showIcon = <WeatherIcon src={icon} alt='' />;
 		else showIcon = <WeatherIcon src={notFoundIcon} alt='' />;
-		if (isLoading)
+		if (isLoading || icon === '')
 			toShow = (
 				<>
 					<SpinnerLogo src={loading} alt='' />
