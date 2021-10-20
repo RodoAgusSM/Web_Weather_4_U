@@ -1,4 +1,7 @@
-export let URL = 'https://openweathermap.org/img/w/';
+export let openWeatherMapURL =
+	'https://api.openweathermap.org/data/2.5/weather?q=Montevideo&units=Metric&lang=sp&APPID=' +
+	process.env.REACT_APP_OPENWEATHERMAP_API_KEY;
+export let iconURL = 'https://openweathermap.org/img/wn/';
 export let Directions = [
 	'N',
 	'NNE',
@@ -17,4 +20,4 @@ export let Directions = [
 	'NO',
 	'NNO',
 ];
-export let Extension = '.png';
+export let iconExtension = '@2x.png';

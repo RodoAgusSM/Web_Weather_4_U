@@ -19,7 +19,7 @@ import {
 	BreakLine,
 	Subtitle,
 } from './styles/styles';
-import { URL, Directions, Extension } from './config/config';
+import { openWeatherMapURL, iconURL, Directions, iconExtension } from './config/config';
 
 function Weather() {
 	let [siteWorking, setIsSiteWorking] = useState([]);
@@ -40,10 +40,7 @@ function Weather() {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				let weatherUrl =
-					'https://api.openweathermap.org/data/2.5/weather?q=Montevideo&units=Metric&lang=sp&APPID=' +
-					process.env.REACT_APP_OPENWEATHERMAP_API_KEY;
-				const response = await axios.get(weatherUrl);
+				const response = await axios.get(openWeatherMapURL);
 				setIsSiteWorking(true);
 				setCityName(response.data.name);
 				setCountryNameShort(response.data.sys.country);
@@ -74,7 +71,7 @@ function Weather() {
 				setIsSiteWorking(false);
 			}
 			try {
-				let iconUrl = URL + iconValue.current + Extension;
+				let iconUrl = iconURL + iconValue.current + iconExtension;
 				let iconFetched = await axios.get(iconUrl);
 				setIcon(iconFetched?.config?.url);
 				setIsIconWorking(true);
