@@ -66,7 +66,6 @@ function Weather() {
 					'/' +
 					date.getFullYear();
 				setDate(time);
-				setIsLoading(false);
 			} catch (error) {
 				setIsSiteWorking(false);
 			}
@@ -76,6 +75,7 @@ function Weather() {
 					let iconUrl = iconURL + iconValue.current + iconExtension;
 					let iconFetched = await axios.get(iconUrl);
 					setIcon(iconFetched?.config?.url);
+					setIsLoading(false);
 				}, 1200);
 			} catch (error) {
 				setIsIconWorking(false);
