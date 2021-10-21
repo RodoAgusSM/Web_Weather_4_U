@@ -76,7 +76,7 @@ function Weather() {
 					let iconUrl = iconURL + iconValue.current + iconExtension;
 					let iconFetched = await axios.get(iconUrl);
 					setIcon(iconFetched?.config?.url);
-				}, 1500);
+				}, 1200);
 			} catch (error) {
 				setIsIconWorking(false);
 			}
