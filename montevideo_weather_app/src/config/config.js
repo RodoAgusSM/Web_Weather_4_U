@@ -20,4 +20,4 @@ export let Directions = [
 	'NO',
 	'NNO',
 ];
-export let iconExtension = '@2x.png';
+export let iconExtension = '@4x.png';

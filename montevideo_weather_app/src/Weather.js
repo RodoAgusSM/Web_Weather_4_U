@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import logo from './imgs/sun_half.png';
+import logo from './imgs/sun_half.svg';
 import loading from './imgs/loading.gif';
 import danger from './imgs/danger.png';
 import notFoundIcon from './imgs/not_found_icon.png';
@@ -60,7 +60,7 @@ function Weather() {
 					':' +
 					date.getMinutes() +
 					' ' +
-					date.getDay() +
+					date.getDate() +
 					'/' +
 					(date.getMonth() + 1) +
 					'/' +
@@ -71,10 +71,12 @@ function Weather() {
 				setIsSiteWorking(false);
 			}
 			try {
-				let iconUrl = iconURL + iconValue.current + iconExtension;
-				let iconFetched = await axios.get(iconUrl);
-				setIcon(iconFetched?.config?.url);
 				setIsIconWorking(true);
+				setTimeout(async () => {
+					let iconUrl = iconURL + iconValue.current + iconExtension;
+					let iconFetched = await axios.get(iconUrl);
+					setIcon(iconFetched?.config?.url);
+				}, 1500);
 			} catch (error) {
 				setIsIconWorking(false);
 			}

@@ -41,8 +41,12 @@ export const WeatherIcon = styled.img.attrs((props) => ({
 export const SpinnerLogo = styled.img.attrs((props) => ({
 	src: props.src,
 }))`
+	width: 30%;
 	display: block;
 	margin: 0 auto;
+	@media (max-width: 768px) {
+		width: 90%;
+	}
 `;
 
 export const WeatherCard = styled.div`
