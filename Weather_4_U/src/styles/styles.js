@@ -1,6 +1,7 @@
 import styled, { createGlobalStyle } from 'styled-components';
 
-let desktopWidth = 420 + 'px';
+let desktopWidth = 450 + 'px';
+let desktopHeight = 480 + 'px';
 let mobileWidth = window.innerWidth * 0.85 + 'px';
 
 export const GlobalStyle = createGlobalStyle`
@@ -24,7 +25,7 @@ export const WeatherIcon = styled.img.attrs((props) => ({
 }))`
 	display: inline-block;
 	margin-right: auto;
-	margin-left: 18px;
+	margin-left: 35px;
 	border-color: #f0e5d8;
 	background-color: #fce1be;
 	border-style: solid;
@@ -60,12 +61,13 @@ export const WeatherCard = styled.div`
 		width: ${mobileWidth};
 	}
 	width: ${desktopWidth};
+	height: ${desktopHeight};
 `;
 
 export const LogoApp = styled.img.attrs((props) => ({
 	src: props.src,
 }))`
-	margin-bottom: -5px;
+	margin-top: 10px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -90,7 +92,7 @@ export const Subtitle = styled.h2`
 
 export const WeatherMain = styled.div`
 	margin-top: -93px;
-	margin-left: 117px;
+	margin-left: 150px;
 	font-size: 18px;
 `;
 
@@ -119,7 +121,7 @@ export const Code = styled.code`
 
 export const WeatherData = styled.div`
 	margin-top: 15px;
-	margin-left: 117px;
+	margin-left: 150px;
 	font-size: 17px;
 `;
 
@@ -129,4 +131,26 @@ export const DangerLogo = styled.img.attrs((props) => ({
 	display: block;
 	margin: 0 auto;
 	width: 140px;
+`;
+
+export const CitiesContainer = styled.span`
+	height: 40px;
+	display: flex;
+	border-radius: 6px;
+	overflow-y: hidden;
+	overflow-x: auto;
+	scroll-behavior: smooth;
+`;
+
+export const CityButton = styled.span`
+	height: 20px;
+	background: #8ad4c1;
+	border: 0.5px solid #f0e5d8;
+	margin-right: 5px;
+	border-radius: 6px;
+	white-space: nowrap;
+	padding-left: 4px;
+	padding-right: 4px;
+	font-size: 16px;
+	cursor: pointer;
 `;

@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './Weather.css';
-import Weather from './Weather';
+import './components/Weather/Weather.css';
+import Weather from './components/Weather/Weather';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Weather />
-  </React.StrictMode>,
-  document.getElementById('root')
+	<React.StrictMode>
+		<Weather />
+	</React.StrictMode>,
+	document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

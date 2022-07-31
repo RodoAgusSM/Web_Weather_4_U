@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import logo from './imgs/sun_half.svg';
-import loading from './imgs/loading.gif';
-import danger from './imgs/danger.png';
-import notFoundIcon from './imgs/not_found_icon.png';
+import logo from '../../imgs/sun_half.svg';
+import loading from '../../imgs/loading.gif';
+import danger from '../../imgs/danger.png';
+import notFoundIcon from '../../imgs/not_found_icon.png';
 import {
 	GlobalStyle,
 	WeatherIcon,
@@ -18,13 +18,15 @@ import {
 	SpinnerLogo,
 	BreakLine,
 	Subtitle,
-} from './styles/styles';
-import { openWeatherMapURL, iconURL, Directions, iconExtension } from './config/config';
+} from '../../styles/styles';
+import { openWeatherMapURL, paramsURL, iconURL, Directions, iconExtension } from '../../config/config';
+import { findCityCoordsByName } from '../../coordinates/CityCoordinates';
+import Cities from '../Cities/Cities';
 
 function Weather() {
 	let [siteWorking, setIsSiteWorking] = useState([]);
 	let [iconWorking, setIsIconWorking] = useState([]);
-	let [cityName, setCityName] = useState([]);
+	let [cityName, setCityName] = useState('Montevideo');
 	let [countryNameShort, setCountryNameShort] = useState([]);
 	let [realFeel, setRealFeel] = useState([]);
 	let [icon, setIcon] = useState('');
@@ -40,9 +42,11 @@ function Weather() {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await axios.get(openWeatherMapURL);
+				const coords = findCityCoordsByName(cityName);
+				const fullUrl = openWeatherMapURL + 'q=' + cityName + '&lat=' + coords.lat + '&lon=' + coords.lon + paramsURL;
+				const response = await axios.get(fullUrl);
 				setIsSiteWorking(true);
-				setCityName(response.data.name);
+				console.log(response.data);
 				setCountryNameShort(response.data.sys.country);
 				setRealFeel(Math.trunc(response.data.main.temp));
 				iconValue.current = response.data.weather[0].icon;
@@ -85,7 +89,14 @@ function Weather() {
 		setInterval(() => {
 			fetchData();
 		}, 120000);
-	}, []);
+	}, [cityName]);
+
+	const changeCity = (newCity) => {
+		if (cityName !== newCity) {
+			setCityName(newCity);
+			setIsLoading(true);
+		}
+	};
 
 	let toShow;
 	if (siteWorking) {
@@ -101,6 +112,7 @@ function Weather() {
 		else
 			toShow = (
 				<WeatherCard>
+					<Cities actualCity={cityName} changeCity={changeCity} />
 					<LogoApp src={logo} alt='' />
 					<TitleApp>
 						<Subtitle>
