@@ -2,15 +2,15 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { Colors } from './colors';
 
 let desktopWidth = 500 + 'px';
-let desktopHeight = 510 + 'px';
+let desktopHeight = 560 + 'px';
 let mobileWidth = window.innerWidth * 0.85 + 'px';
-let mobileHeightSmallDisplay = window.innerHeight * 0.86 + 'px';
-let mobileHeightBigDisplay = window.innerHeight * 0.8 + 'px';
-let mobileHeight12and13ProMax = window.innerHeight * 0.66 + 'px';
-let mobileHeight12and13RegularAndPro = window.innerHeight * 0.8 + 'px';
-let mobileHeight11ProMax = window.innerHeight * 0.69 + 'px';
-let mobileHeight11Pro = window.innerHeight * 0.75 + 'px';
-let mobileHeight11Regular = window.innerHeight * 0.69 + 'px';
+let mobileHeightSmallDisplay = window.innerHeight * 0.93 + 'px'; //Done
+let mobileHeightBigDisplay = window.innerHeight * 0.85 + 'px'; //Done
+let mobileHeight12and13ProMax = window.innerHeight * 0.71 + 'px'; //Done
+let mobileHeight12and13RegularAndPro = window.innerHeight * 0.8 + 'px'; //Done
+let mobileHeight11ProMax = window.innerHeight * 0.74 + 'px'; //Done
+let mobileHeight11ProAnd13Mini = window.innerHeight * 0.82 + 'px'; //Done
+let mobileHeight11Regular = window.innerHeight * 0.74 + 'px'; //Done
 
 export const GlobalStyle = createGlobalStyle`
   body {
@@ -90,7 +90,7 @@ export const WeatherCard = styled.div`
 	}
 	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
 		width: ${mobileWidth};
-		height: ${mobileHeight11Pro};
+		height: ${mobileHeight11ProAnd13Mini};
 	}
 	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
 		width: ${mobileWidth};
@@ -175,7 +175,7 @@ export const DangerLogo = styled.img.attrs((props) => ({
 	width: 140px;
 `;
 
-export const CitiesContainer = styled.span`
+export const CitiesContainer = styled.div`
 	height: 50px;
 	display: flex;
 	border-radius: 6px;
@@ -199,5 +199,28 @@ export const CityButton = styled.span`
 	cursor: pointer;
 	&:hover {
 		background-color: ${Colors.lightWhite};
+	}
+`;
+
+export const LanguagesContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	margin-top: 18px;
+`;
+
+export const LanguageButton = styled.span`
+	display: flex;
+	text-decoration: underline;
+	height: 30px;
+	margin-right: 5px;
+	align-items: center;
+	border-radius: 6px;
+	white-space: nowrap;
+	padding-left: 4px;
+	padding-right: 4px;
+	font-size: 16px;
+	cursor: pointer;
+	&:hover {
+		color: ${Colors.yellowLemon};
 	}
 `;

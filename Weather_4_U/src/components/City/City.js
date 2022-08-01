@@ -1,8 +1,8 @@
 import React from 'react';
-import { citiesNames } from '../../coordinates/CityCoordinates';
+import { getCitiesNames } from '../../coordinates/CityCoordinates';
 import { CitiesContainer, CityButton } from '../../styles/styles';
-const Cities = ({ actualCity, changeCity }) => {
-	const cities = citiesNames().filter((cityName) => cityName !== actualCity);
+const City = ({ actualCity, changeCity }) => {
+	const cities = getCitiesNames().filter((cityName) => cityName !== actualCity);
 	return (
 		<CitiesContainer>
 			{cities.map((name) => (
@@ -18,4 +18,4 @@ const Cities = ({ actualCity, changeCity }) => {
 	);
 };
 
-export default Cities;
+export default City;

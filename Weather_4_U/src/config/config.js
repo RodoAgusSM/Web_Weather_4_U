@@ -1,5 +1,5 @@
 export const openWeatherMapURL = 'https://api.openweathermap.org/data/2.5/weather?';
-export const paramsURL = '&units=Metric&lang=sp&APPID=' + process.env.REACT_APP_OPENWEATHERMAP_API_KEY;
+export const paramsURL = '&units=metric&appid=' + process.env.REACT_APP_OPENWEATHERMAP_API_KEY;
 export const iconURL = 'https://openweathermap.org/img/wn/';
 export const Directions = [
 	'N',
