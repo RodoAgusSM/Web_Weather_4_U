@@ -64,7 +64,6 @@ function Weather() {
 				setTime(time);
 				const date = dateNow.getDate() + '/' + (dateNow.getMonth() + 1) + '/' + dateNow.getFullYear();
 				setDate(date);
-				setIsLoading(false);
 			} catch (error) {
 				setIsSiteWorking(false);
 			}
@@ -74,6 +73,7 @@ function Weather() {
 					const iconUrl = iconURL + iconValue.current + iconExtension;
 					const iconFetched = await axios.get(iconUrl);
 					setIcon(iconFetched?.config?.url);
+					setIsLoading(false);
 				}, 1500);
 			} catch (error) {
 				setIsIconWorking(false);

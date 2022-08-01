@@ -131,6 +131,7 @@ export const WeatherMain = styled.div`
 	margin-left: 175px;
 	font-size: 18px;
 	@media (max-width: 768px) {
+		margin-top: -118px;
 		margin-left: 132px;
 	}
 `;
@@ -149,11 +150,10 @@ export const BreakLine = styled.br``;
 export const Code = styled.code`
 	margin-left: 10px;
 	@media only screen and (max-width: 375px) {
-		font-size: 12px;
+		font-size: 11px;
 	}
 	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		font-size: 14px;
-		margin-left: 16px;
+		font-size: 12px;
 	}
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 `;
@@ -187,7 +187,7 @@ export const CitiesContainer = styled.span`
 export const CityButton = styled.span`
 	display: flex;
 	height: 30px;
-	background-color: #8ad4c1;
+	background-color: ${Colors.wateryGreenToneDown};
 	border: 0.5px solid ${Colors.lightWhite};
 	margin-right: 5px;
 	align-items: center;
