@@ -36,6 +36,7 @@ function Weather() {
 	let [pressure, setPressure] = useState([]);
 	let [windSpeed, setWindSpeed] = useState([]);
 	let [windDirection, setWindDirection] = useState([]);
+	let [time, setTime] = useState([]);
 	let [date, setDate] = useState([]);
 	let [isLoading, setIsLoading] = useState(true);
 	let iconValue = useRef(null);
@@ -55,21 +56,14 @@ function Weather() {
 				setHumidity(response.data.main.humidity);
 				setPressure(response.data.main.pressure);
 				setWindSpeed(parseInt(Math.trunc(response.data.wind.speed) * 3.6));
-				let degrees = parseInt(response.data.wind.deg);
-				let cardinal = parseInt((degrees + 11.25) / 22.5);
+				const degrees = parseInt(response.data.wind.deg);
+				const cardinal = parseInt((degrees + 11.25) / 22.5);
 				setWindDirection(Directions[cardinal % 16]);
-				let date = new Date();
-				let time =
-					date.getHours() +
-					':' +
-					date.getMinutes() +
-					' ' +
-					date.getDate() +
-					'/' +
-					(date.getMonth() + 1) +
-					'/' +
-					date.getFullYear();
-				setDate(time);
+				const dateNow = new Date();
+				const time = dateNow.getHours() + ':' + dateNow.getMinutes();
+				setTime(time);
+				const date = dateNow.getDate() + '/' + (dateNow.getMonth() + 1) + '/' + dateNow.getFullYear();
+				setDate(date);
 				setIsLoading(false);
 			} catch (error) {
 				setIsSiteWorking(false);
@@ -77,8 +71,8 @@ function Weather() {
 			try {
 				setIsIconWorking(true);
 				setTimeout(async () => {
-					let iconUrl = iconURL + iconValue.current + iconExtension;
-					let iconFetched = await axios.get(iconUrl);
+					const iconUrl = iconURL + iconValue.current + iconExtension;
+					const iconFetched = await axios.get(iconUrl);
 					setIcon(iconFetched?.config?.url);
 				}, 1500);
 			} catch (error) {
@@ -127,7 +121,9 @@ function Weather() {
 						<BreakLine />
 						<Code>{description}</Code>
 						<BreakLine />
-						<Code>{date}</Code>
+						<Code>Actualizado a las {time}</Code>
+						<BreakLine />
+						<Code>Fecha {date}</Code>
 					</WeatherMain>
 					<WeatherData>
 						<Code>Humedad: {humidity}%</Code>

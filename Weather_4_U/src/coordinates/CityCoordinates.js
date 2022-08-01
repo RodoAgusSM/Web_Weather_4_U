@@ -27,4 +27,8 @@ const coordinates = [
 	{ name: 'Flores', coords: { lat: -33.5389, lon: -56.8886 } },
 	{ name: 'Paso de los Toros', coords: { lat: -32.8167, lon: -56.5167 } },
 	{ name: 'New York', coords: { lat: 40.7143, lon: -74.006 } },
+	{ name: 'Rio de Janeiro', coords: { lat: -22.90283, lon: -43.2075 } },
+	{ name: 'Florianópolis', coords: { lat: -27.6146, lon: -48.5012 } },
+	{ name: 'Santiago', coords: { lat: -33.4569, lon: -70.6483 } },
+	{ name: 'Cancún', coords: { lat: 21.1743, lon: -86.8466 } },
 ];

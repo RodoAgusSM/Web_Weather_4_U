@@ -1,8 +1,16 @@
 import styled, { createGlobalStyle } from 'styled-components';
+import { Colors } from './colors';
 
-let desktopWidth = 450 + 'px';
-let desktopHeight = 480 + 'px';
+let desktopWidth = 500 + 'px';
+let desktopHeight = 510 + 'px';
 let mobileWidth = window.innerWidth * 0.85 + 'px';
+let mobileHeightSmallDisplay = window.innerHeight * 0.86 + 'px';
+let mobileHeightBigDisplay = window.innerHeight * 0.8 + 'px';
+let mobileHeight12and13ProMax = window.innerHeight * 0.66 + 'px';
+let mobileHeight12and13RegularAndPro = window.innerHeight * 0.8 + 'px';
+let mobileHeight11ProMax = window.innerHeight * 0.69 + 'px';
+let mobileHeight11Pro = window.innerHeight * 0.75 + 'px';
+let mobileHeight11Regular = window.innerHeight * 0.69 + 'px';
 
 export const GlobalStyle = createGlobalStyle`
   body {
@@ -16,7 +24,7 @@ export const GlobalStyle = createGlobalStyle`
 	left: 50%;
 	margin-right: -50%;
 	transform: translate(-50%, -50%);
-	background: #75cfb8;
+	background-color: ${Colors.wateryGreen};
   }
 `;
 
@@ -25,18 +33,21 @@ export const WeatherIcon = styled.img.attrs((props) => ({
 }))`
 	display: inline-block;
 	margin-right: auto;
-	margin-left: 35px;
-	border-color: #f0e5d8;
-	background-color: #fce1be;
+	margin-left: 58px;
+	margin-top: 10px;
+	border-color: ${Colors.lightWhite};
+	background-color: ${Colors.lightOrange};
 	border-style: solid;
 	border-radius: 20px;
 	@media (max-width: 768px) {
-		margin-bottom: -5px;
+		margin-top: 20px;
+		margin-left: 10px;
 	}
 	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		margin-left: 28px;
+		margin-top: 30px;
+		margin-left: 16px;
 	}
-	width: 83px;
+	width: 102px;
 `;
 
 export const SpinnerLogo = styled.img.attrs((props) => ({
@@ -51,14 +62,39 @@ export const SpinnerLogo = styled.img.attrs((props) => ({
 `;
 
 export const WeatherCard = styled.div`
-	border-color: #f0e5d8;
+	border-color: ${Colors.lightWhite};
 	border-style: solid;
 	padding: 10px;
-	background-color: #bbdfc8;
+	background-color: ${Colors.lightGreen};
 	border-radius: 20px;
-	color: '#000000';
-	@media (max-width: 768px) {
+	color: ${Colors.black};
+	@media only screen and (max-width: 375px) {
 		width: ${mobileWidth};
+		height: ${mobileHeightSmallDisplay};
+	}
+	@media only screen and (min-width: 376px) and (max-width: 712px) {
+		width: ${mobileWidth};
+		height: ${mobileHeightBigDisplay};
+	}
+	@media only screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
+		width: ${mobileWidth};
+		height: ${mobileHeight12and13ProMax};
+	}
+	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
+		width: ${mobileWidth};
+		height: ${mobileHeight12and13RegularAndPro};
+	}
+	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
+		width: ${mobileWidth};
+		height: ${mobileHeight11ProMax};
+	}
+	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+		width: ${mobileWidth};
+		height: ${mobileHeight11Pro};
+	}
+	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
+		width: ${mobileWidth};
+		height: ${mobileHeight11Regular};
 	}
 	width: ${desktopWidth};
 	height: ${desktopHeight};
@@ -91,9 +127,12 @@ export const Subtitle = styled.h2`
 `;
 
 export const WeatherMain = styled.div`
-	margin-top: -93px;
-	margin-left: 150px;
+	margin-top: -112px;
+	margin-left: 175px;
 	font-size: 18px;
+	@media (max-width: 768px) {
+		margin-left: 132px;
+	}
 `;
 
 export const WeatherMainTemperature = styled.code`
@@ -121,8 +160,11 @@ export const Code = styled.code`
 
 export const WeatherData = styled.div`
 	margin-top: 15px;
-	margin-left: 150px;
+	margin-left: 175px;
 	font-size: 17px;
+	@media (max-width: 768px) {
+		margin-left: 132px;
+	}
 `;
 
 export const DangerLogo = styled.img.attrs((props) => ({
@@ -134,7 +176,7 @@ export const DangerLogo = styled.img.attrs((props) => ({
 `;
 
 export const CitiesContainer = styled.span`
-	height: 40px;
+	height: 50px;
 	display: flex;
 	border-radius: 6px;
 	overflow-y: hidden;
@@ -143,14 +185,19 @@ export const CitiesContainer = styled.span`
 `;
 
 export const CityButton = styled.span`
-	height: 20px;
-	background: #8ad4c1;
-	border: 0.5px solid #f0e5d8;
+	display: flex;
+	height: 30px;
+	background-color: #8ad4c1;
+	border: 0.5px solid ${Colors.lightWhite};
 	margin-right: 5px;
+	align-items: center;
 	border-radius: 6px;
 	white-space: nowrap;
 	padding-left: 4px;
 	padding-right: 4px;
 	font-size: 16px;
 	cursor: pointer;
+	&:hover {
+		background-color: ${Colors.lightWhite};
+	}
 `;
