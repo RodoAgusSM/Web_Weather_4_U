@@ -43,12 +43,14 @@ const Weather = () => {
 	let [icon, setIcon] = useState('');
 	let [description, setDescription] = useState([]);
 	let [feelsLike, setFeelsLike] = useState([]);
+	let [time, setTime] = useState([]);
+	let [date, setDate] = useState([]);
 	let [humidity, setHumidity] = useState([]);
 	let [pressure, setPressure] = useState([]);
 	let [windSpeed, setWindSpeed] = useState([]);
 	let [windDirection, setWindDirection] = useState([]);
-	let [time, setTime] = useState([]);
-	let [date, setDate] = useState([]);
+	let [sunrise, setSunrise] = useState([]);
+	let [sunset, setSunset] = useState([]);
 	let [isLoading, setIsLoading] = useState(true);
 	let iconValue = useRef(null);
 	const fullLanguage = findLanguageByKey(language);
@@ -85,6 +87,16 @@ const Weather = () => {
 				setTime(time);
 				const date = dateNow.getDate() + '/' + (dateNow.getMonth() + 1) + '/' + dateNow.getFullYear();
 				setDate(date);
+				let sunriseTime = new Intl.DateTimeFormat('es', {
+					hour: '2-digit',
+					minute: '2-digit',
+				}).format(response.data.sys.sunrise * 1000);
+				setSunrise(sunriseTime);
+				let sunsetTime = new Intl.DateTimeFormat('es', {
+					hour: '2-digit',
+					minute: '2-digit',
+				}).format(response.data.sys.sunset * 1000);
+				setSunset(sunsetTime);
 			} catch (error) {
 				setIsSiteWorking(false);
 			}
@@ -172,6 +184,14 @@ const Weather = () => {
 							{fullLanguage.words.wind} {windDirection} {windSpeed} km/h
 						</Code>
 						<BreakLine />
+						<BreakLine />
+						<Code>
+							{fullLanguage.words.sunrise} {sunrise}
+						</Code>
+						<BreakLine />
+						<Code>
+							{fullLanguage.words.sunset} {sunset}
+						</Code>
 					</WeatherData>
 					<Language actualLanguage={language} changeLanguage={changeLanguage} />
 					<SocialNetworkIconContainer

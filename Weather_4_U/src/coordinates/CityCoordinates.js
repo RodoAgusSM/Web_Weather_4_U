@@ -17,6 +17,7 @@ const coordinates = [
 	{ name: 'Buenos Aires', coords: { lat: -34.6132, lon: 58.3772 } },
 	{ name: 'Canelones', coords: { lat: -34.5228, lon: -56.2778 } },
 	{ name: 'Salto', coords: { lat: -31.3833, lon: -57.9667 } },
+	{ name: 'Rivera', coords: { lat: -30.9053, lon: -55.5508 } },
 	{ name: 'Paysandú', coords: { lat: -32.3214, lon: -58.0756 } },
 	{ name: 'Tacuarembo', coords: { lat: -31.7333, lon: -55.9833 } },
 	{ name: 'Durazno', coords: { lat: -33.4131, lon: -56.5006 } },

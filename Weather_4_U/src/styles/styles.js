@@ -2,15 +2,15 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { Colors } from './colors';
 
 let desktopWidth = 500 + 'px';
-let desktopHeight = 560 + 'px';
+let desktopHeight = 565 + 'px';
 let mobileWidth = window.innerWidth * 0.85 + 'px';
-let mobileHeightSmallDisplay = window.innerHeight * 0.93 + 'px'; //Done
-let mobileHeightBigDisplay = window.innerHeight * 0.85 + 'px'; //Done
-let mobileHeight12and13ProMax = window.innerHeight * 0.71 + 'px'; //Done
-let mobileHeight12and13RegularAndPro = window.innerHeight * 0.8 + 'px'; //Done
-let mobileHeight11ProMax = window.innerHeight * 0.74 + 'px'; //Done
-let mobileHeight11ProAnd13Mini = window.innerHeight * 0.82 + 'px'; //Done
-let mobileHeight11Regular = window.innerHeight * 0.74 + 'px'; //Done
+let mobileHeightSmallDisplay = window.innerHeight * 0.95 + 'px'; //Done
+let mobileHeightBigDisplay = window.innerHeight * 0.94 + 'px'; //Done
+let mobileHeight12and13ProMax = window.innerHeight * 0.778 + 'px'; //Done
+let mobileHeight12and13RegularAndPro = window.innerHeight * 0.875 + 'px'; //Done
+let mobileHeight11ProMax = window.innerHeight * 0.808 + 'px'; //Done
+let mobileHeight11ProAnd13Mini = window.innerHeight * 0.821 + 'px'; //Done
+let mobileHeight11Regular = window.innerHeight * 0.812 + 'px'; //Done
 
 export const GlobalStyle = createGlobalStyle`
   body {
@@ -110,7 +110,13 @@ export const LogoApp = styled.img.attrs((props) => ({
 	@media (max-width: 768px) {
 		width: 295px;
 	}
-	width: 385px;
+	@media only screen and (max-width: 375px) {
+		width: 158px;
+	}
+	@media only screen and (min-width: 376px) and (max-width: 712px) {
+		width: 255px;
+	}
+	width: 278px;
 `;
 
 export const TitleApp = styled.div`
@@ -233,13 +239,26 @@ export const SocialNetworkIconContainer = styled.span`
 	position: absolute;
 	bottom: 2.5%;
 	left: 89%;
-	@media (max-width: 768px) {
-		margin-top: 10px;
-		margin-left: 5px;
+	@media only screen and (max-width: 375px) {
+		left: 86%;
 	}
 	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		margin-top: 10px;
-		margin-left: 5px;
+		left: 86%;
+	}
+	@media only screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
+		left: 86%;
+	}
+	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
+		left: 86%;
+	}
+	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
+		left: 86%;
+	}
+	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+		left: 87%;
+	}
+	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
+		left: 86%;
 	}
 `;
 
@@ -311,6 +330,9 @@ export const NetworkContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	padding-top: 58px;
+	@media only screen and (max-width: 375px) {
+		padding-top: 10px;
+	}
 `;
 
 export const NetworkMapContainer = styled.div`
