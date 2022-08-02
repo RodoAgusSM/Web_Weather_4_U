@@ -103,7 +103,7 @@ const Weather = () => {
 		fetchData();
 		setInterval(() => {
 			fetchData();
-		}, 120000);
+		}, 900000);
 	}, [cityName, language]);
 
 	const changeCity = (newCity) => {

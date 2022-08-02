@@ -9,8 +9,8 @@ Aplicacion hecha en React JS para ver el clima actual de las cuidades de Uruguay
 4. Disfrute viendo el clima de Uruguay y algunas cuidades del mundo :)
 
 #### Catacterísticas
-La aplicación se actualiza sola cada 2 minutos.<br>
-Para actualizarla antes de los 2 minutos, actualizar el navegador web.<br>
+La aplicación se actualiza sola cada 15 minutos.<br>
+Para actualizarla antes de los 15 minutos, refrescar el navegador web.<br>
 Para los tiempos de carga, se muestra un spinner indicando al usuario que la aplicación esta cargando.
 
 ## Guide in english
@@ -23,6 +23,6 @@ Application made in React JS to view the actual weather of Montevideo (Uruguay).
 4. Enjoy watching the weather of Uruguay and some cities of the world :)
 
 #### Characteristics
-The application updates itself every 2 minutes.<br>
-To update before 2 minutes, update the web browser.<br>
+The application updates itself every 15 minutes.<br>
+To update before 15 minutes, refresh the web browser.<br>
 For the loading times, a spinner is shown indicating the user that the application is loading.
