@@ -24,12 +24,15 @@ import { findCityCoordsByName } from '../../coordinates/CityCoordinates';
 import { findLanguageByKey } from '../../languages/Languages';
 import City from '../City/City';
 import Language from '../Language/Language';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Weather = () => {
+	let navigate = useNavigate();
+	const { state } = useLocation();
 	let [siteWorking, setIsSiteWorking] = useState([]);
 	let [iconWorking, setIsIconWorking] = useState([]);
 	let [cityName, setCityName] = useState('Montevideo');
-	let [language, setLanguage] = useState('sp');
+	let [language, setLanguage] = useState(state?.actualLanguage ?? 'sp');
 	let [countryNameShort, setCountryNameShort] = useState([]);
 	let [realFeel, setRealFeel] = useState([]);
 	let [icon, setIcon] = useState('');
@@ -166,6 +169,12 @@ const Weather = () => {
 						<BreakLine />
 					</WeatherData>
 					<Language actualLanguage={language} changeLanguage={changeLanguage} />
+					<button
+						onClick={() => {
+							navigate(`/social_network`, { state: { actualLanguage: language } });
+						}}>
+						'Redes'
+					</button>
 				</WeatherCard>
 			);
 	} else

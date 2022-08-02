@@ -224,3 +224,76 @@ export const LanguageButton = styled.span`
 		color: ${Colors.yellowLemon};
 	}
 `;
+
+export const BackContainer = styled.span`
+	display: inline-flex;
+	align-content: center;
+	justify-content: center;
+	align-items: center;
+	font-size: 15px;
+	font-weight: bold;
+	margin-right: auto;
+	margin-left: 5px;
+	margin-top: 5px;
+	cursor: pointer;
+	&:hover {
+		color: ${Colors.yellowLemon};
+	}
+	@media (max-width: 768px) {
+		margin-top: 10px;
+		margin-left: 5px;
+	}
+	@media only screen and (min-width: 376px) and (max-width: 712px) {
+		margin-top: 10px;
+		margin-left: 5px;
+	}
+`;
+
+export const BackIcon = styled.image`
+	width: 20px;
+	height: 20px;
+	background-size: contain;
+	background-image: url(${(props) => (!props.mouseOver ? props.regular : props.hover)});
+	&:hover {
+		background-image: url(${(props) => props.hover});
+	}
+`;
+
+export const MiInfoContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	padding-top: 30px;
+	padding-left: 5px;
+	padding-right: 5px;
+`;
+
+export const MiInfo = styled.span`
+	display: flex;
+	text-align: center;
+	justify-content: center;
+	font-size: 22px;
+	font-weight: bold;
+	padding-bottom: 12px;
+`;
+
+export const NetworkContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-top: 85px;
+	padding-bottom: 85px;
+`;
+
+export const SocialNetworkItem = styled.a`
+	display: flex;
+	font-size: 16px;
+	font-weight: bold;
+	text-decoration: underline;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	cursor: pointer;
+	color: ${Colors.darkerGreen};
+	&:hover {
+		color: ${Colors.yellowLemon};
+	}
+`;
