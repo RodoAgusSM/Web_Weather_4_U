@@ -11,7 +11,7 @@ export const getCitiesNames = () => {
 };
 
 const coordinates = [
-	{ name: 'Montevideo', coords: { time: -34.8335, lon: 56.1674 } },
+	{ name: 'Montevideo', coords: { time: -34.8335, lon: -56.1674 } },
 	{ name: 'Punta del Este', coords: { lat: -34.9667, lon: -54.95 } },
 	{ name: 'Colonia', coords: { lat: -34.1667, lon: -57.5 } },
 	{ name: 'Buenos Aires', coords: { lat: -34.6132, lon: 58.3772 } },
