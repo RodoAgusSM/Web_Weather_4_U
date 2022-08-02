@@ -115,6 +115,7 @@ export const LogoApp = styled.img.attrs((props) => ({
 
 export const TitleApp = styled.div`
 	text-align: center;
+	cursor: default;
 `;
 
 export const Subtitle = styled.h2`
@@ -130,6 +131,7 @@ export const WeatherMain = styled.div`
 	margin-top: -112px;
 	margin-left: 175px;
 	font-size: 18px;
+	cursor: default;
 	@media (max-width: 768px) {
 		margin-top: -118px;
 		margin-left: 132px;
@@ -162,6 +164,7 @@ export const WeatherData = styled.div`
 	margin-top: 15px;
 	margin-left: 175px;
 	font-size: 17px;
+	cursor: default;
 	@media (max-width: 768px) {
 		margin-left: 132px;
 	}
@@ -225,6 +228,32 @@ export const LanguageButton = styled.span`
 	}
 `;
 
+export const SocialNetworkIconContainer = styled.span`
+	display: flex;
+	position: absolute;
+	bottom: 2.5%;
+	left: 89%;
+	@media (max-width: 768px) {
+		margin-top: 10px;
+		margin-left: 5px;
+	}
+	@media only screen and (min-width: 376px) and (max-width: 712px) {
+		margin-top: 10px;
+		margin-left: 5px;
+	}
+`;
+
+export const SocialNetworkIcon = styled.image`
+	width: 40px;
+	height: 40px;
+	background-size: contain;
+	cursor: pointer;
+	background-image: url(${(props) => (!props.mouseOver ? props.regular : props.hover)});
+	&:hover {
+		background-image: url(${(props) => props.hover});
+	}
+`;
+
 export const BackContainer = styled.span`
 	display: inline-flex;
 	align-content: center;
@@ -262,9 +291,10 @@ export const BackIcon = styled.image`
 export const MiInfoContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	padding-top: 30px;
+	padding-top: 35px;
 	padding-left: 5px;
 	padding-right: 5px;
+	cursor: default;
 `;
 
 export const MiInfo = styled.span`
@@ -280,17 +310,27 @@ export const NetworkContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding-top: 85px;
-	padding-bottom: 85px;
+	padding-top: 58px;
+`;
+
+export const NetworkMapContainer = styled.div`
+	display: 'flex';
+	flex-direction: 'row';
+	padding-top: 15px;
+	padding-bottom: 15px;
+`;
+
+export const SocialNetworkName = styled.span`
+	font-size: 16px;
+	font-weight: bold;
+	cursor: default;
+	color: ${Colors.darkerGreen};
 `;
 
 export const SocialNetworkItem = styled.a`
-	display: flex;
 	font-size: 16px;
 	font-weight: bold;
 	text-decoration: underline;
-	padding-top: 10px;
-	padding-bottom: 10px;
 	cursor: pointer;
 	color: ${Colors.darkerGreen};
 	&:hover {

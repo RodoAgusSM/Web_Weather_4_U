@@ -3,8 +3,10 @@ import {
 	GlobalStyle,
 	WeatherCard,
 	MiInfo,
+	SocialNetworkName,
 	SocialNetworkItem,
 	NetworkContainer,
+	NetworkMapContainer,
 	MiInfoContainer,
 	BackContainer,
 	BackIcon,
@@ -44,9 +46,12 @@ const SocialNetwork = () => {
 				</MiInfoContainer>
 				<NetworkContainer>
 					{socialNetworks.networks.map((network) => (
-						<SocialNetworkItem key={network.abbrebiation} href={network.link} target='_blank'>
-							{network.abbrebiation} {network.username}
-						</SocialNetworkItem>
+						<NetworkMapContainer>
+							<SocialNetworkName key={network.abbrebiation}>{network.abbrebiation}</SocialNetworkName>
+							<SocialNetworkItem key={network.username} href={network.link} target='_blank'>
+								{network.username}
+							</SocialNetworkItem>
+						</NetworkMapContainer>
 					))}
 				</NetworkContainer>
 			</WeatherCard>

@@ -18,6 +18,8 @@ import {
 	SpinnerLogo,
 	BreakLine,
 	Subtitle,
+	SocialNetworkIconContainer,
+	SocialNetworkIcon,
 } from '../../styles/styles';
 import { openWeatherMapURL, paramsURL, iconURL, Directions, iconExtension } from '../../config/config';
 import { findCityCoordsByName } from '../../coordinates/CityCoordinates';
@@ -25,10 +27,13 @@ import { findLanguageByKey } from '../../languages/Languages';
 import City from '../City/City';
 import Language from '../Language/Language';
 import { useNavigate, useLocation } from 'react-router-dom';
+import social_network from '../../imgs/social_network.png';
+import social_network_hover from '../../imgs/social_network_hover.png';
 
 const Weather = () => {
 	let navigate = useNavigate();
 	const { state } = useLocation();
+	const [mouseOver, setMouseOver] = useState(false);
 	let [siteWorking, setIsSiteWorking] = useState([]);
 	let [iconWorking, setIsIconWorking] = useState([]);
 	let [cityName, setCityName] = useState('Montevideo');
@@ -169,12 +174,14 @@ const Weather = () => {
 						<BreakLine />
 					</WeatherData>
 					<Language actualLanguage={language} changeLanguage={changeLanguage} />
-					<button
+					<SocialNetworkIconContainer
+						onMouseEnter={() => setMouseOver(true)}
+						onMouseLeave={() => setMouseOver(false)}
 						onClick={() => {
 							navigate(`/social_network`, { state: { actualLanguage: language } });
 						}}>
-						'Redes'
-					</button>
+						<SocialNetworkIcon mouseOver={mouseOver} regular={social_network} hover={social_network_hover} />
+					</SocialNetworkIconContainer>
 				</WeatherCard>
 			);
 	} else
