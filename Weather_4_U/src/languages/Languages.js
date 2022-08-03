@@ -27,6 +27,7 @@ const languages = [
 			french: 'Francés',
 		},
 		words: {
+			writeCity: 'Buscar cuidad',
 			weatherIn: 'Clima actual en ',
 			feelsLike: 'Sensación térmica: ',
 			updatedAt: 'Actualizado a las ',
@@ -36,6 +37,10 @@ const languages = [
 			wind: 'Viento: ',
 			sunrise: 'Amanece a las: ',
 			sunset: 'Oscurece a las: ',
+			locationNotFound: {
+				funnyMessage: 'Nuestra brújula no encontró la cuidad ',
+				realMessage: 'Vuelva a intentar con otra ubicación',
+			},
 			conectionError: 'Problema en la conexión con el proveedor del clima',
 			back: 'Volver',
 		},
@@ -66,6 +71,7 @@ const languages = [
 			french: 'French',
 		},
 		words: {
+			writeCity: 'Search city',
 			weatherIn: 'Current weather in ',
 			feelsLike: 'Feels like: ',
 			updatedAt: 'Updated at ',
@@ -75,6 +81,10 @@ const languages = [
 			wind: 'Wind: ',
 			sunrise: 'Sunrise at: ',
 			sunset: 'Sunset at: ',
+			locationNotFound: {
+				funnyMessage: 'Our compass did not find the city ',
+				realMessage: 'Please try again with another location',
+			},
 			conectionError: 'Problem connecting to weather provider',
 			back: 'Back',
 		},
@@ -105,6 +115,7 @@ const languages = [
 			french: 'Francês',
 		},
 		words: {
+			writeCity: 'Escreva uma cidade',
 			weatherIn: 'Clima atual em ',
 			feelsLike: 'Sensação termica: ',
 			updatedAt: 'Atualizado em ',
@@ -114,6 +125,10 @@ const languages = [
 			wind: 'Vento: ',
 			sunrise: 'Nascer do sol em: ',
 			sunset: 'Pôr do sol em: ',
+			locationNotFound: {
+				funnyMessage: 'Nossa bússola não encontrou a cidade ',
+				realMessage: 'Tente novamente com outro local',
+			},
 			conectionError: 'Problema ao conectar ao provedor de clima',
 			back: 'Retorna',
 		},
@@ -144,6 +159,7 @@ const languages = [
 			portugues: 'Portugais',
 		},
 		words: {
+			writeCity: 'Écrivez une ville',
 			weatherIn: 'Météo actuelle à ',
 			feelsLike: 'Sensation thermique: ',
 			updatedAt: 'Mis à jour à ',
@@ -153,6 +169,10 @@ const languages = [
 			wind: 'Vent: ',
 			sunrise: 'Lever du soleil à: ',
 			sunset: 'Coucher de soleil à: ',
+			locationNotFound: {
+				funnyMessage: "Notre boussole n'a pas trouvé la ville ",
+				realMessage: 'Veuillez réessayer avec un autre emplacement',
+			},
 			conectionError: 'Problème de connexion au service météo',
 			back: 'Derrière',
 		},

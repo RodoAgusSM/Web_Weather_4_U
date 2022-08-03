@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import logo from '../../imgs/sun_half.svg';
+import locationNotFound from '../../imgs/location_not_found_icon.png';
 import loading from '../../imgs/loading.gif';
 import danger from '../../imgs/danger.png';
 import notFoundIcon from '../../imgs/not_found_icon.png';
@@ -8,6 +9,8 @@ import {
 	GlobalStyle,
 	WeatherIcon,
 	WeatherCard,
+	LocationNotFoundIcon,
+	LocationNotFoundCode,
 	LogoApp,
 	TitleApp,
 	Code,
@@ -21,10 +24,16 @@ import {
 	SocialNetworkIconContainer,
 	SocialNetworkIcon,
 } from '../../styles/styles';
-import { openWeatherMapURL, paramsURL, iconURL, Directions, iconExtension } from '../../config/config';
-import { findCityCoordsByName } from '../../coordinates/CityCoordinates';
+import {
+	openWeatherMapURL,
+	paramsURL,
+	openStreetMapURL,
+	iconURL,
+	Directions,
+	iconExtension,
+} from '../../config/config';
 import { findLanguageByKey } from '../../languages/Languages';
-import City from '../City/City';
+import CitySearchBar from '../CitySearchBar/CitySearchBar';
 import Language from '../Language/Language';
 import { useNavigate, useLocation } from 'react-router-dom';
 import social_network from '../../imgs/social_network.png';
@@ -34,9 +43,13 @@ const Weather = () => {
 	let navigate = useNavigate();
 	const { state } = useLocation();
 	const [mouseOver, setMouseOver] = useState(false);
+	let [validCoordinates, setValidCoordinates] = useState(true);
+	let validCoordinatesHelper = true;
 	let [siteWorking, setIsSiteWorking] = useState([]);
 	let [iconWorking, setIsIconWorking] = useState([]);
 	let [cityName, setCityName] = useState('Montevideo');
+	let [lat, setLat] = useState();
+	let [lon, setLon] = useState();
 	let [language, setLanguage] = useState(state?.actualLanguage ?? 'sp');
 	let [countryNameShort, setCountryNameShort] = useState([]);
 	let [realFeel, setRealFeel] = useState([]);
@@ -57,66 +70,69 @@ const Weather = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const coords = findCityCoordsByName(cityName);
-				const fullUrl =
-					openWeatherMapURL +
-					'q=' +
-					cityName +
-					'&lat=' +
-					coords.lat +
-					'&lon=' +
-					coords.lon +
-					'&lang=' +
-					language +
-					paramsURL;
+				const fullUrl = openStreetMapURL + '&city=' + cityName;
 				const response = await axios.get(fullUrl);
-				setIsSiteWorking(true);
-				setCountryNameShort(response.data.sys.country);
-				setRealFeel(Math.trunc(response.data.main.temp));
-				iconValue.current = response.data.weather[0].icon;
-				setDescription(response.data.weather[0].description);
-				setFeelsLike(Math.trunc(response.data.main.feels_like));
-				setHumidity(response.data.main.humidity);
-				setPressure(response.data.main.pressure);
-				setWindSpeed(parseInt(Math.trunc(response.data.wind.speed) * 3.6));
-				const degrees = parseInt(response.data.wind.deg);
-				const cardinal = parseInt((degrees + 11.25) / 22.5);
-				setWindDirection(Directions[cardinal % 16]);
-				const dateNow = new Date();
-				const time = dateNow.getHours() + ':' + dateNow.getMinutes();
-				setTime(time);
-				const date = dateNow.getDate() + '/' + (dateNow.getMonth() + 1) + '/' + dateNow.getFullYear();
-				setDate(date);
-				let sunriseTime = new Intl.DateTimeFormat('es', {
-					hour: '2-digit',
-					minute: '2-digit',
-				}).format(response.data.sys.sunrise * 1000);
-				setSunrise(sunriseTime);
-				let sunsetTime = new Intl.DateTimeFormat('es', {
-					hour: '2-digit',
-					minute: '2-digit',
-				}).format(response.data.sys.sunset * 1000);
-				setSunset(sunsetTime);
+				validCoordinatesHelper = true;
+				setValidCoordinates(true);
+				setLat(response.data[0].lat);
+				setLon(response.data[0].lon);
 			} catch (error) {
-				setIsSiteWorking(false);
+				validCoordinatesHelper = false;
+				setValidCoordinates(false);
 			}
-			try {
-				setIsIconWorking(true);
-				setTimeout(async () => {
-					const iconUrl = iconURL + iconValue.current + iconExtension;
-					const iconFetched = await axios.get(iconUrl);
-					setIcon(iconFetched?.config?.url);
-					setIsLoading(false);
-				}, 1500);
-			} catch (error) {
-				setIsIconWorking(false);
-			}
+			if (validCoordinates && validCoordinatesHelper) {
+				try {
+					const fullUrl =
+						openWeatherMapURL + 'q=' + cityName + '&lat=' + lat + '&lon=' + lon + '&lang=' + language + paramsURL;
+					const response = await axios.get(fullUrl);
+					setIsSiteWorking(true);
+					setCountryNameShort(response.data.sys.country);
+					setRealFeel(Math.trunc(response.data.main.temp));
+					iconValue.current = response.data.weather[0].icon;
+					setDescription(response.data.weather[0].description);
+					setFeelsLike(Math.trunc(response.data.main.feels_like));
+					setHumidity(response.data.main.humidity);
+					setPressure(response.data.main.pressure);
+					setWindSpeed(parseInt(Math.trunc(response.data.wind.speed) * 3.6));
+					const degrees = parseInt(response.data.wind.deg);
+					const cardinal = parseInt((degrees + 11.25) / 22.5);
+					setWindDirection(Directions[cardinal % 16]);
+					const dateNow = new Date();
+					const time = dateNow.getHours() + ':' + dateNow.getMinutes();
+					setTime(time);
+					const date = dateNow.getDate() + '/' + (dateNow.getMonth() + 1) + '/' + dateNow.getFullYear();
+					setDate(date);
+					let sunriseTime = new Intl.DateTimeFormat('es', {
+						hour: '2-digit',
+						minute: '2-digit',
+					}).format(response.data.sys.sunrise * 1000);
+					setSunrise(sunriseTime);
+					let sunsetTime = new Intl.DateTimeFormat('es', {
+						hour: '2-digit',
+						minute: '2-digit',
+					}).format(response.data.sys.sunset * 1000);
+					setSunset(sunsetTime);
+				} catch (error) {
+					setIsSiteWorking(false);
+				}
+				try {
+					setIsIconWorking(true);
+					setTimeout(async () => {
+						const iconUrl = iconURL + iconValue.current + iconExtension;
+						const iconFetched = await axios.get(iconUrl);
+						setIcon(iconFetched?.config?.url);
+						setIsLoading(false);
+					}, 1500);
+				} catch (error) {
+					setIsIconWorking(false);
+				}
+			} else setIsLoading(false);
 		};
 		fetchData();
 		setInterval(() => {
 			fetchData();
 		}, 900000);
-	}, [cityName, language]);
+	}, [cityName, language, validCoordinates]);
 
 	const changeCity = (newCity) => {
 		if (cityName !== newCity) {
@@ -146,62 +162,76 @@ const Weather = () => {
 		else
 			toShow = (
 				<WeatherCard>
-					<City actualCity={cityName} changeCity={changeCity} />
-					<LogoApp src={logo} alt='' />
-					<TitleApp>
-						<Subtitle>
-							{fullLanguage.words.weatherIn} {cityName} ({countryNameShort})
-						</Subtitle>
-					</TitleApp>
-					{showIcon}
-					<WeatherMain>
-						<WeatherMainTemperature>{realFeel}°C</WeatherMainTemperature>
-						<BreakLine />
-						<Code>
-							{fullLanguage.words.feelsLike} {feelsLike}°C
-						</Code>
-						<BreakLine />
-						<Code>{description}</Code>
-						<BreakLine />
-						<Code>
-							{fullLanguage.words.updatedAt} {time}
-						</Code>
-						<BreakLine />
-						<Code>
-							{fullLanguage.words.date} {date}
-						</Code>
-					</WeatherMain>
-					<WeatherData>
-						<Code>
-							{fullLanguage.words.humidity} {humidity}%
-						</Code>
-						<BreakLine />
-						<Code>
-							{fullLanguage.words.pressure} {pressure} hPa
-						</Code>
-						<BreakLine />
-						<Code>
-							{fullLanguage.words.wind} {windDirection} {windSpeed} km/h
-						</Code>
-						<BreakLine />
-						<BreakLine />
-						<Code>
-							{fullLanguage.words.sunrise} {sunrise}
-						</Code>
-						<BreakLine />
-						<Code>
-							{fullLanguage.words.sunset} {sunset}
-						</Code>
-					</WeatherData>
-					<Language actualLanguage={language} changeLanguage={changeLanguage} />
-					<SocialNetworkIconContainer
-						onMouseEnter={() => setMouseOver(true)}
-						onMouseLeave={() => setMouseOver(false)}
-						onClick={() => {
-							navigate(`/social_network`, { state: { actualLanguage: language } });
-						}}>
-						<SocialNetworkIcon mouseOver={mouseOver} regular={social_network} hover={social_network_hover} />
-					</SocialNetworkIconContainer>
+					<CitySearchBar actualLanguage={language} changeCity={changeCity} />
+					{validCoordinates ? (
+						<>
+							<LogoApp src={logo} alt='' />
+							<TitleApp>
+								<Subtitle>
+									{fullLanguage.words.weatherIn} {cityName} ({countryNameShort})
+								</Subtitle>
+							</TitleApp>
+							{showIcon}
+							<WeatherMain>
+								<WeatherMainTemperature>{realFeel}°C</WeatherMainTemperature>
+								<BreakLine />
+								<Code>
+									{fullLanguage.words.feelsLike} {feelsLike}°C
+								</Code>
+								<BreakLine />
+								<Code>{description}</Code>
+								<BreakLine />
+								<Code>
+									{fullLanguage.words.updatedAt} {time}
+								</Code>
+								<BreakLine />
+								<Code>
+									{fullLanguage.words.date} {date}
+								</Code>
+							</WeatherMain>
+							<WeatherData>
+								<Code>
+									{fullLanguage.words.humidity} {humidity}%
+								</Code>
+								<BreakLine />
+								<Code>
+									{fullLanguage.words.pressure} {pressure} hPa
+								</Code>
+								<BreakLine />
+								<Code>
+									{fullLanguage.words.wind} {windDirection} {windSpeed} km/h
+								</Code>
+								<BreakLine />
+								<BreakLine />
+								<Code>
+									{fullLanguage.words.sunrise} {sunrise}
+								</Code>
+								<BreakLine />
+								<Code>
+									{fullLanguage.words.sunset} {sunset}
+								</Code>
+							</WeatherData>
+							<Language actualLanguage={language} changeLanguage={changeLanguage} />
+							<SocialNetworkIconContainer
+								onMouseEnter={() => setMouseOver(true)}
+								onMouseLeave={() => setMouseOver(false)}
+								onClick={() => {
+									navigate(`/social_network`, { state: { actualLanguage: language } });
+								}}>
+								<SocialNetworkIcon mouseOver={mouseOver} regular={social_network} hover={social_network_hover} />
+							</SocialNetworkIconContainer>
+						</>
+					) : (
+						<>
+							<LocationNotFoundIcon src={locationNotFound} alt='' />
+							<BreakLine />
+							<LocationNotFoundCode>
+								{fullLanguage.words.locationNotFound.funnyMessage} "{cityName}"
+							</LocationNotFoundCode>
+							<BreakLine />
+							<LocationNotFoundCode>{fullLanguage.words.locationNotFound.realMessage}</LocationNotFoundCode>
+						</>
+					)}
 				</WeatherCard>
 			);
 	} else

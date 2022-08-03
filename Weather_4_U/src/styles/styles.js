@@ -100,6 +100,37 @@ export const WeatherCard = styled.div`
 	height: ${desktopHeight};
 `;
 
+export const LocationNotFoundIcon = styled.img.attrs((props) => ({
+	src: props.src,
+}))`
+	display: block;
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	@media (max-width: 768px) {
+		width: 295px;
+	}
+	@media only screen and (max-width: 375px) {
+		width: 158px;
+	}
+	@media only screen and (min-width: 376px) and (max-width: 712px) {
+		width: 255px;
+	}
+	width: 350px;
+`;
+
+export const LocationNotFoundCode = styled.code`
+	display: flex;
+	justify-content: center;
+	@media only screen and (max-width: 375px) {
+		font-size: 11px;
+	}
+	@media only screen and (min-width: 376px) and (max-width: 712px) {
+		font-size: 12px;
+	}
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+`;
+
 export const LogoApp = styled.img.attrs((props) => ({
 	src: props.src,
 }))`
@@ -184,30 +215,39 @@ export const DangerLogo = styled.img.attrs((props) => ({
 	width: 140px;
 `;
 
-export const CitiesContainer = styled.div`
-	height: 50px;
+export const SearchBarContainer = styled.div`
 	display: flex;
-	border-radius: 6px;
-	overflow-y: hidden;
-	overflow-x: auto;
-	scroll-behavior: smooth;
+	height: 40px;
 `;
 
-export const CityButton = styled.span`
-	display: flex;
-	height: 30px;
-	background-color: ${Colors.wateryGreenToneDown};
+export const SearchBar = styled.input`
+	background-color: ${Colors.lightOrange};
 	border: 0.5px solid ${Colors.lightWhite};
-	margin-right: 5px;
 	align-items: center;
-	border-radius: 6px;
-	white-space: nowrap;
-	padding-left: 4px;
-	padding-right: 4px;
-	font-size: 16px;
-	cursor: pointer;
+	border-radius: 8px;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-left: 5px;
+	margin-right: 5px;
+	font-size: 15px;
+	width: 100%;
 	&:hover {
 		background-color: ${Colors.lightWhite};
+	}
+	::placeholder {
+		/* Chrome, Firefox, Opera, Safari 10.1+ */
+		color: ${Colors.shadowGrey};
+		opacity: 1; /* Firefox */
+	}
+
+	:-ms-input-placeholder {
+		/* Internet Explorer 10-11 */
+		color: ${Colors.shadowGrey};
+	}
+
+	::-ms-input-placeholder {
+		/* Microsoft Edge */
+		color: ${Colors.shadowGrey};
 	}
 `;
 
