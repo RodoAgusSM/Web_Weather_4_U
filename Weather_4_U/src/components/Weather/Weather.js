@@ -34,6 +34,7 @@ import {
 } from '../../config/config';
 import { findLanguageByKey } from '../../languages/Languages';
 import CitySearchBar from '../CitySearchBar/CitySearchBar';
+import SunriseSunsetInfo from '../SunriseSunsetInfo/SunsetSunriseInfo';
 import Language from '../Language/Language';
 import { useNavigate, useLocation } from 'react-router-dom';
 import social_network from '../../imgs/social_network.png';
@@ -64,6 +65,7 @@ const Weather = () => {
 	let [windDirection, setWindDirection] = useState([]);
 	let [sunrise, setSunrise] = useState([]);
 	let [sunset, setSunset] = useState([]);
+	let [timezone, setTimezone] = useState([]);
 	let [isLoading, setIsLoading] = useState(true);
 	let iconValue = useRef(null);
 	const fullLanguage = findLanguageByKey(language);
@@ -112,9 +114,7 @@ const Weather = () => {
 						minute: '2-digit',
 					}).format(response.data.sys.sunset * 1000);
 					setSunset(sunsetTime);
-					var d = new Date();
-					d.toLocaleString('en-US', { timeZone: response.timezone });
-					console.log(d);
+					setTimezone(response.timezone);
 				} catch (error) {
 					if (error.response.data.message === 'city not found') setValidCoordinates(false);
 					else setIsSiteWorking(false);
@@ -207,13 +207,7 @@ const Weather = () => {
 								</Code>
 								<BreakLine />
 								<BreakLine />
-								<Code>
-									{fullLanguage.words.sunrise} {sunrise}
-								</Code>
-								<BreakLine />
-								<Code>
-									{fullLanguage.words.sunset} {sunset}
-								</Code>
+								<SunriseSunsetInfo actualLanguage={language} timezone={timezone} sunrise={sunrise} sunset={sunset} />
 							</WeatherData>
 						</>
 					) : (
