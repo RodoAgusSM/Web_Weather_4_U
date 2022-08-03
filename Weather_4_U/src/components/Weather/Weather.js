@@ -47,7 +47,7 @@ const Weather = () => {
 	let validCoordinatesHelper = true;
 	let [siteWorking, setIsSiteWorking] = useState([]);
 	let [iconWorking, setIsIconWorking] = useState([]);
-	let [cityName, setCityName] = useState('Montevideo');
+	let [cityName, setCityName] = useState(state?.actualCity ?? 'Montevideo');
 	let [lat, setLat] = useState();
 	let [lon, setLon] = useState();
 	let [language, setLanguage] = useState(state?.actualLanguage ?? 'sp');
@@ -112,8 +112,12 @@ const Weather = () => {
 						minute: '2-digit',
 					}).format(response.data.sys.sunset * 1000);
 					setSunset(sunsetTime);
+					var d = new Date();
+					d.toLocaleString('en-US', { timeZone: response.timezone });
+					console.log(d);
 				} catch (error) {
-					setIsSiteWorking(false);
+					if (error.response.data.message === 'city not found') setValidCoordinates(false);
+					else setIsSiteWorking(false);
 				}
 				try {
 					setIsIconWorking(true);
@@ -132,7 +136,7 @@ const Weather = () => {
 		setInterval(() => {
 			fetchData();
 		}, 900000);
-	}, [cityName, language, validCoordinates]);
+	}, [cityName, language]);
 
 	const changeCity = (newCity) => {
 		if (cityName !== newCity) {
@@ -211,20 +215,10 @@ const Weather = () => {
 									{fullLanguage.words.sunset} {sunset}
 								</Code>
 							</WeatherData>
-							<Language actualLanguage={language} changeLanguage={changeLanguage} />
-							<SocialNetworkIconContainer
-								onMouseEnter={() => setMouseOver(true)}
-								onMouseLeave={() => setMouseOver(false)}
-								onClick={() => {
-									navigate(`/social_network`, { state: { actualLanguage: language } });
-								}}>
-								<SocialNetworkIcon mouseOver={mouseOver} regular={social_network} hover={social_network_hover} />
-							</SocialNetworkIconContainer>
 						</>
 					) : (
 						<>
 							<LocationNotFoundIcon src={locationNotFound} alt='' />
-							<BreakLine />
 							<LocationNotFoundCode>
 								{fullLanguage.words.locationNotFound.funnyMessage} "{cityName}"
 							</LocationNotFoundCode>
@@ -232,6 +226,15 @@ const Weather = () => {
 							<LocationNotFoundCode>{fullLanguage.words.locationNotFound.realMessage}</LocationNotFoundCode>
 						</>
 					)}
+					<Language actualLanguage={language} changeLanguage={changeLanguage} />
+					<SocialNetworkIconContainer
+						onMouseEnter={() => setMouseOver(true)}
+						onMouseLeave={() => setMouseOver(false)}
+						onClick={() => {
+							navigate(`/social_network`, { state: { actualLanguage: language, actualCity: cityName } });
+						}}>
+						<SocialNetworkIcon mouseOver={mouseOver} regular={social_network} hover={social_network_hover} />
+					</SocialNetworkIconContainer>
 				</WeatherCard>
 			);
 	} else

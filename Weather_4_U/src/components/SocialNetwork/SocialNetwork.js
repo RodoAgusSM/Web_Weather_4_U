@@ -19,7 +19,7 @@ import back_icon_hover from '../../imgs/back_icon_hover.png';
 const SocialNetwork = () => {
 	let navigate = useNavigate();
 	const { state } = useLocation();
-	const { actualLanguage } = state;
+	const { actualLanguage, actualCity } = state;
 	const [mouseOver, setMouseOver] = useState(false);
 
 	const fullLanguage = findLanguageByKey(actualLanguage);
@@ -32,7 +32,7 @@ const SocialNetwork = () => {
 					onMouseEnter={() => setMouseOver(true)}
 					onMouseLeave={() => setMouseOver(false)}
 					onClick={() => {
-						navigate(`/`, { state: { actualLanguage: actualLanguage } });
+						navigate(`/`, { state: { actualLanguage: actualLanguage, actualCity: actualCity } });
 					}}>
 					<BackIcon mouseOver={mouseOver} regular={back_icon} hover={back_icon_hover} />
 					{fullLanguage.words.back}

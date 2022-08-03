@@ -2,7 +2,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { Colors } from './colors';
 
 let desktopWidth = 500 + 'px';
-let desktopHeight = 565 + 'px';
+let desktopHeight = 555 + 'px';
 let mobileWidth = window.innerWidth * 0.85 + 'px';
 let mobileHeightSmallDisplay = window.innerHeight * 0.95 + 'px'; //Done
 let mobileHeightBigDisplay = window.innerHeight * 0.94 + 'px'; //Done
@@ -104,7 +104,6 @@ export const LocationNotFoundIcon = styled.img.attrs((props) => ({
 	src: props.src,
 }))`
 	display: block;
-	margin-top: 20px;
 	margin-left: auto;
 	margin-right: auto;
 	@media (max-width: 768px) {
@@ -116,7 +115,7 @@ export const LocationNotFoundIcon = styled.img.attrs((props) => ({
 	@media only screen and (min-width: 376px) and (max-width: 712px) {
 		width: 255px;
 	}
-	width: 350px;
+	width: 402px;
 `;
 
 export const LocationNotFoundCode = styled.code`
@@ -147,7 +146,7 @@ export const LogoApp = styled.img.attrs((props) => ({
 	@media only screen and (min-width: 376px) and (max-width: 712px) {
 		width: 255px;
 	}
-	width: 278px;
+	width: 276px;
 `;
 
 export const TitleApp = styled.div`

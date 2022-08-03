@@ -47,7 +47,7 @@ const languages = [
 		socialNetworks: {
 			myInfo: [
 				{ nameAndDegree: 'Hola, soy Rodolfo Agustín Silva Messano Ingeniero en Sistemas.' },
-				{ likeAndView: 'Si te estas disfrutando mi app, te invito a que visites mis redes sociales.' },
+				{ likeAndView: 'Si te gustó mi app, te invito a que visites mis redes sociales.' },
 			],
 			networks: [
 				{
@@ -91,7 +91,7 @@ const languages = [
 		socialNetworks: {
 			myInfo: [
 				{ nameAndDegree: 'Hello, I am Rodolfo Agustín Silva Messano Software Engineer.' },
-				{ likeAndView: 'If you are enjoying my app, I invite you to visit my social networks.' },
+				{ likeAndView: 'If you liked my app, I invite you to visit my social networks.' },
 			],
 			networks: [
 				{
@@ -135,7 +135,7 @@ const languages = [
 		socialNetworks: {
 			myInfo: [
 				{ nameAndDegree: 'Olá, sou Rodolfo Agustín Silva Messano Engenheiro de Sistemas.' },
-				{ likeAndView: 'Se você está gostando do meu aplicativo, convido você a visitar minhas redes sociais.' },
+				{ likeAndView: 'Se você gostou do meu aplicativo, convido você a visitar minhas redes sociais.' },
 			],
 			networks: [
 				{
@@ -179,7 +179,7 @@ const languages = [
 		socialNetworks: {
 			myInfo: [
 				{ nameAndDegree: 'Bonjour, je suis Rodolfo Agustín Silva Messano Ingénieur des Systèmes.' },
-				{ likeAndView: 'Si vous appréciez mon application, je vous invite à visiter mes réseaux sociaux.' },
+				{ likeAndView: 'Si vous avez aimé mon application, je vous invite à visiter mes réseaux sociaux.' },
 			],
 			networks: [
 				{
