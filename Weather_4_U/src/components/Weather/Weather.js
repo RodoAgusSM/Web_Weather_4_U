@@ -65,7 +65,6 @@ const Weather = () => {
 	let [windDirection, setWindDirection] = useState([]);
 	let [sunrise, setSunrise] = useState([]);
 	let [sunset, setSunset] = useState([]);
-	let [timezone, setTimezone] = useState([]);
 	let [isLoading, setIsLoading] = useState(true);
 	let iconValue = useRef(null);
 	const fullLanguage = findLanguageByKey(language);
@@ -104,17 +103,8 @@ const Weather = () => {
 					setTime(time);
 					const date = dateNow.getDate() + '/' + (dateNow.getMonth() + 1) + '/' + dateNow.getFullYear();
 					setDate(date);
-					let sunriseTime = new Intl.DateTimeFormat('es', {
-						hour: '2-digit',
-						minute: '2-digit',
-					}).format(response.data.sys.sunrise * 1000);
-					setSunrise(sunriseTime);
-					let sunsetTime = new Intl.DateTimeFormat('es', {
-						hour: '2-digit',
-						minute: '2-digit',
-					}).format(response.data.sys.sunset * 1000);
-					setSunset(sunsetTime);
-					setTimezone(response.timezone);
+					setSunrise(response.data.sys.sunrise);
+					setSunset(response.data.sys.sunset);
 				} catch (error) {
 					if (error.response.data.message === 'city not found') setValidCoordinates(false);
 					else setIsSiteWorking(false);
@@ -207,7 +197,7 @@ const Weather = () => {
 								</Code>
 								<BreakLine />
 								<BreakLine />
-								<SunriseSunsetInfo actualLanguage={language} timezone={timezone} sunrise={sunrise} sunset={sunset} />
+								<SunriseSunsetInfo actualLanguage={language} lat={lat} lon={lon} sunrise={sunrise} sunset={sunset} />
 							</WeatherData>
 						</>
 					) : (

@@ -4,7 +4,7 @@ import { Colors } from './colors';
 let desktopWidth = 500 + 'px';
 let desktopHeight = 555 + 'px';
 let mobileWidth = window.innerWidth * 0.85 + 'px';
-let mobileHeightSmallDisplay = window.innerHeight * 0.95 + 'px'; //Done
+let mobileHeightSmallDisplay = window.innerHeight * 0.93 + 'px'; //Done
 let mobileHeightBigDisplay = window.innerHeight * 0.94 + 'px'; //Done
 let mobileHeight12and13ProMax = window.innerHeight * 0.778 + 'px'; //Done
 let mobileHeight12and13RegularAndPro = window.innerHeight * 0.875 + 'px'; //Done
@@ -110,10 +110,17 @@ export const LocationNotFoundIcon = styled.img.attrs((props) => ({
 		width: 295px;
 	}
 	@media only screen and (max-width: 375px) {
-		width: 158px;
+		width: 320px;
+		margin-top: 15px;
+		margin-bottom: 30px;
 	}
 	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		width: 255px;
+		width: 360px;
+		margin-top: 15px;
+		margin-bottom: 58px;
+	}
+	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+		margin-bottom: 9px;
 	}
 	width: 402px;
 `;
@@ -144,7 +151,10 @@ export const LogoApp = styled.img.attrs((props) => ({
 		width: 158px;
 	}
 	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		width: 255px;
+		width: 275px;
+	}
+	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+		width: 176px;
 	}
 	width: 276px;
 `;
