@@ -63,6 +63,7 @@ const Weather = () => {
 	let [pressure, setPressure] = useState([]);
 	let [windSpeed, setWindSpeed] = useState([]);
 	let [windDirection, setWindDirection] = useState([]);
+	let [visibility, setVisibility] = useState([]);
 	let [sunrise, setSunrise] = useState([]);
 	let [sunset, setSunset] = useState([]);
 	let [isLoading, setIsLoading] = useState(true);
@@ -98,6 +99,7 @@ const Weather = () => {
 					const degrees = parseInt(response.data.wind.deg);
 					const cardinal = parseInt((degrees + 11.25) / 22.5);
 					setWindDirection(Directions[cardinal % 16]);
+					setVisibility(response.data.visibility);
 					const dateNow = new Date();
 					const time = dateNow.getHours() + ':' + dateNow.getMinutes();
 					setTime(time);
@@ -194,6 +196,10 @@ const Weather = () => {
 								<BreakLine />
 								<Code>
 									{fullLanguage.words.wind} {windDirection} {windSpeed} km/h
+								</Code>
+								<BreakLine />
+								<Code>
+									{fullLanguage.words.visibility} {visibility} m
 								</Code>
 								<BreakLine />
 								<BreakLine />

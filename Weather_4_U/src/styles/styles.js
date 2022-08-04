@@ -2,7 +2,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { Colors } from './colors';
 
 let desktopWidth = 500 + 'px';
-let desktopHeight = 555 + 'px';
+let desktopHeight = 577 + 'px';
 let mobileWidth = window.innerWidth * 0.85 + 'px';
 let mobileHeightSmallDisplay = window.innerHeight * 0.93 + 'px'; //Done
 let mobileHeightBigDisplay = window.innerHeight * 0.94 + 'px'; //Done
@@ -43,8 +43,16 @@ export const WeatherIcon = styled.img.attrs((props) => ({
 		margin-top: 20px;
 		margin-left: 10px;
 	}
+	@media only screen and (max-width: 375px) {
+		margin-top: 0px;
+		margin-left: 16px;
+	}
 	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		margin-top: 30px;
+		margin-top: 6px;
+		margin-left: 16px;
+	}
+	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
+		margin-top: 8px;
 		margin-left: 16px;
 	}
 	width: 102px;
@@ -190,6 +198,9 @@ export const WeatherMainTemperature = styled.code`
 	font-weight: bold;
 	@media only screen and (min-width: 376px) and (max-width: 712px) {
 		margin-left: 16px;
+	}
+	@media only screen and (max-width: 375px) {
+		font-size: 21px;
 	}
 `;
 
