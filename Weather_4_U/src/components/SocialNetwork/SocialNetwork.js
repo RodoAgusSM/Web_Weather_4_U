@@ -40,36 +40,14 @@ const SocialNetwork = () => {
 					<MiInfo>{t('socialNetworks.myInfo.likeAndView')}</MiInfo>
 				</MiInfoContainer>
 				<NetworkContainer>
-					<NetworkMapContainer>
-						<SocialNetworkName>{t('socialNetworks.networks.linkedIn.abbrebiation')}</SocialNetworkName>
-						<SocialNetworkItem href={t('socialNetworks.networks.linkedIn.link')} target='_blank'>
-							{t('socialNetworks.networks.linkedIn.username')}
-						</SocialNetworkItem>
-					</NetworkMapContainer>
-					<NetworkMapContainer>
-						<SocialNetworkName>{t('socialNetworks.networks.gitHub.abbrebiation')}</SocialNetworkName>
-						<SocialNetworkItem href={t('socialNetworks.networks.gitHub.link')} target='_blank'>
-							{t('socialNetworks.networks.gitHub.username')}
-						</SocialNetworkItem>
-					</NetworkMapContainer>
-					<NetworkMapContainer>
-						<SocialNetworkName>{t('socialNetworks.networks.iG.abbrebiation')}</SocialNetworkName>
-						<SocialNetworkItem href={t('socialNetworks.networks.iG.link')} target='_blank'>
-							{t('socialNetworks.networks.iG.username')}
-						</SocialNetworkItem>
-					</NetworkMapContainer>
-					<NetworkMapContainer>
-						<SocialNetworkName>{t('socialNetworks.networks.tW.abbrebiation')}</SocialNetworkName>
-						<SocialNetworkItem href={t('socialNetworks.networks.tW.link')} target='_blank'>
-							{t('socialNetworks.networks.tW.username')}
-						</SocialNetworkItem>
-					</NetworkMapContainer>
-					<NetworkMapContainer>
-						<SocialNetworkName>{t('socialNetworks.networks.fB.abbrebiation')}</SocialNetworkName>
-						<SocialNetworkItem href={t('socialNetworks.networks.fB.link')} target='_blank'>
-							{t('socialNetworks.networks.fB.username')}
-						</SocialNetworkItem>
-					</NetworkMapContainer>
+					{Object.values(t('socialNetworks.networks', { returnObjects: true })).map((socialNetworkItem) => (
+						<NetworkMapContainer>
+							<SocialNetworkName>{socialNetworkItem.abbrebiation}</SocialNetworkName>
+							<SocialNetworkItem href={socialNetworkItem.link} target='_blank'>
+								{socialNetworkItem.username}
+							</SocialNetworkItem>
+						</NetworkMapContainer>
+					))}
 				</NetworkContainer>
 			</WeatherCard>
 		</>
