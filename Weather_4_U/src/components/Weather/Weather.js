@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import logo from '../../imgs/sun_half.svg';
-import locationNotFound from '../../imgs/location_not_found_icon.png';
-import loading from '../../imgs/loading.gif';
-import danger from '../../imgs/danger.png';
-import notFoundIcon from '../../imgs/not_found_icon.png';
+import logo from '../../images/sun_half.svg';
+import locationNotFound from '../../images/location_not_found_icon.png';
+import loading from '../../images/loading.gif';
+import danger from '../../images/danger.png';
+import notFoundIcon from '../../images/not_found_icon.png';
 import {
 	GlobalStyle,
 	WeatherIcon,
@@ -36,8 +36,8 @@ import CitySearchBar from '../CitySearchBar/CitySearchBar';
 import SunriseSunsetInfo from '../SunriseSunsetInfo/SunsetSunriseInfo';
 import Language from '../Language/Language';
 import { useNavigate, useLocation } from 'react-router-dom';
-import social_network from '../../imgs/social_network.png';
-import social_network_hover from '../../imgs/social_network_hover.png';
+import social_network from '../../images/social_network.png';
+import social_network_hover from '../../images/social_network_hover.png';
 import { useTranslation } from 'react-i18next';
 
 const Weather = () => {

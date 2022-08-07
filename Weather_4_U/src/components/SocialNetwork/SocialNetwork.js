@@ -12,8 +12,8 @@ import {
 	BackIcon,
 } from '../../styles/styles';
 import { useNavigate, useLocation } from 'react-router-dom';
-import back_icon from '../../imgs/back_icon.png';
-import back_icon_hover from '../../imgs/back_icon_hover.png';
+import back_icon from '../../images/back_icon.png';
+import back_icon_hover from '../../images/back_icon_hover.png';
 import { useTranslation } from 'react-i18next';
 
 const SocialNetwork = () => {
