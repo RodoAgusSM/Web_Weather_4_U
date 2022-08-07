@@ -7,7 +7,6 @@ const SunriseSunsetInfo = ({ lat, lon, sunrise, sunset }) => {
 	const { find } = require('geo-tz');
 	try {
 		const timeZone = find(lat, lon)[0];
-		console.log(timeZone);
 		sunrise = new Date(sunrise * 1000).toLocaleString([], {
 			timeStyle: 'short',
 			timeZone: timeZone,

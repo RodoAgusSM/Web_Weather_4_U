@@ -2,12 +2,25 @@ import React from 'react';
 import { SearchBarContainer, SearchBar } from '../../styles/styles';
 import { useTranslation } from 'react-i18next';
 
-const CitySearchBar = ({ actualLanguage, changeCity }) => {
+const CitySearchBar = ({ changeCity }) => {
 	const { t } = useTranslation();
 	const _handleKeyDown = (e) => {
 		if (e.key === 'Enter') {
-			changeCity(e.target.value);
+			changeCity(namesToUpperCase(e.target.value));
 		}
+	};
+
+	const namesToUpperCase = (newCityName) => {
+		const words = newCityName.split(' ');
+		let cityName = '';
+		let firstWord = true;
+		words.forEach((element) => {
+			if (firstWord) {
+				cityName = element.charAt(0).toUpperCase() + element.slice(1);
+				firstWord = false;
+			} else cityName = cityName + ' ' + element.charAt(0).toUpperCase() + element.slice(1);
+		});
+		return cityName;
 	};
 
 	return (
