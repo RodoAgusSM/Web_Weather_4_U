@@ -1,10 +1,10 @@
 import React from 'react';
-import { findLanguageByKey } from '../../languages/Languages';
 import { Code, BreakLine } from '../../styles/styles';
+import { useTranslation } from 'react-i18next';
 
-const SunriseSunsetInfo = ({ actualLanguage, lat, lon, sunrise, sunset }) => {
+const SunriseSunsetInfo = ({ lat, lon, sunrise, sunset }) => {
+	const { t } = useTranslation();
 	const { find } = require('geo-tz');
-	const fullLanguage = findLanguageByKey(actualLanguage);
 	try {
 		const timeZone = find(lat, lon)[0];
 		console.log(timeZone);
@@ -18,18 +18,18 @@ const SunriseSunsetInfo = ({ actualLanguage, lat, lon, sunrise, sunset }) => {
 			timeZone: timeZone,
 		});
 	} catch (error) {
-		sunrise = fullLanguage.words.locationNotFound.noData;
-		sunset = fullLanguage.words.locationNotFound.noData;
+		sunrise = t('words.locationNotFound.noData');
+		sunset = t('words.locationNotFound.noData');
 	}
 
 	return (
 		<div>
 			<Code>
-				{fullLanguage.words.sunrise} {sunrise}
+				{t('words.sunrise')} {sunrise}
 			</Code>
 			<BreakLine />
 			<Code>
-				{fullLanguage.words.sunset} {sunset}
+				{t('words.sunset')} {sunset}
 			</Code>
 		</div>
 	);

@@ -1,17 +1,18 @@
 import React from 'react';
-import { getLanguagesNames } from '../../languages/Languages';
 import { LanguagesContainer, LanguageButton } from '../../styles/styles';
-const Language = ({ actualLanguage, changeLanguage }) => {
-	const languages = getLanguagesNames().filter((language) => language.key !== actualLanguage);
+import { useTranslation } from 'react-i18next';
+
+const Language = ({ changeLanguage }) => {
+	const { t, i18n } = useTranslation();
 	return (
 		<LanguagesContainer>
-			{languages.map((language) => (
+			{Object.entries(t('languages', { returnObjects: true })).map((languageItem) => (
 				<LanguageButton
-					key={language.key}
+					key={languageItem[0]}
 					onClick={() => {
-						changeLanguage(language.key);
+						changeLanguage(languageItem[0]);
 					}}>
-					{language.name}
+					{languageItem[1]}
 				</LanguageButton>
 			))}
 		</LanguagesContainer>

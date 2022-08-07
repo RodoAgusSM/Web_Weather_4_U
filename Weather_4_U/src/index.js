@@ -5,6 +5,7 @@ import Weather from './components/Weather/Weather';
 import SocialNetwork from './components/SocialNetwork/SocialNetwork';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import './translations/i18n';
 
 const container = document.getElementById('root');
 const root = createRoot(container);

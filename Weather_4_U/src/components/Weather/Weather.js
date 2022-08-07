@@ -32,15 +32,16 @@ import {
 	Directions,
 	iconExtension,
 } from '../../config/config';
-import { findLanguageByKey } from '../../languages/Languages';
 import CitySearchBar from '../CitySearchBar/CitySearchBar';
 import SunriseSunsetInfo from '../SunriseSunsetInfo/SunsetSunriseInfo';
 import Language from '../Language/Language';
 import { useNavigate, useLocation } from 'react-router-dom';
 import social_network from '../../imgs/social_network.png';
 import social_network_hover from '../../imgs/social_network_hover.png';
+import { useTranslation } from 'react-i18next';
 
 const Weather = () => {
+	const { t, i18n } = useTranslation();
 	let navigate = useNavigate();
 	const { state } = useLocation();
 	const [mouseOver, setMouseOver] = useState(false);
@@ -51,7 +52,7 @@ const Weather = () => {
 	let [cityName, setCityName] = useState(state?.actualCity ?? 'Montevideo');
 	let [lat, setLat] = useState();
 	let [lon, setLon] = useState();
-	let [language, setLanguage] = useState(state?.actualLanguage ?? 'sp');
+	let [language, setLanguage] = useState(i18n.language);
 	let [countryNameShort, setCountryNameShort] = useState([]);
 	let [realFeel, setRealFeel] = useState([]);
 	let [icon, setIcon] = useState('');
@@ -68,7 +69,6 @@ const Weather = () => {
 	let [sunset, setSunset] = useState([]);
 	let [isLoading, setIsLoading] = useState(true);
 	let iconValue = useRef(null);
-	const fullLanguage = findLanguageByKey(language);
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -139,6 +139,8 @@ const Weather = () => {
 
 	const changeLanguage = (newLanguage) => {
 		if (language !== newLanguage) {
+			localStorage.setItem('language', newLanguage);
+			i18n.changeLanguage(newLanguage);
 			setLanguage(newLanguage);
 			setIsLoading(true);
 		}
@@ -164,7 +166,7 @@ const Weather = () => {
 							<LogoApp src={logo} alt='' />
 							<TitleApp>
 								<Subtitle>
-									{fullLanguage.words.weatherIn} {cityName} ({countryNameShort})
+									{t('words.weatherIn')} {cityName} ({countryNameShort})
 								</Subtitle>
 							</TitleApp>
 							{showIcon}
@@ -172,48 +174,48 @@ const Weather = () => {
 								<WeatherMainTemperature>{realFeel}°C</WeatherMainTemperature>
 								<BreakLine />
 								<Code>
-									{fullLanguage.words.feelsLike} {feelsLike}°C
+									{t('words.feelsLike')} {feelsLike}°C
 								</Code>
 								<BreakLine />
 								<Code>{description}</Code>
 								<BreakLine />
 								<Code>
-									{fullLanguage.words.updatedAt} {time}
+									{t('words.updatedAt')} {time}
 								</Code>
 								<BreakLine />
 								<Code>
-									{fullLanguage.words.date} {date}
+									{t('words.date')} {date}
 								</Code>
 							</WeatherMain>
 							<WeatherData>
 								<Code>
-									{fullLanguage.words.humidity} {humidity}%
+									{t('words.humidity')} {humidity}%
 								</Code>
 								<BreakLine />
 								<Code>
-									{fullLanguage.words.pressure} {pressure} hPa
+									{t('words.pressure')} {pressure} hPa
 								</Code>
 								<BreakLine />
 								<Code>
-									{fullLanguage.words.wind} {windDirection} {windSpeed} km/h
+									{t('words.wind')} {windDirection} {windSpeed} km/h
 								</Code>
 								<BreakLine />
 								<Code>
-									{fullLanguage.words.visibility} {visibility} m
+									{t('words.visibility')} {visibility} m
 								</Code>
 								<BreakLine />
 								<BreakLine />
-								<SunriseSunsetInfo actualLanguage={language} lat={lat} lon={lon} sunrise={sunrise} sunset={sunset} />
+								<SunriseSunsetInfo lat={lat} lon={lon} sunrise={sunrise} sunset={sunset} />
 							</WeatherData>
 						</>
 					) : (
 						<>
 							<LocationNotFoundIcon src={locationNotFound} alt='' />
 							<LocationNotFoundCode>
-								{fullLanguage.words.locationNotFound.funnyMessage} "{cityName}"
+								{t('words.locationNotFound.funnyMessage')} "{cityName}"
 							</LocationNotFoundCode>
 							<BreakLine />
-							<LocationNotFoundCode>{fullLanguage.words.locationNotFound.realMessage}</LocationNotFoundCode>
+							<LocationNotFoundCode>{t('words.locationNotFound.realMessage')}</LocationNotFoundCode>
 						</>
 					)}
 					<Language actualLanguage={language} changeLanguage={changeLanguage} />
@@ -221,7 +223,7 @@ const Weather = () => {
 						onMouseEnter={() => setMouseOver(true)}
 						onMouseLeave={() => setMouseOver(false)}
 						onClick={() => {
-							navigate(`/social_network`, { state: { actualLanguage: language, actualCity: cityName } });
+							navigate(`/social_network`, { state: { actualCity: cityName } });
 						}}>
 						<SocialNetworkIcon mouseOver={mouseOver} regular={social_network} hover={social_network_hover} />
 					</SocialNetworkIconContainer>
@@ -232,7 +234,7 @@ const Weather = () => {
 			<>
 				<DangerLogo src={danger} alt='' />
 				<BreakLine />
-				<Code>{fullLanguage.words.conectionError}</Code>
+				<Code>{t('words.conectionError')}</Code>
 			</>
 		);
 	return (
