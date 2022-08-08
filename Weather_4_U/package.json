@@ -1,6 +1,6 @@
 {
-	"name": "montevideo_weather_app",
-	"version": "2.0.0",
+	"name": "weather_4_u",
+	"version": "2.0.1",
 	"private": true,
 	"dependencies": {
 		"@testing-library/jest-dom": "^5.11.9",
