@@ -130,12 +130,16 @@ export const LocationNotFoundIcon = styled.img.attrs((props) => ({
 	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
 		margin-bottom: 9px;
 	}
+	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+		margin-bottom: 44px;
+	}
 	width: 402px;
 `;
 
 export const LocationNotFoundCode = styled.code`
 	display: flex;
 	justify-content: center;
+	text-align: center;
 	@media only screen and (max-width: 375px) {
 		font-size: 11px;
 	}
@@ -188,6 +192,9 @@ export const Subtitle = styled.h2`
 	}
 	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
 		font-size: 15px;
+	}
+	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+		font-size: 16px;
 	}
 `;
 
@@ -285,9 +292,6 @@ export const LanguagesContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	margin-top: 18px;
-	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		margin-top: 52px;
-	}
 `;
 
 export const LanguageButton = styled.span`
