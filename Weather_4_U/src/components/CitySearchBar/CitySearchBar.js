@@ -1,31 +1,97 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { SearchBarContainer, SearchBar } from '../../styles/styles';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
+import { Colors } from '../../styles/colors';
+import { openStreetMapURL } from '../../config/config';
+import AsyncSelect from 'react-select/async';
 
 const CitySearchBar = ({ changeCity }) => {
 	const { t } = useTranslation();
-	const _handleKeyDown = (e) => {
-		if (e.key === 'Enter') {
-			changeCity(namesToUpperCase(e.target.value));
+
+	useEffect(() => {}, []);
+
+	const fetchSuggestions = async (name) => {
+		try {
+			const fullUrl = openStreetMapURL + '&city=' + name;
+			const response = await axios.get(fullUrl);
+			return handleSuggestions(response.data);
+		} catch (error) {
+			console.log(error);
 		}
 	};
 
-	const namesToUpperCase = (newCityName) => {
-		const words = newCityName.split(' ');
-		let cityName = '';
-		let firstWord = true;
-		words.forEach((element) => {
-			if (firstWord) {
-				cityName = element.charAt(0).toUpperCase() + element.slice(1);
-				firstWord = false;
-			} else cityName = cityName + ' ' + element.charAt(0).toUpperCase() + element.slice(1);
+	const handleSuggestions = async (cities) => {
+		let suggestions = [];
+		cities.map((city) => {
+			let item = {
+				label: city.display_name,
+				value: {
+					name: city.display_name.split(',')[0],
+					lat: city.lat,
+					lon: city.lon,
+				},
+			};
+			suggestions.push(item);
 		});
-		return cityName;
+		return suggestions;
+	};
+
+	const customStyles = {
+		option: (provided, state) => ({
+			...provided,
+			borderBottom: `1px dotted ${Colors.wateryGreenToneDown}`,
+			color: state.isSelected ? 'green' : Colors.black,
+			backgroundColor: Colors.lightOrange,
+			padding: 15,
+			cursor: 'pointer',
+			'&:hover': {
+				backgroundColor: Colors.lightWhite,
+				color: Colors.darkerGreen,
+			},
+		}),
+		control: () => ({
+			display: 'flex',
+			backgroundColor: Colors.lightOrange,
+			borderRadius: '8px',
+			border: `2px solid ${Colors.lightWhite}`,
+			cursor: 'pointer',
+			'&:hover': {
+				backgroundColor: Colors.lightWhite,
+			},
+			'::placeholder': {
+				/* Chrome, Firefox, Opera, Safari 10.1+ */
+				color: Colors.shadowGrey,
+				opacity: 1 /* Firefox */,
+			},
+			':-ms-input-placeholder': {
+				/* Internet Explorer 10-11 */
+				color: Colors.shadowGrey,
+			},
+			'::-ms-input-placeholder': {
+				/* Microsoft Edge */
+				color: Colors.shadowGrey,
+			},
+		}),
+		singleValue: (provided, state) => {
+			const opacity = state.isDisabled ? 0.5 : 1;
+			const transition = 'opacity 300ms';
+
+			return { ...provided, opacity, transition };
+		},
 	};
 
 	return (
 		<SearchBarContainer>
-			<SearchBar type='text' placeholder={t('words.writeCity')} onKeyDown={_handleKeyDown}></SearchBar>
+			<AsyncSelect
+				placeholder={t('words.writeCity')}
+				loadOptions={fetchSuggestions}
+				onChange={changeCity}
+				loadingMessage={({ inputValue }) => (!inputValue ? null : t('words.lookingForSuggestions'))}
+				noOptionsMessage={({ inputValue }) => (!inputValue ? null : t('words.noSuggestions'))}
+				styles={customStyles}
+				filterOptions={false}
+			/>
 		</SearchBarContainer>
 	);
 };

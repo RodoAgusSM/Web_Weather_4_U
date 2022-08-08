@@ -24,14 +24,7 @@ import {
 	SocialNetworkIconContainer,
 	SocialNetworkIcon,
 } from '../../styles/styles';
-import {
-	openWeatherMapURL,
-	paramsURL,
-	openStreetMapURL,
-	iconURL,
-	Directions,
-	iconExtension,
-} from '../../config/config';
+import { openWeatherMapURL, paramsURL, iconURL, Directions, iconExtension } from '../../config/config';
 import CitySearchBar from '../CitySearchBar/CitySearchBar';
 import SunriseSunsetInfo from '../SunriseSunsetInfo/SunsetSunriseInfo';
 import Language from '../Language/Language';
@@ -46,12 +39,12 @@ const Weather = () => {
 	const { state } = useLocation();
 	const [mouseOver, setMouseOver] = useState(false);
 	let [validCoordinates, setValidCoordinates] = useState(true);
-	let validCoordinatesHelper = true;
 	let [siteWorking, setIsSiteWorking] = useState([]);
 	let [iconWorking, setIsIconWorking] = useState([]);
 	let [cityName, setCityName] = useState(state?.actualCity ?? 'Montevideo');
-	let [lat, setLat] = useState();
-	let [lon, setLon] = useState();
+	let [fullCityName, setFullCityName] = useState(state?.actualFullCity ?? 'Montevideo, Uruguay');
+	let [lat, setLat] = useState(state?.savedLat ?? -34.8335);
+	let [lon, setLon] = useState(state?.savedLon ?? -56.1674);
 	let [language, setLanguage] = useState(i18n.language);
 	let [countryNameShort, setCountryNameShort] = useState([]);
 	let [realFeel, setRealFeel] = useState([]);
@@ -69,70 +62,60 @@ const Weather = () => {
 	let [sunset, setSunset] = useState([]);
 	let [isLoading, setIsLoading] = useState(true);
 	let iconValue = useRef(null);
+
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const fullUrl = openStreetMapURL + '&city=' + cityName;
+				const fullUrl = openWeatherMapURL + '?lat=' + lat + '&lon=' + lon + '&lang=' + language + paramsURL;
 				const response = await axios.get(fullUrl);
-				validCoordinatesHelper = true;
-				setValidCoordinates(true);
-				setLat(response.data[0].lat);
-				setLon(response.data[0].lon);
+				setIsSiteWorking(true);
+				setCountryNameShort(response.data.sys.country);
+				setRealFeel(Math.trunc(response.data.main.temp));
+				iconValue.current = response.data.weather[0].icon;
+				setDescription(response.data.weather[0].description);
+				setFeelsLike(Math.trunc(response.data.main.feels_like));
+				setHumidity(response.data.main.humidity);
+				setPressure(response.data.main.pressure);
+				setWindSpeed(parseInt(Math.trunc(response.data.wind.speed) * 3.6));
+				const degrees = parseInt(response.data.wind.deg);
+				const cardinal = parseInt((degrees + 11.25) / 22.5);
+				setWindDirection(Directions[cardinal % 16]);
+				setVisibility(response.data.visibility);
+				const dateNow = new Date();
+				const time = dateNow.getHours() + ':' + dateNow.getMinutes();
+				setTime(time);
+				const date = dateNow.getDate() + '/' + (dateNow.getMonth() + 1) + '/' + dateNow.getFullYear();
+				setDate(date);
+				setSunrise(response.data.sys.sunrise);
+				setSunset(response.data.sys.sunset);
 			} catch (error) {
-				validCoordinatesHelper = false;
-				setValidCoordinates(false);
+				if (error.response.data.message === 'city not found') setValidCoordinates(false);
+				else setIsSiteWorking(false);
 			}
-			if (validCoordinates && validCoordinatesHelper) {
-				try {
-					const fullUrl =
-						openWeatherMapURL + 'q=' + cityName + '&lat=' + lat + '&lon=' + lon + '&lang=' + language + paramsURL;
-					const response = await axios.get(fullUrl);
-					setIsSiteWorking(true);
-					setCountryNameShort(response.data.sys.country);
-					setRealFeel(Math.trunc(response.data.main.temp));
-					iconValue.current = response.data.weather[0].icon;
-					setDescription(response.data.weather[0].description);
-					setFeelsLike(Math.trunc(response.data.main.feels_like));
-					setHumidity(response.data.main.humidity);
-					setPressure(response.data.main.pressure);
-					setWindSpeed(parseInt(Math.trunc(response.data.wind.speed) * 3.6));
-					const degrees = parseInt(response.data.wind.deg);
-					const cardinal = parseInt((degrees + 11.25) / 22.5);
-					setWindDirection(Directions[cardinal % 16]);
-					setVisibility(response.data.visibility);
-					const dateNow = new Date();
-					const time = dateNow.getHours() + ':' + dateNow.getMinutes();
-					setTime(time);
-					const date = dateNow.getDate() + '/' + (dateNow.getMonth() + 1) + '/' + dateNow.getFullYear();
-					setDate(date);
-					setSunrise(response.data.sys.sunrise);
-					setSunset(response.data.sys.sunset);
-				} catch (error) {
-					if (error.response.data.message === 'city not found') setValidCoordinates(false);
-					else setIsSiteWorking(false);
-				}
-				try {
-					setIsIconWorking(true);
-					setTimeout(async () => {
-						const iconUrl = iconURL + iconValue.current + iconExtension;
-						const iconFetched = await axios.get(iconUrl);
-						setIcon(iconFetched?.config?.url);
-						setIsLoading(false);
-					}, 1500);
-				} catch (error) {
-					setIsIconWorking(false);
-				}
-			} else setIsLoading(false);
+			try {
+				setIsIconWorking(true);
+				setTimeout(async () => {
+					const iconUrl = iconURL + iconValue.current + iconExtension;
+					const iconFetched = await axios.get(iconUrl);
+					setIcon(iconFetched?.config?.url);
+					setIsLoading(false);
+				}, 1500);
+			} catch (error) {
+				setIsIconWorking(false);
+			}
 		};
 		fetchData();
 		setInterval(() => {
 			fetchData();
 		}, 900000);
-	}, [cityName, language]);
+	}, [lat, lon, language]);
 
 	const changeCity = (newCity) => {
-		if (cityName !== newCity) {
-			setCityName(newCity);
+		if (fullCityName !== newCity.label) {
+			setFullCityName(newCity.label);
+			setCityName(newCity.value.name);
+			setLat(newCity.value.lat);
+			setLon(newCity.value.lon);
 			setIsLoading(true);
 		}
 	};
@@ -160,7 +143,7 @@ const Weather = () => {
 		else
 			toShow = (
 				<WeatherCard>
-					<CitySearchBar actualLanguage={language} changeCity={changeCity} />
+					<CitySearchBar changeCity={changeCity} />
 					{validCoordinates ? (
 						<>
 							<LogoApp src={logo} alt='' />
@@ -223,7 +206,9 @@ const Weather = () => {
 						onMouseEnter={() => setMouseOver(true)}
 						onMouseLeave={() => setMouseOver(false)}
 						onClick={() => {
-							navigate(`/social_network`, { state: { actualCity: cityName } });
+							navigate(`/social_network`, {
+								state: { actualCity: cityName, actualFullCity: fullCityName, savedLat: lat, savedLon: lon },
+							});
 						}}>
 						<SocialNetworkIcon mouseOver={mouseOver} regular={social_network} hover={social_network_hover} />
 					</SocialNetworkIconContainer>

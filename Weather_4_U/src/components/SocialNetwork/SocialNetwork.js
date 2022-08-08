@@ -20,7 +20,7 @@ const SocialNetwork = () => {
 	const { t } = useTranslation();
 	let navigate = useNavigate();
 	const { state } = useLocation();
-	const { actualCity } = state;
+	const { actualCity, actualFullCity, savedLat, savedLon } = state;
 	const [mouseOver, setMouseOver] = useState(false);
 	return (
 		<>
@@ -30,7 +30,9 @@ const SocialNetwork = () => {
 					onMouseEnter={() => setMouseOver(true)}
 					onMouseLeave={() => setMouseOver(false)}
 					onClick={() => {
-						navigate(`/`, { state: { actualCity: actualCity } });
+						navigate(`/`, {
+							state: { actualCity: actualCity, actualFullCity: actualFullCity, savedLat: savedLat, savedLon: savedLon },
+						});
 					}}>
 					<BackIcon mouseOver={mouseOver} regular={back_icon} hover={back_icon_hover} />
 					{t('words.back')}

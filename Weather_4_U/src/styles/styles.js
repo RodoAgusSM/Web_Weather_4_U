@@ -76,6 +76,7 @@ export const WeatherCard = styled.div`
 	background-color: ${Colors.lightGreen};
 	border-radius: 20px;
 	color: ${Colors.black};
+	word-wrap: break-word;
 	@media only screen and (max-width: 375px) {
 		width: ${mobileWidth};
 		height: ${mobileHeightSmallDisplay};
@@ -140,6 +141,10 @@ export const LocationNotFoundCode = styled.code`
 	display: flex;
 	justify-content: center;
 	text-align: center;
+	overflow-wrap: break-word;
+	-webkit-hyphens: auto;
+	-ms-hyphens: auto;
+	hyphens: auto;
 	@media only screen and (max-width: 375px) {
 		font-size: 11px;
 	}
@@ -253,8 +258,8 @@ export const DangerLogo = styled.img.attrs((props) => ({
 `;
 
 export const SearchBarContainer = styled.div`
-	display: flex;
 	height: 40px;
+	display: 'flex';
 `;
 
 export const SearchBar = styled.input`
@@ -290,8 +295,9 @@ export const SearchBar = styled.input`
 
 export const LanguagesContainer = styled.div`
 	display: flex;
-	justify-content: center;
-	margin-top: 18px;
+	left: 32%;
+	bottom: 3.5%;
+	position: absolute;
 `;
 
 export const LanguageButton = styled.span`

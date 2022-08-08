@@ -7,6 +7,8 @@ export const TranslationFr = {
 	},
 	words: {
 		writeCity: 'Écrivez une ville',
+		lookingForSuggestions: 'À la recherche de matchs',
+		noSuggestions: 'Pas de correspondance',
 		weatherIn: 'Météo actuelle à ',
 		feelsLike: 'Sensation thermique: ',
 		updatedAt: 'Mis à jour à ',
