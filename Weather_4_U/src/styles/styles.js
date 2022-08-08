@@ -4,13 +4,13 @@ import { Colors } from './colors';
 let desktopWidth = 500 + 'px';
 let desktopHeight = 577 + 'px';
 let mobileWidth = window.innerWidth * 0.85 + 'px';
-let mobileHeightSmallDisplay = window.innerHeight * 0.93 + 'px'; //Done
-let mobileHeightBigDisplay = window.innerHeight * 0.94 + 'px'; //Done
-let mobileHeight12and13ProMax = window.innerHeight * 0.778 + 'px'; //Done
-let mobileHeight12and13RegularAndPro = window.innerHeight * 0.875 + 'px'; //Done
-let mobileHeight11ProMax = window.innerHeight * 0.808 + 'px'; //Done
-let mobileHeight11ProAnd13Mini = window.innerHeight * 0.821 + 'px'; //Done
-let mobileHeight11Regular = window.innerHeight * 0.812 + 'px'; //Done
+let mobileHeightSmallDisplay = '508px'; //Done
+let mobileHeightBigDisplay = '580px'; //Done
+let mobileHeight12and13ProMax = '580px'; //Done
+let mobileHeight12and13RegularAndPro = '576px'; //No
+let mobileHeight11ProMax = '580px'; //Done
+let mobileHeight11ProAnd13Mini = '520px'; //Done
+let mobileHeight11Regular = '580px'; //Done
 
 export const GlobalStyle = createGlobalStyle`
   body {
@@ -142,6 +142,13 @@ export const LocationNotFoundCode = styled.code`
 	@media only screen and (min-width: 376px) and (max-width: 712px) {
 		font-size: 12px;
 	}
+	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+		font-size: 10px;
+	}
+	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
+		margin-top: -1px;
+		font-size: 11px;
+	}
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 `;
 
@@ -174,10 +181,13 @@ export const TitleApp = styled.div`
 
 export const Subtitle = styled.h2`
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-	font-size: 20px;
+	font-size: 19px;
 	margin-left: 5px;
 	@media (max-width: 768px) {
 		font-size: 16px;
+	}
+	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
+		font-size: 15px;
 	}
 `;
 
@@ -275,6 +285,9 @@ export const LanguagesContainer = styled.div`
 	display: flex;
 	justify-content: center;
 	margin-top: 18px;
+	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+		margin-top: 52px;
+	}
 `;
 
 export const LanguageButton = styled.span`
