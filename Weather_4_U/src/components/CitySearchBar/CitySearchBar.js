@@ -43,6 +43,7 @@ const CitySearchBar = ({ changeCity }) => {
 			borderBottom: `1px dotted ${Colors.wateryGreenToneDown}`,
 			color: state.isSelected ? 'green' : Colors.black,
 			backgroundColor: Colors.lightOrange,
+			fontSize: '14px',
 			padding: 15,
 			cursor: 'pointer',
 			'&:hover': {

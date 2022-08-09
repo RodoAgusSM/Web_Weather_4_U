@@ -7,9 +7,9 @@ export const TranslationEn = {
 	},
 	words: {
 		writeCity: 'Search city',
-		lookingForSuggestions: 'Looking for matches',
+		lookingForSuggestions: 'Looking for matches...',
 		noSuggestions: 'No matches',
-		weatherIn: 'Current weather in ',
+		weatherIn: 'Weather in ',
 		feelsLike: 'Feels like: ',
 		updatedAt: 'Updated at ',
 		date: 'Date ',

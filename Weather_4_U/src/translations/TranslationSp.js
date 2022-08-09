@@ -7,9 +7,9 @@ export const TranslationSp = {
 	},
 	words: {
 		writeCity: 'Buscar cuidad',
-		lookingForSuggestions: 'Buscando coincidencias',
+		lookingForSuggestions: 'Buscando coincidencias...',
 		noSuggestions: 'Sin coincidencias',
-		weatherIn: 'Clima actual en ',
+		weatherIn: 'Clima en ',
 		feelsLike: 'Sensación térmica: ',
 		updatedAt: 'Actualizado a las ',
 		date: 'Fecha ',
