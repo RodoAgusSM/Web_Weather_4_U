@@ -28,7 +28,7 @@ import { openWeatherMapURL, paramsURL, iconURL, Directions, iconExtension } from
 import CitySearchBar from '../CitySearchBar/CitySearchBar';
 import SunriseSunsetInfo from '../SunriseSunsetInfo/SunsetSunriseInfo';
 import Language from '../Language/Language';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import social_network from '../../images/social_network.png';
 import social_network_hover from '../../images/social_network_hover.png';
 import { useTranslation } from 'react-i18next';
@@ -36,15 +36,14 @@ import { useTranslation } from 'react-i18next';
 const Weather = () => {
 	const { t, i18n } = useTranslation();
 	let navigate = useNavigate();
-	const { state } = useLocation();
 	const [mouseOver, setMouseOver] = useState(false);
 	let [validCoordinates, setValidCoordinates] = useState(true);
 	let [siteWorking, setIsSiteWorking] = useState([]);
 	let [iconWorking, setIsIconWorking] = useState([]);
-	let [cityName, setCityName] = useState(state?.actualCity ?? 'Montevideo');
-	let [fullCityName, setFullCityName] = useState(state?.actualFullCity ?? 'Montevideo, Uruguay');
-	let [lat, setLat] = useState(state?.savedLat ?? -34.8335);
-	let [lon, setLon] = useState(state?.savedLon ?? -56.1674);
+	let [cityName, setCityName] = useState(localStorage.getItem('cityName') ?? 'Montevideo');
+	let [fullCityName, setFullCityName] = useState(localStorage.getItem('cityFullName') ?? 'Montevideo, Uruguay');
+	let [lat, setLat] = useState(localStorage.getItem('lat') ?? -34.8335);
+	let [lon, setLon] = useState(localStorage.getItem('lon') ?? -56.1674);
 	let [language, setLanguage] = useState(i18n.language);
 	let [countryNameShort, setCountryNameShort] = useState([]);
 	let [realFeel, setRealFeel] = useState([]);
@@ -112,6 +111,10 @@ const Weather = () => {
 
 	const changeCity = (newCity) => {
 		if (fullCityName !== newCity.label) {
+			localStorage.setItem('cityName', newCity.value.name);
+			localStorage.setItem('cityFullName', newCity.label);
+			localStorage.setItem('lat', newCity.value.lat);
+			localStorage.setItem('lon', newCity.value.lon);
 			setFullCityName(newCity.label);
 			setCityName(newCity.value.name);
 			setLat(newCity.value.lat);
@@ -206,9 +209,7 @@ const Weather = () => {
 						onMouseEnter={() => setMouseOver(true)}
 						onMouseLeave={() => setMouseOver(false)}
 						onClick={() => {
-							navigate(`/social_network`, {
-								state: { actualCity: cityName, actualFullCity: fullCityName, savedLat: lat, savedLon: lon },
-							});
+							navigate(`/social_network`);
 						}}>
 						<SocialNetworkIcon mouseOver={mouseOver} regular={social_network} hover={social_network_hover} />
 					</SocialNetworkIconContainer>

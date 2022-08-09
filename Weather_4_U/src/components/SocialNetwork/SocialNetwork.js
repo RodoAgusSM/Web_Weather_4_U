@@ -11,7 +11,7 @@ import {
 	BackContainer,
 	BackIcon,
 } from '../../styles/styles';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import back_icon from '../../images/back_icon.png';
 import back_icon_hover from '../../images/back_icon_hover.png';
 import { useTranslation } from 'react-i18next';
@@ -19,8 +19,6 @@ import { useTranslation } from 'react-i18next';
 const SocialNetwork = () => {
 	const { t } = useTranslation();
 	let navigate = useNavigate();
-	const { state } = useLocation();
-	const { actualCity, actualFullCity, savedLat, savedLon } = state;
 	const [mouseOver, setMouseOver] = useState(false);
 	return (
 		<>
@@ -30,9 +28,7 @@ const SocialNetwork = () => {
 					onMouseEnter={() => setMouseOver(true)}
 					onMouseLeave={() => setMouseOver(false)}
 					onClick={() => {
-						navigate(`/`, {
-							state: { actualCity: actualCity, actualFullCity: actualFullCity, savedLat: savedLat, savedLon: savedLon },
-						});
+						navigate(`/`);
 					}}>
 					<BackIcon mouseOver={mouseOver} regular={back_icon} hover={back_icon_hover} />
 					{t('words.back')}
