@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SearchBarContainer, SearchBar } from '../../styles/styles';
+import { SearchBarContainer, CleanSearchBarContainer, CleanSearchBarButton } from '../../styles/styles';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { Colors } from '../../styles/colors';
@@ -8,8 +8,9 @@ import AsyncSelect from 'react-select/async';
 
 const CitySearchBar = ({ changeCity }) => {
 	const { t } = useTranslation();
+	let [city, setCity] = useState(localStorage.getItem('cityFullName') ?? '');
 
-	useEffect(() => {}, []);
+	useEffect(() => {}, [city]);
 
 	const fetchSuggestions = async (name) => {
 		try {
@@ -37,6 +38,17 @@ const CitySearchBar = ({ changeCity }) => {
 		return suggestions;
 	};
 
+	const handleChangeCity = (cityItem) => {
+		setCity(cityItem.label);
+		changeCity(cityItem);
+	};
+
+	const handleInputChange = (inputValue, action) => {
+		if (action.action !== 'input-blur' && action.action !== 'menu-close') {
+			setCity(inputValue);
+		}
+	};
+
 	const customStyles = {
 		option: (provided, state) => ({
 			...provided,
@@ -53,6 +65,7 @@ const CitySearchBar = ({ changeCity }) => {
 		}),
 		control: () => ({
 			display: 'flex',
+			width: '89%',
 			backgroundColor: Colors.lightOrange,
 			borderRadius: '8px',
 			border: `2px solid ${Colors.lightWhite}`,
@@ -87,12 +100,18 @@ const CitySearchBar = ({ changeCity }) => {
 			<AsyncSelect
 				placeholder={t('words.writeCity')}
 				loadOptions={fetchSuggestions}
-				onChange={changeCity}
+				onChange={handleChangeCity}
+				onInputChange={handleInputChange}
+				defaultInputValue={city}
+				inputValue={city}
 				loadingMessage={({ inputValue }) => (!inputValue ? null : t('words.lookingForSuggestions'))}
 				noOptionsMessage={({ inputValue }) => (!inputValue ? null : t('words.noSuggestions'))}
 				styles={customStyles}
 				filterOptions={false}
 			/>
+			<CleanSearchBarContainer onClick={() => setCity('')}>
+				<CleanSearchBarButton onClick={() => setCity('')}>X</CleanSearchBarButton>
+			</CleanSearchBarContainer>
 		</SearchBarContainer>
 	);
 };

@@ -271,38 +271,52 @@ export const DangerLogo = styled.img.attrs((props) => ({
 
 export const SearchBarContainer = styled.div`
 	height: 40px;
-	display: 'flex';
 `;
 
-export const SearchBar = styled.input`
+export const CleanSearchBarContainer = styled.div`
+	display: flex;
+	position: absolute;
+	width: 7.5%;
+	height: 6.2%;
+	top: 2.2%;
+	left: 89.5%;
+	border-radius: 10px;
+	border: 1px solid ${Colors.lightWhite};
 	background-color: ${Colors.lightOrange};
-	border: 0.5px solid ${Colors.lightWhite};
+	color: Colors.black;
+	justify-content: center;
 	align-items: center;
-	border-radius: 8px;
-	padding-left: 5px;
-	padding-right: 5px;
-	margin-left: 5px;
-	margin-right: 5px;
-	font-size: 15px;
-	width: 100%;
+	cursor: pointer;
 	&:hover {
 		background-color: ${Colors.lightWhite};
+		color: ${Colors.wateryGreenToneDown};
 	}
-	::placeholder {
-		/* Chrome, Firefox, Opera, Safari 10.1+ */
-		color: ${Colors.shadowGrey};
-		opacity: 1; /* Firefox */
+	@media only screen and (max-width: 375px) {
+		left: 89%;
 	}
+	@media only screen and (min-width: 376px) and (max-width: 712px) {
+		left: 89%;
+	}
+	@media only screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
+		left: 89%;
+	}
+	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
+		left: 89%;
+	}
+	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
+		left: 89%;
+	}
+	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+		left: 89%;
+	}
+	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
+		left: 89%;
+	}
+`;
 
-	:-ms-input-placeholder {
-		/* Internet Explorer 10-11 */
-		color: ${Colors.shadowGrey};
-	}
-
-	::-ms-input-placeholder {
-		/* Microsoft Edge */
-		color: ${Colors.shadowGrey};
-	}
+export const CleanSearchBarButton = styled.span`
+	font-size: 20px;
+	font-weight: bold;
 `;
 
 export const LanguagesContainer = styled.div`
