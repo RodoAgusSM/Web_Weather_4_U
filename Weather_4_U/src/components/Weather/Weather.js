@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import logo from '../../images/sun_half.svg';
 import locationNotFound from '../../images/location_not_found_icon.png';
 import loading from '../../images/loading.gif';
@@ -66,39 +65,42 @@ const Weather = () => {
 		const fetchData = async () => {
 			try {
 				const fullUrl = openWeatherMapURL + '?lat=' + lat + '&lon=' + lon + '&lang=' + language + paramsURL;
-				const response = await axios.get(fullUrl);
-				setIsSiteWorking(true);
-				setCountryNameShort(response.data.sys.country);
-				setRealFeel(Math.trunc(response.data.main.temp));
-				iconValue.current = response.data.weather[0].icon;
-				setDescription(response.data.weather[0].description);
-				setFeelsLike(Math.trunc(response.data.main.feels_like));
-				setHumidity(response.data.main.humidity);
-				setPressure(response.data.main.pressure);
-				setWindSpeed(parseInt(Math.trunc(response.data.wind.speed) * 3.6));
-				const degrees = parseInt(response.data.wind.deg);
-				const cardinal = parseInt((degrees + 11.25) / 22.5);
-				setWindDirection(Directions[cardinal % 16]);
-				setVisibility(response.data.visibility);
-				const dateNow = new Date();
-				const time = dateNow.getHours() + ':' + dateNow.getMinutes();
-				setTime(time);
-				const date = dateNow.getDate() + '/' + (dateNow.getMonth() + 1) + '/' + dateNow.getFullYear();
-				setDate(date);
-				setSunrise(response.data.sys.sunrise);
-				setSunset(response.data.sys.sunset);
+				const response = await fetch(fullUrl);
+				if (response.ok) {
+					const data = await response.json();
+					setIsSiteWorking(true);
+					setCountryNameShort(data.sys.country);
+					setRealFeel(Math.trunc(data.main.temp));
+					iconValue.current = data.weather[0].icon;
+					setDescription(data.weather[0].description);
+					setFeelsLike(Math.trunc(data.main.feels_like));
+					setHumidity(data.main.humidity);
+					setPressure(data.main.pressure);
+					setWindSpeed(parseInt(Math.trunc(data.wind.speed) * 3.6));
+					const degrees = parseInt(data.wind.deg);
+					const cardinal = parseInt((degrees + 11.25) / 22.5);
+					setWindDirection(Directions[cardinal % 16]);
+					setVisibility(data.visibility);
+					const dateNow = new Date();
+					const time = dateNow.getHours() + ':' + dateNow.getMinutes();
+					setTime(time);
+					const date = dateNow.getDate() + '/' + (dateNow.getMonth() + 1) + '/' + dateNow.getFullYear();
+					setDate(date);
+					setSunrise(data.sys.sunrise);
+					setSunset(data.sys.sunset);
+				} else console.log(response.status, response.text);
 			} catch (error) {
 				if (error.response.data.message === 'city not found') setValidCoordinates(false);
 				else setIsSiteWorking(false);
 			}
 			try {
 				setIsIconWorking(true);
-				setTimeout(async () => {
-					const iconUrl = iconURL + iconValue.current + iconExtension;
-					const iconFetched = await axios.get(iconUrl);
-					setIcon(iconFetched?.config?.url);
+				const iconUrl = iconURL + iconValue.current + iconExtension;
+				const response = await fetch(iconUrl);
+				if (response.ok) {
+					setIcon(response?.url);
 					setIsLoading(false);
-				}, 1500);
+				} else console.log(response.status, response.text);
 			} catch (error) {
 				setIsIconWorking(false);
 			}

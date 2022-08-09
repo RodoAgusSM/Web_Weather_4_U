@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SearchBarContainer, CleanSearchBarContainer, CleanSearchBarButton } from '../../styles/styles';
 import { useTranslation } from 'react-i18next';
-import axios from 'axios';
 import { Colors } from '../../styles/colors';
 import { openStreetMapURL } from '../../config/config';
 import AsyncSelect from 'react-select/async';
@@ -15,8 +14,11 @@ const CitySearchBar = ({ changeCity }) => {
 	const fetchSuggestions = async (name) => {
 		try {
 			const fullUrl = openStreetMapURL + '&city=' + name;
-			const response = await axios.get(fullUrl);
-			return handleSuggestions(response.data);
+			const response = await fetch(fullUrl);
+			if (response.ok) {
+				const data = await response.json();
+				return handleSuggestions(data);
+			} else console.log(response.status, response.text);
 		} catch (error) {
 			console.log(error);
 		}
