@@ -4,13 +4,13 @@ import { Colors } from './colors';
 let desktopWidth = 500 + 'px';
 let desktopHeight = 577 + 'px';
 let mobileWidth = window.innerWidth * 0.85 + 'px';
-let mobileHeightSmallDisplay = '508px'; //This
-let mobileHeightBigDisplay = '580px'; //This
-let mobileHeight12and13ProMax = '580px'; //This
+let mobileHeightSmallDisplay = '508px'; //Done
+let mobileHeightBigDisplay = '580px'; //Done
+let mobileHeight12and13ProMax = '580px'; //Done
 let mobileHeight12and13RegularAndPro = '576px'; //Done
-let mobileHeight11ProMax = '580px'; //This
-let mobileHeight11ProAnd13Mini = '520px'; //This
-let mobileHeight11Regular = '580px'; //This
+let mobileHeight11ProMax = '580px'; //Done
+let mobileHeight11ProAnd13Mini = '520px'; //Done
+let mobileHeight11Regular = '580px'; //Done
 
 export const GlobalStyle = createGlobalStyle`
   body {
@@ -292,7 +292,9 @@ export const CleanSearchBarContainer = styled.div`
 		color: ${Colors.wateryGreenToneDown};
 	}
 	@media only screen and (max-width: 375px) {
-		left: 89%;
+		left: 88.6%;
+		top: 2.4%;
+		height: 7.1%;
 	}
 	@media only screen and (min-width: 376px) and (max-width: 712px) {
 		left: 89%;
@@ -308,6 +310,8 @@ export const CleanSearchBarContainer = styled.div`
 	}
 	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
 		left: 89%;
+		top: 2.4%;
+		height: 6.9%;
 	}
 	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
 		left: 89%;
