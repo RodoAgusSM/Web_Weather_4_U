@@ -22,6 +22,7 @@ import {
 	Subtitle,
 	SocialNetworkIconContainer,
 	SocialNetworkIcon,
+	MoreInfoButton,
 } from '../../styles/styles';
 import { openWeatherMapURL, paramsURL, iconURL, Directions, iconExtension } from '../../config/config';
 import CitySearchBar from '../CitySearchBar/CitySearchBar';
@@ -31,6 +32,7 @@ import { useNavigate } from 'react-router-dom';
 import social_network from '../../images/social_network.png';
 import social_network_hover from '../../images/social_network_hover.png';
 import { useTranslation } from 'react-i18next';
+import AirPollution from '../../Class/AirPollution';
 
 const Weather = () => {
 	const { t, i18n } = useTranslation();
@@ -56,6 +58,7 @@ const Weather = () => {
 	let [windSpeed, setWindSpeed] = useState([]);
 	let [windDirection, setWindDirection] = useState([]);
 	let [visibility, setVisibility] = useState([]);
+	let [airPollution, setAirPollution] = useState([]);
 	let [sunrise, setSunrise] = useState([]);
 	let [sunset, setSunset] = useState([]);
 	let [isLoading, setIsLoading] = useState(true);
@@ -64,7 +67,7 @@ const Weather = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const fullUrl = openWeatherMapURL + '?lat=' + lat + '&lon=' + lon + '&lang=' + language + paramsURL;
+				const fullUrl = openWeatherMapURL + 'weather' + '?lat=' + lat + '&lon=' + lon + '&lang=' + language + paramsURL;
 				const response = await fetch(fullUrl);
 				if (response.ok) {
 					const data = await response.json();
@@ -82,7 +85,9 @@ const Weather = () => {
 					setWindDirection(Directions[cardinal % 16]);
 					setVisibility(data.visibility);
 					const dateNow = new Date();
-					const time = dateNow.getHours() + ':' + dateNow.getMinutes();
+					const minutesNow = dateNow.getMinutes();
+					const minutes = minutesNow > 10 ? minutesNow : '0' + minutesNow;
+					const time = dateNow.getHours() + ':' + minutes;
 					setTime(time);
 					const date = dateNow.getDate() + '/' + (dateNow.getMonth() + 1) + '/' + dateNow.getFullYear();
 					setDate(date);
@@ -99,16 +104,22 @@ const Weather = () => {
 				const response = await fetch(iconUrl);
 				if (response.ok) {
 					setIcon(response?.url);
-					setIsLoading(false);
 				} else console.log(response.status, response.text);
 			} catch (error) {
 				setIsIconWorking(false);
 			}
+			try {
+				const fullUrl =
+					openWeatherMapURL + 'air_pollution' + '?lat=' + lat + '&lon=' + lon + '&lang=' + language + paramsURL;
+				const response = await fetch(fullUrl);
+				if (response.ok) {
+					const data = await response.json();
+					setAirPollution(new AirPollution(data));
+				} else console.log(response.status, response.text);
+				setIsLoading(false);
+			} catch (error) {}
 		};
 		fetchData();
-		setInterval(() => {
-			fetchData();
-		}, 900000);
 	}, [lat, lon, language]);
 
 	const changeCity = (newCity) => {
@@ -167,13 +178,7 @@ const Weather = () => {
 								<BreakLine />
 								<Code>{description}</Code>
 								<BreakLine />
-								<Code>
-									{t('words.updatedAt')} {time}
-								</Code>
-								<BreakLine />
-								<Code>
-									{t('words.date')} {date}
-								</Code>
+								<SunriseSunsetInfo lat={lat} lon={lon} sunrise={sunrise} sunset={sunset} />
 							</WeatherMain>
 							<WeatherData>
 								<Code>
@@ -192,8 +197,25 @@ const Weather = () => {
 									{t('words.visibility')} {visibility} m
 								</Code>
 								<BreakLine />
+								<Code>
+									{t('words.airPollution.aqi')}
+									{Object.values(t('words.airPollution.status', { returnObjects: true }))[airPollution.AQI]}{' '}
+									<MoreInfoButton
+										onClick={() => {
+											navigate(`/air_pollution`);
+										}}>
+										{t('words.airPollution.moreInfo')}
+									</MoreInfoButton>
+								</Code>
 								<BreakLine />
-								<SunriseSunsetInfo lat={lat} lon={lon} sunrise={sunrise} sunset={sunset} />
+								<BreakLine />
+								<Code>
+									{t('words.updatedAt')} {time}
+								</Code>
+								<BreakLine />
+								<Code>
+									{t('words.date')} {date}
+								</Code>
 							</WeatherData>
 						</>
 					) : (

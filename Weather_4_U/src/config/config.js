@@ -1,4 +1,4 @@
-export const openWeatherMapURL = 'https://api.openweathermap.org/data/2.5/weather';
+export const openWeatherMapURL = 'https://api.openweathermap.org/data/2.5/';
 export const paramsURL = '&units=metric&appid=' + process.env.REACT_APP_OPENWEATHERMAP_API_KEY;
 export const openStreetMapURL = 'https://nominatim.openstreetmap.org/search.php?format=jsonv2';
 export const iconURL = 'https://openweathermap.org/img/wn/';

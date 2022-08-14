@@ -33,7 +33,7 @@ export const WeatherIcon = styled.img.attrs((props) => ({
 }))`
 	display: inline-block;
 	margin-right: auto;
-	margin-left: 58px;
+	margin-left: 40px;
 	margin-top: 10px;
 	border-color: ${Colors.lightWhite};
 	background-color: ${Colors.lightOrange};
@@ -227,7 +227,7 @@ export const WeatherMain = styled.div`
 `;
 
 export const WeatherMainTemperature = styled.code`
-	margin-left: 10px;
+	margin-left: -5px;
 	font-size: 23px;
 	font-weight: bold;
 	@media only screen and (min-width: 376px) and (max-width: 712px) {
@@ -241,7 +241,7 @@ export const WeatherMainTemperature = styled.code`
 export const BreakLine = styled.br``;
 
 export const Code = styled.code`
-	margin-left: 10px;
+	margin-left: -5px;
 	@media only screen and (max-width: 375px) {
 		font-size: 11px;
 	}
@@ -483,6 +483,28 @@ export const SocialNetworkItem = styled.a`
 	text-decoration: underline;
 	cursor: pointer;
 	color: ${Colors.darkerGreen};
+	&:hover {
+		color: ${Colors.yellowLemon};
+	}
+`;
+
+export const MoreInfoButton = styled.span`
+	cursor: pointer;
+	text-decoration: underline;
+	font-size: 16px;
+	@media only screen and (max-width: 375px) {
+		font-size: 11px;
+	}
+	@media only screen and (min-width: 376px) and (max-width: 712px) {
+		font-size: 12px;
+	}
+	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+		font-size: 10px;
+	}
+	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
+		font-size: 11px;
+	}
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 	&:hover {
 		color: ${Colors.yellowLemon};
 	}

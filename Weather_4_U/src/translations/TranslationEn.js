@@ -17,6 +17,11 @@ export const TranslationEn = {
 		pressure: 'Pression: ',
 		wind: 'Wind: ',
 		visibility: 'Visibility: ',
+		airPollution: {
+			aqi: 'Air quality: ',
+			status: { 1: 'Good', 2: 'Fair', 3: 'Moderate', 4: 'Poor', 5: 'Very Poor' },
+			moreInfo: '+Info',
+		},
 		sunrise: 'Sunrise at: ',
 		sunset: 'Sunset at: ',
 		locationNotFound: {
