@@ -1,7 +1,7 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import { Colors } from './colors';
 
-let desktopWidth = 500 + 'px';
+let desktopWidth = 540 + 'px';
 let desktopHeight = 577 + 'px';
 let mobileWidth = window.innerWidth * 0.85 + 'px';
 let mobileHeightSmallDisplay = '508px'; //Done
@@ -218,7 +218,7 @@ export const Subtitle = styled.h2`
 export const WeatherMain = styled.div`
 	margin-top: -112px;
 	margin-left: 175px;
-	font-size: 18px;
+	font-size: 16px;
 	cursor: default;
 	@media (max-width: 768px) {
 		margin-top: -118px;
@@ -254,7 +254,7 @@ export const Code = styled.code`
 export const WeatherData = styled.div`
 	margin-top: 15px;
 	margin-left: 175px;
-	font-size: 17px;
+	font-size: 16px;
 	cursor: default;
 	@media (max-width: 768px) {
 		margin-left: 132px;
@@ -422,7 +422,7 @@ export const BackContainer = styled.span`
 	@media only screen and (min-width: 376px) and (max-width: 712px) {
 		margin-top: 10px;
 		margin-left: 5px;
-	}
+	}c
 `;
 
 export const BackIcon = styled.image`

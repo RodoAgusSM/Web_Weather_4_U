@@ -19,7 +19,7 @@ export const TranslationFr = {
 		visibility: 'Visibilité: ',
 		airPollution: {
 			aqi: 'Qualidade do ar: ',
-			status: { 1: 'Bonne', 2: 'Équitable', 3: 'Modérée', 4: 'Pauvre', 5: 'Très pauvre' },
+			status: { 1: 'Bonne', 2: 'Acceptable', 3: 'Modérée', 4: 'Pauvre', 5: 'Très pauvre' },
 			moreInfo: '+Info',
 		},
 		sunrise: 'Lever du soleil à: ',

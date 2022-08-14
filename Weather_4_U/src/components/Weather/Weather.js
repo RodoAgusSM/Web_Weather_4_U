@@ -202,7 +202,7 @@ const Weather = () => {
 									{Object.values(t('words.airPollution.status', { returnObjects: true }))[airPollution.AQI]}{' '}
 									<MoreInfoButton
 										onClick={() => {
-											navigate(`/air_pollution`);
+											navigate(`/air_pollution_info`, { state: { airPollution } });
 										}}>
 										{t('words.airPollution.moreInfo')}
 									</MoreInfoButton>
