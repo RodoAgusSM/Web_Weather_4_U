@@ -36,6 +36,7 @@ const AirPollutionInfo = () => {
 	};
 
 	const labelNitrogenDioxide = (value) => {
+		const label = t('words.airPollution.elements.nitrogenDioxide');
 		if (value >= 0 && value < 49)
 			return (
 				<div
@@ -44,7 +45,7 @@ const AirPollutionInfo = () => {
 						display: 'flex',
 						alignItems: 'center',
 					}}>
-					Doxido de Nitrógeno
+					{label}
 					<span style={{ width: 30, height: 30, background: '#79BC6A', borderRadius: 25, marginLeft: 5 }} />
 				</div>
 			);
@@ -56,7 +57,7 @@ const AirPollutionInfo = () => {
 						display: 'flex',
 						alignItems: 'center',
 					}}>
-					{value}
+					{label}
 					<span style={{ width: 30, height: 30, background: '#BBCf4C', borderRadius: 25, marginLeft: 5 }} />
 				</div>
 			);
@@ -68,7 +69,7 @@ const AirPollutionInfo = () => {
 						display: 'flex',
 						alignItems: 'center',
 					}}>
-					{value}
+					{label}
 					<span style={{ width: 30, height: 30, background: '#EEC209', borderRadius: 25, marginLeft: 5 }} />
 				</div>
 			);
@@ -80,7 +81,7 @@ const AirPollutionInfo = () => {
 						display: 'flex',
 						alignItems: 'center',
 					}}>
-					{value}
+					{label}
 					<span style={{ width: 30, height: 30, background: '#F39307', borderRadius: 25, marginLeft: 5 }} />
 				</div>
 			);
@@ -92,7 +93,7 @@ const AirPollutionInfo = () => {
 						display: 'flex',
 						alignItems: 'center',
 					}}>
-					{value}
+					{label}
 					<span style={{ width: 30, height: 30, background: '#E8406F', borderRadius: 25, marginLeft: 5 }} />
 				</div>
 			);
