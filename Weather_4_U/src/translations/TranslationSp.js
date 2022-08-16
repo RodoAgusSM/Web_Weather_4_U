@@ -29,7 +29,7 @@ export const TranslationSp = {
 				ozone: 'Ozono',
 				sulphurDioxide: 'Dióxido de azufre',
 				fineParticlesMatter: 'Partículas finas de materia',
-				coarseParticulateMatter: 'Partículas gruesas',
+				coarseParticulateMatter: 'Partículas gruesas de materia',
 				ammonia: 'Amoníaco',
 			},
 		},

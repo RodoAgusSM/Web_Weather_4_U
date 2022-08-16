@@ -509,3 +509,17 @@ export const MoreInfoButton = styled.span`
 		color: ${Colors.yellowLemon};
 	}
 `;
+
+export const AirPollutionItemContainer = styled.div`
+	margin-top: 40px;
+	display: flex;
+	align-items: center;
+`;
+
+export const AirPollutionItemSpan = styled.span`
+	width: 30px;
+	height: 30px;
+	background-color: ${(props) => props.color};
+	border-radius: 25px;
+	margin-left: 10px;
+`;
