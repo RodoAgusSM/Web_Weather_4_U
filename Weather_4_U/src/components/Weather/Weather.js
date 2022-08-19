@@ -32,7 +32,7 @@ import { useNavigate } from 'react-router-dom';
 import social_network from '../../images/social_network.png';
 import social_network_hover from '../../images/social_network_hover.png';
 import { useTranslation } from 'react-i18next';
-import AirPollution from '../../Class/AirPollution';
+import AirPollution from '../../class/AirPollution';
 
 const Weather = () => {
 	const { t, i18n } = useTranslation();

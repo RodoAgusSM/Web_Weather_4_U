@@ -4,9 +4,9 @@ import { Colors } from './colors';
 let desktopWidth = 540 + 'px';
 let desktopHeight = 577 + 'px';
 let mobileWidth = window.innerWidth * 0.85 + 'px';
-let mobileHeightSmallDisplay = '508px'; //To Do
-let mobileHeightBigDisplay = '580px'; //To Do
-let mobileHeight12and13ProMax = '580px'; //To Do
+let mobileHeightSmallDisplay = '508px'; //Done
+let mobileHeightBigDisplay = '580px'; //Done
+let mobileHeight12and13ProMax = '580px'; //Done
 let mobileHeight12and13RegularAndPro = '576px'; //To Do
 let mobileHeight11ProMax = '580px'; //Done
 let mobileHeight11ProAnd13Mini = '520px'; //Done
@@ -45,24 +45,29 @@ export const WeatherIcon = styled.img.attrs((props) => ({
 	}
 	@media only screen and (max-width: 375px) {
 		margin-top: 0px;
-		margin-left: 16px;
+		margin-left: 1px;
+		width: 84px;
 	}
 	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		margin-top: 6px;
-		margin-left: 16px;
+		margin-top: 4px;
+		margin-left: 4px;
 	}
 	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
 		margin-top: 2px;
-		margin-left: 5px;
+		margin-left: 2px;
+	}
+	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
+		width: 90px;
+		margin-left: 0px;
 	}
 	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
 		margin-top: 2px;
 		margin-left: -3px;
-		width: 92px;
+		width: 88px;
 	}
 	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
 		margin-top: 6px;
-		margin-left: 8px;
+		margin-left: 2px;
 	}
 	width: 102px;
 `;
@@ -233,16 +238,32 @@ export const WeatherMain = styled.div`
 		margin-top: -118px;
 		margin-left: 132px;
 	}
+	@media only screen and (max-width: 375px) {
+		margin-top: -102px;
+		margin-left: 103px;
+	}
+	@media only screen and (min-width: 376px) and (max-width: 712px) {
+		margin-top: -112px;
+		margin-left: 126px;
+	}
+	@media only screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
+		margin-top: -112px;
+	}
+	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
+		margin-top: -106px;
+		margin-left: 110px;
+	}
 	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
-		margin-left: 130px;
+		margin-top: -112px;
+		margin-left: 125px;
 	}
 	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		margin-top: -105px;
-		margin-left: 132px;
+		margin-top: -104px;
+		margin-left: 106px;
 	}
 	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
-		margin-top: -110px;
-		margin-left: 132px;
+		margin-top: -112px;
+		margin-left: 125px;
 	}
 `;
 
@@ -250,21 +271,6 @@ export const WeatherMainTemperature = styled.code`
 	margin-left: -5px;
 	font-size: 23px;
 	font-weight: bold;
-	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		margin-left: 16px;
-	}
-	@media only screen and (max-width: 375px) {
-		font-size: 21px;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
-		margin-left: -6px;
-	}
-	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		margin-left: -30px;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
-		margin-left: -4px;
-	}
 `;
 
 export const BreakLine = styled.br``;
@@ -275,13 +281,12 @@ export const Code = styled.code`
 		font-size: 11px;
 	}
 	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		font-size: 12px;
+		font-size: 11px;
 	}
 	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
 		font-size: 11px;
 	}
 	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		margin-left: -30px;
 		font-size: 11px;
 	}
 	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
@@ -298,8 +303,17 @@ export const WeatherData = styled.div`
 	@media (max-width: 768px) {
 		margin-left: 132px;
 	}
+	@media only screen and (max-width: 375px) {
+		margin-left: 103px;
+	}
+	@media only screen and (min-width: 376px) and (max-width: 712px) {
+		margin-left: 127px;
+	}
+	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
+		margin-left: 110px;
+	}
 	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		margin-left: 132px;
+		margin-left: 106px;
 	}
 `;
 
@@ -537,8 +551,11 @@ export const MoreInfoButton = styled.span`
 	@media only screen and (max-width: 375px) {
 		font-size: 11px;
 	}
+	@media only screen and (max-width: 375px) {
+		font-size: 11px;
+	}
 	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		font-size: 12px;
+		font-size: 11px;
 	}
 	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
 		font-size: 10px;
@@ -565,8 +582,17 @@ export const AirPollutionItemLegendIcon = styled.span`
 export const AirPollutionLegendText = styled.code`
 	margin-left: 4px;
 	margin-right: 12px;
+	@media only screen and (max-width: 375px) {
+		font-size: 10px;
+	}
+	@media only screen and (min-width: 376px) and (max-width: 712px) {
+		font-size: 11px;
+	}
 	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
 		font-size: 10px;
+	}
+	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
+		font-size: 11px;
 	}
 	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
 		font-size: 10px;
@@ -580,7 +606,16 @@ export const AirPollutionItemContainer = styled.div`
 	margin-top: 40px;
 	display: flex;
 	align-items: center;
+	@media only screen and (max-width: 375px) {
+		font-size: 13px;
+	}
+	@media only screen and (min-width: 376px) and (max-width: 712px) {
+		font-size: 13px;
+	}
 	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
+		font-size: 13px;
+	}
+	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
 		font-size: 13px;
 	}
 	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
@@ -597,7 +632,19 @@ export const AirPollutionItemSpan = styled.span`
 	background-color: ${(props) => props.color};
 	border-radius: 25px;
 	margin-left: 10px;
+	@media only screen and (max-width: 375px) {
+		width: 25px;
+		height: 25px;
+	}
+	@media only screen and (min-width: 376px) and (max-width: 712px) {
+		width: 25px;
+		height: 25px;
+	}
 	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
+		width: 25px;
+		height: 25px;
+	}
+	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
 		width: 25px;
 		height: 25px;
 	}
