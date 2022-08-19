@@ -4,7 +4,8 @@ import {
 	WeatherCard,
 	BackContainer,
 	BackIcon,
-	BreakLine,
+	AirPollutionItemLegendIcon,
+	AirPollutionLegendText,
 	AirPollutionItemContainer,
 	AirPollutionItemSpan,
 } from '../../styles/styles';
@@ -213,27 +214,27 @@ const AirPollutionInfo = () => {
 					{t('words.back')}
 				</BackContainer>
 				<div
-					style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 35, marginBottom: 65 }}>
-					<span style={{ width: 30, height: 30, background: '#79BC6A', borderRadius: 25 }} />
-					<code style={{ marginLeft: 3, marginRight: 12 }}>
+					style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 40, marginBottom: 65 }}>
+					<AirPollutionItemLegendIcon color={'#79BC6A'} />
+					<AirPollutionLegendText>
 						{Object.values(t('words.airPollution.status', { returnObjects: true }))[0]}
-					</code>
-					<span style={{ width: 30, height: 30, background: '#BBCf4C', borderRadius: 25 }} />
-					<code style={{ marginLeft: 3, marginRight: 12 }}>
+					</AirPollutionLegendText>
+					<AirPollutionItemLegendIcon color={'#BBCf4C'} />
+					<AirPollutionLegendText>
 						{Object.values(t('words.airPollution.status', { returnObjects: true }))[1]}
-					</code>
-					<span style={{ width: 30, height: 30, background: '#EEC209', borderRadius: 25 }} />
-					<code style={{ marginLeft: 3, marginRight: 12 }}>
+					</AirPollutionLegendText>
+					<AirPollutionItemLegendIcon color={'#EEC209'} />
+					<AirPollutionLegendText>
 						{Object.values(t('words.airPollution.status', { returnObjects: true }))[2]}
-					</code>
-					<span style={{ width: 30, height: 30, background: '#F39307', borderRadius: 25 }} />
-					<code style={{ marginLeft: 3, marginRight: 12 }}>
+					</AirPollutionLegendText>
+					<AirPollutionItemLegendIcon color={'#F39307'} />
+					<AirPollutionLegendText>
 						{Object.values(t('words.airPollution.status', { returnObjects: true }))[3]}
-					</code>
-					<span style={{ width: 30, height: 30, background: '#E8406F', borderRadius: 25 }} />
-					<code style={{ marginLeft: 3, marginRight: 12 }}>
+					</AirPollutionLegendText>
+					<AirPollutionItemLegendIcon color={'#E8406F'} />
+					<AirPollutionLegendText>
 						{Object.values(t('words.airPollution.status', { returnObjects: true }))[4]}
-					</code>
+					</AirPollutionLegendText>
 				</div>
 				<div
 					style={{
