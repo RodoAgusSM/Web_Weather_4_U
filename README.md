@@ -1,49 +1,70 @@
-# <u> Weather4U </u>
+# Getting Started with Create React App
 
-###  <b> Web version / Versión web. </b>
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-<img src='./Weather_4_U/src/demo_images/weather_web.gif' width='550' height='550'>
+## Available Scripts
 
-<br>
+In the project directory, you can run:
 
-###  <b> Mobile version / Versión móvil. </b>
+### `npm start`
 
-<img src='./Weather_4_U/src/demo_images/weather_mobile.gif' width='350' height='650'>
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-## <u> Guide in english </u>
-Application made in React JS to view the actual weather of any city of the world. Fully responsive for mobile devices.
+The page will reload if you make edits.\
+You will also see any lint errors in the console.
 
-### <u> Installation </u>
-1. Clone the project or download as a .zip
-2. Inside the project type "yarn install" to install the dependencies
-3. For running the proyect type "yarn start"
-4. Enjoy watching the weather of any city of the world :)
+### `npm test`
 
-#### <u> Characteristics </u>
-The application updates itself every 15 minutes.<br>
-To update before 15 minutes, refresh the web browser.<br>
-For the loading times, a spinner is shown indicating the user that the application is loading.<br>
-You can check the weather for any city, by searching on the top bar.
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-##### <u><b> Licence </b> </u>
-Made entirely by Rodolfo Agustín Silva Messano, Software Engineer from Montevideo (Uruguay). <br>
-All rights reserved.
+### `npm run build`
 
-## <u> Guia en español </u>
-Aplicación hecha en React JS para ver el clima de cualquier cuidad del mundo. Hecha responsive para dispositivos móviles.
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-### <u> Instalación </u>
-1. Clonar el proyecto o descargarlo como un .zip
-2. Dentro del proyecto en la consola de comandos, escribir "yarn install" para instalar las dependencias
-3. Para ejecutar el proyecto, escribir en la consola de comandos "yarn start"
-4. Disfrute viendo el clima de cualquier cuidad del mundo :)
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-#### <u> Catacterísticas </u>
-La aplicación se actualiza sola cada 15 minutos.<br>
-Para actualizarla antes de los 15 minutos, refrescar el navegador web.<br>
-Para los tiempos de carga, se muestra un spinner indicando al usuario que la aplicación esta cargando.<br>
-Puedes buscar el clima de cualquier cuidad en la barra de búsqueda.
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-##### <u><b> Licencia </b></u>
-Hecha en su totalidad por Rodolfo Agustín Silva Messano, Ingeniero en Sistemas de Montevideo (Uruguay). <br>
-Todos los derechos reservados.
+### `npm run eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

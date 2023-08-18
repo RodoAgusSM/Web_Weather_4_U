@@ -1,0 +1,4 @@
+{
+  "*.{css,scss,sass}": ["yarn prettier"],
+  "*.{js,jsx,ts, tsx}": ["yarn prettier", "yarn eslint", "yarn test"]
+}
