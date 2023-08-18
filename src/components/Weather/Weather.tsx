@@ -39,6 +39,7 @@ import { convertToInterface } from 'utils/interfaceWrapper';
 const Weather = () => {
   const { t, i18n } = useTranslation();
   let navigate = useNavigate();
+  const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useDimensions();
   const [mouseOver, setMouseOver] = useState<boolean>(false);
   let [validCoordinates, setValidCoordinates] = useState<boolean>(true);
   let [siteWorking, setIsSiteWorking] = useState<boolean>(true);
@@ -67,8 +68,6 @@ const Weather = () => {
   let [sunset, setSunset] = useState<number>();
   let [isLoading, setIsLoading] = useState<boolean>(true);
   let iconValue = useRef(null);
-
-  const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useDimensions();
 
   useEffect(() => {
     const fetchData = async () => {

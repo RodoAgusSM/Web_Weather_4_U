@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import useDimensions from 'hooks/useDimensions';
 import back_icon from 'images/back_icon.png';
 import back_icon_hover from 'images/back_icon_hover.png';
 import { useTranslation } from 'react-i18next';
@@ -19,11 +20,17 @@ import {
 const SocialNetwork = () => {
   const { t } = useTranslation();
   let navigate = useNavigate();
+  const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useDimensions();
   const [mouseOver, setMouseOver] = useState(false);
+
   return (
     <>
       <GlobalStyle />
-      <WeatherCard>
+      <WeatherCard
+        isDesktopOrLaptop={isDesktopOrLaptop}
+        isMobileDevice={isMobileDevice}
+        isSmallMobileDevice={isSmallMobileDevice}
+      >
         <BackContainer
           onMouseEnter={() => setMouseOver(true)}
           onMouseLeave={() => setMouseOver(false)}
