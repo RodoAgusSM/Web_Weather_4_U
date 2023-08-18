@@ -1,3 +1,5 @@
 import { AirPollution } from './AirPollution'
+import AppRequest from './AppRequest'
+import { Weather } from './Weather'
 
-export type { AirPollution }
+export type { AirPollution, AppRequest, Weather }

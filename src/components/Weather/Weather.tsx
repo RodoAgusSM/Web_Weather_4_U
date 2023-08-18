@@ -2,7 +2,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import CitySearchBar from 'components/CitySearchBar/CitySearchBar';
 import Language from 'components/Language/Language';
 import SunriseSunsetInfo from 'components/SunriseSunsetInfo/SunsetSunriseInfo';
-import { Directions, iconExtension, iconURL, openWeatherMapURL, paramsURL } from 'config/config';
+import { iconExtension, iconURL } from 'config/config';
+import { InterfaceName, StorageKeys, URLQuery } from 'enums/index';
 import useDimensions from 'hooks/useDimensions';
 import danger from 'images/danger.png';
 import loading from 'images/loading.gif';
@@ -11,9 +12,14 @@ import notFoundIcon from 'images/not_found_icon.png';
 import social_network from 'images/social_network.png';
 import social_network_hover from 'images/social_network_hover.png';
 import logo from 'images/sun_half.svg';
-import { AirPollution } from 'interfaces/index';
+import {
+  AirPollution as AirPollutionInterface,
+  AppRequest,
+  Weather as WeatherInterface,
+} from 'interfaces/index';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { SingleValue } from 'react-select';
 import {
   BreakLine,
   Code,
@@ -34,80 +40,52 @@ import {
   WeatherMain,
   WeatherMainTemperature,
 } from 'styles/styles';
+import { generateURL } from 'utils/helpers';
 import { convertToInterface } from 'utils/interfaceWrapper';
+
+const defaultWeather = {} as WeatherInterface;
+const defaultAirPollution = {} as AirPollutionInterface;
 
 const Weather = () => {
   const { t, i18n } = useTranslation();
   let navigate = useNavigate();
   const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useDimensions();
   const [mouseOver, setMouseOver] = useState<boolean>(false);
-  let [validCoordinates, setValidCoordinates] = useState<boolean>(true);
-  let [siteWorking, setIsSiteWorking] = useState<boolean>(true);
-  let [iconWorking, setIsIconWorking] = useState<boolean>(true);
-  let [cityName, setCityName] = useState<string>(localStorage.getItem('cityName') ?? 'Montevideo');
-  let [fullCityName, setFullCityName] = useState<string>(
-    localStorage.getItem('cityFullName') ?? 'Montevideo, Uruguay'
+  const [validCoordinates, setValidCoordinates] = useState<boolean>(true);
+  const [siteWorking, setIsSiteWorking] = useState<boolean>(true);
+  const [iconWorking, setIsIconWorking] = useState<boolean>(true);
+  const [cityName, setCityName] = useState<string>(
+    localStorage.getItem(StorageKeys.cityName) ?? 'Montevideo'
   );
-  let [lat, setLat] = useState<number>(Number(localStorage.getItem('lat')) ?? -34.8335);
-  let [lon, setLon] = useState<number>(Number(localStorage.getItem('lon')) ?? -56.1674);
-  let [language, setLanguage] = useState<string>(i18n.language);
-  let [countryNameShort, setCountryNameShort] = useState<string>();
-  let [realFeel, setRealFeel] = useState<number>();
-  let [icon, setIcon] = useState<string>('');
-  let [description, setDescription] = useState<string>();
-  let [feelsLike, setFeelsLike] = useState<number>();
-  let [time, setTime] = useState<string>();
-  let [date, setDate] = useState<string>();
-  let [humidity, setHumidity] = useState<number>();
-  let [pressure, setPressure] = useState<number>();
-  let [windSpeed, setWindSpeed] = useState<number>();
-  let [windDirection, setWindDirection] = useState<string>();
-  let [visibility, setVisibility] = useState<number>();
-  let [airPollution, setAirPollution] = useState<AirPollution>();
-  let [sunrise, setSunrise] = useState<number>();
-  let [sunset, setSunset] = useState<number>();
-  let [isLoading, setIsLoading] = useState<boolean>(true);
-  let iconValue = useRef(null);
+  const [fullCityName, setFullCityName] = useState<string>(
+    localStorage.getItem(StorageKeys.FullCityName) ?? 'Montevideo, Uruguay'
+  );
+  const [lat, setLat] = useState<number>(Number(localStorage.getItem(StorageKeys.lat)) || -34.8335);
+  const [lon, setLon] = useState<number>(Number(localStorage.getItem(StorageKeys.lon)) || -56.1674);
+  const [language, setLanguage] = useState<string>(i18n.language);
+  const [countryNameShort, setCountryNameShort] = useState<string>();
+  const [weather, setWeather] = useState<WeatherInterface>(defaultWeather);
+  const [airPollution, setAirPollution] = useState<AirPollutionInterface>(defaultAirPollution);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const iconValue = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const fullUrl =
-          openWeatherMapURL +
-          'weather' +
-          '?lat=' +
-          lat +
-          '&lon=' +
-          lon +
-          '&lang=' +
-          language +
-          paramsURL;
-        const response = await fetch(fullUrl);
+        const response = await fetch(
+          generateURL({
+            toFetch: URLQuery.weather,
+            lat: lat,
+            lon: lon,
+            language: language,
+          } as AppRequest)
+        );
         if (response.ok) {
-          const data = await response.json();
+          const weatherDataAPI = await response.json();
           setIsSiteWorking(true);
-          setCountryNameShort(data.sys.country);
-          setRealFeel(Math.trunc(data.main.temp));
-          iconValue.current = data.weather[0].icon;
-          setDescription(data.weather[0].description);
-          setFeelsLike(Math.trunc(data.main.feels_like));
-          setHumidity(data.main.humidity);
-          setPressure(data.main.pressure);
-          setWindSpeed(Math.trunc(data.wind.speed) * 3.6);
-          const degrees = parseInt(data.wind.deg);
-          const cardinal = (degrees + 11.25) / 22.5;
-          setWindDirection(Directions[cardinal % 16]);
-          setVisibility(data.visibility);
-          const dateNow = new Date();
-          const minutesNow = dateNow.getMinutes();
-          const minutes = minutesNow > 10 ? minutesNow : '0' + minutesNow;
-          const time = dateNow.getHours() + ':' + minutes;
-          setTime(time);
-          const date =
-            dateNow.getDate() + '/' + (dateNow.getMonth() + 1) + '/' + dateNow.getFullYear();
-          setDate(date);
-          setSunrise(data.sys.sunrise);
-          setSunset(data.sys.sunset);
+          setCountryNameShort(weatherDataAPI.sys.country);
+          iconValue.current = weatherDataAPI.weather[0].icon;
+          setWeather(convertToInterface(InterfaceName.weather, weatherDataAPI) as WeatherInterface);
         } else console.log(response.status, response.text);
       } catch (error: any) {
         if (error.response.data.message === 'city not found') setValidCoordinates(false);
@@ -118,27 +96,32 @@ const Weather = () => {
         const iconUrl = iconURL + iconValue.current + iconExtension;
         const response = await fetch(iconUrl);
         if (response.ok) {
-          setIcon(response?.url);
+          setWeather((weather: WeatherInterface) => ({
+            ...((weather as WeatherInterface) ?? {}),
+            icon: response?.url,
+          }));
         } else console.log(response.status, response.text);
       } catch (error) {
         setIsIconWorking(false);
       }
       try {
-        const fullUrl =
-          openWeatherMapURL +
-          'air_pollution' +
-          '?lat=' +
-          lat +
-          '&lon=' +
-          lon +
-          '&lang=' +
-          language +
-          paramsURL;
-        const response = await fetch(fullUrl);
+        const response = await fetch(
+          generateURL({
+            toFetch: URLQuery.airPollution,
+            lat: lat,
+            lon: lon,
+            language: language,
+          } as AppRequest)
+        );
         if (response.ok) {
-          const data = (await response.json()) as any;
-          const airPollutionData = data.list[0] as any;
-          setAirPollution(convertToInterface('AirPollution', airPollutionData));
+          const airPollutionDataAPI = await response.json();
+          const airPollutionData = airPollutionDataAPI.list[0];
+          setAirPollution(
+            convertToInterface(
+              InterfaceName.airPollution,
+              airPollutionData
+            ) as AirPollutionInterface
+          );
         } else console.log(response.status, response.text);
         setIsLoading(false);
       } catch (error) {}
@@ -147,16 +130,21 @@ const Weather = () => {
   }, [lat, lon, language]);
 
   const changeCity = useCallback(
-    (newCity: any) => {
-      if (fullCityName !== newCity.label) {
-        localStorage.setItem('cityName', newCity.value.name);
-        localStorage.setItem('cityFullName', newCity.label);
-        localStorage.setItem('lat', newCity.value.lat);
-        localStorage.setItem('lon', newCity.value.lon);
+    (
+      newCity: SingleValue<{
+        label: string;
+        value: { lat: string; lon: string; name: string };
+      }>
+    ) => {
+      if (newCity && fullCityName !== newCity.label) {
+        localStorage.setItem(StorageKeys.cityName, newCity.value.name);
+        localStorage.setItem(StorageKeys.FullCityName, newCity.label);
+        localStorage.setItem(StorageKeys.lat, newCity.value.lat);
+        localStorage.setItem(StorageKeys.lon, newCity.value.lon);
         setFullCityName(newCity.label);
         setCityName(newCity.value.name);
-        setLat(newCity.value.lat);
-        setLon(newCity.value.lon);
+        setLat(Number(newCity.value.lat));
+        setLon(Number(newCity.value.lon));
         setIsLoading(true);
       }
     },
@@ -166,7 +154,7 @@ const Weather = () => {
   const changeLanguage = useCallback(
     (newLanguage: string) => {
       if (language !== newLanguage) {
-        localStorage.setItem('language', newLanguage);
+        localStorage.setItem(StorageKeys.language, newLanguage);
         i18n.changeLanguage(newLanguage);
         setLanguage(newLanguage);
         setIsLoading(true);
@@ -178,10 +166,29 @@ const Weather = () => {
   let toShow;
   if (siteWorking) {
     let showIcon;
-    if (iconWorking) showIcon = <WeatherIcon src={icon} alt="" />;
-    else showIcon = <WeatherIcon src={notFoundIcon} alt="" />;
-    if (isLoading || icon === '') toShow = <SpinnerLogo src={loading} alt="" />;
-    else
+    const { icon } = weather as WeatherInterface;
+    if (iconWorking) {
+      showIcon = <WeatherIcon src={icon} alt="" />;
+    } else {
+      showIcon = <WeatherIcon src={notFoundIcon} alt="" />;
+    }
+    if (isLoading || icon === '') {
+      toShow = <SpinnerLogo src={loading} alt="" />;
+    } else {
+      const {
+        realFeel,
+        feelsLike,
+        description,
+        sunrise,
+        sunset,
+        humidity,
+        pressure,
+        windSpeed,
+        visibility,
+        windDirection,
+        lastTimeChecked,
+        lastDateChecked,
+      } = weather as WeatherInterface;
       toShow = (
         <WeatherCard
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -246,11 +253,11 @@ const Weather = () => {
                 <BreakLine />
                 <BreakLine />
                 <Code>
-                  {t('words.updatedAt')} {time}
+                  {t('words.updatedAt')} {lastTimeChecked}
                 </Code>
                 <BreakLine />
                 <Code>
-                  {t('words.date')} {date}
+                  {t('words.date')} {lastDateChecked}
                 </Code>
               </WeatherData>
             </>
@@ -281,7 +288,8 @@ const Weather = () => {
           </SocialNetworkIconContainer>
         </WeatherCard>
       );
-  } else
+    }
+  } else {
     toShow = (
       <>
         <DangerLogo src={danger} alt="" />
@@ -289,6 +297,7 @@ const Weather = () => {
         <Code>{t('words.conectionError')}</Code>
       </>
     );
+  }
   return (
     <>
       <GlobalStyle />

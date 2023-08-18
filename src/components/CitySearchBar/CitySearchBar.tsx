@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { openStreetMapURL } from 'config/config';
+import { StorageKeys } from 'enums';
 import { useTranslation } from 'react-i18next';
+import { SingleValue } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import { Colors } from 'styles/colors';
 import { CleanSearchBarButton, CleanSearchBarContainer, SearchBarContainer } from 'styles/styles';
 
 const CitySearchBar = ({ changeCity }: any) => {
   const { t } = useTranslation();
-  let [city, setCity] = useState(localStorage.getItem('cityFullName') || '');
+  let [city, setCity] = useState(localStorage.getItem(StorageKeys.FullCityName) || '');
 
   const fetchSuggestions = async (inputValue: string) => {
     try {
@@ -36,12 +38,16 @@ const CitySearchBar = ({ changeCity }: any) => {
     }));
   };
 
-  const handleChangeCity = (cityItem: any) => {
-    setCity(cityItem.label);
-    changeCity(cityItem);
+  const handleChangeCity = (
+    newCity: SingleValue<{ label: string; value: { lat: string; lon: string; name: string } }>
+  ) => {
+    if (newCity) {
+      setCity(newCity.label);
+      changeCity(newCity);
+    }
   };
 
-  const handleInputChange = (inputValue: any, action: any) => {
+  const handleInputChange = (inputValue: string, action: { action: string }) => {
     if (action.action !== 'input-blur' && action.action !== 'menu-close') {
       setCity(inputValue);
     }

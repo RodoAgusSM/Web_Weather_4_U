@@ -1,33 +1,53 @@
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { BreakLine, Code } from 'styles/styles';
 
-const SunriseSunsetInfo = ({ lat, lon, sunrise, sunset }: any) => {
+const SunriseSunsetInfo = ({
+  lat,
+  lon,
+  sunrise,
+  sunset,
+}: {
+  lat: number;
+  lon: number;
+  sunrise: number;
+  sunset: number;
+}) => {
   const { t } = useTranslation();
   const { find } = require('geo-tz');
-  try {
-    const timeZone = find(lat, lon)[0];
-    sunrise = new Date(sunrise * 1000).toLocaleString([], {
-      timeStyle: 'short',
-      timeZone: timeZone,
-    });
+  const [sunriseTime, setSunriseTime] = useState<string>();
+  const [sunsetTime, setSunsetTime] = useState<string>();
 
-    sunset = new Date(sunset * 1000).toLocaleString([], {
-      timeStyle: 'short',
-      timeZone: timeZone,
-    });
-  } catch (error) {
-    sunrise = t('words.locationNotFound.noData');
-    sunset = t('words.locationNotFound.noData');
-  }
+  useEffect(() => {
+    try {
+      const timeZone = find(lat, lon)[0];
+      setSunriseTime(
+        new Date(sunrise * 1000).toLocaleString([], {
+          timeStyle: 'short',
+          timeZone: timeZone,
+        })
+      );
+
+      setSunsetTime(
+        new Date(sunset * 1000).toLocaleString([], {
+          timeStyle: 'short',
+          timeZone: timeZone,
+        })
+      );
+    } catch (error) {
+      setSunriseTime(t('words.locationNotFound.noData'));
+      setSunsetTime(t('words.locationNotFound.noData'));
+    }
+  }, [lat, lon, sunrise, sunset, t]);
 
   return (
     <div>
       <Code>
-        {t('words.sunrise')} {sunrise}
+        {t('words.sunrise')} {sunriseTime}
       </Code>
       <BreakLine />
       <Code>
-        {t('words.sunset')} {sunset}
+        {t('words.sunset')} {sunsetTime}
       </Code>
     </div>
   );
