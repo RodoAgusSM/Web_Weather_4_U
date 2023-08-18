@@ -5,13 +5,8 @@ import { Colors } from './colors';
 let desktopWidth = 540 + 'px';
 let desktopHeight = 577 + 'px';
 let mobileWidth = window.innerWidth * 0.85 + 'px';
-let mobileHeightSmallDisplay = '508px'; //Done
-let mobileHeightBigDisplay = '580px'; //Done
-let mobileHeight12and13ProMax = '580px'; //Done
-let mobileHeight12and13RegularAndPro = '576px'; //To Do
-let mobileHeight11ProMax = '580px'; //Done
-let mobileHeight11ProAnd13Mini = '520px'; //Done
-let mobileHeight11Regular = '580px'; //Done
+let mobileHeightSmallDisplay = '508px';
+let mobileHeightBigDisplay = '580px';
 
 export const GlobalStyle = createGlobalStyle`
   body {
@@ -84,7 +79,7 @@ export const SpinnerLogo = styled.img.attrs((props: { src: any; }) => ({
 	}
 `;
 
-export const WeatherCard = styled.div`
+export const WeatherCard = styled.div<{ isSmallMobileDevice: boolean, isMobileDevice: boolean, isDesktopOrLaptop: boolean }>`
 	border-color: ${Colors.lightWhite};
 	border-style: solid;
 	padding: 10px;
@@ -92,36 +87,10 @@ export const WeatherCard = styled.div`
 	border-radius: 20px;
 	color: ${Colors.black};
 	word-wrap: break-word;
-	@media only screen and (max-width: 375px) {
-		width: ${mobileWidth};
-		height: ${mobileHeightSmallDisplay};
-	}
-	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		width: ${mobileWidth};
-		height: ${mobileHeightBigDisplay};
-	}
-	@media only screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
-		width: ${mobileWidth};
-		height: ${mobileHeight12and13ProMax};
-	}
-	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
-		width: ${mobileWidth};
-		height: ${mobileHeight12and13RegularAndPro};
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
-		width: ${mobileWidth};
-		height: ${mobileHeight11ProMax};
-	}
-	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		width: ${mobileWidth};
-		height: ${mobileHeight11ProAnd13Mini};
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
-		width: ${mobileWidth};
-		height: ${mobileHeight11Regular};
-	}
-	width: ${desktopWidth};
-	height: ${desktopHeight};
+	width: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop ? desktopWidth : mobileWidth};
+	height: ${({ isSmallMobileDevice }) => isSmallMobileDevice && mobileHeightSmallDisplay};
+	height: ${({ isMobileDevice }) => isMobileDevice && mobileHeightBigDisplay};
+	height: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && desktopHeight};
 `;
 
 export const LocationNotFoundIcon = styled.img.attrs((props: { src: any; }) => ({
@@ -419,32 +388,11 @@ export const LanguageButton = styled.span`
 	}
 `;
 
-export const SocialNetworkIconContainer = styled.span`
+export const SocialNetworkIconContainer = styled.span<{ isDesktopOrLaptop: boolean }>`
 	display: flex;
 	position: absolute;
 	bottom: 2.5%;
-	left: 89%;
-	@media only screen and (max-width: 375px) {
-		left: 86%;
-	}
-	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		left: 86%;
-	}
-	@media only screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
-		left: 86%;
-	}
-	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
-		left: 86%;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
-		left: 86%;
-	}
-	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		left: 86%;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
-		left: 86%;
-	}
+	left: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop ? '89%' : '86%'};
 `;
 
 export const SocialNetworkIcon = styled.image`

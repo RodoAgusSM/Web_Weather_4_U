@@ -3,6 +3,7 @@ import CitySearchBar from 'components/CitySearchBar/CitySearchBar';
 import Language from 'components/Language/Language';
 import SunriseSunsetInfo from 'components/SunriseSunsetInfo/SunsetSunriseInfo';
 import { Directions, iconExtension, iconURL, openWeatherMapURL, paramsURL } from 'config/config';
+import useDimensions from 'hooks/useDimensions';
 import danger from 'images/danger.png';
 import loading from 'images/loading.gif';
 import locationNotFound from 'images/location_not_found_icon.png';
@@ -51,7 +52,7 @@ const Weather = () => {
   let [language, setLanguage] = useState<string>(i18n.language);
   let [countryNameShort, setCountryNameShort] = useState<string>();
   let [realFeel, setRealFeel] = useState<number>();
-  let [icon, setIcon] = useState('');
+  let [icon, setIcon] = useState<string>('');
   let [description, setDescription] = useState<string>();
   let [feelsLike, setFeelsLike] = useState<number>();
   let [time, setTime] = useState<string>();
@@ -66,6 +67,8 @@ const Weather = () => {
   let [sunset, setSunset] = useState<number>();
   let [isLoading, setIsLoading] = useState<boolean>(true);
   let iconValue = useRef(null);
+
+  const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useDimensions();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -181,7 +184,11 @@ const Weather = () => {
     if (isLoading || icon === '') toShow = <SpinnerLogo src={loading} alt="" />;
     else
       toShow = (
-        <WeatherCard>
+        <WeatherCard
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           <CitySearchBar changeCity={changeCity} />
           {validCoordinates ? (
             <>
@@ -260,6 +267,7 @@ const Weather = () => {
           )}
           <Language changeLanguage={changeLanguage} />
           <SocialNetworkIconContainer
+            isDesktopOrLaptop={isDesktopOrLaptop}
             onMouseEnter={() => setMouseOver(true)}
             onMouseLeave={() => setMouseOver(false)}
             onClick={() => {
