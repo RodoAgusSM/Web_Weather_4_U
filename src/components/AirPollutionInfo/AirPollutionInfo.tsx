@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { AirQuality } from 'enums/index';
+import useDimensions from 'hooks/useDimensions';
 import back_icon from 'images/back_icon.png';
 import back_icon_hover from 'images/back_icon_hover.png';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +19,7 @@ import {
 const AirPollutionInfo = () => {
   const { t } = useTranslation();
   const { state } = useLocation();
+  const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useDimensions();
   const { airPollution } = state as any;
   let navigate = useNavigate();
   const [mouseOver, setMouseOver] = useState(false);
@@ -205,7 +207,11 @@ const AirPollutionInfo = () => {
   return (
     <>
       <GlobalStyle />
-      <WeatherCard>
+      <WeatherCard
+        isDesktopOrLaptop={isDesktopOrLaptop}
+        isMobileDevice={isMobileDevice}
+        isSmallMobileDevice={isSmallMobileDevice}
+      >
         <BackContainer
           onMouseEnter={() => setMouseOver(true)}
           onMouseLeave={() => setMouseOver(false)}
