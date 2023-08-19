@@ -3,7 +3,7 @@ import { AppRequest } from "interfaces";
 
 export const getWindDirection = (object: any) => {
     const degrees = parseInt(object.wind.deg);
-    const cardinal = (degrees + 11.25) / 22.5;
+    const cardinal = Math.round((degrees + 11.25) / 22.5);
     return Directions[cardinal % 16];
 }
 
@@ -23,22 +23,22 @@ export const getLastDateChecked = () => {
 }
 
 const Directions = [
-    'N',
-    'NNE',
-    'NE',
-    'ENE',
-    'E',
-    'ESE',
-    'SE',
-    'SSE',
-    'S',
-    'SSO',
-    'SO',
-    'OSO',
-    'O',
-    'ONO',
-    'NO',
-    'NNO',
+    'nort',
+    'northNorthEast',
+    'northEast',
+    'eastNorthEast',
+    'east',
+    'eastSouthEast',
+    'southEast',
+    'southSouthEast',
+    'South',
+    'southSouthWest',
+    'southWest',
+    'westSouthWest',
+    'west',
+    'westNorthWest',
+    'northWest',
+    'northNorthWest',
 ];
 
 export const generateURL = ({ toFetch, lat, lon, language }: AppRequest) => {

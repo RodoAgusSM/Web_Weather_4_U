@@ -15,7 +15,27 @@ export const TranslationPt = {
 		date: 'Encontro ',
 		humidity: 'Umidade: ',
 		pressure: 'Pressão: ',
-		wind: 'Vento: ',
+		windInfo: {
+			wind: 'Vento: ',
+			windDirection: {
+				north: 'N',
+				northNorthEast: 'NNE',
+				northEast: 'NE',
+				eastNorthEast: 'ENE',
+				east: 'E',
+				eastSouthEast: 'ESE',
+				southEast: 'SE',
+				southSouthEast: 'SSE',
+				South: 'S',
+				southSouthWest: 'SSO',
+				southWest: 'SO',
+				westSouthWest: 'OSO',
+				west: 'O',
+				westNorthWest: 'ONO',
+				northWest: 'NO',
+				northNorthWest: 'NNO',
+			}
+		},
 		visibility: 'Visibilidade: ',
 		airPollution: {
 			aqi: 'Qualidade do ar: ',

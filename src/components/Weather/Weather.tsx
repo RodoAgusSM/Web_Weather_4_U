@@ -226,7 +226,8 @@ const Weather = () => {
                 </Code>
                 <BreakLine />
                 <Code>
-                  {t('words.wind')} {windDirection} {windSpeed} km/h
+                  {t('words.windInfo.wind')} {t(`words.windInfo.windDirection.${windDirection}`)}{' '}
+                  {windSpeed} km/h
                 </Code>
                 <BreakLine />
                 <Code>
