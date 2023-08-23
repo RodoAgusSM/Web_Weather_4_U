@@ -1,13 +1,35 @@
 import { InterfaceName } from 'enums/index';
-import { AirPollution } from 'interfaces/index';
+import { AirPollution, Weather } from 'interfaces/index';
 
-export const convertToInterface = (interfaceName: string, object: any) => {
+import { getLastDateChecked, getLastTimeChecked, getWindDirection } from './helpers';
+
+export const convertToInterface = (interfaceName: InterfaceName, object: any) => {
     switch (interfaceName) {
-        case InterfaceName.AirPollution:
+        case InterfaceName.weather:
+            return convertToWeather(object);
+        case InterfaceName.airPollution:
             return convertToAirPollution(object);
         default:
             break;
     }
+}
+
+const convertToWeather = (object: any) => {
+    return {
+        realFeel: Math.trunc(object.main.temp),
+        feelsLike: Math.trunc(object.main.feels_like),
+        description: object.weather[0].description,
+        icon: "",
+        humidity: object.main.humidity,
+        pressure: object.main.pressure,
+        windSpeed: Math.trunc(object.wind.speed) * 3.6,
+        windDirection: getWindDirection(object),
+        visibility: object.visibility,
+        sunrise: object.sys.sunrise,
+        sunset: object.sys.sunset,
+        lastTimeChecked: getLastTimeChecked(),
+        lastDateChecked: getLastDateChecked(),
+    } as Weather
 }
 
 const convertToAirPollution = (object: any) => {

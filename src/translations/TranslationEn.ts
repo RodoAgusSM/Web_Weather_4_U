@@ -15,7 +15,27 @@ export const TranslationEn = {
 		date: 'Date ',
 		humidity: 'Humidity: ',
 		pressure: 'Pression: ',
-		wind: 'Wind: ',
+		windInfo: {
+			wind: 'Wind: ',
+			windDirection: {
+				north: 'N',
+				northNorthEast: 'NNE',
+				northEast: 'NE',
+				eastNorthEast: 'ENE',
+				east: 'E',
+				eastSouthEast: 'ESE',
+				southEast: 'SE',
+				southSouthEast: 'SSE',
+				South: 'S',
+				southSouthWest: 'SSW',
+				southWest: 'SW',
+				westSouthWest: 'WSW',
+				west: 'W',
+				westNorthWest: 'WNW',
+				northWest: 'NW',
+				northNorthWest: 'NNW',
+			}
+		},
 		visibility: 'Visibility: ',
 		airPollution: {
 			aqi: 'Air quality: ',

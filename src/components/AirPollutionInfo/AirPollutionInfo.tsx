@@ -24,7 +24,7 @@ const AirPollutionInfo = () => {
   let navigate = useNavigate();
   const [mouseOver, setMouseOver] = useState(false);
 
-  const generateLabel = (label: string, value: any) => {
+  const generateLabel = (label: string, value: number) => {
     switch (label) {
       case AirQuality.AQI:
         console.log();
@@ -48,7 +48,7 @@ const AirPollutionInfo = () => {
     }
   };
 
-  const labelNitrogenDioxide = (value: any) => {
+  const labelNitrogenDioxide = (value: number) => {
     const label = `${t('words.airPollution.elements.nitrogenDioxide')} (NO2)`;
     if (value >= 0 && value < 50)
       return (
@@ -126,7 +126,7 @@ const AirPollutionInfo = () => {
       );
   };
 
-  const labelFineParticlesMatter = (value: any) => {
+  const labelFineParticlesMatter = (value: number) => {
     const label = `${t('words.airPollution.elements.fineParticlesMatter')} (PM2.5)`;
     if (value >= 0 && value < 15)
       return (
@@ -165,7 +165,7 @@ const AirPollutionInfo = () => {
       );
   };
 
-  const labelCoarseParticulateMatter = (value: any) => {
+  const labelCoarseParticulateMatter = (value: number) => {
     const label = `${t('words.airPollution.elements.coarseParticulateMatter')} (PM10)`;
     if (value >= 0 && value < 25)
       return (
@@ -259,7 +259,7 @@ const AirPollutionInfo = () => {
             alignItems: 'center',
           }}
         >
-          {Object.entries(airPollution).map((entry: any, index: number) => (
+          {Object.entries(airPollution).map((entry: any[], index: number) => (
             <div key={index}>{generateLabel(entry[0], entry[1]) || null}</div>
           ))}
         </div>

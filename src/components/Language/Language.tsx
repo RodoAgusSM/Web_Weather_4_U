@@ -1,3 +1,4 @@
+import { StorageKeys } from 'enums/index';
 import { useTranslation } from 'react-i18next';
 import { LanguageButton, LanguagesContainer } from 'styles/styles';
 
@@ -6,7 +7,7 @@ const Language = ({ changeLanguage }: any) => {
   return (
     <LanguagesContainer>
       {Object.entries(
-        t('languages', {
+        t(StorageKeys.languages, {
           returnObjects: true,
         })
       ).map((languageItem) => (
