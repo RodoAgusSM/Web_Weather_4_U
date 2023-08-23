@@ -1,8 +1,8 @@
 export enum StorageKeys {
-    cityName = 'cityName',
-    FullCityName = 'fullCityName',
-    lat = 'lat',
-    lon = 'lon',
-    language = 'language',
-    languages = 'languages',
+    CITYNAME = 'cityName',
+    FULLCITYNAME = 'fullCityName',
+    LAT = 'lat',
+    LON = 'lon',
+    LANGUAGE = 'language',
+    LANGUAGES = 'languages',
 }

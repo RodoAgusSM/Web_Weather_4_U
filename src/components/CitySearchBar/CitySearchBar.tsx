@@ -9,7 +9,7 @@ import { CleanSearchBarButton, CleanSearchBarContainer, SearchBarContainer } fro
 
 const CitySearchBar = ({ changeCity }: any) => {
   const { t } = useTranslation();
-  let [city, setCity] = useState(localStorage.getItem(StorageKeys.FullCityName) || '');
+  let [city, setCity] = useState(localStorage.getItem(StorageKeys.FULLCITYNAME) || '');
 
   const fetchSuggestions = async (inputValue: string) => {
     try {

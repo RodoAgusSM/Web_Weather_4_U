@@ -18,7 +18,7 @@ i18n
 	.use(initReactI18next)
 	.init({
 		resources,
-		lng: localStorage.getItem(StorageKeys.language) ?? 'sp',
+		lng: localStorage.getItem(StorageKeys.LANGUAGES) ?? 'sp',
 		interpolation: {
 			escapeValue: false,
 		},

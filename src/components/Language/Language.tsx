@@ -7,7 +7,7 @@ const Language = ({ changeLanguage }: any) => {
   return (
     <LanguagesContainer>
       {Object.entries(
-        t(StorageKeys.languages, {
+        t(StorageKeys.LANGUAGES, {
           returnObjects: true,
         })
       ).map((languageItem) => (

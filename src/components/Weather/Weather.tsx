@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import Adapter from 'adapter/adapter';
 import CitySearchBar from 'components/CitySearchBar/CitySearchBar';
 import Language from 'components/Language/Language';
 import SunriseSunsetInfo from 'components/SunriseSunsetInfo/SunsetSunriseInfo';
 import { iconExtension, iconURL } from 'config/config';
-import { InterfaceName, StorageKeys, URLQuery } from 'enums/index';
+import { APIWeatherProvider, InterfaceName, StorageKeys, URLQuery } from 'enums/index';
 import useDimensions from 'hooks/useDimensions';
 import danger from 'images/danger.png';
 import loading from 'images/loading.gif';
@@ -41,7 +42,6 @@ import {
   WeatherMainTemperature,
 } from 'styles/styles';
 import { generateURL } from 'utils/helpers';
-import { convertToInterface } from 'utils/interfaceWrapper';
 
 const defaultWeather = {} as WeatherInterface;
 const defaultAirPollution = {} as AirPollutionInterface;
@@ -55,13 +55,13 @@ const Weather = () => {
   const [siteWorking, setIsSiteWorking] = useState<boolean>(true);
   const [iconWorking, setIsIconWorking] = useState<boolean>(true);
   const [cityName, setCityName] = useState<string>(
-    localStorage.getItem(StorageKeys.cityName) ?? 'Montevideo'
+    localStorage.getItem(StorageKeys.CITYNAME) ?? 'Montevideo'
   );
   const [fullCityName, setFullCityName] = useState<string>(
-    localStorage.getItem(StorageKeys.FullCityName) ?? 'Montevideo, Uruguay'
+    localStorage.getItem(StorageKeys.FULLCITYNAME) ?? 'Montevideo, Uruguay'
   );
-  const [lat, setLat] = useState<number>(Number(localStorage.getItem(StorageKeys.lat)) || -34.8335);
-  const [lon, setLon] = useState<number>(Number(localStorage.getItem(StorageKeys.lon)) || -56.1674);
+  const [lat, setLat] = useState<number>(Number(localStorage.getItem(StorageKeys.LAT)) || -34.8335);
+  const [lon, setLon] = useState<number>(Number(localStorage.getItem(StorageKeys.LON)) || -56.1674);
   const [language, setLanguage] = useState<string>(i18n.language);
   const [countryNameShort, setCountryNameShort] = useState<string>();
   const [weather, setWeather] = useState<WeatherInterface>(defaultWeather);
@@ -74,7 +74,7 @@ const Weather = () => {
       try {
         const response = await fetch(
           generateURL({
-            toFetch: URLQuery.weather,
+            toFetch: URLQuery.WEAHTER,
             lat: lat,
             lon: lon,
             language: language,
@@ -85,7 +85,13 @@ const Weather = () => {
           setIsSiteWorking(true);
           setCountryNameShort(weatherDataAPI.sys.country);
           iconValue.current = weatherDataAPI.weather[0].icon;
-          setWeather(convertToInterface(InterfaceName.weather, weatherDataAPI) as WeatherInterface);
+          setWeather(
+            Adapter(
+              APIWeatherProvider.OPENWEATHERMAP,
+              InterfaceName.WEATHER,
+              weatherDataAPI
+            ) as WeatherInterface
+          );
         } else console.log(response.status, response.text);
       } catch (error: any) {
         if (error.response.data.message === 'city not found') setValidCoordinates(false);
@@ -107,7 +113,7 @@ const Weather = () => {
       try {
         const response = await fetch(
           generateURL({
-            toFetch: URLQuery.airPollution,
+            toFetch: URLQuery.AIRPOLLUTION,
             lat: lat,
             lon: lon,
             language: language,
@@ -117,8 +123,9 @@ const Weather = () => {
           const airPollutionDataAPI = await response.json();
           const airPollutionData = airPollutionDataAPI.list[0];
           setAirPollution(
-            convertToInterface(
-              InterfaceName.airPollution,
+            Adapter(
+              APIWeatherProvider.OPENWEATHERMAP,
+              InterfaceName.AIRPOLLUTION,
               airPollutionData
             ) as AirPollutionInterface
           );
@@ -137,10 +144,10 @@ const Weather = () => {
       }>
     ) => {
       if (newCity && fullCityName !== newCity.label) {
-        localStorage.setItem(StorageKeys.cityName, newCity.value.name);
-        localStorage.setItem(StorageKeys.FullCityName, newCity.label);
-        localStorage.setItem(StorageKeys.lat, newCity.value.lat);
-        localStorage.setItem(StorageKeys.lon, newCity.value.lon);
+        localStorage.setItem(StorageKeys.CITYNAME, newCity.value.name);
+        localStorage.setItem(StorageKeys.FULLCITYNAME, newCity.label);
+        localStorage.setItem(StorageKeys.LAT, newCity.value.lat);
+        localStorage.setItem(StorageKeys.LON, newCity.value.lon);
         setFullCityName(newCity.label);
         setCityName(newCity.value.name);
         setLat(Number(newCity.value.lat));
@@ -154,7 +161,7 @@ const Weather = () => {
   const changeLanguage = useCallback(
     (newLanguage: string) => {
       if (language !== newLanguage) {
-        localStorage.setItem(StorageKeys.language, newLanguage);
+        localStorage.setItem(StorageKeys.LANGUAGE, newLanguage);
         i18n.changeLanguage(newLanguage);
         setLanguage(newLanguage);
         setIsLoading(true);

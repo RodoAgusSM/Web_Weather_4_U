@@ -1,4 +1,4 @@
 export enum InterfaceName {
-    weather = "weather",
-    airPollution = 'AirPollution',
+    WEATHER = "weather",
+    AIRPOLLUTION = 'AirPollution',
 }

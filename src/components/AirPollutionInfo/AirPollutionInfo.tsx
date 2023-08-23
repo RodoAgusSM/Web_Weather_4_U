@@ -29,21 +29,21 @@ const AirPollutionInfo = () => {
       case AirQuality.AQI:
         console.log();
         break;
-      case AirQuality.carbonMonoxide:
+      case AirQuality.CARBONMONIXIDE:
         break;
-      case AirQuality.nitrogenMonoxide:
+      case AirQuality.NITROGENMONOXIDE:
         break;
-      case AirQuality.nitrogenDioxide:
+      case AirQuality.NITROGENDIOXIDE:
         return labelNitrogenDioxide(value);
-      case AirQuality.ozone:
+      case AirQuality.OZONE:
         return labelOzone(value);
-      case AirQuality.sulphurDioxide:
+      case AirQuality.SULPHURDIOXIDE:
         break;
-      case AirQuality.fineParticlesMatter:
+      case AirQuality.FINEPARTICLESMATTER:
         return labelFineParticlesMatter(value);
-      case AirQuality.coarseParticulateMatter:
+      case AirQuality.COARSEPARTICULATEMATTER:
         return labelCoarseParticulateMatter(value);
-      case AirQuality.ammonia:
+      case AirQuality.AMMONIA:
         break;
     }
   };

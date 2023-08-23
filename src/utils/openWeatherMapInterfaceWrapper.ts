@@ -3,11 +3,11 @@ import { AirPollution, Weather } from 'interfaces/index';
 
 import { getLastDateChecked, getLastTimeChecked, getWindDirection } from './helpers';
 
-export const convertToInterface = (interfaceName: InterfaceName, object: any) => {
+export const convertOpenWeatherMapResponseToInterface = (interfaceName: InterfaceName, object: any) => {
     switch (interfaceName) {
-        case InterfaceName.weather:
+        case InterfaceName.WEATHER:
             return convertToWeather(object);
-        case InterfaceName.airPollution:
+        case InterfaceName.AIRPOLLUTION:
             return convertToAirPollution(object);
         default:
             break;

@@ -1,4 +1,4 @@
 export enum URLQuery {
-    weather = 'weather',
-    airPollution = 'air_pollution',
+    WEAHTER = 'weather',
+    AIRPOLLUTION = 'air_pollution',
 }
