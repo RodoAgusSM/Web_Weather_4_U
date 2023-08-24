@@ -9,14 +9,28 @@ export const TranslationEn = {
 		writeCity: 'Search city',
 		lookingForSuggestions: 'Looking for matches...',
 		noSuggestions: 'No matches',
+		unit: {
+			imperial: "Imperial",
+			metric: "Metric",
+		},
 		weatherIn: 'Weather in ',
-		feelsLike: 'Feels like: ',
+		temperature: {
+			feelsLike: 'Feels like: ',
+			unit: {
+				imperial: '°F',
+				metric: '°C',
+			},
+		},
 		updatedAt: 'Updated at ',
 		date: 'Date ',
 		humidity: 'Humidity: ',
 		pressure: 'Pression: ',
 		windInfo: {
 			wind: 'Wind: ',
+			unit: {
+				imperial: 'mph',
+				metric: 'km/h',
+			},
 			windDirection: {
 				north: 'N',
 				northNorthEast: 'NNE',

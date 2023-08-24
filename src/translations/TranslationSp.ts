@@ -9,14 +9,28 @@ export const TranslationSp = {
 		writeCity: 'Buscar cuidad',
 		lookingForSuggestions: 'Buscando coincidencias...',
 		noSuggestions: 'Sin coincidencias',
+		unit: {
+			imperial: "Imperial",
+			metric: "Métrico",
+		},
 		weatherIn: 'Clima en ',
-		feelsLike: 'Sensación térmica: ',
+		temperature: {
+			feelsLike: 'Sensación térmica: ',
+			unit: {
+				imperial: '°F',
+				metric: '°C',
+			},
+		},
 		updatedAt: 'Actualizado a las ',
 		date: 'Fecha ',
 		humidity: 'Humedad: ',
 		pressure: 'Presión: ',
 		windInfo: {
 			wind: 'Viento: ',
+			unit: {
+				imperial: 'mph',
+				metric: 'km/h',
+			},
 			windDirection: {
 				north: 'N',
 				northNorthEast: 'NNE',

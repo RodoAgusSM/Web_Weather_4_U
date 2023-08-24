@@ -3,7 +3,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { Colors } from './colors';
 
 let desktopWidth = 540 + 'px';
-let desktopHeight = 577 + 'px';
+let desktopHeight = 605 + 'px';
 let mobileWidth = window.innerWidth * 0.85 + 'px';
 let mobileHeightSmallDisplay = '508px';
 let mobileHeightBigDisplay = '580px';
@@ -605,4 +605,25 @@ export const AirPollutionItemSpan = styled.span`
 		width: 25px;
 		height: 25px;
 	}
+`;
+
+export const UnitsContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	margin-top: 100;
+	font-size: 16px;
+	gap: 1rem;
+	margin-top: 1rem;
+	margin-top: 1rem;
+`;
+
+export const UnitSpan = styled.span<{ isSelected: boolean }>`
+	cursor: pointer;
+	text-decoration: underline;
+	font-weight: ${({ isSelected }) => isSelected && '700'};
+	color: lemon;
+	color: ${({ isSelected }) => isSelected && Colors.yellowLemon};
+	&:hover {
+	color: ${Colors.yellowLemon};
+}
 `;

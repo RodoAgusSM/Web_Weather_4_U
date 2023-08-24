@@ -4,7 +4,7 @@ import CitySearchBar from 'components/CitySearchBar/CitySearchBar';
 import Language from 'components/Language/Language';
 import SunriseSunsetInfo from 'components/SunriseSunsetInfo/SunsetSunriseInfo';
 import { iconExtension, iconURL } from 'config/config';
-import { APIWeatherProvider, InterfaceName, StorageKeys, URLQuery } from 'enums/index';
+import { APIWeatherProvider, InterfaceName, StorageKeys, Units, URLQuery } from 'enums/index';
 import useDimensions from 'hooks/useDimensions';
 import danger from 'images/danger.png';
 import loading from 'images/loading.gif';
@@ -35,6 +35,8 @@ import {
   SpinnerLogo,
   Subtitle,
   TitleApp,
+  UnitsContainer,
+  UnitSpan,
   WeatherCard,
   WeatherData,
   WeatherIcon,
@@ -63,6 +65,7 @@ const Weather = () => {
   const [lat, setLat] = useState<number>(Number(localStorage.getItem(StorageKeys.LAT)) || -34.8335);
   const [lon, setLon] = useState<number>(Number(localStorage.getItem(StorageKeys.LON)) || -56.1674);
   const [language, setLanguage] = useState<string>(i18n.language);
+  const [unit, setUnit] = useState<Units>(Units.METRIC);
   const [countryNameShort, setCountryNameShort] = useState<string>();
   const [weather, setWeather] = useState<WeatherInterface>(defaultWeather);
   const [airPollution, setAirPollution] = useState<AirPollutionInterface>(defaultAirPollution);
@@ -78,6 +81,7 @@ const Weather = () => {
             lat: lat,
             lon: lon,
             language: language,
+            units: unit,
           } as AppRequest)
         );
         if (response.ok) {
@@ -89,6 +93,7 @@ const Weather = () => {
             Adapter(
               APIWeatherProvider.OPENWEATHERMAP,
               InterfaceName.WEATHER,
+              unit,
               weatherDataAPI
             ) as WeatherInterface
           );
@@ -117,6 +122,7 @@ const Weather = () => {
             lat: lat,
             lon: lon,
             language: language,
+            units: unit,
           } as AppRequest)
         );
         if (response.ok) {
@@ -126,6 +132,7 @@ const Weather = () => {
             Adapter(
               APIWeatherProvider.OPENWEATHERMAP,
               InterfaceName.AIRPOLLUTION,
+              unit,
               airPollutionData
             ) as AirPollutionInterface
           );
@@ -134,7 +141,7 @@ const Weather = () => {
       } catch (error) {}
     };
     fetchData();
-  }, [lat, lon, language]);
+  }, [lat, lon, language, unit]);
 
   const changeCity = useCallback(
     (
@@ -213,10 +220,18 @@ const Weather = () => {
               </TitleApp>
               {showIcon}
               <WeatherMain>
-                <WeatherMainTemperature>{realFeel}°C</WeatherMainTemperature>
+                <WeatherMainTemperature>
+                  {realFeel}{' '}
+                  {Units.IMPERIAL === unit
+                    ? t('words.temperature.unit.imperial')
+                    : t('words.temperature.unit.metric')}
+                </WeatherMainTemperature>
                 <BreakLine />
                 <Code>
-                  {t('words.feelsLike')} {feelsLike}°C
+                  {t('words.temperature.feelsLike')} {feelsLike}{' '}
+                  {Units.IMPERIAL === unit
+                    ? t('words.temperature.unit.imperial')
+                    : t('words.temperature.unit.metric')}
                 </Code>
                 <BreakLine />
                 <Code>{description}</Code>
@@ -234,7 +249,10 @@ const Weather = () => {
                 <BreakLine />
                 <Code>
                   {t('words.windInfo.wind')} {t(`words.windInfo.windDirection.${windDirection}`)}{' '}
-                  {windSpeed} km/h
+                  {windSpeed}{' '}
+                  {Units.IMPERIAL === unit
+                    ? t('words.windInfo.unit.imperial')
+                    : t('words.windInfo.unit.metric')}
                 </Code>
                 <BreakLine />
                 <Code>
@@ -280,6 +298,14 @@ const Weather = () => {
             </>
           )}
           <Language changeLanguage={changeLanguage} />
+          <UnitsContainer>
+            <UnitSpan isSelected={Units.IMPERIAL === unit} onClick={() => setUnit(Units.IMPERIAL)}>
+              {t('words.unit.imperial')}
+            </UnitSpan>
+            <UnitSpan isSelected={Units.METRIC === unit} onClick={() => setUnit(Units.METRIC)}>
+              {t('words.unit.metric')}
+            </UnitSpan>
+          </UnitsContainer>
           <SocialNetworkIconContainer
             isDesktopOrLaptop={isDesktopOrLaptop}
             onMouseEnter={() => setMouseOver(true)}

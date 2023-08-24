@@ -1,12 +1,12 @@
-import { InterfaceName } from 'enums/index';
+import { InterfaceName, Units } from 'enums/index';
 import { AirPollution, Weather } from 'interfaces/index';
 
 import { getLastDateChecked, getLastTimeChecked, getWindDirection } from './helpers';
 
-export const convertOpenWeatherMapResponseToInterface = (interfaceName: InterfaceName, object: any) => {
+export const convertOpenWeatherMapResponseToInterface = (interfaceName: InterfaceName, unit: Units, object: any) => {
     switch (interfaceName) {
         case InterfaceName.WEATHER:
-            return convertToWeather(object);
+            return convertToWeather(object, unit);
         case InterfaceName.AIRPOLLUTION:
             return convertToAirPollution(object);
         default:
@@ -14,7 +14,7 @@ export const convertOpenWeatherMapResponseToInterface = (interfaceName: Interfac
     }
 }
 
-const convertToWeather = (object: any) => {
+const convertToWeather = (object: any, unit: Units) => {
     return {
         realFeel: Math.trunc(object.main.temp),
         feelsLike: Math.trunc(object.main.feels_like),
@@ -22,7 +22,7 @@ const convertToWeather = (object: any) => {
         icon: "",
         humidity: object.main.humidity,
         pressure: object.main.pressure,
-        windSpeed: Math.trunc(object.wind.speed) * 3.6,
+        windSpeed: Units.IMPERIAL === unit ? object.wind.speed : Math.trunc(object.wind.speed) * 3.6,
         windDirection: getWindDirection(object),
         visibility: object.visibility,
         sunrise: object.sys.sunrise,

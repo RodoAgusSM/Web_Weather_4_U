@@ -41,6 +41,6 @@ const Directions = [
     'northNorthWest',
 ];
 
-export const generateURL = ({ toFetch, lat, lon, language }: AppRequest) => {
-    return openWeatherMapURL + toFetch + '?lat=' + lat + '&lon=' + lon + '&lang=' + language + paramsURL;
+export const generateURL = ({ toFetch, lat, lon, language, units }: AppRequest) => {
+    return openWeatherMapURL + toFetch + '?lat=' + lat + '&lon=' + lon + '&lang=' + language + '&units=' + units + paramsURL;
 }

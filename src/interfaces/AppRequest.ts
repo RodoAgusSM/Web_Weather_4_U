@@ -5,6 +5,7 @@ export interface AppRequest {
     lat: number;
     lon: number;
     language: string;
+    units: string;
 }
 
 export default AppRequest;
