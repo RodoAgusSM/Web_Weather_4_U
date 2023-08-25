@@ -7,5 +7,6 @@ export const Colors = {
 	lightOrange: '#FCE1BE',
 	yellowLemon: '#FFFF1A',
 	shadowGrey: '#787878',
+	shadowBlack: '#303031',
 	black: '#000000',
 };

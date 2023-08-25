@@ -1,14 +1,21 @@
 import { useState } from 'react';
 import { openStreetMapURL } from 'config/config';
 import { StorageKeys } from 'enums';
+import useDimensions from 'hooks/useDimensions';
 import { useTranslation } from 'react-i18next';
 import { SingleValue } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import { Colors } from 'styles/colors';
-import { CleanSearchBarButton, CleanSearchBarContainer, SearchBarContainer } from 'styles/styles';
+import {
+  CleanSearchBarButton,
+  CleanSearchBarButtonContainer,
+  CleanSearchBarContainer,
+  SearchBarContainer,
+} from 'styles/styles';
 
 const CitySearchBar = ({ changeCity }: any) => {
   const { t } = useTranslation();
+  const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useDimensions();
   let [city, setCity] = useState(localStorage.getItem(StorageKeys.FULLCITYNAME) || '');
 
   const fetchSuggestions = async (inputValue: string) => {
@@ -69,13 +76,21 @@ const CitySearchBar = ({ changeCity }: any) => {
     }),
     control: () => ({
       display: 'flex',
-      width: '89%',
+      width: isDesktopOrLaptop
+        ? '30rem'
+        : isMobileDevice
+        ? '17rem'
+        : isSmallMobileDevice
+        ? '16rem'
+        : '',
       backgroundColor: Colors.lightOrange,
       borderRadius: '8px',
       border: `2px solid ${Colors.lightWhite}`,
       cursor: 'pointer',
+      boxShadow: `2px 2px 6px 1px ${Colors.shadowGrey}`,
       '&:hover': {
         backgroundColor: Colors.lightWhite,
+        boxShadow: `2px 2px 6px 1px ${Colors.shadowBlack}`,
       },
       '::placeholder': {
         /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -120,8 +135,10 @@ const CitySearchBar = ({ changeCity }: any) => {
         styles={customStyles}
         filterOption={null}
       />
-      <CleanSearchBarContainer onClick={() => setCity('')}>
-        <CleanSearchBarButton onClick={() => setCity('')}>X</CleanSearchBarButton>
+      <CleanSearchBarContainer>
+        <CleanSearchBarButtonContainer>
+          <CleanSearchBarButton onClick={() => setCity('')}>X</CleanSearchBarButton>
+        </CleanSearchBarButtonContainer>
       </CleanSearchBarContainer>
     </SearchBarContainer>
   );

@@ -52,35 +52,55 @@ const AirPollutionInfo = () => {
     const label = `${t('words.airPollution.elements.nitrogenDioxide')} (NO2)`;
     if (value >= 0 && value < 50)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#79BC6A'} />
         </AirPollutionItemContainer>
       );
     else if (value >= 50 && value < 100)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#BBCf4C'} />
         </AirPollutionItemContainer>
       );
     else if (value >= 100 && value < 200)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#EEC209'} />
         </AirPollutionItemContainer>
       );
     else if (value >= 200 && value < 400)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#F39307'} />
         </AirPollutionItemContainer>
       );
     if (value > 400)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#E8406F'} />
         </AirPollutionItemContainer>
@@ -91,35 +111,55 @@ const AirPollutionInfo = () => {
     const label = `${t('words.airPollution.elements.ozone')} (O3)`;
     if (value >= 0 && value < 60)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#79BC6A'} />
         </AirPollutionItemContainer>
       );
     else if (value >= 60 && value < 120)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#BBCf4C'} />
         </AirPollutionItemContainer>
       );
     else if (value >= 120 && value < 180)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#EEC209'} />
         </AirPollutionItemContainer>
       );
     else if (value >= 180 && value < 240)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#F39307'} />
         </AirPollutionItemContainer>
       );
     if (value > 240)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#E8406F'} />
         </AirPollutionItemContainer>
@@ -130,35 +170,55 @@ const AirPollutionInfo = () => {
     const label = `${t('words.airPollution.elements.fineParticlesMatter')} (PM2.5)`;
     if (value >= 0 && value < 15)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#79BC6A'} />
         </AirPollutionItemContainer>
       );
     else if (value >= 15 && value < 30)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#BBCf4C'} />
         </AirPollutionItemContainer>
       );
     else if (value >= 30 && value < 55)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#EEC209'} />
         </AirPollutionItemContainer>
       );
     else if (value >= 55 && value < 110)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#F39307'} />
         </AirPollutionItemContainer>
       );
     if (value > 110)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#E8406F'} />
         </AirPollutionItemContainer>
@@ -169,35 +229,55 @@ const AirPollutionInfo = () => {
     const label = `${t('words.airPollution.elements.coarseParticulateMatter')} (PM10)`;
     if (value >= 0 && value < 25)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#79BC6A'} />
         </AirPollutionItemContainer>
       );
     else if (value >= 25 && value < 50)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#BBCf4C'} />
         </AirPollutionItemContainer>
       );
     else if (value >= 50 && value < 90)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#EEC209'} />
         </AirPollutionItemContainer>
       );
     else if (value >= 90 && value < 180)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#F39307'} />
         </AirPollutionItemContainer>
       );
     if (value > 240)
       return (
-        <AirPollutionItemContainer>
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
           {label}
           <AirPollutionItemSpan color={'#E8406F'} />
         </AirPollutionItemContainer>
@@ -222,36 +302,119 @@ const AirPollutionInfo = () => {
           <BackIcon mouseOver={mouseOver} regular={back_icon} hover={back_icon_hover} />
           {t('words.back')}
         </BackContainer>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: 40,
-            marginBottom: 65,
-          }}
-        >
-          <AirPollutionItemLegendIcon color={'#79BC6A'} />
-          <AirPollutionLegendText>
-            {Object.values(t('words.airPollution.status', { returnObjects: true }))[0]}
-          </AirPollutionLegendText>
-          <AirPollutionItemLegendIcon color={'#BBCf4C'} />
-          <AirPollutionLegendText>
-            {Object.values(t('words.airPollution.status', { returnObjects: true }))[1]}
-          </AirPollutionLegendText>
-          <AirPollutionItemLegendIcon color={'#EEC209'} />
-          <AirPollutionLegendText>
-            {Object.values(t('words.airPollution.status', { returnObjects: true }))[2]}
-          </AirPollutionLegendText>
-          <AirPollutionItemLegendIcon color={'#F39307'} />
-          <AirPollutionLegendText>
-            {Object.values(t('words.airPollution.status', { returnObjects: true }))[3]}
-          </AirPollutionLegendText>
-          <AirPollutionItemLegendIcon color={'#E8406F'} />
-          <AirPollutionLegendText>
-            {Object.values(t('words.airPollution.status', { returnObjects: true }))[4]}
-          </AirPollutionLegendText>
-        </div>
+
+        {isDesktopOrLaptop && (
+          <div
+            style={{
+              marginTop: 40,
+              marginBottom: 65,
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <AirPollutionItemLegendIcon color={'#79BC6A'} />
+              <AirPollutionLegendText>
+                {Object.values(t('words.airPollution.status', { returnObjects: true }))[0]}
+              </AirPollutionLegendText>
+              <AirPollutionItemLegendIcon color={'#BBCf4C'} />
+              <AirPollutionLegendText>
+                {Object.values(t('words.airPollution.status', { returnObjects: true }))[1]}
+              </AirPollutionLegendText>
+              <AirPollutionItemLegendIcon color={'#EEC209'} />
+              <AirPollutionLegendText>
+                {Object.values(t('words.airPollution.status', { returnObjects: true }))[2]}
+              </AirPollutionLegendText>
+              <AirPollutionItemLegendIcon color={'#F39307'} />
+              <AirPollutionLegendText>
+                {Object.values(t('words.airPollution.status', { returnObjects: true }))[3]}
+              </AirPollutionLegendText>
+              <AirPollutionItemLegendIcon color={'#E8406F'} />
+              <AirPollutionLegendText>
+                {Object.values(t('words.airPollution.status', { returnObjects: true }))[4]}
+              </AirPollutionLegendText>
+            </div>
+          </div>
+        )}
+        {(isMobileDevice || isSmallMobileDevice) && (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 15,
+              gap: 8,
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <AirPollutionItemLegendIcon color={'#79BC6A'} />
+              <AirPollutionLegendText>
+                {Object.values(t('words.airPollution.status', { returnObjects: true }))[0]}
+              </AirPollutionLegendText>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <AirPollutionItemLegendIcon color={'#BBCf4C'} />
+              <AirPollutionLegendText>
+                {Object.values(t('words.airPollution.status', { returnObjects: true }))[1]}
+              </AirPollutionLegendText>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <AirPollutionItemLegendIcon color={'#EEC209'} />
+              <AirPollutionLegendText>
+                {Object.values(t('words.airPollution.status', { returnObjects: true }))[2]}
+              </AirPollutionLegendText>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <AirPollutionItemLegendIcon color={'#F39307'} />
+              <AirPollutionLegendText>
+                {Object.values(t('words.airPollution.status', { returnObjects: true }))[3]}
+              </AirPollutionLegendText>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <AirPollutionItemLegendIcon color={'#E8406F'} />
+              <AirPollutionLegendText>
+                {Object.values(t('words.airPollution.status', { returnObjects: true }))[4]}
+              </AirPollutionLegendText>
+            </div>
+          </div>
+        )}
+
         <div
           style={{
             display: 'flex',

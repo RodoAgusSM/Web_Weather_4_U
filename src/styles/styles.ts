@@ -3,7 +3,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { Colors } from './colors';
 
 let desktopWidth = 540 + 'px';
-let desktopHeight = 605 + 'px';
+let desktopHeight = 610 + 'px';
 let mobileWidth = window.innerWidth * 0.85 + 'px';
 let mobileHeightSmallDisplay = '508px';
 let mobileHeightBigDisplay = '580px';
@@ -35,6 +35,7 @@ export const WeatherIcon = styled.img.attrs((props: { src: any; }) => ({
 	background-color: ${Colors.lightOrange};
 	border-style: solid;
 	border-radius: 20px;
+	box-shadow: 2px 2px 6px 1px ${Colors.shadowGrey};
 	@media (max-width: 768px) {
 		margin-top: 20px;
 		margin-left: 10px;
@@ -91,6 +92,7 @@ export const WeatherCard = styled.div<{ isSmallMobileDevice: boolean, isMobileDe
 	height: ${({ isSmallMobileDevice }) => isSmallMobileDevice && mobileHeightSmallDisplay};
 	height: ${({ isMobileDevice }) => isMobileDevice && mobileHeightBigDisplay};
 	height: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && desktopHeight};
+	box-shadow: 2px 2px 12px 2px ${Colors.shadowBlack};
 `;
 
 export const LocationNotFoundIcon = styled.img.attrs((props: { src: any; }) => ({
@@ -296,16 +298,19 @@ export const DangerLogo = styled.img.attrs((props: { src: any; }) => ({
 `;
 
 export const SearchBarContainer = styled.div`
-	height: 40px;
+	display: flex;
+	position: relative;
 `;
 
 export const CleanSearchBarContainer = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+`;
+
+export const CleanSearchBarButtonContainer = styled.div`
 	display: flex;
-	position: absolute;
-	width: 7.5%;
-	height: 6.2%;
-	top: 2.2%;
-	left: 89.5%;
+	width: 2.5rem;
 	border-radius: 10px;
 	border: 1px solid ${Colors.lightWhite};
 	background-color: ${Colors.lightOrange};
@@ -313,34 +318,11 @@ export const CleanSearchBarContainer = styled.div`
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
+	box-shadow: 2px 2px 6px 1px ${Colors.shadowGrey};
 	&:hover {
 		background-color: ${Colors.lightWhite};
 		color: ${Colors.wateryGreenToneDown};
-	}
-	@media only screen and (max-width: 375px) {
-		left: 88.6%;
-		top: 2.4%;
-		height: 7.1%;
-	}
-	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		left: 89%;
-	}
-	@media only screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
-		left: 89%;
-	}
-	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
-		left: 89%;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
-		left: 89%;
-	}
-	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		left: 89%;
-		top: 2.4%;
-		height: 6.9%;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
-		left: 89%;
+		box-shadow: 2px 2px 6px 1px ${Colors.shadowBlack};
 	}
 `;
 
@@ -419,14 +401,6 @@ export const BackContainer = styled.span`
 	cursor: pointer;
 	&:hover {
 		color: ${Colors.yellowLemon};
-	}
-	@media (max-width: 768px) {
-		margin-top: 10px;
-		margin-left: 5px;
-	}
-	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		margin-top: 10px;
-		margin-left: 5px;
 	}
 `;
 
@@ -551,28 +525,13 @@ export const AirPollutionLegendText = styled.code`
 	}
 `;
 
-export const AirPollutionItemContainer = styled.div`
-	margin-top: 40px;
+export const AirPollutionItemContainer = styled.div<{ isSmallMobileDevice: boolean, isMobileDevice: boolean, isDesktopOrLaptop: boolean }>`
 	display: flex;
 	align-items: center;
-	@media only screen and (max-width: 375px) {
-		font-size: 13px;
-	}
-	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		font-size: 13px;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
-		font-size: 13px;
-	}
-	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
-		font-size: 13px;
-	}
-	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		font-size: 13px;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
-		font-size: 13px;
-	}
+	margin-top: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '40px'};
+	margin-top: ${({ isMobileDevice }) => isMobileDevice && '35px'};
+	margin-top: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '30px'};
+	font-size:  ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '13px'};
 `;
 
 export const AirPollutionItemSpan = styled.span`
@@ -581,27 +540,27 @@ export const AirPollutionItemSpan = styled.span`
 	background-color: ${(props: { color: any; }) => props.color};
 	border-radius: 25px;
 	margin-left: 10px;
-	@media only screen and (max-width: 375px) {
+	@media only screen and(max-width: 375px) {
 		width: 25px;
 		height: 25px;
 	}
-	@media only screen and (min-width: 376px) and (max-width: 712px) {
+	@media only screen and(min-width: 376px) and(max-width: 712px) {
 		width: 25px;
 		height: 25px;
 	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
+	@media only screen and(device-width: 414px) and(device-height: 896px) and(-webkit-device-pixel-ratio: 3) {
 		width: 25px;
 		height: 25px;
 	}
-	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
+	@media only screen and(device-width: 390px) and(device-height: 844px) and(-webkit-device-pixel-ratio: 3) {
 		width: 25px;
 		height: 25px;
 	}
-	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+	@media only screen and(device-width: 375px) and(device-height: 812px) and(-webkit-device-pixel-ratio: 3) {
 		width: 25px;
 		height: 25px;
 	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
+	@media only screen and(device-width: 414px) and(device-height: 896px) and(-webkit-device-pixel-ratio: 2) {
 		width: 25px;
 		height: 25px;
 	}
@@ -624,6 +583,6 @@ export const UnitSpan = styled.span<{ isSelected: boolean }>`
 	color: lemon;
 	color: ${({ isSelected }) => isSelected && Colors.yellowLemon};
 	&:hover {
-	color: ${Colors.yellowLemon};
-}
+		color: ${Colors.yellowLemon};
+	}
 `;
