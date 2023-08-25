@@ -5,68 +5,39 @@ import { Colors } from './colors';
 let desktopWidth = 540 + 'px';
 let desktopHeight = 610 + 'px';
 let mobileWidth = window.innerWidth * 0.85 + 'px';
-let mobileHeightSmallDisplay = '508px';
-let mobileHeightBigDisplay = '580px';
+let mobileHeightSmallDisplay = '530px';
+let mobileHeightBigDisplay = '570px';
+
+console.log('width -> ', window.innerWidth);
 
 export const GlobalStyle = createGlobalStyle`
-  body {
-    margin: 0;
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-		'Droid Sans', 'Helvetica Neue', sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin-right: -50%;
-	transform: translate(-50%, -50%);
-	background-color: ${Colors.wateryGreen};
-  }
+	body {
+		margin: 0;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-right: -50%;
+		transform: translate(-50%, -50%);
+		background-color: ${Colors.wateryGreen};
+}
+`;
+
+
+export const WeatherIconContainer = styled.div`
+	display: flex;
+    width: 70%;
+    justify-content: flex-end;
 `;
 
 export const WeatherIcon = styled.img.attrs((props: { src: any; }) => ({
 	src: props.src,
 }))`
-	display: inline-block;
-	margin-right: auto;
-	margin-left: 40px;
-	margin-top: 10px;
+	width: 5em;
 	border-color: ${Colors.lightWhite};
 	background-color: ${Colors.lightOrange};
 	border-style: solid;
 	border-radius: 20px;
 	box-shadow: 2px 2px 6px 1px ${Colors.shadowGrey};
-	@media (max-width: 768px) {
-		margin-top: 20px;
-		margin-left: 10px;
-	}
-	@media only screen and (max-width: 375px) {
-		margin-top: 0px;
-		margin-left: 1px;
-		width: 84px;
-	}
-	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		margin-top: 4px;
-		margin-left: 4px;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
-		margin-top: 2px;
-		margin-left: 2px;
-	}
-	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
-		width: 90px;
-		margin-left: 0px;
-	}
-	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		margin-top: 2px;
-		margin-left: -3px;
-		width: 88px;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
-		margin-top: 6px;
-		margin-left: 2px;
-	}
-	width: 102px;
 `;
 
 export const SpinnerLogo = styled.img.attrs((props: { src: any; }) => ({
@@ -95,78 +66,49 @@ export const WeatherCard = styled.div<{ isSmallMobileDevice: boolean, isMobileDe
 	box-shadow: 2px 2px 12px 2px ${Colors.shadowBlack};
 `;
 
-export const LocationNotFoundIcon = styled.img.attrs((props: { src: any; }) => ({
-	src: props.src,
-}))`
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	@media (max-width: 768px) {
-		width: 295px;
-	}
-	@media only screen and (max-width: 375px) {
-		width: 320px;
-		margin-top: 15px;
-		margin-bottom: 30px;
-	}
-	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		width: 360px;
-		margin-top: 15px;
-		margin-bottom: 58px;
-	}
-	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		margin-bottom: 9px;
-	}
-	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		margin-bottom: 44px;
-	}
-	width: 402px;
+export const LocationNotFoundContainer = styled.div<{ isSmallMobileDevice: boolean, isMobileDevice: boolean, isDesktopOrLaptop: boolean }>`
+	display: flex;
+	flex-direction: column;
+    width: 100%;
+	justify-content: center;
+	align-items: center;
+    background-color: seashell;
+	margin-top: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '20px'};
+	margin-top: ${({ isMobileDevice }) => isMobileDevice && '30px'};
+	margin-top: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '20px'};
+	margin-bottom: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '20px'};
+	margin-bottom: ${({ isMobileDevice }) => isMobileDevice && '30px'};
+	margin-bottom: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '40px'};
 `;
 
-export const LocationNotFoundCode = styled.code`
+export const LocationNotFoundIcon = styled.img<{ src: any; isSmallMobileDevice: boolean, isMobileDevice: boolean, isDesktopOrLaptop: boolean }>`
+	width: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '400px'};
+	width: ${({ isMobileDevice }) => isMobileDevice && '360px'};
+	width: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '320px'};
+`;
+
+export const LocationNotFoundCode = styled.code<{ isSmallMobileDevice: boolean, isMobileDevice: boolean }>`
 	display: flex;
+	background-color: chocolate;
+	width: 100%;
 	justify-content: center;
 	text-align: center;
 	overflow-wrap: break-word;
 	-webkit-hyphens: auto;
 	-ms-hyphens: auto;
 	hyphens: auto;
-	@media only screen and (max-width: 375px) {
-		font-size: 11px;
-	}
-	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		font-size: 12px;
-	}
-	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		font-size: 10px;
-	}
-	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
-		margin-top: -1px;
-		font-size: 11px;
-	}
-	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+	font-size: ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '13px'};
 `;
 
-export const LogoApp = styled.img.attrs((props: { src: any; }) => ({
-	src: props.src,
-}))`
+export const LogoApp = styled.img<{ src: any; isDesktopOrLaptop: boolean, isMobileDevice: boolean, isSmallMobileDevice: boolean }>`
+	src: src;
 	margin-top: 10px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	@media (max-width: 768px) {
-		width: 295px;
-	}
-	@media only screen and (max-width: 375px) {
-		width: 158px;
-	}
-	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		width: 275px;
-	}
-	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		width: 176px;
-	}
-	width: 276px;
+	width: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '300px'};
+	width: ${({ isMobileDevice }) => isMobileDevice && '265px'};
+	width: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '190px'};
 `;
 
 export const TitleApp = styled.div`
@@ -174,119 +116,56 @@ export const TitleApp = styled.div`
 	cursor: default;
 `;
 
-export const Subtitle = styled.h2`
-	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-	font-size: 19px;
-	margin-left: 5px;
-	@media only screen and (max-width: 375px) {
-		font-size: 14px;
-	}
-	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		font-size: 14px;
-	}
-	@media only screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
-		font-size: 14px;
-	}
-	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
-		font-size: 14px;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
-		font-size: 14px;
-	}
-	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		font-size: 14px;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
-		font-size: 14px;
-	}
+export const Subtitle = styled.h2<{ isSmallMobileDevice: boolean, isMobileDevice: boolean, isDesktopOrLaptop: boolean }>`
+	font-size: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '20px'};
+	font-size: ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '14px'};
 `;
 
 export const WeatherMain = styled.div`
-	margin-top: -112px;
-	margin-left: 175px;
 	font-size: 16px;
+	width: 100%;
+	text-align: start;
 	cursor: default;
-	@media (max-width: 768px) {
-		margin-top: -118px;
-		margin-left: 132px;
-	}
-	@media only screen and (max-width: 375px) {
-		margin-top: -102px;
-		margin-left: 103px;
-	}
-	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		margin-top: -112px;
-		margin-left: 126px;
-	}
-	@media only screen and (device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) {
-		margin-top: -112px;
-	}
-	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
-		margin-top: -106px;
-		margin-left: 110px;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
-		margin-top: -112px;
-		margin-left: 125px;
-	}
-	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		margin-top: -104px;
-		margin-left: 106px;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
-		margin-top: -112px;
-		margin-left: 125px;
-	}
+`;
+
+export const AllDataContainer = styled.div`
+	display: flex;
+    flex-direction: column;
+    gap: 10px;
+`;
+
+export const WeatherMainContainer = styled.div`
+	display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: green;
+    justify-content: center;
+    gap: 15px;
 `;
 
 export const WeatherMainTemperature = styled.code`
-	margin-left: -5px;
 	font-size: 23px;
 	font-weight: bold;
 `;
 
 export const BreakLine = styled.br``;
 
-export const Code = styled.code`
-	margin-left: -5px;
-	@media only screen and (max-width: 375px) {
-		font-size: 11px;
-	}
-	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		font-size: 11px;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
-		font-size: 11px;
-	}
-	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		font-size: 11px;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
-		font-size: 11px;
-	}
-	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+export const Code = styled.code<{ isSmallMobileDevice: boolean, isMobileDevice: boolean }>`
+	font-size: ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '12px'};
+`;
+
+
+export const WeatherDataContainer = styled.div`
+	background-color: yellow;
+	display: flex;
+    justify-content: center;
 `;
 
 export const WeatherData = styled.div`
-	margin-top: 15px;
-	margin-left: 175px;
+	background-color: blue;
 	font-size: 16px;
+	text-align: start;
 	cursor: default;
-	@media (max-width: 768px) {
-		margin-left: 132px;
-	}
-	@media only screen and (max-width: 375px) {
-		margin-left: 103px;
-	}
-	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		margin-left: 127px;
-	}
-	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
-		margin-left: 110px;
-	}
-	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		margin-left: 106px;
-	}
 `;
 
 export const DangerLogo = styled.img.attrs((props: { src: any; }) => ({
@@ -299,7 +178,6 @@ export const DangerLogo = styled.img.attrs((props: { src: any; }) => ({
 
 export const SearchBarContainer = styled.div`
 	display: flex;
-	position: relative;
 `;
 
 export const CleanSearchBarContainer = styled.div`
@@ -331,60 +209,52 @@ export const CleanSearchBarButton = styled.span`
 	font-weight: bold;
 `;
 
-export const LanguagesContainer = styled.div`
+export const LanguagesContainer = styled.div<{ isMobileDevice: boolean; isSmallMobileDevice: boolean }>`
 	display: flex;
-	left: 32%;
-	bottom: 3.5%;
-	position: absolute;
-	@media only screen and (max-width: 375px) {
-		left: 20%;
-	}
-	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		left: 25%;
-	}
-	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
-		left: 22%;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
-		left: 25%;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
-		left: 25%;
-	}
+	justify-content: center;
+	text-align: center;
+	gap: 30px;
+	font-size:  ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '13px'};
 `;
 
 export const LanguageButton = styled.span`
 	display: flex;
 	text-decoration: underline;
-	height: 30px;
-	margin-right: 5px;
 	align-items: center;
-	border-radius: 6px;
 	white-space: nowrap;
-	padding-left: 4px;
-	padding-right: 4px;
-	font-size: 16px;
 	cursor: pointer;
 	&:hover {
 		color: ${Colors.yellowLemon};
 	}
 `;
 
+export const LanguageAndSocialNetworkContainer = styled.div`
+	background-color: burlywood;
+    display: flex;
+	width: 100%;
+    align-items: center;
+    justify-content: center;
+`;
+
 export const SocialNetworkIconContainer = styled.span<{ isDesktopOrLaptop: boolean }>`
 	display: flex;
 	position: absolute;
-	bottom: 2.5%;
-	left: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop ? '89%' : '86%'};
+	background-color: red;
+	left: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop ? '90%' : '86%'};
 `;
 
-export const SocialNetworkIcon = styled.image`
-	width: 40px;
-	height: 40px;
+export const SocialNetworkIcon = styled.image<{ mouseOver: any; regular: any; hover: any; isDesktopOrLaptop: boolean; isMobileDevice: boolean; isSmallMobileDevice: boolean }>`
+	width: 30px;
+	height: 30px;
 	background-size: contain;
 	cursor: pointer;
-	background-image: url(${(props: { mouseOver: any; regular: any; hover: any; }) => (!props.mouseOver ? props.regular : props.hover)});
+	width:  ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '30px'};
+	height:  ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '30px'};
+	width:  ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '25px'};
+	height:  ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '25px'};
+	background-image: url(${(props) => (props.mouseOver ? props.hover : props.regular)});
 	&:hover {
-		background-image: url(${(props: { hover: any; }) => props.hover});
+		background-image: url(${(props) => props.hover});
 	}
 `;
 
@@ -489,7 +359,6 @@ export const MoreInfoButton = styled.span`
 	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
 		font-size: 11px;
 	}
-	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 	&:hover {
 		color: ${Colors.yellowLemon};
 	}
@@ -566,14 +435,26 @@ export const AirPollutionItemSpan = styled.span`
 	}
 `;
 
+export const FooterContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+	`;
+
 export const UnitsContainer = styled.div`
+	margin-top: 10px;
+	background-color: blueviolet;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+export const UnitsSubContainer = styled.div<{ isMobileDevice: boolean; isSmallMobileDevice: boolean }>`
 	display: flex;
-	justify-content: center;
-	margin-top: 100;
 	font-size: 16px;
-	gap: 1rem;
-	margin-top: 1rem;
-	margin-top: 1rem;
+	gap: 30px;
+	background-color: blueviolet;
+	font-size:  ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '13px'};
 `;
 
 export const UnitSpan = styled.span<{ isSelected: boolean }>`

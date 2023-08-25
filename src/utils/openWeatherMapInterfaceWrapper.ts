@@ -18,11 +18,11 @@ const convertToWeather = (object: any, unit: Units) => {
     return {
         realFeel: Math.trunc(object.main.temp),
         feelsLike: Math.trunc(object.main.feels_like),
-        description: object.weather[0].description,
+        description: object.weather[0].description.charAt(0).toUpperCase() + object.weather[0].description.substring(1),
         icon: "",
         humidity: object.main.humidity,
         pressure: object.main.pressure,
-        windSpeed: Units.IMPERIAL === unit ? object.wind.speed : Math.trunc(object.wind.speed) * 3.6,
+        windSpeed: Units.IMPERIAL === unit ? Math.trunc(object.wind.speed) : Math.trunc(object.wind.speed) * 3.6,
         windDirection: getWindDirection(object),
         visibility: object.visibility,
         sunrise: object.sys.sunrise,

@@ -22,11 +22,15 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { SingleValue } from 'react-select';
 import {
+  AllDataContainer,
   BreakLine,
   Code,
   DangerLogo,
+  FooterContainer,
   GlobalStyle,
+  LanguageAndSocialNetworkContainer,
   LocationNotFoundCode,
+  LocationNotFoundContainer,
   LocationNotFoundIcon,
   LogoApp,
   MoreInfoButton,
@@ -37,10 +41,14 @@ import {
   TitleApp,
   UnitsContainer,
   UnitSpan,
+  UnitsSubContainer,
   WeatherCard,
   WeatherData,
+  WeatherDataContainer,
   WeatherIcon,
+  WeatherIconContainer,
   WeatherMain,
+  WeatherMainContainer,
   WeatherMainTemperature,
 } from 'styles/styles';
 import { generateURL } from 'utils/helpers';
@@ -70,7 +78,15 @@ const Weather = () => {
   const [weather, setWeather] = useState<WeatherInterface>(defaultWeather);
   const [airPollution, setAirPollution] = useState<AirPollutionInterface>(defaultAirPollution);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [width, setWidth] = useState<number>(window.innerWidth);
   const iconValue = useRef(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', handleResize);
+  }, [width]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -182,9 +198,17 @@ const Weather = () => {
     let showIcon;
     const { icon } = weather as WeatherInterface;
     if (iconWorking) {
-      showIcon = <WeatherIcon src={icon} alt="" />;
+      showIcon = (
+        <WeatherIconContainer>
+          <WeatherIcon src={icon} alt="" />
+        </WeatherIconContainer>
+      );
     } else {
-      showIcon = <WeatherIcon src={notFoundIcon} alt="" />;
+      showIcon = (
+        <WeatherIconContainer>
+          <WeatherIcon src={notFoundIcon} alt="" />;
+        </WeatherIconContainer>
+      );
     }
     if (isLoading || icon === '') {
       toShow = <SpinnerLogo src={loading} alt="" />;
@@ -212,114 +236,166 @@ const Weather = () => {
           <CitySearchBar changeCity={changeCity} />
           {validCoordinates ? (
             <>
-              <LogoApp src={logo} alt="" />
+              <LogoApp
+                src={logo}
+                alt=""
+                isDesktopOrLaptop={isDesktopOrLaptop}
+                isMobileDevice={isMobileDevice}
+                isSmallMobileDevice={isSmallMobileDevice}
+              />
               <TitleApp>
-                <Subtitle>
+                <Subtitle
+                  isDesktopOrLaptop={isDesktopOrLaptop}
+                  isMobileDevice={isMobileDevice}
+                  isSmallMobileDevice={isSmallMobileDevice}
+                >
                   {t('words.weatherIn')} {cityName} ({countryNameShort})
                 </Subtitle>
               </TitleApp>
-              {showIcon}
-              <WeatherMain>
-                <WeatherMainTemperature>
-                  {realFeel}{' '}
-                  {Units.IMPERIAL === unit
-                    ? t('words.temperature.unit.imperial')
-                    : t('words.temperature.unit.metric')}
-                </WeatherMainTemperature>
-                <BreakLine />
-                <Code>
-                  {t('words.temperature.feelsLike')} {feelsLike}{' '}
-                  {Units.IMPERIAL === unit
-                    ? t('words.temperature.unit.imperial')
-                    : t('words.temperature.unit.metric')}
-                </Code>
-                <BreakLine />
-                <Code>{description}</Code>
-                <BreakLine />
-                <SunriseSunsetInfo lat={lat} lon={lon} sunrise={sunrise} sunset={sunset} />
-              </WeatherMain>
-              <WeatherData>
-                <Code>
-                  {t('words.humidity')} {humidity}%
-                </Code>
-                <BreakLine />
-                <Code>
-                  {t('words.pressure')} {pressure} hPa
-                </Code>
-                <BreakLine />
-                <Code>
-                  {t('words.windInfo.wind')} {t(`words.windInfo.windDirection.${windDirection}`)}{' '}
-                  {windSpeed}{' '}
-                  {Units.IMPERIAL === unit
-                    ? t('words.windInfo.unit.imperial')
-                    : t('words.windInfo.unit.metric')}
-                </Code>
-                <BreakLine />
-                <Code>
-                  {t('words.visibility')} {visibility} m
-                </Code>
-                <BreakLine />
-                <Code>
-                  {t('words.airPollution.aqi')}
-                  {
-                    Object.values(t('words.airPollution.status', { returnObjects: true }))[
-                      airPollution?.AQI
-                    ]
-                  }{' '}
-                  <MoreInfoButton
-                    onClick={() => {
-                      navigate(`/air_pollution_info`, {
-                        state: { airPollution },
-                      });
-                    }}
-                  >
-                    {t('words.airPollution.moreInfo')}
-                  </MoreInfoButton>
-                </Code>
-                <BreakLine />
-                <BreakLine />
-                <Code>
-                  {t('words.updatedAt')} {lastTimeChecked}
-                </Code>
-                <BreakLine />
-                <Code>
-                  {t('words.date')} {lastDateChecked}
-                </Code>
-              </WeatherData>
+              <AllDataContainer>
+                <WeatherMainContainer>
+                  {showIcon}
+                  <WeatherMain>
+                    <WeatherMainTemperature>
+                      {realFeel}{' '}
+                      {Units.IMPERIAL === unit
+                        ? t('words.temperature.unit.imperial')
+                        : t('words.temperature.unit.metric')}
+                    </WeatherMainTemperature>
+                    <BreakLine />
+                    <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
+                      {t('words.temperature.feelsLike')} {feelsLike}{' '}
+                      {Units.IMPERIAL === unit
+                        ? t('words.temperature.unit.imperial')
+                        : t('words.temperature.unit.metric')}
+                    </Code>
+                    <BreakLine />
+                    <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
+                      {description}
+                    </Code>
+                    <BreakLine />
+                    <SunriseSunsetInfo lat={lat} lon={lon} sunrise={sunrise} sunset={sunset} />
+                  </WeatherMain>
+                </WeatherMainContainer>
+                <WeatherDataContainer>
+                  <WeatherData>
+                    <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
+                      {t('words.humidity')} {humidity}%
+                    </Code>
+                    <BreakLine />
+                    <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
+                      {t('words.pressure')} {pressure} hPa
+                    </Code>
+                    <BreakLine />
+                    <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
+                      {t('words.windInfo.wind')}
+                      {windSpeed}{' '}
+                      {Units.IMPERIAL === unit
+                        ? t('words.windInfo.unit.imperial')
+                        : t('words.windInfo.unit.metric')}{' '}
+                      {t(`words.windInfo.windDirection.${windDirection}`)}
+                    </Code>
+                    <BreakLine />
+                    <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
+                      {t('words.visibility')} {visibility} m
+                    </Code>
+                    <BreakLine />
+                    <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
+                      {t('words.airPollution.aqi')}
+                      {
+                        Object.values(t('words.airPollution.status', { returnObjects: true }))[
+                          airPollution?.AQI
+                        ]
+                      }{' '}
+                      <MoreInfoButton
+                        onClick={() => {
+                          navigate(`/air_pollution_info`, {
+                            state: { airPollution },
+                          });
+                        }}
+                      >
+                        {t('words.airPollution.moreInfo')}
+                      </MoreInfoButton>
+                    </Code>
+                    <BreakLine />
+                    <BreakLine />
+                    <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
+                      {t('words.updatedAt')} {lastTimeChecked}
+                    </Code>
+                    <BreakLine />
+                    <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
+                      {t('words.date')} {lastDateChecked}
+                    </Code>
+                  </WeatherData>
+                </WeatherDataContainer>
+              </AllDataContainer>
             </>
           ) : (
-            <>
-              <LocationNotFoundIcon src={locationNotFound} alt="" />
-              <LocationNotFoundCode>
+            <LocationNotFoundContainer
+              isDesktopOrLaptop={isDesktopOrLaptop}
+              isMobileDevice={isMobileDevice}
+              isSmallMobileDevice={isSmallMobileDevice}
+            >
+              <LocationNotFoundIcon
+                src={locationNotFound}
+                alt=""
+                isDesktopOrLaptop={isDesktopOrLaptop}
+                isMobileDevice={isMobileDevice}
+                isSmallMobileDevice={isSmallMobileDevice}
+              />
+              <LocationNotFoundCode
+                isMobileDevice={isMobileDevice}
+                isSmallMobileDevice={isSmallMobileDevice}
+              >
                 {t('words.locationNotFound.funnyMessage')} {cityName}
               </LocationNotFoundCode>
               <BreakLine />
-              <LocationNotFoundCode>{t('words.locationNotFound.realMessage')}</LocationNotFoundCode>
-            </>
+              <LocationNotFoundCode
+                isMobileDevice={isMobileDevice}
+                isSmallMobileDevice={isSmallMobileDevice}
+              >
+                {t('words.locationNotFound.realMessage')}
+              </LocationNotFoundCode>
+            </LocationNotFoundContainer>
           )}
-          <Language changeLanguage={changeLanguage} />
-          <UnitsContainer>
-            <UnitSpan isSelected={Units.IMPERIAL === unit} onClick={() => setUnit(Units.IMPERIAL)}>
-              {t('words.unit.imperial')}
-            </UnitSpan>
-            <UnitSpan isSelected={Units.METRIC === unit} onClick={() => setUnit(Units.METRIC)}>
-              {t('words.unit.metric')}
-            </UnitSpan>
-          </UnitsContainer>
-          <SocialNetworkIconContainer
-            isDesktopOrLaptop={isDesktopOrLaptop}
-            onMouseEnter={() => setMouseOver(true)}
-            onMouseLeave={() => setMouseOver(false)}
-            onClick={() => {
-              navigate(`/social_network`);
-            }}
-          >
-            <SocialNetworkIcon
-              mouseOver={mouseOver}
-              regular={social_network}
-              hover={social_network_hover}
-            />
-          </SocialNetworkIconContainer>
+          <FooterContainer>
+            <UnitsContainer>
+              <UnitsSubContainer
+                isMobileDevice={isMobileDevice}
+                isSmallMobileDevice={isSmallMobileDevice}
+              >
+                <UnitSpan
+                  isSelected={Units.IMPERIAL === unit}
+                  onClick={() => setUnit(Units.IMPERIAL)}
+                >
+                  {t('words.unit.imperial')}
+                </UnitSpan>
+                <UnitSpan isSelected={Units.METRIC === unit} onClick={() => setUnit(Units.METRIC)}>
+                  {t('words.unit.metric')}
+                </UnitSpan>
+              </UnitsSubContainer>
+            </UnitsContainer>
+            <LanguageAndSocialNetworkContainer>
+              <Language changeLanguage={changeLanguage} />
+              <SocialNetworkIconContainer
+                isDesktopOrLaptop={isDesktopOrLaptop}
+                onMouseEnter={() => setMouseOver(true)}
+                onMouseLeave={() => setMouseOver(false)}
+                onClick={() => {
+                  navigate(`/social_network`);
+                }}
+              >
+                <SocialNetworkIcon
+                  isDesktopOrLaptop={isDesktopOrLaptop}
+                  isMobileDevice={isMobileDevice}
+                  isSmallMobileDevice={isSmallMobileDevice}
+                  mouseOver={mouseOver}
+                  regular={social_network}
+                  hover={social_network_hover}
+                />
+              </SocialNetworkIconContainer>
+            </LanguageAndSocialNetworkContainer>
+          </FooterContainer>
         </WeatherCard>
       );
     }
@@ -328,7 +404,9 @@ const Weather = () => {
       <>
         <DangerLogo src={danger} alt="" />
         <BreakLine />
-        <Code>{t('words.conectionError')}</Code>
+        <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
+          {t('words.conectionError')}
+        </Code>
       </>
     );
   }

@@ -1,11 +1,13 @@
 import { StorageKeys } from 'enums/index';
+import useDimensions from 'hooks/useDimensions';
 import { useTranslation } from 'react-i18next';
 import { LanguageButton, LanguagesContainer } from 'styles/styles';
 
 const Language = ({ changeLanguage }: any) => {
+  const { isMobileDevice, isSmallMobileDevice } = useDimensions();
   const { t } = useTranslation();
   return (
-    <LanguagesContainer>
+    <LanguagesContainer isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
       {Object.entries(
         t(StorageKeys.LANGUAGES, {
           returnObjects: true,

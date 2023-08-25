@@ -77,11 +77,11 @@ const CitySearchBar = ({ changeCity }: any) => {
     control: () => ({
       display: 'flex',
       width: isDesktopOrLaptop
-        ? '30rem'
+        ? '470px'
         : isMobileDevice
-        ? '17rem'
+        ? '450px'
         : isSmallMobileDevice
-        ? '16rem'
+        ? '270px'
         : '',
       backgroundColor: Colors.lightOrange,
       borderRadius: '8px',

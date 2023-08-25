@@ -7,7 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import reportWebVitals from './reportWebVitals';
 
-import './components/Weather/Weather.css';
+import './index.css'
 
 import 'translations/i18n';
 

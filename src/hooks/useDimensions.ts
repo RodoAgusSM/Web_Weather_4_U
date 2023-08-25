@@ -10,13 +10,14 @@ const useDimensions = () => {
         maxWidth: "768px",
     });
 
-    const isTabletDevice = useMediaQuery({
+    /* const isTabletDevice = useMediaQuery({
         minWidth: "769px",
         maxWidth: "1024px",
-    });
+    }); */
 
     const isDesktopOrLaptop = useMediaQuery({
-        minWidth: "1025px",
+        //minWidth: "1025px",
+        minWidth: "769px",
     })
 
     const isPortrait = useMediaQuery({ orientation: 'portrait' })
@@ -27,7 +28,7 @@ const useDimensions = () => {
     return {
         isSmallMobileDevice,
         isMobileDevice,
-        isTabletDevice,
+        //isTabletDevice,
         isDesktopOrLaptop,
         isPortrait,
         isLandscape,

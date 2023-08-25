@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import useDimensions from 'hooks/useDimensions';
 import { useTranslation } from 'react-i18next';
 import { BreakLine, Code } from 'styles/styles';
 
@@ -14,6 +15,7 @@ const SunriseSunsetInfo = ({
   sunset: number;
 }) => {
   const { t } = useTranslation();
+  const { isMobileDevice, isSmallMobileDevice } = useDimensions();
   const { find } = require('geo-tz');
   const [sunriseTime, setSunriseTime] = useState<string>();
   const [sunsetTime, setSunsetTime] = useState<string>();
@@ -42,11 +44,11 @@ const SunriseSunsetInfo = ({
 
   return (
     <div>
-      <Code>
+      <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
         {t('words.sunrise')} {sunriseTime}
       </Code>
       <BreakLine />
-      <Code>
+      <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
         {t('words.sunset')} {sunsetTime}
       </Code>
     </div>
