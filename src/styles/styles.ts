@@ -9,7 +9,7 @@ let mobileHeightSmallDisplay = '530px';
 let mobileHeightBigDisplay = '570px';
 
 
-export const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle<{ isSmallMobileDevice: boolean }>`
 	body {
 		margin: 0;
 		position: absolute;
@@ -18,6 +18,7 @@ export const GlobalStyle = createGlobalStyle`
 		margin-right: -50%;
 		transform: translate(-50%, -50%);
 		background-color: ${Colors.wateryGreen};
+		margin-top: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '6px'};
 }
 `;
 
@@ -430,9 +431,9 @@ export const FooterContainer = styled.div<{ isDesktopOrLaptop: boolean; isMobile
     display: flex;
     flex-direction: column;
 	gap: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '10px'};
-	gap: ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '25px'};
+	gap: ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '20px'};
 	margin-top: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '15px'};
-	margin-top: ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '35px'};
+	margin-top: ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '30px'};
 `;
 
 export const UnitsContainer = styled.div<{ isDesktopOrLaptop: boolean; isMobileDevice: boolean; isSmallMobileDevice: boolean }>`
@@ -443,7 +444,7 @@ export const UnitsContainer = styled.div<{ isDesktopOrLaptop: boolean; isMobileD
 	border-radius: 6px;
 	box-shadow: 2px 2px 6px 1px ${Colors.sonicSilver};
 	margin-top: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '6px'};
-	margin-top: ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '15px'};
+	margin-top: ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '14px'};
 `;
 
 export const UnitsSubContainer = styled.div<{ isMobileDevice: boolean; isSmallMobileDevice: boolean }>`

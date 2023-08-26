@@ -1,6 +1,9 @@
 {
   "short_name": "Weather4U",
   "name": "Weather 4 U",
+  "manifest_version": 3,
+  "version": "2.3.0",
+  "author": "Rodolfo Agustín Silva Messano",
   "icons": [
     {
       "src": "favicon.ico",

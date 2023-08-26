@@ -290,7 +290,7 @@ const AirPollutionInfo = () => {
 
   return (
     <>
-      <GlobalStyle />
+      <GlobalStyle isSmallMobileDevice={isSmallMobileDevice} />
       <WeatherCard
         isDesktopOrLaptop={isDesktopOrLaptop}
         isMobileDevice={isMobileDevice}

@@ -1,7 +1,7 @@
 import { InterfaceName, StorageKeys, Units } from 'enums/index';
 import { AirPollution, Weather } from 'interfaces/index';
 
-import { getLastDateChecked, getLastTimeChecked, getLastTimeChecked12HoursFormat, getWindDirection } from './helpers';
+import { getLastDateChecked, getLastDateCheckedAmerican, getLastTimeChecked, getLastTimeChecked12HoursFormat, getWindDirection } from './helpers';
 
 export const convertOpenWeatherMapResponseToInterface = (interfaceName: InterfaceName, unit: Units, object: any) => {
     switch (interfaceName) {
@@ -28,7 +28,7 @@ const convertToWeather = (object: any, unit: Units) => {
         sunrise: object.sys.sunrise,
         sunset: object.sys.sunset,
         lastTimeChecked: localStorage.getItem(StorageKeys.LANGUAGE) === 'en' ? getLastTimeChecked12HoursFormat() : getLastTimeChecked(),
-        lastDateChecked: localStorage.getItem(StorageKeys.LANGUAGE) === 'en' ? getLastDateChecked() : getLastDateChecked(),
+        lastDateChecked: localStorage.getItem(StorageKeys.LANGUAGE) === 'en' ? getLastDateCheckedAmerican() : getLastDateChecked(),
     } as Weather
 }
 

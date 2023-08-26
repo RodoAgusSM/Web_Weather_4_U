@@ -462,7 +462,7 @@ const Weather = () => {
   }
   return (
     <>
-      <GlobalStyle />
+      <GlobalStyle isSmallMobileDevice={isSmallMobileDevice} />
       {toShow}
     </>
   );
