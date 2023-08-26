@@ -327,7 +327,10 @@ const Weather = () => {
                         isMobileDevice={isMobileDevice}
                         isSmallMobileDevice={isSmallMobileDevice}
                       >
-                        {t('words.visibility')} {visibility} m
+                        {t('words.visibilityInfo.visibility')} {visibility}{' '}
+                        {Units.IMPERIAL === unit
+                          ? t('words.visibilityInfo.unit.imperial')
+                          : t('words.visibilityInfo.unit.metric')}
                       </Code>
                     </ColumnContainer>
                     <AirQualitySectionContainer>

@@ -50,7 +50,13 @@ export const TranslationPt = {
 				northNorthWest: 'NNO',
 			}
 		},
-		visibility: 'Visibilidade: ',
+		visibilityInfo: {
+			visibility: 'Visibilidade: ',
+			unit: {
+				imperial: 'mi',
+				metric: 'm',
+			},
+		},
 		airPollution: {
 			aqi: 'Qualidade do ar: ',
 			status: { 1: 'Bom', 2: 'Aceitável', 3: 'Moderado', 4: 'Pobre', 5: 'Muito pobre' },

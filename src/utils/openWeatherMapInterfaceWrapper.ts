@@ -24,7 +24,7 @@ const convertToWeather = (object: any, unit: Units) => {
         pressure: object.main.pressure,
         windSpeed: Units.IMPERIAL === unit ? Math.trunc(object.wind.speed) : Math.trunc(object.wind.speed * 3.6),
         windDirection: getWindDirection(object),
-        visibility: object.visibility,
+        visibility: Units.IMPERIAL === unit ? Math.trunc(object.visibility / 1609.344) : object.visibility,
         sunrise: object.sys.sunrise,
         sunset: object.sys.sunset,
         lastTimeChecked: localStorage.getItem(StorageKeys.LANGUAGE) === 'en' ? getLastTimeChecked12HoursFormat() : getLastTimeChecked(),
