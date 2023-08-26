@@ -9,9 +9,13 @@ import {
   AirPollutionItemContainer,
   AirPollutionItemLegendIcon,
   AirPollutionItemSpan,
-  AirPollutionLegendText,
+  AirPollutionLegendDesktopContainer,
+  AirPollutionLegendDesktopSubContainer,
+  AirPollutionLegendMobileContainer,
+  AirPollutionLegendMobileSubContainer,
   BackContainer,
   BackIcon,
+  CenteredContainer,
   GlobalStyle,
   WeatherCard,
 } from 'styles/styles';
@@ -304,128 +308,50 @@ const AirPollutionInfo = () => {
         </BackContainer>
 
         {isDesktopOrLaptop && (
-          <div
-            style={{
-              marginTop: 40,
-              marginBottom: 65,
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
+          <AirPollutionLegendDesktopContainer>
+            <AirPollutionLegendDesktopSubContainer>
               <AirPollutionItemLegendIcon color={'#79BC6A'} />
-              <AirPollutionLegendText>
-                {Object.values(t('words.airPollution.status', { returnObjects: true }))[0]}
-              </AirPollutionLegendText>
+              {Object.values(t('words.airPollution.status', { returnObjects: true }))[0]}
               <AirPollutionItemLegendIcon color={'#BBCf4C'} />
-              <AirPollutionLegendText>
-                {Object.values(t('words.airPollution.status', { returnObjects: true }))[1]}
-              </AirPollutionLegendText>
+              {Object.values(t('words.airPollution.status', { returnObjects: true }))[1]}
               <AirPollutionItemLegendIcon color={'#EEC209'} />
-              <AirPollutionLegendText>
-                {Object.values(t('words.airPollution.status', { returnObjects: true }))[2]}
-              </AirPollutionLegendText>
+              {Object.values(t('words.airPollution.status', { returnObjects: true }))[2]}
               <AirPollutionItemLegendIcon color={'#F39307'} />
-              <AirPollutionLegendText>
-                {Object.values(t('words.airPollution.status', { returnObjects: true }))[3]}
-              </AirPollutionLegendText>
+              {Object.values(t('words.airPollution.status', { returnObjects: true }))[3]}
               <AirPollutionItemLegendIcon color={'#E8406F'} />
-              <AirPollutionLegendText>
-                {Object.values(t('words.airPollution.status', { returnObjects: true }))[4]}
-              </AirPollutionLegendText>
-            </div>
-          </div>
+              {Object.values(t('words.airPollution.status', { returnObjects: true }))[4]}
+            </AirPollutionLegendDesktopSubContainer>
+          </AirPollutionLegendDesktopContainer>
         )}
         {(isMobileDevice || isSmallMobileDevice) && (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: 15,
-              gap: 8,
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
+          <AirPollutionLegendMobileContainer>
+            <AirPollutionLegendMobileSubContainer>
               <AirPollutionItemLegendIcon color={'#79BC6A'} />
-              <AirPollutionLegendText>
-                {Object.values(t('words.airPollution.status', { returnObjects: true }))[0]}
-              </AirPollutionLegendText>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
+              {Object.values(t('words.airPollution.status', { returnObjects: true }))[0]}
+            </AirPollutionLegendMobileSubContainer>
+            <AirPollutionLegendMobileSubContainer>
               <AirPollutionItemLegendIcon color={'#BBCf4C'} />
-              <AirPollutionLegendText>
-                {Object.values(t('words.airPollution.status', { returnObjects: true }))[1]}
-              </AirPollutionLegendText>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
+              {Object.values(t('words.airPollution.status', { returnObjects: true }))[1]}
+            </AirPollutionLegendMobileSubContainer>
+            <AirPollutionLegendMobileSubContainer>
               <AirPollutionItemLegendIcon color={'#EEC209'} />
-              <AirPollutionLegendText>
-                {Object.values(t('words.airPollution.status', { returnObjects: true }))[2]}
-              </AirPollutionLegendText>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
+              {Object.values(t('words.airPollution.status', { returnObjects: true }))[2]}
+            </AirPollutionLegendMobileSubContainer>
+            <AirPollutionLegendMobileSubContainer>
               <AirPollutionItemLegendIcon color={'#F39307'} />
-              <AirPollutionLegendText>
-                {Object.values(t('words.airPollution.status', { returnObjects: true }))[3]}
-              </AirPollutionLegendText>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
+              {Object.values(t('words.airPollution.status', { returnObjects: true }))[3]}
+            </AirPollutionLegendMobileSubContainer>
+            <AirPollutionLegendMobileSubContainer>
               <AirPollutionItemLegendIcon color={'#E8406F'} />
-              <AirPollutionLegendText>
-                {Object.values(t('words.airPollution.status', { returnObjects: true }))[4]}
-              </AirPollutionLegendText>
-            </div>
-          </div>
+              {Object.values(t('words.airPollution.status', { returnObjects: true }))[4]}
+            </AirPollutionLegendMobileSubContainer>
+          </AirPollutionLegendMobileContainer>
         )}
-
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
+        <CenteredContainer>
           {Object.entries(airPollution).map((entry: any[], index: number) => (
             <div key={index}>{generateLabel(entry[0], entry[1]) || null}</div>
           ))}
-        </div>
+        </CenteredContainer>
       </WeatherCard>
     </>
   );

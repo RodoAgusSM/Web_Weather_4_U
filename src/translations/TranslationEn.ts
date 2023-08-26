@@ -24,7 +24,7 @@ export const TranslationEn = {
 		updatedAt: 'Updated at ',
 		date: 'Date ',
 		humidity: 'Humidity: ',
-		pressure: 'Pression: ',
+		pressure: 'Pressure: ',
 		windInfo: {
 			wind: 'Wind: ',
 			unit: {
@@ -54,7 +54,7 @@ export const TranslationEn = {
 		airPollution: {
 			aqi: 'Air quality: ',
 			status: { 1: 'Good', 2: 'Fair', 3: 'Moderate', 4: 'Poor', 5: 'Very Poor' },
-			moreInfo: '+Info',
+			moreInfo: 'i',
 			elements: {
 				AQI: 'Air quality',
 				carbonMonoxide: 'Carbon monoxide',
@@ -67,8 +67,8 @@ export const TranslationEn = {
 				ammonia: 'Ammonia',
 			},
 		},
-		sunrise: 'Sunrise at: ',
-		sunset: 'Sunset at: ',
+		sunrise: 'Sunrise: ',
+		sunset: 'Sunset: ',
 		locationNotFound: {
 			funnyMessage: 'Our compass did not find the city ',
 			realMessage: 'Please try again with another location',

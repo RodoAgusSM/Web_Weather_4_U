@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
+import { StorageKeys } from 'enums';
 import useDimensions from 'hooks/useDimensions';
 import { useTranslation } from 'react-i18next';
-import { BreakLine, Code } from 'styles/styles';
+import { Code, ColumnContainer } from 'styles/styles';
 
 const SunriseSunsetInfo = ({
   lat,
@@ -23,19 +24,38 @@ const SunriseSunsetInfo = ({
   useEffect(() => {
     try {
       const timeZone = find(lat, lon)[0];
-      setSunriseTime(
-        new Date(sunrise * 1000).toLocaleString([], {
-          timeStyle: 'short',
-          timeZone: timeZone,
-        })
-      );
+      if (localStorage.getItem(StorageKeys.LANGUAGE) === 'en') {
+        setSunriseTime(
+          new Date(sunrise * 1000).toLocaleString([], {
+            timeStyle: 'short',
+            timeZone: timeZone,
+          })
+        );
 
-      setSunsetTime(
-        new Date(sunset * 1000).toLocaleString([], {
-          timeStyle: 'short',
-          timeZone: timeZone,
-        })
-      );
+        setSunsetTime(
+          new Date(sunset * 1000).toLocaleString([], {
+            timeStyle: 'short',
+            timeZone: timeZone,
+          })
+        );
+      } else {
+        setSunriseTime(
+          new Date(sunrise * 1000).toLocaleString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+            timeZone: timeZone,
+          })
+        );
+        setSunsetTime(
+          new Date(sunset * 1000).toLocaleString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false,
+            timeZone: timeZone,
+          })
+        );
+      }
     } catch (error) {
       setSunriseTime(t('words.locationNotFound.noData'));
       setSunsetTime(t('words.locationNotFound.noData'));
@@ -43,15 +63,14 @@ const SunriseSunsetInfo = ({
   }, [lat, lon, sunrise, sunset, t]);
 
   return (
-    <div>
+    <ColumnContainer>
       <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
         {t('words.sunrise')} {sunriseTime}
       </Code>
-      <BreakLine />
       <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
         {t('words.sunset')} {sunsetTime}
       </Code>
-    </div>
+    </ColumnContainer>
   );
 };
 

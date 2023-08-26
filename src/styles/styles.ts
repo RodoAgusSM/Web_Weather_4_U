@@ -8,7 +8,6 @@ let mobileWidth = window.innerWidth * 0.85 + 'px';
 let mobileHeightSmallDisplay = '530px';
 let mobileHeightBigDisplay = '570px';
 
-console.log('width -> ', window.innerWidth);
 
 export const GlobalStyle = createGlobalStyle`
 	body {
@@ -33,29 +32,27 @@ export const WeatherIcon = styled.img.attrs((props: { src: any; }) => ({
 	src: props.src,
 }))`
 	width: 5em;
-	border-color: ${Colors.lightWhite};
-	background-color: ${Colors.lightOrange};
+	border-color: ${Colors.whiteChocolate};
+	background-color: ${Colors.veryPaleOrange};
 	border-style: solid;
 	border-radius: 20px;
-	box-shadow: 2px 2px 6px 1px ${Colors.shadowGrey};
+	box-shadow: 2px 2px 6px 1px ${Colors.sonicSilver};
 `;
 
-export const SpinnerLogo = styled.img.attrs((props: { src: any; }) => ({
-	src: props.src,
-}))`
-	width: 30%;
+export const SpinnerLogo = styled.img<{ src: any; isDesktopOrLaptop: boolean, isMobileDevice: boolean, isSmallMobileDevice: boolean }>`
+	src: src;
+	width: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '30%'};
+	width: ${({ isMobileDevice }) => isMobileDevice && '70%'};
+	width: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '90%'};
 	display: block;
 	margin: 0 auto;
-	@media (max-width: 768px) {
-		width: 90%;
-	}
 `;
 
 export const WeatherCard = styled.div<{ isSmallMobileDevice: boolean, isMobileDevice: boolean, isDesktopOrLaptop: boolean }>`
-	border-color: ${Colors.lightWhite};
+	border-color: ${Colors.whiteChocolate};
 	border-style: solid;
 	padding: 10px;
-	background-color: ${Colors.lightGreen};
+	background-color: ${Colors.jetStream};
 	border-radius: 20px;
 	color: ${Colors.black};
 	word-wrap: break-word;
@@ -63,7 +60,7 @@ export const WeatherCard = styled.div<{ isSmallMobileDevice: boolean, isMobileDe
 	height: ${({ isSmallMobileDevice }) => isSmallMobileDevice && mobileHeightSmallDisplay};
 	height: ${({ isMobileDevice }) => isMobileDevice && mobileHeightBigDisplay};
 	height: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && desktopHeight};
-	box-shadow: 2px 2px 12px 2px ${Colors.shadowBlack};
+	box-shadow: 2px 2px 12px 2px ${Colors.darkCharcoal};
 `;
 
 export const LocationNotFoundContainer = styled.div<{ isSmallMobileDevice: boolean, isMobileDevice: boolean, isDesktopOrLaptop: boolean }>`
@@ -116,7 +113,7 @@ export const TitleApp = styled.div`
 	cursor: default;
 `;
 
-export const Subtitle = styled.h2<{ isSmallMobileDevice: boolean, isMobileDevice: boolean, isDesktopOrLaptop: boolean }>`
+export const Subtitle = styled.h2<{ isDesktopOrLaptop: boolean, isMobileDevice: boolean, isSmallMobileDevice: boolean }>`
 	font-size: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '20px'};
 	font-size: ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '14px'};
 `;
@@ -128,17 +125,18 @@ export const WeatherMain = styled.div`
 	cursor: default;
 `;
 
-export const AllDataContainer = styled.div`
+export const AllDataContainer = styled.div<{ isDesktopOrLaptop: boolean, isMobileDevice: boolean, isSmallMobileDevice: boolean }>`
 	display: flex;
     flex-direction: column;
-    gap: 10px;
+	gap: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '14px'};
+	gap: ${({ isMobileDevice }) => isMobileDevice && '18px'};
+	gap: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '20px'};
 `;
 
 export const WeatherMainContainer = styled.div`
 	display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: green;
     justify-content: center;
     gap: 15px;
 `;
@@ -148,21 +146,24 @@ export const WeatherMainTemperature = styled.code`
 	font-weight: bold;
 `;
 
+export const ColumnContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+`
+
 export const BreakLine = styled.br``;
 
-export const Code = styled.code<{ isSmallMobileDevice: boolean, isMobileDevice: boolean }>`
+export const Code = styled.code<{ isMobileDevice: boolean, isSmallMobileDevice: boolean }>`
 	font-size: ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '12px'};
 `;
 
 
 export const WeatherDataContainer = styled.div`
-	background-color: yellow;
 	display: flex;
     justify-content: center;
 `;
 
 export const WeatherData = styled.div`
-	background-color: blue;
 	font-size: 16px;
 	text-align: start;
 	cursor: default;
@@ -190,17 +191,17 @@ export const CleanSearchBarButtonContainer = styled.div`
 	display: flex;
 	width: 2.5rem;
 	border-radius: 10px;
-	border: 1px solid ${Colors.lightWhite};
-	background-color: ${Colors.lightOrange};
+	border: 1px solid ${Colors.whiteChocolate};
+	background-color: ${Colors.veryPaleOrange};
 	color:  ${Colors.black};
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
-	box-shadow: 2px 2px 6px 1px ${Colors.shadowGrey};
+	box-shadow: 2px 2px 6px 1px ${Colors.sonicSilver};
 	&:hover {
-		background-color: ${Colors.lightWhite};
-		color: ${Colors.wateryGreenToneDown};
-		box-shadow: 2px 2px 6px 1px ${Colors.shadowBlack};
+		background-color: ${Colors.whiteChocolate};
+		color: ${Colors.pearlAqua};
+		box-shadow: 2px 2px 6px 1px ${Colors.darkCharcoal};
 	}
 `;
 
@@ -224,12 +225,11 @@ export const LanguageButton = styled.span`
 	white-space: nowrap;
 	cursor: pointer;
 	&:hover {
-		color: ${Colors.yellowLemon};
+		color: ${Colors.yellowSun};
 	}
 `;
 
 export const LanguageAndSocialNetworkContainer = styled.div`
-	background-color: burlywood;
     display: flex;
 	width: 100%;
     align-items: center;
@@ -239,7 +239,6 @@ export const LanguageAndSocialNetworkContainer = styled.div`
 export const SocialNetworkIconContainer = styled.span<{ isDesktopOrLaptop: boolean }>`
 	display: flex;
 	position: absolute;
-	background-color: red;
 	left: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop ? '90%' : '86%'};
 `;
 
@@ -270,7 +269,7 @@ export const BackContainer = styled.span`
 	margin-top: 5px;
 	cursor: pointer;
 	&:hover {
-		color: ${Colors.yellowLemon};
+		color: ${Colors.yellowSun};
 	}
 `;
 
@@ -307,61 +306,94 @@ export const NetworkContainer = styled.div`
 	flex-direction: column;
 	align-items: center;
 	padding-top: 58px;
-	@media only screen and (max-width: 375px) {
-		padding-top: 10px;
-	}
 `;
 
 export const NetworkMapContainer = styled.div`
 	display: 'flex';
 	flex-direction: 'row';
 	padding-top: 15px;
-	padding-bottom: 15px;
+	padding-bottom: 5px;
 `;
 
 export const SocialNetworkName = styled.span`
-	font-size: 16px;
+	font-size: 15px;
 	font-weight: bold;
 	cursor: default;
-	color: ${Colors.darkerGreen};
+	color: ${Colors.darkSlateGray};
 `;
 
 export const SocialNetworkItem = styled.a`
-	font-size: 16px;
+	font-size: 15px;
 	font-weight: bold;
 	text-decoration: underline;
 	cursor: pointer;
-	color: ${Colors.darkerGreen};
+	color: ${Colors.darkSlateGray};
 	&:hover {
-		color: ${Colors.yellowLemon};
+		color: ${Colors.yellowSun};
 	}
 `;
 
-export const MoreInfoButton = styled.span`
+export const AirQualitySectionContainer = styled.div`
+	display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 7px;
+`;
+
+export const MoreInfoButton = styled.div<{ isDesktopOrLaptop: boolean; isMobileDevice: boolean; isSmallMobileDevice: boolean }>`
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	cursor: pointer;
-	text-decoration: underline;
-	font-size: 16px;
-	@media only screen and (max-width: 375px) {
-		font-size: 11px;
-	}
-	@media only screen and (max-width: 375px) {
-		font-size: 11px;
-	}
-	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		font-size: 11px;
-	}
-	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		font-size: 10px;
-	}
-	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
-		font-size: 11px;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
-		font-size: 11px;
-	}
+    border-radius: 50px;
+	height: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '15px'};
+	width: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '15px'};
+	font-size: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '16px'};
+	border: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && `solid 2px ${Colors.black};`};
+	height: ${({ isMobileDevice }) => isMobileDevice && '13px'};
+	width: ${({ isMobileDevice }) => isMobileDevice && '13px'};
+	font-size: ${({ isMobileDevice }) => isMobileDevice && '13px'};
+	border: ${({ isMobileDevice }) => isMobileDevice && `solid 1px ${Colors.black};`};
+	height: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '10px'};
+	width: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '10px'};
+	font-size: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '10px'};
+	border: ${({ isSmallMobileDevice }) => isSmallMobileDevice && `solid 1px ${Colors.black};`};
 	&:hover {
-		color: ${Colors.yellowLemon};
+		border-color: ${Colors.yellowSun};
+		color: ${Colors.yellowSun};
 	}
+`;
+
+export const AirPollutionLegendDesktopContainer = styled.div`
+	margin-top: 45px;
+	margin-bottom: 65px;
+`;
+
+export const AirPollutionLegendDesktopSubContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+    align-items: center;
+	gap: 6px;
+`;
+
+export const AirPollutionLegendMobileContainer = styled.div`
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    gap: 8px;
+`;
+
+export const AirPollutionLegendMobileSubContainer = styled.div`
+	display: flex;
+	justify-content: center;
+    align-items: center;
+	gap: 10px;
+	font-size: 13px;
 `;
 
 export const AirPollutionItemLegendIcon = styled.span`
@@ -371,32 +403,10 @@ export const AirPollutionItemLegendIcon = styled.span`
 	border-radius: 25px;
 `;
 
-export const AirPollutionLegendText = styled.code`
-	margin-left: 4px;
-	margin-right: 12px;
-	@media only screen and (max-width: 375px) {
-		font-size: 10px;
-	}
-	@media only screen and (min-width: 376px) and (max-width: 712px) {
-		font-size: 11px;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) {
-		font-size: 10px;
-	}
-	@media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
-		font-size: 11px;
-	}
-	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
-		font-size: 10px;
-	}
-	@media only screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) {
-		font-size: 10px;
-	}
-`;
-
 export const AirPollutionItemContainer = styled.div<{ isSmallMobileDevice: boolean, isMobileDevice: boolean, isDesktopOrLaptop: boolean }>`
 	display: flex;
 	align-items: center;
+	gap: 10px;
 	margin-top: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '40px'};
 	margin-top: ${({ isMobileDevice }) => isMobileDevice && '35px'};
 	margin-top: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '30px'};
@@ -408,52 +418,38 @@ export const AirPollutionItemSpan = styled.span`
 	height: 30px;
 	background-color: ${(props: { color: any; }) => props.color};
 	border-radius: 25px;
-	margin-left: 10px;
-	@media only screen and(max-width: 375px) {
-		width: 25px;
-		height: 25px;
-	}
-	@media only screen and(min-width: 376px) and(max-width: 712px) {
-		width: 25px;
-		height: 25px;
-	}
-	@media only screen and(device-width: 414px) and(device-height: 896px) and(-webkit-device-pixel-ratio: 3) {
-		width: 25px;
-		height: 25px;
-	}
-	@media only screen and(device-width: 390px) and(device-height: 844px) and(-webkit-device-pixel-ratio: 3) {
-		width: 25px;
-		height: 25px;
-	}
-	@media only screen and(device-width: 375px) and(device-height: 812px) and(-webkit-device-pixel-ratio: 3) {
-		width: 25px;
-		height: 25px;
-	}
-	@media only screen and(device-width: 414px) and(device-height: 896px) and(-webkit-device-pixel-ratio: 2) {
-		width: 25px;
-		height: 25px;
-	}
 `;
 
-export const FooterContainer = styled.div`
+export const CenteredContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+`;
+
+export const FooterContainer = styled.div<{ isDesktopOrLaptop: boolean; isMobileDevice: boolean; isSmallMobileDevice: boolean }>`
     display: flex;
     flex-direction: column;
-    gap: 10px;
-	`;
+	gap: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '10px'};
+	gap: ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '25px'};
+	margin-top: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '15px'};
+	margin-top: ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '35px'};
+`;
 
-export const UnitsContainer = styled.div`
-	margin-top: 10px;
-	background-color: blueviolet;
+export const UnitsContainer = styled.div<{ isDesktopOrLaptop: boolean; isMobileDevice: boolean; isSmallMobileDevice: boolean }>`
     display: flex;
     align-items: center;
     justify-content: center;
+	background-color: ${Colors.darkCyan};
+	border-radius: 6px;
+	box-shadow: 2px 2px 6px 1px ${Colors.sonicSilver};
+	margin-top: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '6px'};
+	margin-top: ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '15px'};
 `;
 
 export const UnitsSubContainer = styled.div<{ isMobileDevice: boolean; isSmallMobileDevice: boolean }>`
 	display: flex;
 	font-size: 16px;
 	gap: 30px;
-	background-color: blueviolet;
 	font-size:  ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '13px'};
 `;
 
@@ -462,8 +458,8 @@ export const UnitSpan = styled.span<{ isSelected: boolean }>`
 	text-decoration: underline;
 	font-weight: ${({ isSelected }) => isSelected && '700'};
 	color: lemon;
-	color: ${({ isSelected }) => isSelected && Colors.yellowLemon};
+	color: ${({ isSelected }) => isSelected && Colors.menthol};
 	&:hover {
-		color: ${Colors.yellowLemon};
+		color: ${Colors.yellowSun};
 	}
 `;

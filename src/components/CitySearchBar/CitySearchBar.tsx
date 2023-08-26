@@ -63,15 +63,15 @@ const CitySearchBar = ({ changeCity }: any) => {
   const customStyles = {
     option: (provided: any, state: any) => ({
       ...provided,
-      borderBottom: `1px dotted ${Colors.wateryGreenToneDown}`,
+      borderBottom: `1px dotted ${Colors.pearlAqua}`,
       color: state.isSelected ? 'green' : Colors.black,
-      backgroundColor: Colors.lightOrange,
+      backgroundColor: Colors.veryPaleOrange,
       fontSize: '14px',
       padding: 15,
       cursor: 'pointer',
       '&:hover': {
-        backgroundColor: Colors.lightWhite,
-        color: Colors.darkerGreen,
+        backgroundColor: Colors.whiteChocolate,
+        color: Colors.darkSlateGray,
       },
     }),
     control: () => ({
@@ -79,31 +79,31 @@ const CitySearchBar = ({ changeCity }: any) => {
       width: isDesktopOrLaptop
         ? '470px'
         : isMobileDevice
-        ? '450px'
-        : isSmallMobileDevice
         ? '270px'
+        : isSmallMobileDevice
+        ? '260px'
         : '',
-      backgroundColor: Colors.lightOrange,
+      backgroundColor: Colors.veryPaleOrange,
       borderRadius: '8px',
-      border: `2px solid ${Colors.lightWhite}`,
+      border: `2px solid ${Colors.whiteChocolate}`,
       cursor: 'pointer',
-      boxShadow: `2px 2px 6px 1px ${Colors.shadowGrey}`,
+      boxShadow: `2px 2px 6px 1px ${Colors.sonicSilver}`,
       '&:hover': {
-        backgroundColor: Colors.lightWhite,
-        boxShadow: `2px 2px 6px 1px ${Colors.shadowBlack}`,
+        backgroundColor: Colors.whiteChocolate,
+        boxShadow: `2px 2px 6px 1px ${Colors.darkCharcoal}`,
       },
       '::placeholder': {
         /* Chrome, Firefox, Opera, Safari 10.1+ */
-        color: Colors.shadowGrey,
+        color: Colors.sonicSilver,
         opacity: 1 /* Firefox */,
       },
       ':-ms-input-placeholder': {
         /* Internet Explorer 10-11 */
-        color: Colors.shadowGrey,
+        color: Colors.sonicSilver,
       },
       '::-ms-input-placeholder': {
         /* Microsoft Edge */
-        color: Colors.shadowGrey,
+        color: Colors.sonicSilver,
       },
     }),
     singleValue: (provided: any, state: any) => {

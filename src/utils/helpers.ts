@@ -15,10 +15,28 @@ export const getLastTimeChecked = () => {
     return time;
 }
 
+export const getLastTimeChecked12HoursFormat = () => {
+    var dt = new Date();
+    var hours = dt.getHours();
+    var AmOrPm = hours >= 12 ? 'PM' : 'AM';
+    hours = (hours % 12) || 12;
+    var minutesNow = dt.getMinutes();
+    const minutes = minutesNow > 10 ? minutesNow : '0' + minutesNow;
+    var finalTime = "Time  - " + hours + ":" + minutes + " " + AmOrPm;
+    return finalTime
+}
+
 export const getLastDateChecked = () => {
     const dateNow = new Date();
     const date =
         dateNow.getDate() + '/' + (dateNow.getMonth() + 1) + '/' + dateNow.getFullYear();
+    return date;
+}
+
+export const getLastDateCheckedAmerican = () => {
+    const dateNow = new Date();
+    const date =
+        (dateNow.getMonth() + 1) + '/' + dateNow.getDate() + '/' + dateNow.getFullYear();
     return date;
 }
 

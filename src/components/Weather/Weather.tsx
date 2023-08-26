@@ -22,9 +22,12 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { SingleValue } from 'react-select';
 import {
+  AirQualitySectionContainer,
   AllDataContainer,
   BreakLine,
+  CenteredContainer,
   Code,
+  ColumnContainer,
   DangerLogo,
   FooterContainer,
   GlobalStyle,
@@ -211,7 +214,15 @@ const Weather = () => {
       );
     }
     if (isLoading || icon === '') {
-      toShow = <SpinnerLogo src={loading} alt="" />;
+      toShow = (
+        <SpinnerLogo
+          src={loading}
+          alt=""
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        />
+      );
     } else {
       const {
         realFeel,
@@ -252,62 +263,89 @@ const Weather = () => {
                   {t('words.weatherIn')} {cityName} ({countryNameShort})
                 </Subtitle>
               </TitleApp>
-              <AllDataContainer>
+              <AllDataContainer
+                isDesktopOrLaptop={isDesktopOrLaptop}
+                isMobileDevice={isMobileDevice}
+                isSmallMobileDevice={isSmallMobileDevice}
+              >
                 <WeatherMainContainer>
                   {showIcon}
                   <WeatherMain>
-                    <WeatherMainTemperature>
-                      {realFeel}{' '}
-                      {Units.IMPERIAL === unit
-                        ? t('words.temperature.unit.imperial')
-                        : t('words.temperature.unit.metric')}
-                    </WeatherMainTemperature>
-                    <BreakLine />
-                    <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
-                      {t('words.temperature.feelsLike')} {feelsLike}{' '}
-                      {Units.IMPERIAL === unit
-                        ? t('words.temperature.unit.imperial')
-                        : t('words.temperature.unit.metric')}
-                    </Code>
-                    <BreakLine />
-                    <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
-                      {description}
-                    </Code>
-                    <BreakLine />
-                    <SunriseSunsetInfo lat={lat} lon={lon} sunrise={sunrise} sunset={sunset} />
+                    <ColumnContainer>
+                      <WeatherMainTemperature>
+                        {realFeel}{' '}
+                        {Units.IMPERIAL === unit
+                          ? t('words.temperature.unit.imperial')
+                          : t('words.temperature.unit.metric')}
+                      </WeatherMainTemperature>
+                      <Code
+                        isMobileDevice={isMobileDevice}
+                        isSmallMobileDevice={isSmallMobileDevice}
+                      >
+                        {t('words.temperature.feelsLike')} {feelsLike}{' '}
+                        {Units.IMPERIAL === unit
+                          ? t('words.temperature.unit.imperial')
+                          : t('words.temperature.unit.metric')}
+                      </Code>
+                      <Code
+                        isMobileDevice={isMobileDevice}
+                        isSmallMobileDevice={isSmallMobileDevice}
+                      >
+                        {description}
+                      </Code>
+                      <SunriseSunsetInfo lat={lat} lon={lon} sunrise={sunrise} sunset={sunset} />
+                    </ColumnContainer>
                   </WeatherMain>
                 </WeatherMainContainer>
                 <WeatherDataContainer>
                   <WeatherData>
-                    <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
-                      {t('words.humidity')} {humidity}%
-                    </Code>
-                    <BreakLine />
-                    <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
-                      {t('words.pressure')} {pressure} hPa
-                    </Code>
-                    <BreakLine />
-                    <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
-                      {t('words.windInfo.wind')}
-                      {windSpeed}{' '}
-                      {Units.IMPERIAL === unit
-                        ? t('words.windInfo.unit.imperial')
-                        : t('words.windInfo.unit.metric')}{' '}
-                      {t(`words.windInfo.windDirection.${windDirection}`)}
-                    </Code>
-                    <BreakLine />
-                    <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
-                      {t('words.visibility')} {visibility} m
-                    </Code>
-                    <BreakLine />
-                    <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
-                      {t('words.airPollution.aqi')}
-                      {
-                        Object.values(t('words.airPollution.status', { returnObjects: true }))[
-                          airPollution?.AQI
-                        ]
-                      }{' '}
+                    <ColumnContainer>
+                      <Code
+                        isMobileDevice={isMobileDevice}
+                        isSmallMobileDevice={isSmallMobileDevice}
+                      >
+                        {t('words.humidity')} {humidity}%
+                      </Code>
+                      <Code
+                        isMobileDevice={isMobileDevice}
+                        isSmallMobileDevice={isSmallMobileDevice}
+                      >
+                        {t('words.pressure')} {pressure} hPa
+                      </Code>
+                      <Code
+                        isMobileDevice={isMobileDevice}
+                        isSmallMobileDevice={isSmallMobileDevice}
+                      >
+                        {t('words.windInfo.wind')}
+                        {windSpeed}{' '}
+                        {Units.IMPERIAL === unit
+                          ? t('words.windInfo.unit.imperial')
+                          : t('words.windInfo.unit.metric')}{' '}
+                        {t(`words.windInfo.windDirection.${windDirection}`)}
+                      </Code>
+                      <Code
+                        isMobileDevice={isMobileDevice}
+                        isSmallMobileDevice={isSmallMobileDevice}
+                      >
+                        {t('words.visibility')} {visibility} m
+                      </Code>
+                    </ColumnContainer>
+                    <AirQualitySectionContainer>
+                      <Code
+                        isMobileDevice={isMobileDevice}
+                        isSmallMobileDevice={isSmallMobileDevice}
+                      >
+                        {t('words.airPollution.aqi')}
+                        {
+                          Object.values(t('words.airPollution.status', { returnObjects: true }))[
+                            airPollution?.AQI
+                          ]
+                        }
+                      </Code>
                       <MoreInfoButton
+                        isDesktopOrLaptop={isDesktopOrLaptop}
+                        isMobileDevice={isMobileDevice}
+                        isSmallMobileDevice={isSmallMobileDevice}
                         onClick={() => {
                           navigate(`/air_pollution_info`, {
                             state: { airPollution },
@@ -316,18 +354,32 @@ const Weather = () => {
                       >
                         {t('words.airPollution.moreInfo')}
                       </MoreInfoButton>
-                    </Code>
-                    <BreakLine />
-                    <BreakLine />
-                    <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
-                      {t('words.updatedAt')} {lastTimeChecked}
-                    </Code>
-                    <BreakLine />
-                    <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
-                      {t('words.date')} {lastDateChecked}
-                    </Code>
+                    </AirQualitySectionContainer>
                   </WeatherData>
                 </WeatherDataContainer>
+                <UnitsContainer
+                  isDesktopOrLaptop={isDesktopOrLaptop}
+                  isMobileDevice={isMobileDevice}
+                  isSmallMobileDevice={isSmallMobileDevice}
+                >
+                  <UnitsSubContainer
+                    isMobileDevice={isMobileDevice}
+                    isSmallMobileDevice={isSmallMobileDevice}
+                  >
+                    <UnitSpan
+                      isSelected={Units.IMPERIAL === unit}
+                      onClick={() => setUnit(Units.IMPERIAL)}
+                    >
+                      {t('words.unit.imperial')}
+                    </UnitSpan>
+                    <UnitSpan
+                      isSelected={Units.METRIC === unit}
+                      onClick={() => setUnit(Units.METRIC)}
+                    >
+                      {t('words.unit.metric')}
+                    </UnitSpan>
+                  </UnitsSubContainer>
+                </UnitsContainer>
               </AllDataContainer>
             </>
           ) : (
@@ -358,23 +410,21 @@ const Weather = () => {
               </LocationNotFoundCode>
             </LocationNotFoundContainer>
           )}
-          <FooterContainer>
-            <UnitsContainer>
-              <UnitsSubContainer
-                isMobileDevice={isMobileDevice}
-                isSmallMobileDevice={isSmallMobileDevice}
-              >
-                <UnitSpan
-                  isSelected={Units.IMPERIAL === unit}
-                  onClick={() => setUnit(Units.IMPERIAL)}
-                >
-                  {t('words.unit.imperial')}
-                </UnitSpan>
-                <UnitSpan isSelected={Units.METRIC === unit} onClick={() => setUnit(Units.METRIC)}>
-                  {t('words.unit.metric')}
-                </UnitSpan>
-              </UnitsSubContainer>
-            </UnitsContainer>
+          <FooterContainer
+            isDesktopOrLaptop={isDesktopOrLaptop}
+            isMobileDevice={isMobileDevice}
+            isSmallMobileDevice={isSmallMobileDevice}
+          >
+            <ColumnContainer>
+              <CenteredContainer>
+                <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
+                  {t('words.updatedAt')} {lastTimeChecked}
+                </Code>
+                <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
+                  {t('words.date')} {lastDateChecked}
+                </Code>
+              </CenteredContainer>
+            </ColumnContainer>
             <LanguageAndSocialNetworkContainer>
               <Language changeLanguage={changeLanguage} />
               <SocialNetworkIconContainer

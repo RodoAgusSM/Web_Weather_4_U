@@ -54,7 +54,7 @@ export const TranslationSp = {
 		airPollution: {
 			aqi: 'Calidad del aire: ',
 			status: { 1: 'Buena', 2: 'Aceptable', 3: 'Moderada', 4: 'Pobre', 5: 'Muy pobre' },
-			moreInfo: '+Info',
+			moreInfo: 'i',
 			elements: {
 				AQI: 'Calidad del aire',
 				carbonMonoxide: 'Monóxido de carbono',
@@ -67,8 +67,8 @@ export const TranslationSp = {
 				ammonia: 'Amoníaco',
 			},
 		},
-		sunrise: 'Amanece a las: ',
-		sunset: 'Oscurece a las: ',
+		sunrise: 'Amanece: ',
+		sunset: 'Oscurece: ',
 		locationNotFound: {
 			funnyMessage: 'Nuestra brújula no encontró la cuidad ',
 			realMessage: 'Vuelva a intentar con otra ubicación',
