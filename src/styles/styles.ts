@@ -369,7 +369,7 @@ export const MoreInfoButton = styled.div<{ isDesktopOrLaptop: boolean; isMobileD
 
 export const AirPollutionLegendDesktopContainer = styled.div`
 	margin-top: 45px;
-	margin-bottom: 65px;
+	margin-bottom: 60px;
 `;
 
 export const AirPollutionLegendDesktopSubContainer = styled.div`
@@ -408,9 +408,9 @@ export const AirPollutionItemContainer = styled.div<{ isSmallMobileDevice: boole
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	margin-top: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '40px'};
-	margin-top: ${({ isMobileDevice }) => isMobileDevice && '35px'};
-	margin-top: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '30px'};
+	margin-top: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '30px'};
+	margin-top: ${({ isMobileDevice }) => isMobileDevice && '22px'};
+	margin-top: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '18px'};
 	font-size:  ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '13px'};
 `;
 

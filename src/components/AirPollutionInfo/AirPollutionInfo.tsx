@@ -31,10 +31,9 @@ const AirPollutionInfo = () => {
   const generateLabel = (label: string, value: number) => {
     switch (label) {
       case AirQuality.AQI:
-        console.log();
         break;
       case AirQuality.CARBONMONIXIDE:
-        break;
+        return labelCarbonMonoxide(value);
       case AirQuality.NITROGENMONOXIDE:
         break;
       case AirQuality.NITROGENDIOXIDE:
@@ -42,7 +41,7 @@ const AirPollutionInfo = () => {
       case AirQuality.OZONE:
         return labelOzone(value);
       case AirQuality.SULPHURDIOXIDE:
-        break;
+        return labelSulphurDioxide(value);
       case AirQuality.FINEPARTICLESMATTER:
         return labelFineParticlesMatter(value);
       case AirQuality.COARSEPARTICULATEMATTER:
@@ -52,9 +51,9 @@ const AirPollutionInfo = () => {
     }
   };
 
-  const labelNitrogenDioxide = (value: number) => {
-    const label = `${t('words.airPollution.elements.nitrogenDioxide')} (NO2)`;
-    if (value >= 0 && value < 50)
+  const labelCarbonMonoxide = (value: number) => {
+    const label = `${t('words.airPollution.elements.nitrogenDioxide')} (CO)`;
+    if (value >= 0 && value < 4400)
       return (
         <AirPollutionItemContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -65,7 +64,7 @@ const AirPollutionInfo = () => {
           <AirPollutionItemSpan color={'#79BC6A'} />
         </AirPollutionItemContainer>
       );
-    else if (value >= 50 && value < 100)
+    else if (value >= 4400 && value < 9400)
       return (
         <AirPollutionItemContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -76,7 +75,7 @@ const AirPollutionInfo = () => {
           <AirPollutionItemSpan color={'#BBCf4C'} />
         </AirPollutionItemContainer>
       );
-    else if (value >= 100 && value < 200)
+    else if (value >= 9400 && value < 12400)
       return (
         <AirPollutionItemContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -87,7 +86,7 @@ const AirPollutionInfo = () => {
           <AirPollutionItemSpan color={'#EEC209'} />
         </AirPollutionItemContainer>
       );
-    else if (value >= 200 && value < 400)
+    else if (value >= 12400 && value < 15400)
       return (
         <AirPollutionItemContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -98,7 +97,7 @@ const AirPollutionInfo = () => {
           <AirPollutionItemSpan color={'#F39307'} />
         </AirPollutionItemContainer>
       );
-    if (value > 400)
+    if (value >= 15400)
       return (
         <AirPollutionItemContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -111,8 +110,67 @@ const AirPollutionInfo = () => {
       );
   };
 
-  const labelOzone = (value: any) => {
-    const label = `${t('words.airPollution.elements.ozone')} (O3)`;
+  const labelNitrogenDioxide = (value: number) => {
+    const label = `${t('words.airPollution.elements.nitrogenDioxide')} (NO₂)`;
+    if (value >= 0 && value < 40)
+      return (
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
+          {label}
+          <AirPollutionItemSpan color={'#79BC6A'} />
+        </AirPollutionItemContainer>
+      );
+    else if (value >= 40 && value < 70)
+      return (
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
+          {label}
+          <AirPollutionItemSpan color={'#BBCf4C'} />
+        </AirPollutionItemContainer>
+      );
+    else if (value >= 70 && value < 150)
+      return (
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
+          {label}
+          <AirPollutionItemSpan color={'#EEC209'} />
+        </AirPollutionItemContainer>
+      );
+    else if (value >= 150 && value < 200)
+      return (
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
+          {label}
+          <AirPollutionItemSpan color={'#F39307'} />
+        </AirPollutionItemContainer>
+      );
+    if (value >= 200)
+      return (
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
+          {label}
+          <AirPollutionItemSpan color={'#E8406F'} />
+        </AirPollutionItemContainer>
+      );
+  };
+
+  const labelOzone = (value: number) => {
+    const label = `${t('words.airPollution.elements.ozone')} (O₃)`;
     if (value >= 0 && value < 60)
       return (
         <AirPollutionItemContainer
@@ -124,7 +182,7 @@ const AirPollutionInfo = () => {
           <AirPollutionItemSpan color={'#79BC6A'} />
         </AirPollutionItemContainer>
       );
-    else if (value >= 60 && value < 120)
+    else if (value >= 60 && value < 100)
       return (
         <AirPollutionItemContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -135,7 +193,7 @@ const AirPollutionInfo = () => {
           <AirPollutionItemSpan color={'#BBCf4C'} />
         </AirPollutionItemContainer>
       );
-    else if (value >= 120 && value < 180)
+    else if (value >= 100 && value < 140)
       return (
         <AirPollutionItemContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -146,7 +204,7 @@ const AirPollutionInfo = () => {
           <AirPollutionItemSpan color={'#EEC209'} />
         </AirPollutionItemContainer>
       );
-    else if (value >= 180 && value < 240)
+    else if (value >= 140 && value < 180)
       return (
         <AirPollutionItemContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -157,7 +215,66 @@ const AirPollutionInfo = () => {
           <AirPollutionItemSpan color={'#F39307'} />
         </AirPollutionItemContainer>
       );
-    if (value > 240)
+    if (value >= 180)
+      return (
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
+          {label}
+          <AirPollutionItemSpan color={'#E8406F'} />
+        </AirPollutionItemContainer>
+      );
+  };
+
+  const labelSulphurDioxide = (value: number) => {
+    const label = `${t('words.airPollution.elements.sulphurDioxide')} (SO₂)`;
+    if (value >= 0 && value < 20)
+      return (
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
+          {label}
+          <AirPollutionItemSpan color={'#79BC6A'} />
+        </AirPollutionItemContainer>
+      );
+    else if (value >= 20 && value < 80)
+      return (
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
+          {label}
+          <AirPollutionItemSpan color={'#BBCf4C'} />
+        </AirPollutionItemContainer>
+      );
+    else if (value >= 80 && value < 250)
+      return (
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
+          {label}
+          <AirPollutionItemSpan color={'#EEC209'} />
+        </AirPollutionItemContainer>
+      );
+    else if (value >= 250 && value < 350)
+      return (
+        <AirPollutionItemContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+        >
+          {label}
+          <AirPollutionItemSpan color={'#F39307'} />
+        </AirPollutionItemContainer>
+      );
+    if (value >= 350)
       return (
         <AirPollutionItemContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -172,7 +289,7 @@ const AirPollutionInfo = () => {
 
   const labelFineParticlesMatter = (value: number) => {
     const label = `${t('words.airPollution.elements.fineParticlesMatter')} (PM2.5)`;
-    if (value >= 0 && value < 15)
+    if (value >= 0 && value < 10)
       return (
         <AirPollutionItemContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -183,7 +300,7 @@ const AirPollutionInfo = () => {
           <AirPollutionItemSpan color={'#79BC6A'} />
         </AirPollutionItemContainer>
       );
-    else if (value >= 15 && value < 30)
+    else if (value >= 10 && value < 25)
       return (
         <AirPollutionItemContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -194,7 +311,7 @@ const AirPollutionInfo = () => {
           <AirPollutionItemSpan color={'#BBCf4C'} />
         </AirPollutionItemContainer>
       );
-    else if (value >= 30 && value < 55)
+    else if (value >= 25 && value < 50)
       return (
         <AirPollutionItemContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -205,7 +322,7 @@ const AirPollutionInfo = () => {
           <AirPollutionItemSpan color={'#EEC209'} />
         </AirPollutionItemContainer>
       );
-    else if (value >= 55 && value < 110)
+    else if (value >= 50 && value < 75)
       return (
         <AirPollutionItemContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -216,7 +333,7 @@ const AirPollutionInfo = () => {
           <AirPollutionItemSpan color={'#F39307'} />
         </AirPollutionItemContainer>
       );
-    if (value > 110)
+    if (value >= 75)
       return (
         <AirPollutionItemContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -230,8 +347,8 @@ const AirPollutionInfo = () => {
   };
 
   const labelCoarseParticulateMatter = (value: number) => {
-    const label = `${t('words.airPollution.elements.coarseParticulateMatter')} (PM10)`;
-    if (value >= 0 && value < 25)
+    const label = `${t('words.airPollution.elements.coarseParticulateMatter')} (PM₁₀)`;
+    if (value >= 0 && value < 20)
       return (
         <AirPollutionItemContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -242,7 +359,7 @@ const AirPollutionInfo = () => {
           <AirPollutionItemSpan color={'#79BC6A'} />
         </AirPollutionItemContainer>
       );
-    else if (value >= 25 && value < 50)
+    else if (value >= 20 && value < 50)
       return (
         <AirPollutionItemContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -253,7 +370,7 @@ const AirPollutionInfo = () => {
           <AirPollutionItemSpan color={'#BBCf4C'} />
         </AirPollutionItemContainer>
       );
-    else if (value >= 50 && value < 90)
+    else if (value >= 50 && value < 100)
       return (
         <AirPollutionItemContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -264,7 +381,7 @@ const AirPollutionInfo = () => {
           <AirPollutionItemSpan color={'#EEC209'} />
         </AirPollutionItemContainer>
       );
-    else if (value >= 90 && value < 180)
+    else if (value >= 100 && value < 200)
       return (
         <AirPollutionItemContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -275,7 +392,7 @@ const AirPollutionInfo = () => {
           <AirPollutionItemSpan color={'#F39307'} />
         </AirPollutionItemContainer>
       );
-    if (value > 240)
+    if (value >= 200)
       return (
         <AirPollutionItemContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
