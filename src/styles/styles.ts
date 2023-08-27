@@ -2,11 +2,11 @@ import styled, { createGlobalStyle } from 'styled-components';
 
 import { Colors } from './colors';
 
-let desktopWidth = 540 + 'px';
-let desktopHeight = 610 + 'px';
-let mobileWidth = window.innerWidth * 0.85 + 'px';
-let mobileHeightSmallDisplay = '530px';
-let mobileHeightBigDisplay = '570px';
+const desktopWidth = '34rem';
+const desktopHeight = '40rem';
+const mobileWidth = '21rem';
+const mobileHeightSmallDisplay = '36rem';
+const mobileHeightBigDisplay = '38rem';
 
 
 export const GlobalStyle = createGlobalStyle<{ isSmallMobileDevice: boolean }>`
@@ -25,18 +25,17 @@ export const GlobalStyle = createGlobalStyle<{ isSmallMobileDevice: boolean }>`
 
 export const WeatherIconContainer = styled.div`
 	display: flex;
-    width: 70%;
     justify-content: flex-end;
 `;
 
 export const WeatherIcon = styled.img.attrs((props: { src: any; }) => ({
 	src: props.src,
 }))`
-	width: 5em;
+	width: 5rem;
 	border-color: ${Colors.whiteChocolate};
 	background-color: ${Colors.veryPaleOrange};
 	border-style: solid;
-	border-radius: 20px;
+	border-radius: 50px;
 	box-shadow: 2px 2px 6px 1px ${Colors.sonicSilver};
 `;
 
@@ -64,7 +63,7 @@ export const WeatherCard = styled.div<{ isSmallMobileDevice: boolean, isMobileDe
 	box-shadow: 2px 2px 12px 2px ${Colors.darkCharcoal};
 `;
 
-export const LocationNotFoundContainer = styled.div<{ isSmallMobileDevice: boolean, isMobileDevice: boolean, isDesktopOrLaptop: boolean }>`
+export const LocationNotFoundContainer = styled.div<{ isDesktopOrLaptop: boolean, isMobileDevice: boolean, isSmallMobileDevice: boolean }>`
 	display: flex;
 	flex-direction: column;
     width: 100%;
@@ -79,7 +78,7 @@ export const LocationNotFoundContainer = styled.div<{ isSmallMobileDevice: boole
 	margin-bottom: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '40px'};
 `;
 
-export const LocationNotFoundIcon = styled.img<{ src: any; isSmallMobileDevice: boolean, isMobileDevice: boolean, isDesktopOrLaptop: boolean }>`
+export const LocationNotFoundIcon = styled.img<{ src: any; isDesktopOrLaptop: boolean, isMobileDevice: boolean, isSmallMobileDevice: boolean }>`
 	width: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '400px'};
 	width: ${({ isMobileDevice }) => isMobileDevice && '360px'};
 	width: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '320px'};
@@ -104,7 +103,7 @@ export const LogoApp = styled.img<{ src: any; isDesktopOrLaptop: boolean, isMobi
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	width: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '300px'};
+	width: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '250px'};
 	width: ${({ isMobileDevice }) => isMobileDevice && '265px'};
 	width: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '190px'};
 `;
@@ -121,9 +120,12 @@ export const Subtitle = styled.h2<{ isDesktopOrLaptop: boolean, isMobileDevice: 
 
 export const WeatherMain = styled.div`
 	font-size: 16px;
-	width: 100%;
 	text-align: start;
 	cursor: default;
+	//padding: 8px;
+	//border-radius: 8px;
+	//background-color: ${Colors.pearlAqua};
+	//box-shadow: 2px 2px 6px 1px ${Colors.sonicSilver};
 `;
 
 export const AllDataContainer = styled.div<{ isDesktopOrLaptop: boolean, isMobileDevice: boolean, isSmallMobileDevice: boolean }>`
@@ -140,6 +142,9 @@ export const WeatherMainContainer = styled.div`
     align-items: center;
     justify-content: center;
     gap: 15px;
+	//border-radius: 8px;
+	//background-color: ${Colors.pearlAqua};
+	//box-shadow: 2px 2px 6px 1px ${Colors.sonicSilver};
 `;
 
 export const WeatherMainTemperature = styled.code`
@@ -150,6 +155,7 @@ export const WeatherMainTemperature = styled.code`
 export const ColumnContainer = styled.div`
 	display: flex;
 	flex-direction: column;
+	gap: 0.25rem;
 `
 
 export const BreakLine = styled.br``;
@@ -165,9 +171,16 @@ export const WeatherDataContainer = styled.div`
 `;
 
 export const WeatherData = styled.div`
+	display: flex;
+	flex-direction: column;
 	font-size: 16px;
 	text-align: start;
+	gap: 0.25rem;
 	cursor: default;
+	background-color: ${Colors.pearlAqua};
+	padding: 12px;
+	border-radius: 8px;
+	box-shadow: 2px 2px 6px 1px ${Colors.sonicSilver};
 `;
 
 export const DangerLogo = styled.img.attrs((props: { src: any; }) => ({
@@ -369,7 +382,7 @@ export const MoreInfoButton = styled.div<{ isDesktopOrLaptop: boolean; isMobileD
 
 export const AirPollutionLegendDesktopContainer = styled.div`
 	margin-top: 45px;
-	margin-bottom: 65px;
+	margin-bottom: 60px;
 `;
 
 export const AirPollutionLegendDesktopSubContainer = styled.div`
@@ -402,16 +415,21 @@ export const AirPollutionItemLegendIcon = styled.span`
 	height: 30px;
 	background-color: ${(props: { color: any; }) => props.color};
 	border-radius: 25px;
+	box-shadow: 2px 2px 6px 1px ${Colors.sonicSilver};
 `;
 
-export const AirPollutionItemContainer = styled.div<{ isSmallMobileDevice: boolean, isMobileDevice: boolean, isDesktopOrLaptop: boolean }>`
+export const AirPollutionItemContainer = styled.div<{ isDesktopOrLaptop: boolean, isMobileDevice: boolean, isSmallMobileDevice: boolean }>`
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	margin-top: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '40px'};
-	margin-top: ${({ isMobileDevice }) => isMobileDevice && '35px'};
-	margin-top: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '30px'};
+	margin-top: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '20px'};
+	margin-top: ${({ isMobileDevice }) => isMobileDevice && '22px'};
+	margin-top: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '18px'};
 	font-size:  ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '13px'};
+	background-color:  ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && `${Colors.menthol}`};
+	border-radius: 8px;
+	padding: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '8px'};
+	box-shadow: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && `2px 2px 6px 1px ${Colors.sonicSilver}`};
 `;
 
 export const AirPollutionItemSpan = styled.span`
@@ -419,6 +437,7 @@ export const AirPollutionItemSpan = styled.span`
 	height: 30px;
 	background-color: ${(props: { color: any; }) => props.color};
 	border-radius: 25px;
+	box-shadow: 2px 2px 6px 1px ${Colors.sonicSilver};
 `;
 
 export const CenteredContainer = styled.div`

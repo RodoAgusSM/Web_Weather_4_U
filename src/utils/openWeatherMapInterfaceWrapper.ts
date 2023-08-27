@@ -22,7 +22,7 @@ const convertToWeather = (object: any, unit: Units) => {
         icon: "",
         humidity: object.main.humidity,
         pressure: object.main.pressure,
-        windSpeed: Units.IMPERIAL === unit ? Math.trunc(object.wind.speed) : Math.trunc(object.wind.speed * 3.6),
+        windSpeed: Units.IMPERIAL === unit ? object.wind.speed > 0 ? Number(`${Math.trunc(object.wind.speed)}.${object.wind.speed.toString().split('.')[1].charAt(0)}}`) : object.wind.speed : Math.trunc(object.wind.speed * 3.6),
         windDirection: getWindDirection(object),
         visibility: Units.IMPERIAL === unit ? Math.trunc(object.visibility / 1609.344) : object.visibility,
         sunrise: object.sys.sunrise,
