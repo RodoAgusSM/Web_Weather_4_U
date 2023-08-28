@@ -1,4 +1,4 @@
-import styled, { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle, css, keyframes } from 'styled-components';
 
 import { Colors } from './colors';
 
@@ -8,6 +8,23 @@ const mobileWidth = '21rem';
 const mobileHeightSmallDisplay = '36rem';
 const mobileHeightBigDisplay = '38rem';
 
+const expand = keyframes`
+	from {
+    	width: 20%;
+	}
+  	to {
+    	width: 100%;
+	}
+`;
+
+const generateCompressAnimation = (widthValue: any) => keyframes`
+  from {
+    width: 100%;
+  }
+  to {
+    width: ${widthValue};
+  }
+`;
 
 export const GlobalStyle = createGlobalStyle<{ isSmallMobileDevice: boolean }>`
 	body {
@@ -19,7 +36,7 @@ export const GlobalStyle = createGlobalStyle<{ isSmallMobileDevice: boolean }>`
 		transform: translate(-50%, -50%);
 		background-color: ${Colors.wateryGreen};
 		margin-top: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '6px'};
-}
+	}
 `;
 
 
@@ -191,37 +208,33 @@ export const DangerLogo = styled.img.attrs((props: { src: any; }) => ({
 	width: 140px;
 `;
 
-export const SearchBarContainer = styled.div`
+export const SearchBarWrapper = styled.div`
 	display: flex;
+	flex-direction: column;
+    align-items: center;
 `;
 
-export const CleanSearchBarContainer = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-`;
-
-export const CleanSearchBarButtonContainer = styled.div`
-	display: flex;
-	width: 2.5rem;
-	border-radius: 10px;
-	border: 1px solid ${Colors.whiteChocolate};
-	background-color: ${Colors.veryPaleOrange};
-	color:  ${Colors.black};
-	justify-content: center;
-	align-items: center;
+export const SearchBarContainer = styled.div<{ isDesktopOrLaptop: boolean; isMobileDevice: boolean; isSmallMobileDevice: boolean, openSearchBar: boolean | null }>`
+	width:  ${({ isDesktopOrLaptop, openSearchBar }) => isDesktopOrLaptop && !openSearchBar && '8%'};
+	width:  ${({ isMobileDevice, isSmallMobileDevice, openSearchBar }) => (isMobileDevice || isSmallMobileDevice) && !openSearchBar && '12%'};
+	width:  ${({ openSearchBar }) => openSearchBar && '100%'};
+	position: relative;
 	cursor: pointer;
-	box-shadow: 2px 2px 6px 1px ${Colors.sonicSilver};
-	&:hover {
-		background-color: ${Colors.whiteChocolate};
-		color: ${Colors.pearlAqua};
-		box-shadow: 2px 2px 6px 1px ${Colors.darkCharcoal};
-	}
-`;
-
-export const CleanSearchBarButton = styled.span`
-	font-size: 20px;
-	font-weight: bold;
+	height:40%;
+	transform-origin: 50% 50%;
+	${({ openSearchBar }) =>
+		openSearchBar &&
+		css`
+		animation: ${expand} 1s linear forwards;
+	`};
+	${({ openSearchBar, isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice }) =>
+		openSearchBar === false &&
+		((isDesktopOrLaptop && css`
+		animation: ${generateCompressAnimation('8%')} 1s linear forwards;
+	`) ||
+			((isMobileDevice || isSmallMobileDevice) && css`
+		animation: ${generateCompressAnimation('12%')} 1s linear forwards;
+	`))};
 `;
 
 export const LanguagesContainer = styled.div<{ isMobileDevice: boolean; isSmallMobileDevice: boolean }>`

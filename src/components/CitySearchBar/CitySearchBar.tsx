@@ -1,22 +1,16 @@
 import { useState } from 'react';
 import { openStreetMapURL } from 'config/config';
-import { StorageKeys } from 'enums';
 import useDimensions from 'hooks/useDimensions';
 import { useTranslation } from 'react-i18next';
 import { SingleValue } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import { Colors } from 'styles/colors';
-import {
-  CleanSearchBarButton,
-  CleanSearchBarButtonContainer,
-  CleanSearchBarContainer,
-  SearchBarContainer,
-} from 'styles/styles';
+import { SearchBarContainer, SearchBarWrapper } from 'styles/styles';
 
 const CitySearchBar = ({ changeCity }: any) => {
   const { t } = useTranslation();
   const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useDimensions();
-  let [city, setCity] = useState(localStorage.getItem(StorageKeys.FULLCITYNAME) || '');
+  const [openSearchBar, setOpenSearchBar] = useState<boolean | null>(null);
 
   const fetchSuggestions = async (inputValue: string) => {
     try {
@@ -35,6 +29,7 @@ const CitySearchBar = ({ changeCity }: any) => {
   };
 
   const handleSuggestions = async (cities: any[]) => {
+    console.log(cities);
     return cities.map((city) => ({
       label: city.display_name,
       value: {
@@ -49,14 +44,7 @@ const CitySearchBar = ({ changeCity }: any) => {
     newCity: SingleValue<{ label: string; value: { lat: string; lon: string; name: string } }>
   ) => {
     if (newCity) {
-      setCity(newCity.label);
       changeCity(newCity);
-    }
-  };
-
-  const handleInputChange = (inputValue: string, action: { action: string }) => {
-    if (action.action !== 'input-blur' && action.action !== 'menu-close') {
-      setCity(inputValue);
     }
   };
 
@@ -76,15 +64,8 @@ const CitySearchBar = ({ changeCity }: any) => {
     }),
     control: () => ({
       display: 'flex',
-      width: isDesktopOrLaptop
-        ? '470px'
-        : isMobileDevice
-        ? '270px'
-        : isSmallMobileDevice
-        ? '260px'
-        : '',
       backgroundColor: Colors.veryPaleOrange,
-      borderRadius: '8px',
+      borderRadius: openSearchBar ? '8px' : '25px',
       border: `2px solid ${Colors.whiteChocolate}`,
       cursor: 'pointer',
       boxShadow: `2px 2px 6px 1px ${Colors.sonicSilver}`,
@@ -107,40 +88,48 @@ const CitySearchBar = ({ changeCity }: any) => {
       },
     }),
     singleValue: (provided: any, state: any) => {
+      const whiteSpace = 'nowrap';
+      const overflow = 'hidden';
+      const textOverflow = 'ellipsis';
       const opacity = state.isDisabled ? 0.5 : 1;
       const transition = 'opacity 300ms';
 
-      return { ...provided, opacity, transition };
+      return { ...provided, whiteSpace, overflow, textOverflow, opacity, transition };
     },
   };
 
   return (
-    <SearchBarContainer>
-      <AsyncSelect
-        placeholder={t('words.writeCity')}
-        loadOptions={(inputValue: string, callback) => {
-          fetchSuggestions(inputValue)
-            .then((options) => callback(options))
-            .catch((error) => {
-              console.error(error);
-              callback([]);
-            });
-        }}
-        onChange={handleChangeCity}
-        onInputChange={handleInputChange}
-        defaultInputValue={city}
-        inputValue={city}
-        loadingMessage={({ inputValue }) => (!inputValue ? null : t('words.lookingForSuggestions'))}
-        noOptionsMessage={({ inputValue }) => (!inputValue ? null : t('words.noSuggestions'))}
-        styles={customStyles}
-        filterOption={null}
-      />
-      <CleanSearchBarContainer>
-        <CleanSearchBarButtonContainer>
-          <CleanSearchBarButton onClick={() => setCity('')}>X</CleanSearchBarButton>
-        </CleanSearchBarButtonContainer>
-      </CleanSearchBarContainer>
-    </SearchBarContainer>
+    <SearchBarWrapper>
+      <SearchBarContainer
+        isDesktopOrLaptop={isDesktopOrLaptop}
+        isMobileDevice={isMobileDevice}
+        isSmallMobileDevice={isSmallMobileDevice}
+        openSearchBar={openSearchBar}
+        onClick={() => setOpenSearchBar(true)}
+        onMouseEnter={() => setOpenSearchBar(true)}
+      >
+        <AsyncSelect
+          placeholder={openSearchBar ? t('words.writeCity') : '🔍'}
+          loadOptions={(inputValue: string, callback) => {
+            fetchSuggestions(inputValue)
+              .then((options) => callback(options))
+              .catch((error) => {
+                console.error(error);
+                callback([]);
+              });
+          }}
+          onChange={handleChangeCity}
+          loadingMessage={({ inputValue }) =>
+            !inputValue ? null : t('words.lookingForSuggestions')
+          }
+          noOptionsMessage={({ inputValue }) => (!inputValue ? null : t('words.noSuggestions'))}
+          styles={customStyles}
+          components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null }}
+          filterOption={null}
+          onBlur={() => setOpenSearchBar(false)}
+        />
+      </SearchBarContainer>
+    </SearchBarWrapper>
   );
 };
 
