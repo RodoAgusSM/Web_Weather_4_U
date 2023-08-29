@@ -6,6 +6,7 @@ export const Colors = {
 	jetStream: '#BBDFC8',
 	whiteChocolate: '#F0E5D8',
 	veryPaleOrange: '#FCE1BE',
+	shootingStar: '#E6E8C7',
 	yellowSun: '#FFFF1A',
 	menthol: '#d8ef9f',
 	sonicSilver: '#787878',

@@ -1,68 +1,106 @@
-import { useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { openStreetMapURL } from 'config/config';
 import useDimensions from 'hooks/useDimensions';
+import { City } from 'interfaces/index';
 import { useTranslation } from 'react-i18next';
 import { SingleValue } from 'react-select';
 import AsyncSelect from 'react-select/async';
+import { toast, ToastContainer } from 'react-toastify';
 import { Colors } from 'styles/colors';
-import { SearchBarContainer, SearchBarWrapper } from 'styles/styles';
+
+import { SearchBarContainer, SearchBarWrapper } from './CitySearchBarStyles';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const CitySearchBar = ({ changeCity }: any) => {
   const { t } = useTranslation();
   const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useDimensions();
   const [openSearchBar, setOpenSearchBar] = useState<boolean | null>(null);
+  const [inputVal, setInputVal] = useState<string>('');
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const selectRef = useRef<any>(null);
+  const collapseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const fetchSuggestions = async (inputValue: string) => {
+  useEffect(() => {
+    return () => {
+      if (collapseTimeoutRef.current) {
+        clearTimeout(collapseTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleMouseEnter = useCallback(() => {
+    if (collapseTimeoutRef.current) {
+      clearTimeout(collapseTimeoutRef.current);
+    }
+    setOpenSearchBar(true);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    collapseTimeoutRef.current = setTimeout(() => {
+      setIsMenuOpen(false);
+      setInputVal('');
+      setOpenSearchBar(false);
+      if (selectRef.current) {
+        selectRef.current.blur();
+      }
+    }, 300);
+  }, []);
+
+  const notifyError = (message: string) => {
+    toast.error(message);
+  };
+
+  const fetchSuggestions = useCallback(async (inputValue: string) => {
+    const fullUrl = `${openStreetMapURL}&city=${inputValue}`;
     try {
-      const fullUrl = openStreetMapURL + '&city=' + inputValue;
       const response = await fetch(fullUrl);
       if (response.ok) {
         const data = await response.json();
         return handleSuggestions(data);
       } else {
-        console.log(response.status, response.text);
+        const errorMessage = `Error: ${response.status} ${await response.text()}`;
+        console.error(errorMessage);
+
+        // Notify user with a toast
+        toast.error(errorMessage);
       }
     } catch (error) {
-      console.log(error);
+      const errorMessage =
+        'Network Error: An error occurred while fetching suggestions. Please try again later.';
+      console.error(errorMessage, error);
+
+      // Notify user with a toast
+      toast.error(errorMessage);
     }
     return [];
-  };
+  }, []);
 
-  const handleSuggestions = async (cities: any[]) => {
-    console.log(cities);
-    return cities.map((city) => ({
-      label: city.display_name,
+  const handleSuggestions = useCallback((cities: City[]) => {
+    return cities.map(({ display_name, lat, lon }) => ({
+      label: display_name,
       value: {
-        name: city.display_name.split(',')[0],
-        lat: city.lat,
-        lon: city.lon,
+        name: display_name.split(',')[0],
+        lat,
+        lon,
       },
     }));
-  };
+  }, []);
 
-  const handleChangeCity = (
-    newCity: SingleValue<{ label: string; value: { lat: string; lon: string; name: string } }>
-  ) => {
-    if (newCity) {
-      changeCity(newCity);
-    }
-  };
+  const handleChangeCity = useCallback(
+    (
+      newCity: SingleValue<{ label: string; value: { lat: string; lon: string; name: string } }>
+    ) => {
+      if (newCity) {
+        changeCity(newCity);
+      }
+    },
+    [changeCity]
+  );
 
   const customStyles = {
-    option: (provided: any, state: any) => ({
+    control: (provided: any) => ({
       ...provided,
-      borderBottom: `1px dotted ${Colors.pearlAqua}`,
-      color: state.isSelected ? 'green' : Colors.black,
-      backgroundColor: Colors.veryPaleOrange,
-      fontSize: '14px',
-      padding: 15,
-      cursor: 'pointer',
-      '&:hover': {
-        backgroundColor: Colors.whiteChocolate,
-        color: Colors.darkSlateGray,
-      },
-    }),
-    control: () => ({
       display: 'flex',
       backgroundColor: Colors.veryPaleOrange,
       borderRadius: openSearchBar ? '8px' : '25px',
@@ -73,19 +111,14 @@ const CitySearchBar = ({ changeCity }: any) => {
         backgroundColor: Colors.whiteChocolate,
         boxShadow: `2px 2px 6px 1px ${Colors.darkCharcoal}`,
       },
-      '::placeholder': {
-        /* Chrome, Firefox, Opera, Safari 10.1+ */
-        color: Colors.sonicSilver,
-        opacity: 1 /* Firefox */,
-      },
-      ':-ms-input-placeholder': {
-        /* Internet Explorer 10-11 */
-        color: Colors.sonicSilver,
-      },
-      '::-ms-input-placeholder': {
-        /* Microsoft Edge */
-        color: Colors.sonicSilver,
-      },
+      overflow: 'hidden',
+    }),
+    placeholder: (provided: any) => ({
+      ...provided,
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      maxWidth: '90%',
     }),
     singleValue: (provided: any, state: any) => {
       const whiteSpace = 'nowrap';
@@ -96,41 +129,59 @@ const CitySearchBar = ({ changeCity }: any) => {
 
       return { ...provided, whiteSpace, overflow, textOverflow, opacity, transition };
     },
+    option: (provided: any) => ({
+      ...provided,
+      cursor: 'pointer', // This will give options a cursor pointer
+    }),
   };
 
   return (
-    <SearchBarWrapper>
-      <SearchBarContainer
-        isDesktopOrLaptop={isDesktopOrLaptop}
-        isMobileDevice={isMobileDevice}
-        isSmallMobileDevice={isSmallMobileDevice}
-        openSearchBar={openSearchBar}
-        onClick={() => setOpenSearchBar(true)}
-        onMouseEnter={() => setOpenSearchBar(true)}
-      >
-        <AsyncSelect
-          placeholder={openSearchBar ? t('words.writeCity') : '🔍'}
-          loadOptions={(inputValue: string, callback) => {
-            fetchSuggestions(inputValue)
-              .then((options) => callback(options))
-              .catch((error) => {
-                console.error(error);
-                callback([]);
-              });
-          }}
-          onChange={handleChangeCity}
-          loadingMessage={({ inputValue }) =>
-            !inputValue ? null : t('words.lookingForSuggestions')
-          }
-          noOptionsMessage={({ inputValue }) => (!inputValue ? null : t('words.noSuggestions'))}
-          styles={customStyles}
-          components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null }}
-          filterOption={null}
-          onBlur={() => setOpenSearchBar(false)}
-        />
-      </SearchBarContainer>
-    </SearchBarWrapper>
+    <>
+      <ToastContainer position="bottom-center" theme="light" />
+      <SearchBarWrapper>
+        <SearchBarContainer
+          isDesktopOrLaptop={isDesktopOrLaptop}
+          isMobileDevice={isMobileDevice}
+          isSmallMobileDevice={isSmallMobileDevice}
+          openSearchBar={openSearchBar}
+          onClick={() => setOpenSearchBar(true)}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <AsyncSelect
+            ref={selectRef}
+            inputValue={inputVal}
+            placeholder={openSearchBar ? t('words.writeCity') : '🔍'}
+            loadOptions={(inputValue, callback) => {
+              fetchSuggestions(inputValue)
+                .then(callback)
+                .catch((error) => {
+                  console.error('ERROR IS ::', error);
+                  notifyError(t('words.errorFetchingSuggestions'));
+                  callback([]);
+                });
+            }}
+            menuIsOpen={isMenuOpen}
+            onInputChange={(value) => setInputVal(value)}
+            onChange={handleChangeCity}
+            loadingMessage={({ inputValue }) =>
+              !inputValue ? null : t('words.lookingForSuggestions')
+            }
+            noOptionsMessage={({ inputValue }) => (!inputValue ? null : t('words.noSuggestions'))}
+            styles={customStyles}
+            components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null }}
+            filterOption={null}
+            onMenuOpen={() => {
+              if (collapseTimeoutRef.current) {
+                clearTimeout(collapseTimeoutRef.current);
+              }
+              setIsMenuOpen(true);
+            }}
+          />
+        </SearchBarContainer>
+      </SearchBarWrapper>
+    </>
   );
 };
 
-export default CitySearchBar;
+export default memo(CitySearchBar);

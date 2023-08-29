@@ -1,21 +1,20 @@
 import { useState } from 'react';
+import StarsAnimation from 'components/StarsAnimation/StarsAnimation';
 import useDimensions from 'hooks/useDimensions';
 import back_icon from 'images/back_icon.png';
 import back_icon_hover from 'images/back_icon_hover.png';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { BackContainer, BackIcon, GlobalStyle, WeatherCard } from 'styles/styles';
+
 import {
-  BackContainer,
-  BackIcon,
-  GlobalStyle,
   MiInfo,
   MiInfoContainer,
   NetworkContainer,
   NetworkMapContainer,
   SocialNetworkItem,
   SocialNetworkName,
-  WeatherCard,
-} from 'styles/styles';
+} from './SocialNetworkStyles';
 
 const SocialNetwork = () => {
   const { t } = useTranslation();
@@ -31,6 +30,7 @@ const SocialNetwork = () => {
         isMobileDevice={isMobileDevice}
         isSmallMobileDevice={isSmallMobileDevice}
       >
+        <StarsAnimation />
         <BackContainer
           onMouseEnter={() => setMouseOver(true)}
           onMouseLeave={() => setMouseOver(false)}

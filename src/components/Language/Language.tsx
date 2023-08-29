@@ -1,7 +1,8 @@
 import { StorageKeys } from 'enums/index';
 import useDimensions from 'hooks/useDimensions';
 import { useTranslation } from 'react-i18next';
-import { LanguageButton, LanguagesContainer } from 'styles/styles';
+
+import { LanguageButton, LanguagesContainer } from './LanguageStyles';
 
 const Language = ({ changeLanguage }: any) => {
   const { isMobileDevice, isSmallMobileDevice } = useDimensions();

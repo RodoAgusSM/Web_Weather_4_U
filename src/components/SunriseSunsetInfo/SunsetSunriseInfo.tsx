@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { StorageKeys } from 'enums';
 import useDimensions from 'hooks/useDimensions';
 import { useTranslation } from 'react-i18next';
-import { Code, ColumnContainer } from 'styles/styles';
+import { Code, ColumnContainer, Line } from 'styles/styles';
 
 const SunriseSunsetInfo = ({
   lat,
@@ -67,9 +67,11 @@ const SunriseSunsetInfo = ({
       <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
         {t('words.sunrise')} {sunriseTime}
       </Code>
+      <Line />
       <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
         {t('words.sunset')} {sunsetTime}
       </Code>
+      <Line />
     </ColumnContainer>
   );
 };

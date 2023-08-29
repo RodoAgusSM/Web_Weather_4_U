@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Adapter from 'adapter/adapter';
 import CitySearchBar from 'components/CitySearchBar/CitySearchBar';
 import Language from 'components/Language/Language';
+import StarsAnimation from 'components/StarsAnimation/StarsAnimation';
 import SunriseSunsetInfo from 'components/SunriseSunsetInfo/SunsetSunriseInfo';
 import { iconExtension, iconURL } from 'config/config';
 import { APIWeatherProvider, InterfaceName, StorageKeys, Units, URLQuery } from 'enums/index';
@@ -12,7 +13,7 @@ import locationNotFound from 'images/location_not_found_icon.png';
 import notFoundIcon from 'images/not_found_icon.png';
 import social_network from 'images/social_network.png';
 import social_network_hover from 'images/social_network_hover.png';
-import logo from 'images/sun_half.svg';
+//import logo from 'images/sun_half.svg';
 import {
   AirPollution as AirPollutionInterface,
   AppRequest,
@@ -22,39 +23,44 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { SingleValue } from 'react-select';
 import {
-  AirQualitySectionContainer,
-  AllDataContainer,
-  BreakLine,
   CenteredContainer,
   Code,
   ColumnContainer,
+  GlobalStyle,
+  Line,
+  WeatherCard,
+} from 'styles/styles';
+import { generateURL } from 'utils/helpers';
+
+import {
+  AirQualitySectionContainer,
+  AllDataContainer,
+  BreakLine,
   DangerLogo,
   FooterContainer,
-  GlobalStyle,
   LanguageAndSocialNetworkContainer,
   LocationNotFoundCode,
   LocationNotFoundContainer,
   LocationNotFoundIcon,
-  LogoApp,
   MoreInfoButton,
   SocialNetworkIcon,
   SocialNetworkIconContainer,
   SpinnerLogo,
+  //LogoApp,
   Subtitle,
   TitleApp,
   UnitsContainer,
   UnitSpan,
   UnitsSubContainer,
-  WeatherCard,
   WeatherData,
   WeatherDataContainer,
   WeatherIcon,
   WeatherIconContainer,
   WeatherMain,
   WeatherMainContainer,
+  WeatherMainData,
   WeatherMainTemperature,
-} from 'styles/styles';
-import { generateURL } from 'utils/helpers';
+} from './WeatherStyles';
 
 const defaultWeather = {} as WeatherInterface;
 const defaultAirPollution = {} as AirPollutionInterface;
@@ -244,16 +250,17 @@ const Weather = () => {
           isMobileDevice={isMobileDevice}
           isSmallMobileDevice={isSmallMobileDevice}
         >
+          <StarsAnimation />
           <CitySearchBar changeCity={changeCity} />
           {validCoordinates ? (
             <>
-              <LogoApp
+              {/* <LogoApp
                 src={logo}
                 alt=""
                 isDesktopOrLaptop={isDesktopOrLaptop}
                 isMobileDevice={isMobileDevice}
                 isSmallMobileDevice={isSmallMobileDevice}
-              />
+              /> */}
               <TitleApp>
                 <Subtitle
                   isDesktopOrLaptop={isDesktopOrLaptop}
@@ -278,7 +285,8 @@ const Weather = () => {
                           ? t('words.temperature.unit.imperial')
                           : t('words.temperature.unit.metric')}
                       </WeatherMainTemperature>
-                      <Code
+                      <WeatherMainData
+                        isDesktopOrLaptop={isDesktopOrLaptop}
                         isMobileDevice={isMobileDevice}
                         isSmallMobileDevice={isSmallMobileDevice}
                       >
@@ -286,19 +294,20 @@ const Weather = () => {
                         {Units.IMPERIAL === unit
                           ? t('words.temperature.unit.imperial')
                           : t('words.temperature.unit.metric')}
-                      </Code>
-                      <Code
+                      </WeatherMainData>
+                      <WeatherMainData
+                        isDesktopOrLaptop={isDesktopOrLaptop}
                         isMobileDevice={isMobileDevice}
                         isSmallMobileDevice={isSmallMobileDevice}
                       >
                         {description}
-                      </Code>
-                      <SunriseSunsetInfo lat={lat} lon={lon} sunrise={sunrise} sunset={sunset} />
+                      </WeatherMainData>
                     </ColumnContainer>
                   </WeatherMain>
                 </WeatherMainContainer>
                 <WeatherDataContainer>
                   <WeatherData>
+                    <SunriseSunsetInfo lat={lat} lon={lon} sunrise={sunrise} sunset={sunset} />
                     <ColumnContainer>
                       <Code
                         isMobileDevice={isMobileDevice}
@@ -306,12 +315,14 @@ const Weather = () => {
                       >
                         {t('words.humidity')} {humidity}%
                       </Code>
+                      <Line />
                       <Code
                         isMobileDevice={isMobileDevice}
                         isSmallMobileDevice={isSmallMobileDevice}
                       >
                         {t('words.pressure')} {pressure} hPa
                       </Code>
+                      <Line />
                       <Code
                         isMobileDevice={isMobileDevice}
                         isSmallMobileDevice={isSmallMobileDevice}
@@ -323,6 +334,7 @@ const Weather = () => {
                           : t('words.windInfo.unit.metric')}{' '}
                         {t(`words.windInfo.windDirection.${windDirection}`)}
                       </Code>
+                      <Line />
                       <Code
                         isMobileDevice={isMobileDevice}
                         isSmallMobileDevice={isSmallMobileDevice}
@@ -332,6 +344,7 @@ const Weather = () => {
                           ? t('words.visibilityInfo.unit.imperial')
                           : t('words.visibilityInfo.unit.metric')}
                       </Code>
+                      <Line />
                     </ColumnContainer>
                     <AirQualitySectionContainer>
                       <Code

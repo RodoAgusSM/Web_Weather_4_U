@@ -1,10 +1,19 @@
 import { useState } from 'react';
+import StarsAnimation from 'components/StarsAnimation/StarsAnimation';
 import { AirQuality } from 'enums/index';
 import useDimensions from 'hooks/useDimensions';
 import back_icon from 'images/back_icon.png';
 import back_icon_hover from 'images/back_icon_hover.png';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  BackContainer,
+  BackIcon,
+  CenteredContainer,
+  GlobalStyle,
+  WeatherCard,
+} from 'styles/styles';
+
 import {
   AirPollutionItemContainer,
   AirPollutionItemLegendIcon,
@@ -13,12 +22,7 @@ import {
   AirPollutionLegendDesktopSubContainer,
   AirPollutionLegendMobileContainer,
   AirPollutionLegendMobileSubContainer,
-  BackContainer,
-  BackIcon,
-  CenteredContainer,
-  GlobalStyle,
-  WeatherCard,
-} from 'styles/styles';
+} from './AirPollutionInfoStyles';
 
 const AirPollutionInfo = () => {
   const { t } = useTranslation();
@@ -413,6 +417,7 @@ const AirPollutionInfo = () => {
         isMobileDevice={isMobileDevice}
         isSmallMobileDevice={isSmallMobileDevice}
       >
+        <StarsAnimation />
         <BackContainer
           onMouseEnter={() => setMouseOver(true)}
           onMouseLeave={() => setMouseOver(false)}

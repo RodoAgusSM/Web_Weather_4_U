@@ -41,7 +41,7 @@ export const getLastDateCheckedAmerican = () => {
 }
 
 const Directions = [
-    'nort',
+    'north',
     'northNorthEast',
     'northEast',
     'eastNorthEast',
