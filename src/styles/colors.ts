@@ -1,4 +1,5 @@
 export const Colors = {
+	meteorite: '#4A3B6A',
 	darkSlateGray: '#2e5249',
 	darkCyan: '#00A085',
 	wateryGreen: '#75CFB8',

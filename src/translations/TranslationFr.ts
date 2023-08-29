@@ -100,4 +100,7 @@ export const TranslationFr = {
 			fB: { abbrebiation: 'Facebook: ', username: 'RodoAgusSM', link: 'https://www.facebook.com/RodoAgusSM' },
 		},
 	},
+	errors: {
+		errorFetchingSuggestions: "Erreur réseau : une erreur s'est produite lors de la récupération des suggestions. Veuillez réessayer plus tard",
+	}
 };

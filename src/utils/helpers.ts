@@ -62,3 +62,7 @@ const Directions = [
 export const generateURL = ({ toFetch, lat, lon, language, units }: AppRequest) => {
     return openWeatherMapURL + toFetch + '?lat=' + lat + '&lon=' + lon + '&lang=' + language + '&units=' + units + paramsURL;
 }
+
+export const getRandomNumber = (min: number, max: number) => {
+    return Math.random() * (max - min) + min;
+};

@@ -100,4 +100,7 @@ export const TranslationSp = {
 			fB: { abbrebiation: 'Facebook: ', username: 'RodoAgusSM', link: 'https://www.facebook.com/RodoAgusSM' },
 		},
 	},
+	errors: {
+		errorFetchingSuggestions: "Error de red: se produjo un error al buscar sugerencias. Por favor, inténtelo de nuevo más tarde",
+	}
 };

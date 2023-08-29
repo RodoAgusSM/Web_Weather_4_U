@@ -5,10 +5,10 @@ import { City } from 'interfaces/index';
 import { useTranslation } from 'react-i18next';
 import { SingleValue } from 'react-select';
 import AsyncSelect from 'react-select/async';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { Colors } from 'styles/colors';
 
-import { SearchBarContainer, SearchBarWrapper } from './CitySearchBarStyles';
+import { SearchBarContainer, SearchBarWrapper, StyledToastContainer } from './CitySearchBarStyles';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -48,6 +48,7 @@ const CitySearchBar = ({ changeCity }: any) => {
   }, []);
 
   const notifyError = (message: string) => {
+    console.log('HERE IS ::', message);
     toast.error(message);
   };
 
@@ -60,18 +61,10 @@ const CitySearchBar = ({ changeCity }: any) => {
         return handleSuggestions(data);
       } else {
         const errorMessage = `Error: ${response.status} ${await response.text()}`;
-        console.error(errorMessage);
-
-        // Notify user with a toast
         toast.error(errorMessage);
       }
     } catch (error) {
-      const errorMessage =
-        'Network Error: An error occurred while fetching suggestions. Please try again later.';
-      console.error(errorMessage, error);
-
-      // Notify user with a toast
-      toast.error(errorMessage);
+      toast.error(t('errors.errorFetchingSuggestions'));
     }
     return [];
   }, []);
@@ -137,7 +130,7 @@ const CitySearchBar = ({ changeCity }: any) => {
 
   return (
     <>
-      <ToastContainer position="bottom-center" theme="light" />
+      <StyledToastContainer position="bottom-center" theme="light" />
       <SearchBarWrapper>
         <SearchBarContainer
           isDesktopOrLaptop={isDesktopOrLaptop}
@@ -155,9 +148,8 @@ const CitySearchBar = ({ changeCity }: any) => {
             loadOptions={(inputValue, callback) => {
               fetchSuggestions(inputValue)
                 .then(callback)
-                .catch((error) => {
-                  console.error('ERROR IS ::', error);
-                  notifyError(t('words.errorFetchingSuggestions'));
+                .catch(() => {
+                  notifyError(t('words.errors.errorFetchingSuggestions'));
                   callback([]);
                 });
             }}

@@ -100,4 +100,7 @@ export const TranslationEn = {
 			fB: { abbrebiation: 'Facebook: ', username: 'RodoAgusSM', link: 'https://www.facebook.com/RodoAgusSM' },
 		},
 	},
+	errors: {
+		errorFetchingSuggestions: "Network Error: An error occurred while fetching suggestions. Please try again later",
+	}
 };

@@ -1,37 +1,45 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect } from 'react';
+import { useSpringsAnimation } from 'hooks/useAnimations';
+import { Colors } from 'styles/colors';
+import { getRandomNumber } from 'utils/helpers';
+
+import { animated } from '@react-spring/web';
 
 import { Star, StarAfter, StarBeforeAfter, StarContainer } from './StarsAnimationStyles';
 
+const generateRandomStarsData = (count: number) => {
+  return Array.from({ length: count }, () => ({
+    top: getRandomNumber(-100, 700),
+    left: getRandomNumber(-300, 250),
+    delay: getRandomNumber(0.1, 2),
+  }));
+};
+
 const StarsAnimation = () => {
-  const [starsData, setStarsData] = useState<any>([]);
+  const springsData = useSpringsAnimation(getRandomNumber(0, 8));
+  const randomStarsData = generateRandomStarsData(getRandomNumber(0, 8));
 
-  useEffect(() => {
-    const randomStarsData = generateRandomStarsData(getRandomNumber(0, 8)); // Generate 5 random stars
-    setStarsData(randomStarsData);
-  }, []);
-
-  const getRandomNumber = (min: number, max: number) => {
-    return Math.random() * (max - min) + min;
-  };
-
-  const generateRandomStarsData = (count: number) => {
-    const starsData = [];
-    for (let i = 0; i < count; i++) {
-      const top = getRandomNumber(-100, 700);
-      const left = getRandomNumber(-300, 250);
-      const delay = getRandomNumber(0.1, 2);
-      starsData.push({ top, left, delay });
-    }
-    return starsData;
-  };
+  useEffect(() => {}, []);
 
   return (
     <StarContainer>
-      {starsData.map((star: any, index: number) => (
+      {randomStarsData.map((star: any, index: number) => (
         <Star key={index} delay={star.delay} top={star.top} left={star.left}>
           <StarBeforeAfter />
           <StarAfter />
         </Star>
+      ))}
+      {springsData.map((spring: any, index: number) => (
+        <animated.div
+          key={index}
+          style={{
+            width: 10,
+            height: 10,
+            background: `${Colors.shootingStar}`,
+            borderRadius: 25,
+            ...spring,
+          }}
+        />
       ))}
     </StarContainer>
   );
