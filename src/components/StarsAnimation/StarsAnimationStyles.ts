@@ -1,6 +1,11 @@
 import styled, { css, keyframes } from 'styled-components';
 import { Colors } from 'styles/colors';
 
+import { animated } from '@react-spring/web';
+
+const STAR_SIZE = '10px';
+const STAR_BORDER_RADIUS = '25px';
+
 const tailAnimation = keyframes`
 	0% {
 		width: 0px;
@@ -34,7 +39,7 @@ const shiningAnimation = keyframes`
 	}
 `;
 
-export const Star = styled.div<{ delay: number; top: number; left: number }>`
+export const StarElement = styled.div<{ delay: number; top: number; left: number }>`
 	position: absolute;
 	height: 4px;
 		background: linear-gradient(-45deg, ${Colors.shootingStar} , rgba(0, 0, 255, 0));
@@ -67,4 +72,11 @@ export const StarAfter = styled(StarBeforeAfter)`
 
 export const StarContainer = styled.ul`
 	position: absolute;
+`;
+
+export const AnimatedSpring = styled(animated.div)`
+    width: ${STAR_SIZE};
+    height: ${STAR_SIZE};
+    background: ${Colors.shootingStar};
+    border-radius: ${STAR_BORDER_RADIUS};
 `;

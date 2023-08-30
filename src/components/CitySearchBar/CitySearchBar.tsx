@@ -156,10 +156,8 @@ const CitySearchBar = ({ changeCity }: any) => {
             menuIsOpen={isMenuOpen}
             onInputChange={(value) => setInputVal(value)}
             onChange={handleChangeCity}
-            loadingMessage={({ inputValue }) =>
-              !inputValue ? null : t('words.lookingForSuggestions')
-            }
-            noOptionsMessage={({ inputValue }) => (!inputValue ? null : t('words.noSuggestions'))}
+            loadingMessage={({ inputValue }) => inputValue && t('words.lookingForSuggestions')}
+            noOptionsMessage={({ inputValue }) => inputValue && t('words.noSuggestions')}
             styles={customStyles}
             components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null }}
             filterOption={null}

@@ -1,45 +1,47 @@
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import { useSpringsAnimation } from 'hooks/useAnimations';
-import { Colors } from 'styles/colors';
+import { Star } from 'interfaces/index';
 import { getRandomNumber } from 'utils/helpers';
 
-import { animated } from '@react-spring/web';
+import {
+  AnimatedSpring,
+  StarAfter,
+  StarBeforeAfter,
+  StarContainer,
+  StarElement,
+} from './StarsAnimationStyles';
 
-import { Star, StarAfter, StarBeforeAfter, StarContainer } from './StarsAnimationStyles';
+const MIN_STAR_COUNT = 0;
+const MAX_STAR_COUNT = 8;
+const MIN_TOP_POSITION = -100;
+const MAX_TOP_POSITION = 700;
+const MIN_LEFT_POSITION = -300;
+const MAX_LEFT_POSITION = 250;
+const MIN_DELAY = 0.1;
+const MAX_DELAY = 2;
 
-const generateRandomStarsData = (count: number) => {
+const generateRandomStarsData = (count: number): Star[] => {
   return Array.from({ length: count }, () => ({
-    top: getRandomNumber(-100, 700),
-    left: getRandomNumber(-300, 250),
-    delay: getRandomNumber(0.1, 2),
+    top: getRandomNumber(MIN_TOP_POSITION, MAX_TOP_POSITION),
+    left: getRandomNumber(MIN_LEFT_POSITION, MAX_LEFT_POSITION),
+    delay: getRandomNumber(MIN_DELAY, MAX_DELAY),
   }));
 };
 
 const StarsAnimation = () => {
-  const springsData = useSpringsAnimation(getRandomNumber(0, 8));
-  const randomStarsData = generateRandomStarsData(getRandomNumber(0, 8));
-
-  useEffect(() => {}, []);
+  const springsData = useSpringsAnimation(getRandomNumber(MIN_STAR_COUNT, MAX_STAR_COUNT));
+  const randomStarsData = generateRandomStarsData(getRandomNumber(MIN_STAR_COUNT, MAX_STAR_COUNT));
 
   return (
     <StarContainer>
-      {randomStarsData.map((star: any, index: number) => (
-        <Star key={index} delay={star.delay} top={star.top} left={star.left}>
+      {randomStarsData.map((star, index: number) => (
+        <StarElement key={index} delay={star.delay} top={star.top} left={star.left}>
           <StarBeforeAfter />
           <StarAfter />
-        </Star>
+        </StarElement>
       ))}
-      {springsData.map((spring: any, index: number) => (
-        <animated.div
-          key={index}
-          style={{
-            width: 10,
-            height: 10,
-            background: `${Colors.shootingStar}`,
-            borderRadius: 25,
-            ...spring,
-          }}
-        />
+      {springsData.map((spring, index: number) => (
+        <AnimatedSpring key={index} style={{ ...spring }} />
       ))}
     </StarContainer>
   );

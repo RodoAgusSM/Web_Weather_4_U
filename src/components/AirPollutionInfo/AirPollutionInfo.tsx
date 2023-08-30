@@ -30,7 +30,7 @@ const AirPollutionInfo = () => {
   const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useDimensions();
   const { airPollution } = state as any;
   let navigate = useNavigate();
-  const [mouseOver, setMouseOver] = useState(false);
+  const [mouseOver, setMouseOver] = useState<boolean>(false);
 
   const generateLabel = (label: string, value: number) => {
     switch (label) {

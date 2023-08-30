@@ -20,7 +20,7 @@ const SocialNetwork = () => {
   const { t } = useTranslation();
   let navigate = useNavigate();
   const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useDimensions();
-  const [mouseOver, setMouseOver] = useState(false);
+  const [mouseOver, setMouseOver] = useState<boolean>(false);
 
   return (
     <>
