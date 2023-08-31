@@ -10,7 +10,7 @@ const expand = keyframes`
 	}
 `;
 
-const generateCompressAnimation = (widthValue: any) => keyframes`
+const generateCompressAnimation = (widthValue: string) => keyframes`
 	from {
 		width: 100%;
 	}
@@ -25,24 +25,24 @@ export const SearchBarWrapper = styled.div`
     align-items: center;
 `;
 
-export const SearchBarContainer = styled.div<{ isDesktopOrLaptop: boolean; isMobileDevice: boolean; isSmallMobileDevice: boolean, openSearchBar: boolean | null }>`
-	width:  ${({ isDesktopOrLaptop, openSearchBar }) => isDesktopOrLaptop && !openSearchBar && '8%'};
-	width:  ${({ isMobileDevice, isSmallMobileDevice, openSearchBar }) => (isMobileDevice || isSmallMobileDevice) && !openSearchBar && '12%'};
-	width:  ${({ openSearchBar }) => openSearchBar && '100%'};
+export const SearchBarContainer = styled.div<{ $isDesktopOrLaptop: boolean; $isMobileDevice: boolean; $isSmallMobileDevice: boolean, $openSearchBar: boolean | null }>`
+	width:  ${({ $isDesktopOrLaptop, $openSearchBar }) => $isDesktopOrLaptop && !$openSearchBar && '8%'};
+	width:  ${({ $isMobileDevice, $isSmallMobileDevice, $openSearchBar }) => ($isMobileDevice || $isSmallMobileDevice) && !$openSearchBar && '12%'};
+	width:  ${({ $openSearchBar }) => $openSearchBar && '100%'};
 	cursor: pointer;
 	height:40%;
 	transform-origin: 50% 50%;
-	${({ openSearchBar }) =>
-		openSearchBar &&
+	${({ $openSearchBar }) =>
+		$openSearchBar &&
 		css`
 		animation: ${expand} 1s linear forwards;
 	`};
-	${({ openSearchBar, isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice }) =>
-		openSearchBar === false &&
-		((isDesktopOrLaptop && css`
+	${({ $openSearchBar, $isDesktopOrLaptop, $isMobileDevice, $isSmallMobileDevice }) =>
+		$openSearchBar === false &&
+		(($isDesktopOrLaptop && css`
 		animation: ${generateCompressAnimation('8%')} 1s linear forwards;
 	`) ||
-			((isMobileDevice || isSmallMobileDevice) && css`
+			(($isMobileDevice || $isSmallMobileDevice) && css`
 		animation: ${generateCompressAnimation('12%')} 1s linear forwards;
 	`))};
 `;

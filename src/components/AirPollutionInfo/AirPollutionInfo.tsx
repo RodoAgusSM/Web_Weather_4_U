@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import StarsAnimation from 'components/StarsAnimation/StarsAnimation';
+import StarsAnimation from 'components/Space/Space';
 import { AirQuality } from 'enums/index';
 import useDimensions from 'hooks/useDimensions';
-import back_icon from 'images/back_icon.png';
-import back_icon_hover from 'images/back_icon_hover.png';
+import BackIcon from 'images/back_icon.png';
+import BackIconHover from 'images/back_icon_hover.png';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import {
   BackContainer,
-  BackIcon,
+  BackIconSpotImg,
   CenteredContainer,
   GlobalStyle,
   WeatherCard,
@@ -16,7 +16,6 @@ import {
 
 import {
   AirPollutionItemContainer,
-  AirPollutionItemLegendIcon,
   AirPollutionItemSpan,
   AirPollutionLegendDesktopContainer,
   AirPollutionLegendDesktopSubContainer,
@@ -411,11 +410,11 @@ const AirPollutionInfo = () => {
 
   return (
     <>
-      <GlobalStyle isSmallMobileDevice={isSmallMobileDevice} />
+      <GlobalStyle $isSmallMobileDevice={isSmallMobileDevice} />
       <WeatherCard
-        isDesktopOrLaptop={isDesktopOrLaptop}
-        isMobileDevice={isMobileDevice}
-        isSmallMobileDevice={isSmallMobileDevice}
+        $isDesktopOrLaptop={isDesktopOrLaptop}
+        $isMobileDevice={isMobileDevice}
+        $isSmallMobileDevice={isSmallMobileDevice}
       >
         <StarsAnimation />
         <BackContainer
@@ -425,22 +424,22 @@ const AirPollutionInfo = () => {
             navigate(`/`);
           }}
         >
-          <BackIcon mouseOver={mouseOver} regular={back_icon} hover={back_icon_hover} />
+          <BackIconSpotImg $mouseOver={mouseOver} $regular={BackIcon} $hover={BackIconHover} />
           {t('words.back')}
         </BackContainer>
 
         {isDesktopOrLaptop && (
           <AirPollutionLegendDesktopContainer>
             <AirPollutionLegendDesktopSubContainer>
-              <AirPollutionItemLegendIcon color={'#79BC6A'} />
+              <AirPollutionItemSpan color={'#79BC6A'} />
               {Object.values(t('words.airPollution.status', { returnObjects: true }))[0]}
-              <AirPollutionItemLegendIcon color={'#BBCf4C'} />
+              <AirPollutionItemSpan color={'#BBCf4C'} />
               {Object.values(t('words.airPollution.status', { returnObjects: true }))[1]}
-              <AirPollutionItemLegendIcon color={'#EEC209'} />
+              <AirPollutionItemSpan color={'#EEC209'} />
               {Object.values(t('words.airPollution.status', { returnObjects: true }))[2]}
-              <AirPollutionItemLegendIcon color={'#F39307'} />
+              <AirPollutionItemSpan color={'#F39307'} />
               {Object.values(t('words.airPollution.status', { returnObjects: true }))[3]}
-              <AirPollutionItemLegendIcon color={'#E8406F'} />
+              <AirPollutionItemSpan color={'#E8406F'} />
               {Object.values(t('words.airPollution.status', { returnObjects: true }))[4]}
             </AirPollutionLegendDesktopSubContainer>
           </AirPollutionLegendDesktopContainer>
@@ -448,23 +447,23 @@ const AirPollutionInfo = () => {
         {(isMobileDevice || isSmallMobileDevice) && (
           <AirPollutionLegendMobileContainer>
             <AirPollutionLegendMobileSubContainer>
-              <AirPollutionItemLegendIcon color={'#79BC6A'} />
+              <AirPollutionItemSpan color={'#79BC6A'} />
               {Object.values(t('words.airPollution.status', { returnObjects: true }))[0]}
             </AirPollutionLegendMobileSubContainer>
             <AirPollutionLegendMobileSubContainer>
-              <AirPollutionItemLegendIcon color={'#BBCf4C'} />
+              <AirPollutionItemSpan color={'#BBCf4C'} />
               {Object.values(t('words.airPollution.status', { returnObjects: true }))[1]}
             </AirPollutionLegendMobileSubContainer>
             <AirPollutionLegendMobileSubContainer>
-              <AirPollutionItemLegendIcon color={'#EEC209'} />
+              <AirPollutionItemSpan color={'#EEC209'} />
               {Object.values(t('words.airPollution.status', { returnObjects: true }))[2]}
             </AirPollutionLegendMobileSubContainer>
             <AirPollutionLegendMobileSubContainer>
-              <AirPollutionItemLegendIcon color={'#F39307'} />
+              <AirPollutionItemSpan color={'#F39307'} />
               {Object.values(t('words.airPollution.status', { returnObjects: true }))[3]}
             </AirPollutionLegendMobileSubContainer>
             <AirPollutionLegendMobileSubContainer>
-              <AirPollutionItemLegendIcon color={'#E8406F'} />
+              <AirPollutionItemSpan color={'#E8406F'} />
               {Object.values(t('words.airPollution.status', { returnObjects: true }))[4]}
             </AirPollutionLegendMobileSubContainer>
           </AirPollutionLegendMobileContainer>

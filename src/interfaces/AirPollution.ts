@@ -1,4 +1,4 @@
-export interface AirPollution {
+interface AirPollution {
 	AQI: any;
 	carbonMonoxide: number;
 	nitrogenMonoxide: number;

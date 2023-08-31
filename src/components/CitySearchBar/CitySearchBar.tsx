@@ -12,7 +12,13 @@ import { SearchBarContainer, SearchBarWrapper, StyledToastContainer } from './Ci
 
 import 'react-toastify/dist/ReactToastify.css';
 
-const CitySearchBar = ({ changeCity }: any) => {
+interface CitySearchBarProps {
+  changeCity: (
+    city: SingleValue<{ label: string; value: { lat: string; lon: string; name: string } }>
+  ) => void;
+}
+
+const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
   const { t } = useTranslation();
   const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useDimensions();
   const [openSearchBar, setOpenSearchBar] = useState<boolean | null>(null);
@@ -42,13 +48,12 @@ const CitySearchBar = ({ changeCity }: any) => {
       setInputVal('');
       setOpenSearchBar(false);
       if (selectRef.current) {
-        selectRef.current.blur();
+        isDesktopOrLaptop && selectRef.current.blur();
       }
     }, 300);
   }, []);
 
   const notifyError = (message: string) => {
-    console.log('HERE IS ::', message);
     toast.error(message);
   };
 
@@ -133,10 +138,10 @@ const CitySearchBar = ({ changeCity }: any) => {
       <StyledToastContainer position="bottom-center" theme="light" />
       <SearchBarWrapper>
         <SearchBarContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-          openSearchBar={openSearchBar}
+          $isDesktopOrLaptop={isDesktopOrLaptop}
+          $isMobileDevice={isMobileDevice}
+          $isSmallMobileDevice={isSmallMobileDevice}
+          $openSearchBar={openSearchBar}
           onClick={() => setOpenSearchBar(true)}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}

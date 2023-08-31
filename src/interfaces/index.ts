@@ -1,7 +1,9 @@
-import { AirPollution } from './AirPollution'
+import AirPollution from './AirPollution'
+import ApiError from './ApiError'
+import ApiResponse from './ApiResponse'
 import AppRequest from './AppRequest'
 import City from './City'
-import Star from './Start'
-import { Weather } from './Weather'
+import Star from './Star'
+import Weather from './Weather'
 
-export type { AirPollution, AppRequest, City, Star, Weather }
+export type { AirPollution, ApiError, ApiResponse, AppRequest, City, Star, Weather }

@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import StarsAnimation from 'components/StarsAnimation/StarsAnimation';
+import StarsAnimation from 'components/Space/Space';
 import useDimensions from 'hooks/useDimensions';
-import back_icon from 'images/back_icon.png';
-import back_icon_hover from 'images/back_icon_hover.png';
+import BackIcon from 'images/back_icon.png';
+import BackIconHover from 'images/back_icon_hover.png';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { BackContainer, BackIcon, GlobalStyle, WeatherCard } from 'styles/styles';
+import { BackContainer, BackIconSpotImg, GlobalStyle, WeatherCard } from 'styles/styles';
 
 import {
   MiInfo,
@@ -24,11 +24,11 @@ const SocialNetwork = () => {
 
   return (
     <>
-      <GlobalStyle isSmallMobileDevice={isSmallMobileDevice} />
+      <GlobalStyle $isSmallMobileDevice={isSmallMobileDevice} />
       <WeatherCard
-        isDesktopOrLaptop={isDesktopOrLaptop}
-        isMobileDevice={isMobileDevice}
-        isSmallMobileDevice={isSmallMobileDevice}
+        $isDesktopOrLaptop={isDesktopOrLaptop}
+        $isMobileDevice={isMobileDevice}
+        $isSmallMobileDevice={isSmallMobileDevice}
       >
         <StarsAnimation />
         <BackContainer
@@ -38,7 +38,7 @@ const SocialNetwork = () => {
             navigate(`/`);
           }}
         >
-          <BackIcon mouseOver={mouseOver} regular={back_icon} hover={back_icon_hover} />
+          <BackIconSpotImg $mouseOver={mouseOver} $regular={BackIcon} $hover={BackIconHover} />
           {t('words.back')}
         </BackContainer>
         <MiInfoContainer>

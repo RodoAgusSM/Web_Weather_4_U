@@ -64,11 +64,11 @@ const SunriseSunsetInfo = ({
 
   return (
     <ColumnContainer>
-      <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
+      <Code $isMobileDevice={isMobileDevice} $isSmallMobileDevice={isSmallMobileDevice}>
         {t('words.sunrise')} {sunriseTime}
       </Code>
       <Line />
-      <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
+      <Code $isMobileDevice={isMobileDevice} $isSmallMobileDevice={isSmallMobileDevice}>
         {t('words.sunset')} {sunsetTime}
       </Code>
       <Line />

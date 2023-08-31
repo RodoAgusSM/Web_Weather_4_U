@@ -1,4 +1,4 @@
-export interface Weather {
+interface Weather {
     realFeel: number;
     feelsLike: number;
     description: string;

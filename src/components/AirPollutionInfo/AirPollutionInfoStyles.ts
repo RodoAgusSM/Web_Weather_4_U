@@ -15,10 +15,10 @@ export const AirPollutionItemContainer = styled.div<{ isDesktopOrLaptop: boolean
 	box-shadow: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && `2px 2px 6px 1px ${Colors.sonicSilver}`};
 `;
 
-export const AirPollutionItemSpan = styled.span`
+export const AirPollutionItemSpan = styled.span<{ color: string }>`
 	width: 30px;
 	height: 30px;
-	background-color: ${(props: { color: any; }) => props.color};
+	background-color: ${({ color }) => color};
 	border-radius: 25px;
 	box-shadow: 2px 2px 6px 1px ${Colors.sonicSilver};
 `;
@@ -51,12 +51,4 @@ export const AirPollutionLegendMobileSubContainer = styled.div`
     align-items: center;
 	gap: 10px;
 	font-size: 13px;
-`;
-
-export const AirPollutionItemLegendIcon = styled.span`
-	width: 30px;
-	height: 30px;
-	background-color: ${(props: { color: any; }) => props.color};
-	border-radius: 25px;
-	box-shadow: 2px 2px 6px 1px ${Colors.sonicSilver};
 `;

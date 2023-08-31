@@ -1,6 +1,25 @@
 import { openWeatherMapURL, paramsURL } from 'config/config';
 import { AppRequest } from "interfaces";
 
+const Directions = [
+    'north',
+    'northNorthEast',
+    'northEast',
+    'eastNorthEast',
+    'east',
+    'eastSouthEast',
+    'southEast',
+    'southSouthEast',
+    'South',
+    'southSouthWest',
+    'southWest',
+    'westSouthWest',
+    'west',
+    'westNorthWest',
+    'northWest',
+    'northNorthWest',
+];
+
 export const getWindDirection = (object: any) => {
     const degrees = parseInt(object.wind.deg);
     const cardinal = Math.round((degrees + 11.25) / 22.5);
@@ -39,25 +58,6 @@ export const getLastDateCheckedAmerican = () => {
         (dateNow.getMonth() + 1) + '/' + dateNow.getDate() + '/' + dateNow.getFullYear();
     return date;
 }
-
-const Directions = [
-    'north',
-    'northNorthEast',
-    'northEast',
-    'eastNorthEast',
-    'east',
-    'eastSouthEast',
-    'southEast',
-    'southSouthEast',
-    'South',
-    'southSouthWest',
-    'southWest',
-    'westSouthWest',
-    'west',
-    'westNorthWest',
-    'northWest',
-    'northNorthWest',
-];
 
 export const generateURL = ({ toFetch, lat, lon, language, units }: AppRequest) => {
     return openWeatherMapURL + toFetch + '?lat=' + lat + '&lon=' + lon + '&lang=' + language + '&units=' + units + paramsURL;

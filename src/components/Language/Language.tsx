@@ -4,11 +4,15 @@ import { useTranslation } from 'react-i18next';
 
 import { LanguageButton, LanguagesContainer } from './LanguageStyles';
 
-const Language = ({ changeLanguage }: any) => {
+interface LanguageProps {
+  changeLanguage: (languageCode: string) => void;
+}
+
+const Language = ({ changeLanguage }: LanguageProps) => {
   const { isMobileDevice, isSmallMobileDevice } = useDimensions();
   const { t } = useTranslation();
   return (
-    <LanguagesContainer isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
+    <LanguagesContainer $isMobileDevice={isMobileDevice} $isSmallMobileDevice={isSmallMobileDevice}>
       {Object.entries(
         t(StorageKeys.LANGUAGES, {
           returnObjects: true,

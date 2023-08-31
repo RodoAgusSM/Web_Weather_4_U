@@ -39,7 +39,7 @@ const shiningAnimation = keyframes`
 	}
 `;
 
-export const StarElement = styled.div<{ delay: number; top: number; left: number }>`
+export const StarElement = styled.div<{ $delay: number; $top: number; $left: number }>`
 	position: absolute;
 	height: 4px;
 		background: linear-gradient(-45deg, ${Colors.shootingStar} , rgba(0, 0, 255, 0));
@@ -47,11 +47,15 @@ export const StarElement = styled.div<{ delay: number; top: number; left: number
 	filter: drop-shadow(0 0 6px ${Colors.shootingStar});
 	animation: ${tailAnimation} 3s ease-in-out infinite,
 				${fallingAnimation} 3s ease-in-out infinite;
-	${(props) => css`
-		animation-delay: ${props.delay}s;
-		top: calc(50% + ${props.top}px);
-		left: calc(50% + ${props.left}px);
+	${({ $delay, $top, $left }) => css`
+		animation-delay: ${$delay}s;
+		top: calc(50% + ${$top}px);
+		left: calc(50% + ${$left}px);
 	`}
+`;
+
+export const SpaceContainer = styled.ul`
+	position: absolute;
 `;
 
 export const StarBeforeAfter = styled.div`
@@ -68,10 +72,6 @@ export const StarBeforeAfter = styled.div`
 
 export const StarAfter = styled(StarBeforeAfter)`
 	transform: translateX(50%) rotateZ(-45deg);
-`;
-
-export const StarContainer = styled.ul`
-	position: absolute;
 `;
 
 export const AnimatedSpring = styled(animated.div)`

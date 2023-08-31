@@ -8,7 +8,7 @@ const mobileWidth = '21rem';
 const mobileHeightSmallDisplay = '35rem';
 const mobileHeightBigDisplay = '36rem';
 
-export const GlobalStyle = createGlobalStyle<{ isSmallMobileDevice: boolean }>`
+export const GlobalStyle = createGlobalStyle<{ $isSmallMobileDevice: boolean }>`
 	body {
 		margin: 0;
 		position: absolute;
@@ -17,11 +17,11 @@ export const GlobalStyle = createGlobalStyle<{ isSmallMobileDevice: boolean }>`
 		margin-right: -50%;
 		transform: translate(-50%, -50%);
 		background-color: ${Colors.wateryGreen};
-		margin-top: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '6px'};
+		margin-top: ${({ $isSmallMobileDevice }) => $isSmallMobileDevice && '6px'};
 	}
 `;
 
-export const WeatherCard = styled.div<{ isSmallMobileDevice: boolean, isMobileDevice: boolean, isDesktopOrLaptop: boolean }>`
+export const WeatherCard = styled.div<{ $isSmallMobileDevice: boolean, $isMobileDevice: boolean, $isDesktopOrLaptop: boolean }>`
 	border-color: ${Colors.whiteChocolate};
 	border-style: solid;
 	padding: 10px;
@@ -29,10 +29,10 @@ export const WeatherCard = styled.div<{ isSmallMobileDevice: boolean, isMobileDe
 	border-radius: 20px;
 	color: ${Colors.black};
 	word-wrap: break-word;
-	width: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop ? desktopWidth : mobileWidth};
-	height: ${({ isSmallMobileDevice }) => isSmallMobileDevice && mobileHeightSmallDisplay};
-	height: ${({ isMobileDevice }) => isMobileDevice && mobileHeightBigDisplay};
-	height: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && desktopHeight};
+	width: ${({ $isDesktopOrLaptop }) => $isDesktopOrLaptop ? desktopWidth : mobileWidth};
+	height: ${({ $isSmallMobileDevice }) => $isSmallMobileDevice && mobileHeightSmallDisplay};
+	height: ${({ $isMobileDevice }) => $isMobileDevice && mobileHeightBigDisplay};
+	height: ${({ $isDesktopOrLaptop }) => $isDesktopOrLaptop && desktopHeight};
 	box-shadow: 2px 2px 12px 2px ${Colors.darkCharcoal};
 `;
 
@@ -44,9 +44,9 @@ export const ColumnContainer = styled.div`
 
 
 
-export const Code = styled.code<{ isMobileDevice: boolean, isSmallMobileDevice: boolean }>`
+export const Code = styled.code<{ $isMobileDevice: boolean, $isSmallMobileDevice: boolean }>`
 	cursor: default;
-	font-size: ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '12px'};
+	font-size: ${({ $isMobileDevice, $isSmallMobileDevice }) => ($isMobileDevice || $isSmallMobileDevice) && '12px'};
 `;
 
 export const BackContainer = styled.span`
@@ -65,13 +65,17 @@ export const BackContainer = styled.span`
 	}
 `;
 
-export const BackIcon = styled.image`
+export const BackIconSpotImg = styled.image<{
+	$mouseOver: boolean;
+	$regular: string;
+	$hover: string;
+}>`
 	width: 20px;
 	height: 20px;
 	background-size: contain;
-	background-image: url(${(props: { mouseOver: any; regular: any; hover: any; }) => (!props.mouseOver ? props.regular : props.hover)});
+	background-image: url(${({ $mouseOver, $regular, $hover }) => (!$mouseOver ? $regular : $hover)});
 	&:hover {
-		background-image: url(${(props: { hover: any; }) => props.hover});
+	background-image: url(${({ $hover }) => $hover});
 	}
 `;
 
@@ -89,9 +93,9 @@ export const Line = styled.div`
 	width: 100%;
 
 	&::after {
-		content: '';
-		width: 90%;
-		height: 2px;
-		background: linear-gradient(to right, ${Colors.darkCyan}, ${Colors.wateryGreen});
-	}
+	content: '';
+	width: 90%;
+	height: 2px;
+	background: linear - gradient(to right, ${Colors.darkCyan}, ${Colors.wateryGreen});
+}
 `;

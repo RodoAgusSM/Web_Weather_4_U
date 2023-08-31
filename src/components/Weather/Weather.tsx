@@ -2,18 +2,19 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Adapter from 'adapter/adapter';
 import CitySearchBar from 'components/CitySearchBar/CitySearchBar';
 import Language from 'components/Language/Language';
-import StarsAnimation from 'components/StarsAnimation/StarsAnimation';
+import StarsAnimation from 'components/Space/Space';
 import SunriseSunsetInfo from 'components/SunriseSunsetInfo/SunsetSunriseInfo';
 import { iconExtension, iconURL } from 'config/config';
 import { APIWeatherProvider, InterfaceName, StorageKeys, Units, URLQuery } from 'enums/index';
 import useDimensions from 'hooks/useDimensions';
-import danger from 'images/danger.png';
-import loading from 'images/loading.gif';
-import locationNotFound from 'images/location_not_found_icon.png';
-import notFoundIcon from 'images/not_found_icon.png';
-import social_network from 'images/social_network.png';
-import social_network_hover from 'images/social_network_hover.png';
-//import logo from 'images/sun_half.svg';
+import DangerIcon from 'images/danger.png';
+import LoadingIcon from 'images/loading.gif';
+import LocationNotFoundIcon from 'images/location_not_found_icon.png';
+import NotFoundIcon from 'images/not_found_icon.png';
+import SocialNetworkIcon from 'images/social_network.png';
+import SocialNetworkHoverIcon from 'images/social_network_hover.png';
+import { ApiError, ApiResponse } from 'interfaces/index';
+//import Logo from 'images/sun_half.svg';
 import {
   AirPollution as AirPollutionInterface,
   AppRequest,
@@ -41,10 +42,10 @@ import {
   LanguageAndSocialNetworkContainer,
   LocationNotFoundCode,
   LocationNotFoundContainer,
-  LocationNotFoundIcon,
+  LocationNotFoundSpotImg,
   MoreInfoButton,
-  SocialNetworkIcon,
   SocialNetworkIconContainer,
+  SocialNetworkSpotImg,
   SpinnerLogo,
   //LogoApp,
   Subtitle,
@@ -88,7 +89,7 @@ const Weather = () => {
   const [airPollution, setAirPollution] = useState<AirPollutionInterface>(defaultAirPollution);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [width, setWidth] = useState<number>(window.innerWidth);
-  const iconValue = useRef(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -98,76 +99,119 @@ const Weather = () => {
   }, [width]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          generateURL({
-            toFetch: URLQuery.WEAHTER,
-            lat: lat,
-            lon: lon,
-            language: language,
-            units: unit,
-          } as AppRequest)
-        );
-        if (response.ok) {
-          const weatherDataAPI = await response.json();
-          setIsSiteWorking(true);
-          setCountryNameShort(weatherDataAPI.sys.country);
-          iconValue.current = weatherDataAPI.weather[0].icon;
-          setWeather(
-            Adapter(
-              APIWeatherProvider.OPENWEATHERMAP,
-              InterfaceName.WEATHER,
-              unit,
-              weatherDataAPI
-            ) as WeatherInterface
-          );
-        } else console.log(response.status, response.text);
-      } catch (error: any) {
-        if (error.response.data.message === 'city not found') setValidCoordinates(false);
-        else setIsSiteWorking(false);
-      }
-      try {
-        setIsIconWorking(true);
-        const iconUrl = iconURL + iconValue.current + iconExtension;
-        const response = await fetch(iconUrl);
-        if (response.ok) {
-          setWeather((weather: WeatherInterface) => ({
-            ...((weather as WeatherInterface) ?? {}),
-            icon: response?.url,
-          }));
-        } else console.log(response.status, response.text);
-      } catch (error) {
-        setIsIconWorking(false);
-      }
-      try {
-        const response = await fetch(
-          generateURL({
-            toFetch: URLQuery.AIRPOLLUTION,
-            lat: lat,
-            lon: lon,
-            language: language,
-            units: unit,
-          } as AppRequest)
-        );
-        if (response.ok) {
-          const airPollutionDataAPI = await response.json();
-          const airPollutionData = airPollutionDataAPI.list[0];
-          setAirPollution(
-            Adapter(
-              APIWeatherProvider.OPENWEATHERMAP,
-              InterfaceName.AIRPOLLUTION,
-              unit,
-              airPollutionData
-            ) as AirPollutionInterface
-          );
-        } else console.log(response.status, response.text);
-        setIsLoading(false);
-      } catch (error) {}
+    const fetchDataInterval = async () => {
+      await fetchData();
     };
-    fetchData();
+
+    fetchDataInterval();
+
+    if (!intervalRef.current) {
+      const intervalId = setInterval(async () => {
+        await fetchData();
+      }, 10000);
+
+      intervalRef.current = intervalId;
+    }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
   }, [lat, lon, language, unit]);
 
+  const handleAPIError: ApiError = (error: any, response?: ApiResponse) => {
+    console.error('Error fetching data:', error);
+    if (response?.data !== undefined && response?.data.message === 'city not found') {
+      setValidCoordinates(false);
+    } else {
+      setIsSiteWorking(false);
+    }
+  };
+
+  const fetchFromAPI = async (
+    config: AppRequest,
+    successCallback: Function,
+    errorCallback: ApiError = handleAPIError
+  ) => {
+    try {
+      const response = await fetch(generateURL(config));
+      if (response.ok) {
+        const data = await response.json();
+        successCallback(data);
+      } else {
+        console.log(response.status, await response.text());
+      }
+    } catch (error: any) {
+      errorCallback(error);
+    }
+  };
+
+  const fetchIcon = async (iconValue: string) => {
+    try {
+      setIsIconWorking(true);
+      const iconUrl = `${iconURL}${iconValue}${iconExtension}`;
+      const response = await fetch(iconUrl);
+      if (response.ok) {
+        setWeather((weather: WeatherInterface) => ({
+          ...weather,
+          icon: response.url,
+        }));
+      } else {
+        console.log(response.status, await response.text());
+      }
+    } catch (error) {
+      setIsIconWorking(false);
+    }
+  };
+
+  const fetchData = async () => {
+    const weatherRequest: AppRequest = {
+      toFetch: URLQuery.WEATHER,
+      lat,
+      lon,
+      language,
+      units: unit,
+    };
+
+    const airPollutionRequest: AppRequest = {
+      toFetch: URLQuery.AIRPOLLUTION,
+      lat,
+      lon,
+      language,
+      units: unit,
+    };
+
+    await fetchFromAPI(weatherRequest, (weatherDataAPI: any) => {
+      setIsSiteWorking(true);
+      setCountryNameShort(weatherDataAPI.sys.country);
+      const icon = weatherDataAPI.weather[0].icon;
+      fetchIcon(icon);
+      setWeather(
+        Adapter(
+          APIWeatherProvider.OPENWEATHERMAP,
+          InterfaceName.WEATHER,
+          unit,
+          weatherDataAPI
+        ) as WeatherInterface
+      );
+    });
+
+    await fetchFromAPI(airPollutionRequest, (airPollutionDataAPI: any) => {
+      const airPollutionData = airPollutionDataAPI.list[0];
+      setAirPollution(
+        Adapter(
+          APIWeatherProvider.OPENWEATHERMAP,
+          InterfaceName.AIRPOLLUTION,
+          unit,
+          airPollutionData
+        ) as AirPollutionInterface
+      );
+    });
+
+    setIsLoading(false);
+  };
   const changeCity = useCallback(
     (
       newCity: SingleValue<{
@@ -215,18 +259,18 @@ const Weather = () => {
     } else {
       showIcon = (
         <WeatherIconContainer>
-          <WeatherIcon src={notFoundIcon} alt="" />;
+          <WeatherIcon src={NotFoundIcon} alt="" />;
         </WeatherIconContainer>
       );
     }
     if (isLoading || icon === '') {
       toShow = (
         <SpinnerLogo
-          src={loading}
+          src={LoadingIcon}
           alt=""
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
+          $isDesktopOrLaptop={isDesktopOrLaptop}
+          $isMobileDevice={isMobileDevice}
+          $isSmallMobileDevice={isSmallMobileDevice}
         />
       );
     } else {
@@ -246,34 +290,34 @@ const Weather = () => {
       } = weather as WeatherInterface;
       toShow = (
         <WeatherCard
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
+          $isDesktopOrLaptop={isDesktopOrLaptop}
+          $isMobileDevice={isMobileDevice}
+          $isSmallMobileDevice={isSmallMobileDevice}
         >
           <StarsAnimation />
           <CitySearchBar changeCity={changeCity} />
           {validCoordinates ? (
             <>
               {/* <LogoApp
-                src={logo}
+                src={Logo}
                 alt=""
-                isDesktopOrLaptop={isDesktopOrLaptop}
-                isMobileDevice={isMobileDevice}
-                isSmallMobileDevice={isSmallMobileDevice}
+                $isDesktopOrLaptop={isDesktopOrLaptop}
+                $isMobileDevice={isMobileDevice}
+                $isSmallMobileDevice={isSmallMobileDevice}
               /> */}
               <TitleApp>
                 <Subtitle
-                  isDesktopOrLaptop={isDesktopOrLaptop}
-                  isMobileDevice={isMobileDevice}
-                  isSmallMobileDevice={isSmallMobileDevice}
+                  $isDesktopOrLaptop={isDesktopOrLaptop}
+                  $isMobileDevice={isMobileDevice}
+                  $isSmallMobileDevice={isSmallMobileDevice}
                 >
                   {t('words.weatherIn')} {cityName} ({countryNameShort})
                 </Subtitle>
               </TitleApp>
               <AllDataContainer
-                isDesktopOrLaptop={isDesktopOrLaptop}
-                isMobileDevice={isMobileDevice}
-                isSmallMobileDevice={isSmallMobileDevice}
+                $isDesktopOrLaptop={isDesktopOrLaptop}
+                $isMobileDevice={isMobileDevice}
+                $isSmallMobileDevice={isSmallMobileDevice}
               >
                 <WeatherMainContainer>
                   {showIcon}
@@ -286,9 +330,9 @@ const Weather = () => {
                           : t('words.temperature.unit.metric')}
                       </WeatherMainTemperature>
                       <WeatherMainData
-                        isDesktopOrLaptop={isDesktopOrLaptop}
-                        isMobileDevice={isMobileDevice}
-                        isSmallMobileDevice={isSmallMobileDevice}
+                        $isDesktopOrLaptop={isDesktopOrLaptop}
+                        $isMobileDevice={isMobileDevice}
+                        $isSmallMobileDevice={isSmallMobileDevice}
                       >
                         {t('words.temperature.feelsLike')} {feelsLike}{' '}
                         {Units.IMPERIAL === unit
@@ -296,9 +340,9 @@ const Weather = () => {
                           : t('words.temperature.unit.metric')}
                       </WeatherMainData>
                       <WeatherMainData
-                        isDesktopOrLaptop={isDesktopOrLaptop}
-                        isMobileDevice={isMobileDevice}
-                        isSmallMobileDevice={isSmallMobileDevice}
+                        $isDesktopOrLaptop={isDesktopOrLaptop}
+                        $isMobileDevice={isMobileDevice}
+                        $isSmallMobileDevice={isSmallMobileDevice}
                       >
                         {description}
                       </WeatherMainData>
@@ -310,22 +354,22 @@ const Weather = () => {
                     <SunriseSunsetInfo lat={lat} lon={lon} sunrise={sunrise} sunset={sunset} />
                     <ColumnContainer>
                       <Code
-                        isMobileDevice={isMobileDevice}
-                        isSmallMobileDevice={isSmallMobileDevice}
+                        $isMobileDevice={isMobileDevice}
+                        $isSmallMobileDevice={isSmallMobileDevice}
                       >
                         {t('words.humidity')} {humidity}%
                       </Code>
                       <Line />
                       <Code
-                        isMobileDevice={isMobileDevice}
-                        isSmallMobileDevice={isSmallMobileDevice}
+                        $isMobileDevice={isMobileDevice}
+                        $isSmallMobileDevice={isSmallMobileDevice}
                       >
                         {t('words.pressure')} {pressure} hPa
                       </Code>
                       <Line />
                       <Code
-                        isMobileDevice={isMobileDevice}
-                        isSmallMobileDevice={isSmallMobileDevice}
+                        $isMobileDevice={isMobileDevice}
+                        $isSmallMobileDevice={isSmallMobileDevice}
                       >
                         {t('words.windInfo.wind')}
                         {windSpeed}{' '}
@@ -336,8 +380,8 @@ const Weather = () => {
                       </Code>
                       <Line />
                       <Code
-                        isMobileDevice={isMobileDevice}
-                        isSmallMobileDevice={isSmallMobileDevice}
+                        $isMobileDevice={isMobileDevice}
+                        $isSmallMobileDevice={isSmallMobileDevice}
                       >
                         {t('words.visibilityInfo.visibility')} {visibility}{' '}
                         {Units.IMPERIAL === unit
@@ -348,8 +392,8 @@ const Weather = () => {
                     </ColumnContainer>
                     <AirQualitySectionContainer>
                       <Code
-                        isMobileDevice={isMobileDevice}
-                        isSmallMobileDevice={isSmallMobileDevice}
+                        $isMobileDevice={isMobileDevice}
+                        $isSmallMobileDevice={isSmallMobileDevice}
                       >
                         {t('words.airPollution.aqi')}
                         {
@@ -359,9 +403,9 @@ const Weather = () => {
                         }
                       </Code>
                       <MoreInfoButton
-                        isDesktopOrLaptop={isDesktopOrLaptop}
-                        isMobileDevice={isMobileDevice}
-                        isSmallMobileDevice={isSmallMobileDevice}
+                        $isDesktopOrLaptop={isDesktopOrLaptop}
+                        $isMobileDevice={isMobileDevice}
+                        $isSmallMobileDevice={isSmallMobileDevice}
                         onClick={() => {
                           navigate(`/air_pollution_info`, {
                             state: { airPollution },
@@ -374,22 +418,22 @@ const Weather = () => {
                   </WeatherData>
                 </WeatherDataContainer>
                 <UnitsContainer
-                  isDesktopOrLaptop={isDesktopOrLaptop}
-                  isMobileDevice={isMobileDevice}
-                  isSmallMobileDevice={isSmallMobileDevice}
+                  $isDesktopOrLaptop={isDesktopOrLaptop}
+                  $isMobileDevice={isMobileDevice}
+                  $isSmallMobileDevice={isSmallMobileDevice}
                 >
                   <UnitsSubContainer
-                    isMobileDevice={isMobileDevice}
-                    isSmallMobileDevice={isSmallMobileDevice}
+                    $isMobileDevice={isMobileDevice}
+                    $isSmallMobileDevice={isSmallMobileDevice}
                   >
                     <UnitSpan
-                      isSelected={Units.IMPERIAL === unit}
+                      $isSelected={Units.IMPERIAL === unit}
                       onClick={() => setUnit(Units.IMPERIAL)}
                     >
                       {t('words.unit.imperial')}
                     </UnitSpan>
                     <UnitSpan
-                      isSelected={Units.METRIC === unit}
+                      $isSelected={Units.METRIC === unit}
                       onClick={() => setUnit(Units.METRIC)}
                     >
                       {t('words.unit.metric')}
@@ -400,43 +444,43 @@ const Weather = () => {
             </>
           ) : (
             <LocationNotFoundContainer
-              isDesktopOrLaptop={isDesktopOrLaptop}
-              isMobileDevice={isMobileDevice}
-              isSmallMobileDevice={isSmallMobileDevice}
+              $isDesktopOrLaptop={isDesktopOrLaptop}
+              $isMobileDevice={isMobileDevice}
+              $isSmallMobileDevice={isSmallMobileDevice}
             >
-              <LocationNotFoundIcon
-                src={locationNotFound}
+              <LocationNotFoundSpotImg
+                src={LocationNotFoundIcon}
                 alt=""
-                isDesktopOrLaptop={isDesktopOrLaptop}
-                isMobileDevice={isMobileDevice}
-                isSmallMobileDevice={isSmallMobileDevice}
+                $isDesktopOrLaptop={isDesktopOrLaptop}
+                $isMobileDevice={isMobileDevice}
+                $isSmallMobileDevice={isSmallMobileDevice}
               />
               <LocationNotFoundCode
-                isMobileDevice={isMobileDevice}
-                isSmallMobileDevice={isSmallMobileDevice}
+                $isMobileDevice={isMobileDevice}
+                $isSmallMobileDevice={isSmallMobileDevice}
               >
                 {t('words.locationNotFound.funnyMessage')} {cityName}
               </LocationNotFoundCode>
               <BreakLine />
               <LocationNotFoundCode
-                isMobileDevice={isMobileDevice}
-                isSmallMobileDevice={isSmallMobileDevice}
+                $isMobileDevice={isMobileDevice}
+                $isSmallMobileDevice={isSmallMobileDevice}
               >
                 {t('words.locationNotFound.realMessage')}
               </LocationNotFoundCode>
             </LocationNotFoundContainer>
           )}
           <FooterContainer
-            isDesktopOrLaptop={isDesktopOrLaptop}
-            isMobileDevice={isMobileDevice}
-            isSmallMobileDevice={isSmallMobileDevice}
+            $isDesktopOrLaptop={isDesktopOrLaptop}
+            $isMobileDevice={isMobileDevice}
+            $isSmallMobileDevice={isSmallMobileDevice}
           >
             <ColumnContainer>
               <CenteredContainer>
-                <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
+                <Code $isMobileDevice={isMobileDevice} $isSmallMobileDevice={isSmallMobileDevice}>
                   {t('words.updatedAt')} {lastTimeChecked}
                 </Code>
-                <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
+                <Code $isMobileDevice={isMobileDevice} $isSmallMobileDevice={isSmallMobileDevice}>
                   {t('words.date')} {lastDateChecked}
                 </Code>
               </CenteredContainer>
@@ -444,20 +488,20 @@ const Weather = () => {
             <LanguageAndSocialNetworkContainer>
               <Language changeLanguage={changeLanguage} />
               <SocialNetworkIconContainer
-                isDesktopOrLaptop={isDesktopOrLaptop}
+                $isDesktopOrLaptop={isDesktopOrLaptop}
                 onMouseEnter={() => setMouseOver(true)}
                 onMouseLeave={() => setMouseOver(false)}
                 onClick={() => {
                   navigate(`/social_network`);
                 }}
               >
-                <SocialNetworkIcon
-                  isDesktopOrLaptop={isDesktopOrLaptop}
-                  isMobileDevice={isMobileDevice}
-                  isSmallMobileDevice={isSmallMobileDevice}
-                  mouseOver={mouseOver}
-                  regular={social_network}
-                  hover={social_network_hover}
+                <SocialNetworkSpotImg
+                  $isDesktopOrLaptop={isDesktopOrLaptop}
+                  $isMobileDevice={isMobileDevice}
+                  $isSmallMobileDevice={isSmallMobileDevice}
+                  $mouseOver={mouseOver}
+                  $regular={SocialNetworkIcon}
+                  $hover={SocialNetworkHoverIcon}
                 />
               </SocialNetworkIconContainer>
             </LanguageAndSocialNetworkContainer>
@@ -468,9 +512,9 @@ const Weather = () => {
   } else {
     toShow = (
       <>
-        <DangerLogo src={danger} alt="" />
+        <DangerLogo src={DangerIcon} alt="" />
         <BreakLine />
-        <Code isMobileDevice={isMobileDevice} isSmallMobileDevice={isSmallMobileDevice}>
+        <Code $isMobileDevice={isMobileDevice} $isSmallMobileDevice={isSmallMobileDevice}>
           {t('words.conectionError')}
         </Code>
       </>
@@ -478,7 +522,7 @@ const Weather = () => {
   }
   return (
     <>
-      <GlobalStyle isSmallMobileDevice={isSmallMobileDevice} />
+      <GlobalStyle $isSmallMobileDevice={isSmallMobileDevice} />
       {toShow}
     </>
   );

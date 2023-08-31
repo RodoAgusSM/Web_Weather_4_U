@@ -1,3 +1,4 @@
+import { Star } from 'interfaces/index';
 import { getRandomNumber } from 'utils/helpers';
 
 import { easings, useSpring } from '@react-spring/web';
@@ -17,6 +18,13 @@ const MAX_XY = 700;
 const MIN_OPACITY = 0;
 const MAX_OPACITY = 1;
 
+const MIN_TOP_POSITION = -100;
+const MAX_TOP_POSITION = 700;
+const MIN_LEFT_POSITION = -300;
+const MAX_LEFT_POSITION = 250;
+const MIN_DELAY = 0.1;
+const MAX_DELAY = 2;
+
 const getRandomConfig = () => ({
     mass: getRandomNumber(MIN_MASS, MAX_MASS),
     tension: getRandomNumber(MIN_TENSION, MAX_TENSION),
@@ -25,6 +33,13 @@ const getRandomConfig = () => ({
     duration: getRandomNumber(MIN_DURATION, MAX_DURATION)
 });
 
+export const useGenerateRandomStars = (count: number): Star[] => {
+    return Array.from({ length: count }, () => ({
+        top: getRandomNumber(MIN_TOP_POSITION, MAX_TOP_POSITION),
+        left: getRandomNumber(MIN_LEFT_POSITION, MAX_LEFT_POSITION),
+        delay: getRandomNumber(MIN_DELAY, MAX_DELAY),
+    }));
+};
 
 export const useSpringsAnimation = (count: number) => {
     const springsData = Array.from({ length: count }).map(() =>
