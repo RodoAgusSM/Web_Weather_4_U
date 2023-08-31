@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import StarsAnimation from 'components/Space/Space';
 import useDimensions from 'hooks/useDimensions';
 import BackIcon from 'images/back_icon.png';
@@ -16,11 +16,33 @@ import {
   SocialNetworkName,
 } from './SocialNetworkStyles';
 
+type MyInfoType = {
+  nameAndDegree: string;
+  likeAndView: string;
+};
+
+type SocialNetworkItemType = {
+  abbreviation: string;
+  link: string;
+  username: string;
+};
+
 const SocialNetwork = () => {
   const { t } = useTranslation();
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useDimensions();
   const [mouseOver, setMouseOver] = useState<boolean>(false);
+
+  const handleMouseEnter = useCallback(() => setMouseOver(true), []);
+  const handleMouseLeave = useCallback(() => setMouseOver(false), []);
+  const handleBackClick = useCallback(() => navigate('/'), [navigate]);
+
+  const myInfo: MyInfoType = t('socialNetworks.myInfo', { returnObjects: true });
+  const socialNetworks: SocialNetworkItemType[] = Object.values(
+    t('socialNetworks.networks', {
+      returnObjects: true,
+    })
+  );
 
   return (
     <>
@@ -32,30 +54,26 @@ const SocialNetwork = () => {
       >
         <StarsAnimation />
         <BackContainer
-          onMouseEnter={() => setMouseOver(true)}
-          onMouseLeave={() => setMouseOver(false)}
-          onClick={() => {
-            navigate(`/`);
-          }}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onClick={handleBackClick}
         >
           <BackIconSpotImg $mouseOver={mouseOver} $regular={BackIcon} $hover={BackIconHover} />
           {t('words.back')}
         </BackContainer>
         <MiInfoContainer>
-          <MiInfo>{t('socialNetworks.myInfo.nameAndDegree')} </MiInfo>
-          <MiInfo> {t('socialNetworks.myInfo.likeAndView')} </MiInfo>
+          <MiInfo>{myInfo.nameAndDegree}</MiInfo>
+          <MiInfo>{myInfo.likeAndView}</MiInfo>
         </MiInfoContainer>
         <NetworkContainer>
-          {Object.values(t('socialNetworks.networks', { returnObjects: true })).map(
-            (socialNetworkItem: any, index: number) => (
-              <NetworkMapContainer key={index}>
-                <SocialNetworkName>{socialNetworkItem.abbrebiation} </SocialNetworkName>
-                <SocialNetworkItem href={socialNetworkItem.link} target="_blank">
-                  {socialNetworkItem.username}
-                </SocialNetworkItem>
-              </NetworkMapContainer>
-            )
-          )}
+          {socialNetworks.map((socialNetworkItem: SocialNetworkItemType, index: number) => (
+            <NetworkMapContainer key={index}>
+              <SocialNetworkName>{socialNetworkItem.abbreviation}</SocialNetworkName>
+              <SocialNetworkItem href={socialNetworkItem.link} target="_blank">
+                {socialNetworkItem.username}
+              </SocialNetworkItem>
+            </NetworkMapContainer>
+          ))}
         </NetworkContainer>
       </WeatherCard>
     </>

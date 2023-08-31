@@ -41,7 +41,7 @@ export const getLastTimeChecked12HoursFormat = () => {
     hours = (hours % 12) || 12;
     var minutesNow = dt.getMinutes();
     const minutes = minutesNow > 10 ? minutesNow : '0' + minutesNow;
-    var finalTime = "Time  - " + hours + ":" + minutes + " " + AmOrPm;
+    var finalTime = hours + ":" + minutes + " " + AmOrPm;
     return finalTime
 }
 
@@ -59,8 +59,19 @@ export const getLastDateCheckedAmerican = () => {
     return date;
 }
 
+const firstLowerToLowercase = (string: string): string =>
+    string.replace(/(?:^|\s)\S/g, (a: string) => a.toLowerCase());
+
 export const generateURL = ({ toFetch, lat, lon, language, units }: AppRequest) => {
-    return openWeatherMapURL + toFetch + '?lat=' + lat + '&lon=' + lon + '&lang=' + language + '&units=' + units + paramsURL;
+    let splitted = toFetch.replace(/([a-zA-Z])(?=[A-Z])/g, '$1_').split('_');
+    let params: string;
+    if (splitted.length > 1) {
+        params = `${firstLowerToLowercase(splitted[0])}_${firstLowerToLowercase(splitted[1])}`;
+    }
+    else {
+        params = `${firstLowerToLowercase(splitted[0])}`;
+    }
+    return openWeatherMapURL + params + '?lat=' + lat + '&lon=' + lon + '&lang=' + language + '&units=' + units + paramsURL;
 }
 
 export const getRandomNumber = (min: number, max: number) => {

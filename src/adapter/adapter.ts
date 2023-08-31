@@ -1,10 +1,10 @@
-import { APIWeatherProvider, InterfaceName, Units } from "enums/index";
+import { APIWeatherProvider, ClimateType, Units } from "enums/index";
 import { convertOpenWeatherMapResponseToInterface } from "utils/openWeatherMapInterfaceWrapper";
 
-const Adapter = (apiWeatherProvider: APIWeatherProvider, interfaceName: InterfaceName, unit: Units, object: any) => {
+const Adapter = (apiWeatherProvider: APIWeatherProvider, climateType: ClimateType, unit: Units, object: any) => {
     switch (apiWeatherProvider) {
-        case APIWeatherProvider.OPENWEATHERMAP:
-            return convertOpenWeatherMapResponseToInterface(interfaceName, unit, object);
+        case APIWeatherProvider.OpenWeatherMap:
+            return convertOpenWeatherMapResponseToInterface(climateType, unit, object);
         default:
             break;
     }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { StorageKeys } from 'enums';
+import { StorageKey } from 'enums';
 import useDimensions from 'hooks/useDimensions';
 import { useTranslation } from 'react-i18next';
 import { Code, ColumnContainer, Line } from 'styles/styles';
@@ -24,7 +24,7 @@ const SunriseSunsetInfo = ({
   useEffect(() => {
     try {
       const timeZone = find(lat, lon)[0];
-      if (localStorage.getItem(StorageKeys.LANGUAGE) === 'en') {
+      if (localStorage.getItem(StorageKey.Language) === 'en') {
         setSunriseTime(
           new Date(sunrise * 1000).toLocaleString([], {
             timeStyle: 'short',

@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { Fragment, memo, useCallback, useMemo, useState } from 'react';
 import StarsAnimation from 'components/Space/Space';
-import { AirQuality } from 'enums/index';
+import { AirQualityMetric } from 'enums/index';
 import useDimensions from 'hooks/useDimensions';
 import BackIcon from 'images/back_icon.png';
 import BackIconHover from 'images/back_icon_hover.png';
@@ -23,6 +23,19 @@ import {
   AirPollutionLegendMobileSubContainer,
 } from './AirPollutionInfoStyles';
 
+type SpecialObject = {
+  [index: number]: string;
+};
+
+const AirPollutionColors = ['#79BC6A', '#BBCf4C', '#EEC209', '#F39307', '#E8406F'];
+
+const getColorForValue = (value: number, valueRanges: number[]): string => {
+  const index = valueRanges.findIndex((range) => value < range);
+  return index === -1
+    ? AirPollutionColors[AirPollutionColors.length - 1]
+    : AirPollutionColors[index];
+};
+
 const AirPollutionInfo = () => {
   const { t } = useTranslation();
   const { state } = useLocation();
@@ -30,383 +43,98 @@ const AirPollutionInfo = () => {
   const { airPollution } = state as any;
   let navigate = useNavigate();
   const [mouseOver, setMouseOver] = useState<boolean>(false);
+  const airPollutionEntries = useMemo(() => Object.entries(airPollution), [airPollution]);
+  const AirPollutionLabels: SpecialObject = useMemo(
+    () => t('words.airPollution.status', { returnObjects: true }),
+    [t]
+  );
 
-  const generateLabel = (label: string, value: number) => {
-    switch (label) {
-      case AirQuality.AQI:
-        break;
-      case AirQuality.CARBONMONIXIDE:
-        return labelCarbonMonoxide(value);
-      case AirQuality.NITROGENMONOXIDE:
-        break;
-      case AirQuality.NITROGENDIOXIDE:
-        return labelNitrogenDioxide(value);
-      case AirQuality.OZONE:
-        return labelOzone(value);
-      case AirQuality.SULPHURDIOXIDE:
-        return labelSulphurDioxide(value);
-      case AirQuality.FINEPARTICLESMATTER:
-        return labelFineParticlesMatter(value);
-      case AirQuality.COARSEPARTICULATEMATTER:
-        return labelCoarseParticulateMatter(value);
-      case AirQuality.AMMONIA:
-        break;
-    }
+  const AIR_QUALITY_LABELS = useMemo(
+    () => ({
+      [AirQualityMetric.AQI]: {},
+      [AirQualityMetric.CarbonMonoxide]: {
+        name: t('words.airPollution.elements.carbonMonoxide.label'),
+        symbol: t('words.airPollution.elements.carbonMonoxide.symbol'),
+        ranges: [4400, 9400, 12400, 15400],
+      },
+      [AirQualityMetric.NitrogenMonoxide]: {},
+      [AirQualityMetric.NitrogenDioxide]: {
+        name: t('words.airPollution.elements.nitrogenDioxide.label'),
+        symbol: t('words.airPollution.elements.nitrogenDioxide.symbol'),
+        ranges: [40, 70, 150, 200],
+      },
+      [AirQualityMetric.Ozone]: {
+        name: t('words.airPollution.elements.ozone.label'),
+        symbol: t('words.airPollution.elements.ozone.symbol'),
+        ranges: [60, 100, 140, 180],
+      },
+      [AirQualityMetric.SulphurDioxide]: {
+        name: t('words.airPollution.elements.sulphurDioxide.label'),
+        symbol: t('words.airPollution.elements.sulphurDioxide.symbol'),
+        ranges: [20, 80, 250, 350],
+      },
+      [AirQualityMetric.FineParticlesMatter]: {
+        name: t('words.airPollution.elements.fineParticlesMatter.label'),
+        symbol: t('words.airPollution.elements.fineParticlesMatter.symbol'),
+        ranges: [10, 25, 50, 75],
+      },
+      [AirQualityMetric.CoarseParticulateMatter]: {
+        name: t('words.airPollution.elements.coarseParticulateMatter.label'),
+        symbol: t('words.airPollution.elements.coarseParticulateMatter.symbol'),
+        ranges: [20, 50, 100, 200],
+      },
+      [AirQualityMetric.Ammonia]: {},
+    }),
+    [t]
+  );
+
+  const generateLabel = (label: AirQualityMetric, value: number) => {
+    const airQuality = AIR_QUALITY_LABELS[label] as any;
+    if (!airQuality || Object.keys(airQuality).length === 0) return;
+    const color = getColorForValue(value, airQuality.ranges);
+    return generateLabelContent(
+      `${airQuality.name} ${airQuality.symbol}`,
+      color,
+      isDesktopOrLaptop,
+      isMobileDevice,
+      isSmallMobileDevice
+    );
   };
 
-  const labelCarbonMonoxide = (value: number) => {
-    const label = `${t('words.airPollution.elements.nitrogenDioxide')} (CO)`;
-    if (value >= 0 && value < 4400)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#79BC6A'} />
-        </AirPollutionItemContainer>
-      );
-    else if (value >= 4400 && value < 9400)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#BBCf4C'} />
-        </AirPollutionItemContainer>
-      );
-    else if (value >= 9400 && value < 12400)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#EEC209'} />
-        </AirPollutionItemContainer>
-      );
-    else if (value >= 12400 && value < 15400)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#F39307'} />
-        </AirPollutionItemContainer>
-      );
-    if (value >= 15400)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#E8406F'} />
-        </AirPollutionItemContainer>
-      );
-  };
+  const generateLabelContent = (
+    label: string,
+    color: string,
+    isDesktopOrLaptop: boolean,
+    isMobileDevice: boolean,
+    isSmallMobileDevice: boolean
+  ) => (
+    <AirPollutionItemContainer
+      $isDesktopOrLaptop={isDesktopOrLaptop}
+      $isMobileDevice={isMobileDevice}
+      $isSmallMobileDevice={isSmallMobileDevice}
+    >
+      {label}
+      <AirPollutionItemSpan color={color} />
+    </AirPollutionItemContainer>
+  );
 
-  const labelNitrogenDioxide = (value: number) => {
-    const label = `${t('words.airPollution.elements.nitrogenDioxide')} (NO₂)`;
-    if (value >= 0 && value < 40)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#79BC6A'} />
-        </AirPollutionItemContainer>
-      );
-    else if (value >= 40 && value < 70)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#BBCf4C'} />
-        </AirPollutionItemContainer>
-      );
-    else if (value >= 70 && value < 150)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#EEC209'} />
-        </AirPollutionItemContainer>
-      );
-    else if (value >= 150 && value < 200)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#F39307'} />
-        </AirPollutionItemContainer>
-      );
-    if (value >= 200)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#E8406F'} />
-        </AirPollutionItemContainer>
-      );
-  };
-
-  const labelOzone = (value: number) => {
-    const label = `${t('words.airPollution.elements.ozone')} (O₃)`;
-    if (value >= 0 && value < 60)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#79BC6A'} />
-        </AirPollutionItemContainer>
-      );
-    else if (value >= 60 && value < 100)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#BBCf4C'} />
-        </AirPollutionItemContainer>
-      );
-    else if (value >= 100 && value < 140)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#EEC209'} />
-        </AirPollutionItemContainer>
-      );
-    else if (value >= 140 && value < 180)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#F39307'} />
-        </AirPollutionItemContainer>
-      );
-    if (value >= 180)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#E8406F'} />
-        </AirPollutionItemContainer>
-      );
-  };
-
-  const labelSulphurDioxide = (value: number) => {
-    const label = `${t('words.airPollution.elements.sulphurDioxide')} (SO₂)`;
-    if (value >= 0 && value < 20)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#79BC6A'} />
-        </AirPollutionItemContainer>
-      );
-    else if (value >= 20 && value < 80)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#BBCf4C'} />
-        </AirPollutionItemContainer>
-      );
-    else if (value >= 80 && value < 250)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#EEC209'} />
-        </AirPollutionItemContainer>
-      );
-    else if (value >= 250 && value < 350)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#F39307'} />
-        </AirPollutionItemContainer>
-      );
-    if (value >= 350)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#E8406F'} />
-        </AirPollutionItemContainer>
-      );
-  };
-
-  const labelFineParticlesMatter = (value: number) => {
-    const label = `${t('words.airPollution.elements.fineParticlesMatter')} (PM2.5)`;
-    if (value >= 0 && value < 10)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#79BC6A'} />
-        </AirPollutionItemContainer>
-      );
-    else if (value >= 10 && value < 25)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#BBCf4C'} />
-        </AirPollutionItemContainer>
-      );
-    else if (value >= 25 && value < 50)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#EEC209'} />
-        </AirPollutionItemContainer>
-      );
-    else if (value >= 50 && value < 75)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#F39307'} />
-        </AirPollutionItemContainer>
-      );
-    if (value >= 75)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#E8406F'} />
-        </AirPollutionItemContainer>
-      );
-  };
-
-  const labelCoarseParticulateMatter = (value: number) => {
-    const label = `${t('words.airPollution.elements.coarseParticulateMatter')} (PM₁₀)`;
-    if (value >= 0 && value < 20)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#79BC6A'} />
-        </AirPollutionItemContainer>
-      );
-    else if (value >= 20 && value < 50)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#BBCf4C'} />
-        </AirPollutionItemContainer>
-      );
-    else if (value >= 50 && value < 100)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#EEC209'} />
-        </AirPollutionItemContainer>
-      );
-    else if (value >= 100 && value < 200)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#F39307'} />
-        </AirPollutionItemContainer>
-      );
-    if (value >= 200)
-      return (
-        <AirPollutionItemContainer
-          isDesktopOrLaptop={isDesktopOrLaptop}
-          isMobileDevice={isMobileDevice}
-          isSmallMobileDevice={isSmallMobileDevice}
-        >
-          {label}
-          <AirPollutionItemSpan color={'#E8406F'} />
-        </AirPollutionItemContainer>
-      );
-  };
+  const renderAirPollutionItems = useCallback(
+    (isDesktopOrLaptop: boolean) =>
+      AirPollutionColors.map((color: string, index: number) =>
+        isDesktopOrLaptop ? (
+          <Fragment key={index}>
+            <AirPollutionItemSpan color={color} key={index} />
+            {AirPollutionLabels[index]}
+          </Fragment>
+        ) : (
+          <AirPollutionLegendMobileSubContainer key={index}>
+            <AirPollutionItemSpan color={color} />
+            {AirPollutionLabels[index]}
+          </AirPollutionLegendMobileSubContainer>
+        )
+      ),
+    [AirPollutionLabels]
+  );
 
   return (
     <>
@@ -420,9 +148,7 @@ const AirPollutionInfo = () => {
         <BackContainer
           onMouseEnter={() => setMouseOver(true)}
           onMouseLeave={() => setMouseOver(false)}
-          onClick={() => {
-            navigate(`/`);
-          }}
+          onClick={() => navigate(`/`)}
         >
           <BackIconSpotImg $mouseOver={mouseOver} $regular={BackIcon} $hover={BackIconHover} />
           {t('words.back')}
@@ -431,46 +157,20 @@ const AirPollutionInfo = () => {
         {isDesktopOrLaptop && (
           <AirPollutionLegendDesktopContainer>
             <AirPollutionLegendDesktopSubContainer>
-              <AirPollutionItemSpan color={'#79BC6A'} />
-              {Object.values(t('words.airPollution.status', { returnObjects: true }))[0]}
-              <AirPollutionItemSpan color={'#BBCf4C'} />
-              {Object.values(t('words.airPollution.status', { returnObjects: true }))[1]}
-              <AirPollutionItemSpan color={'#EEC209'} />
-              {Object.values(t('words.airPollution.status', { returnObjects: true }))[2]}
-              <AirPollutionItemSpan color={'#F39307'} />
-              {Object.values(t('words.airPollution.status', { returnObjects: true }))[3]}
-              <AirPollutionItemSpan color={'#E8406F'} />
-              {Object.values(t('words.airPollution.status', { returnObjects: true }))[4]}
+              {renderAirPollutionItems(true)}
             </AirPollutionLegendDesktopSubContainer>
           </AirPollutionLegendDesktopContainer>
         )}
+
         {(isMobileDevice || isSmallMobileDevice) && (
           <AirPollutionLegendMobileContainer>
-            <AirPollutionLegendMobileSubContainer>
-              <AirPollutionItemSpan color={'#79BC6A'} />
-              {Object.values(t('words.airPollution.status', { returnObjects: true }))[0]}
-            </AirPollutionLegendMobileSubContainer>
-            <AirPollutionLegendMobileSubContainer>
-              <AirPollutionItemSpan color={'#BBCf4C'} />
-              {Object.values(t('words.airPollution.status', { returnObjects: true }))[1]}
-            </AirPollutionLegendMobileSubContainer>
-            <AirPollutionLegendMobileSubContainer>
-              <AirPollutionItemSpan color={'#EEC209'} />
-              {Object.values(t('words.airPollution.status', { returnObjects: true }))[2]}
-            </AirPollutionLegendMobileSubContainer>
-            <AirPollutionLegendMobileSubContainer>
-              <AirPollutionItemSpan color={'#F39307'} />
-              {Object.values(t('words.airPollution.status', { returnObjects: true }))[3]}
-            </AirPollutionLegendMobileSubContainer>
-            <AirPollutionLegendMobileSubContainer>
-              <AirPollutionItemSpan color={'#E8406F'} />
-              {Object.values(t('words.airPollution.status', { returnObjects: true }))[4]}
-            </AirPollutionLegendMobileSubContainer>
+            {renderAirPollutionItems(false)}
           </AirPollutionLegendMobileContainer>
         )}
+
         <CenteredContainer>
-          {Object.entries(airPollution).map((entry: any[], index: number) => (
-            <div key={index}>{generateLabel(entry[0], entry[1]) || null}</div>
+          {airPollutionEntries.map((entry, index) => (
+            <div key={index}>{generateLabel(entry[0] as AirQualityMetric, entry[1] as number)}</div>
           ))}
         </CenteredContainer>
       </WeatherCard>
@@ -478,4 +178,4 @@ const AirPollutionInfo = () => {
   );
 };
 
-export default AirPollutionInfo;
+export default memo(AirPollutionInfo);

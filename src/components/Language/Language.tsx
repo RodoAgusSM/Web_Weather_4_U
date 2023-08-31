@@ -1,4 +1,3 @@
-import { StorageKeys } from 'enums/index';
 import useDimensions from 'hooks/useDimensions';
 import { useTranslation } from 'react-i18next';
 
@@ -14,7 +13,7 @@ const Language = ({ changeLanguage }: LanguageProps) => {
   return (
     <LanguagesContainer $isMobileDevice={isMobileDevice} $isSmallMobileDevice={isSmallMobileDevice}>
       {Object.entries(
-        t(StorageKeys.LANGUAGES, {
+        t('languages', {
           returnObjects: true,
         })
       ).map((languageItem) => (

@@ -5,7 +5,7 @@ import Language from 'components/Language/Language';
 import StarsAnimation from 'components/Space/Space';
 import SunriseSunsetInfo from 'components/SunriseSunsetInfo/SunsetSunriseInfo';
 import { iconExtension, iconURL } from 'config/config';
-import { APIWeatherProvider, InterfaceName, StorageKeys, Units, URLQuery } from 'enums/index';
+import { APIWeatherProvider, ClimateType, StorageKey, Units } from 'enums/index';
 import useDimensions from 'hooks/useDimensions';
 import DangerIcon from 'images/danger.png';
 import LoadingIcon from 'images/loading.gif';
@@ -65,6 +65,7 @@ import {
 
 const defaultWeather = {} as WeatherInterface;
 const defaultAirPollution = {} as AirPollutionInterface;
+const FETCH_INTERVAL_MS = 600000;
 
 const Weather = () => {
   const { t, i18n } = useTranslation();
@@ -75,15 +76,15 @@ const Weather = () => {
   const [siteWorking, setIsSiteWorking] = useState<boolean>(true);
   const [iconWorking, setIsIconWorking] = useState<boolean>(true);
   const [cityName, setCityName] = useState<string>(
-    localStorage.getItem(StorageKeys.CITYNAME) ?? 'Montevideo'
+    localStorage.getItem(StorageKey.CityName) ?? 'Montevideo'
   );
   const [fullCityName, setFullCityName] = useState<string>(
-    localStorage.getItem(StorageKeys.FULLCITYNAME) ?? 'Montevideo, Uruguay'
+    localStorage.getItem(StorageKey.FullCityName) ?? 'Montevideo, Uruguay'
   );
-  const [lat, setLat] = useState<number>(Number(localStorage.getItem(StorageKeys.LAT)) || -34.8335);
-  const [lon, setLon] = useState<number>(Number(localStorage.getItem(StorageKeys.LON)) || -56.1674);
+  const [lat, setLat] = useState<number>(Number(localStorage.getItem(StorageKey.Lat)) || -34.8335);
+  const [lon, setLon] = useState<number>(Number(localStorage.getItem(StorageKey.Lon)) || -56.1674);
   const [language, setLanguage] = useState<string>(i18n.language);
-  const [unit, setUnit] = useState<Units>(Units.METRIC);
+  const [unit, setUnit] = useState<Units>(Units.Metric);
   const [countryNameShort, setCountryNameShort] = useState<string>();
   const [weather, setWeather] = useState<WeatherInterface>(defaultWeather);
   const [airPollution, setAirPollution] = useState<AirPollutionInterface>(defaultAirPollution);
@@ -108,7 +109,7 @@ const Weather = () => {
     if (!intervalRef.current) {
       const intervalId = setInterval(async () => {
         await fetchData();
-      }, 10000);
+      }, FETCH_INTERVAL_MS);
 
       intervalRef.current = intervalId;
     }
@@ -168,7 +169,7 @@ const Weather = () => {
 
   const fetchData = async () => {
     const weatherRequest: AppRequest = {
-      toFetch: URLQuery.WEATHER,
+      toFetch: ClimateType.Weather,
       lat,
       lon,
       language,
@@ -176,7 +177,7 @@ const Weather = () => {
     };
 
     const airPollutionRequest: AppRequest = {
-      toFetch: URLQuery.AIRPOLLUTION,
+      toFetch: ClimateType.AirPollution,
       lat,
       lon,
       language,
@@ -190,8 +191,8 @@ const Weather = () => {
       fetchIcon(icon);
       setWeather(
         Adapter(
-          APIWeatherProvider.OPENWEATHERMAP,
-          InterfaceName.WEATHER,
+          APIWeatherProvider.OpenWeatherMap,
+          ClimateType.Weather,
           unit,
           weatherDataAPI
         ) as WeatherInterface
@@ -202,8 +203,8 @@ const Weather = () => {
       const airPollutionData = airPollutionDataAPI.list[0];
       setAirPollution(
         Adapter(
-          APIWeatherProvider.OPENWEATHERMAP,
-          InterfaceName.AIRPOLLUTION,
+          APIWeatherProvider.OpenWeatherMap,
+          ClimateType.AirPollution,
           unit,
           airPollutionData
         ) as AirPollutionInterface
@@ -220,10 +221,10 @@ const Weather = () => {
       }>
     ) => {
       if (newCity && fullCityName !== newCity.label) {
-        localStorage.setItem(StorageKeys.CITYNAME, newCity.value.name);
-        localStorage.setItem(StorageKeys.FULLCITYNAME, newCity.label);
-        localStorage.setItem(StorageKeys.LAT, newCity.value.lat);
-        localStorage.setItem(StorageKeys.LON, newCity.value.lon);
+        localStorage.setItem(StorageKey.CityName, newCity.value.name);
+        localStorage.setItem(StorageKey.FullCityName, newCity.label);
+        localStorage.setItem(StorageKey.Lat, newCity.value.lat);
+        localStorage.setItem(StorageKey.Lon, newCity.value.lon);
         setFullCityName(newCity.label);
         setCityName(newCity.value.name);
         setLat(Number(newCity.value.lat));
@@ -237,7 +238,7 @@ const Weather = () => {
   const changeLanguage = useCallback(
     (newLanguage: string) => {
       if (language !== newLanguage) {
-        localStorage.setItem(StorageKeys.LANGUAGE, newLanguage);
+        localStorage.setItem(StorageKey.Language, newLanguage);
         i18n.changeLanguage(newLanguage);
         setLanguage(newLanguage);
         setIsLoading(true);
@@ -325,7 +326,7 @@ const Weather = () => {
                     <ColumnContainer>
                       <WeatherMainTemperature>
                         {realFeel}{' '}
-                        {Units.IMPERIAL === unit
+                        {Units.Imperial === unit
                           ? t('words.temperature.unit.imperial')
                           : t('words.temperature.unit.metric')}
                       </WeatherMainTemperature>
@@ -335,7 +336,7 @@ const Weather = () => {
                         $isSmallMobileDevice={isSmallMobileDevice}
                       >
                         {t('words.temperature.feelsLike')} {feelsLike}{' '}
-                        {Units.IMPERIAL === unit
+                        {Units.Imperial === unit
                           ? t('words.temperature.unit.imperial')
                           : t('words.temperature.unit.metric')}
                       </WeatherMainData>
@@ -373,7 +374,7 @@ const Weather = () => {
                       >
                         {t('words.windInfo.wind')}
                         {windSpeed}{' '}
-                        {Units.IMPERIAL === unit
+                        {Units.Imperial === unit
                           ? t('words.windInfo.unit.imperial')
                           : t('words.windInfo.unit.metric')}{' '}
                         {t(`words.windInfo.windDirection.${windDirection}`)}
@@ -384,7 +385,7 @@ const Weather = () => {
                         $isSmallMobileDevice={isSmallMobileDevice}
                       >
                         {t('words.visibilityInfo.visibility')} {visibility}{' '}
-                        {Units.IMPERIAL === unit
+                        {Units.Imperial === unit
                           ? t('words.visibilityInfo.unit.imperial')
                           : t('words.visibilityInfo.unit.metric')}
                       </Code>
@@ -427,14 +428,14 @@ const Weather = () => {
                     $isSmallMobileDevice={isSmallMobileDevice}
                   >
                     <UnitSpan
-                      $isSelected={Units.IMPERIAL === unit}
-                      onClick={() => setUnit(Units.IMPERIAL)}
+                      $isSelected={Units.Imperial === unit}
+                      onClick={() => setUnit(Units.Imperial)}
                     >
                       {t('words.unit.imperial')}
                     </UnitSpan>
                     <UnitSpan
-                      $isSelected={Units.METRIC === unit}
-                      onClick={() => setUnit(Units.METRIC)}
+                      $isSelected={Units.Metric === unit}
+                      onClick={() => setUnit(Units.Metric)}
                     >
                       {t('words.unit.metric')}
                     </UnitSpan>

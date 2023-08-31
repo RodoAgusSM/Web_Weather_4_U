@@ -1,4 +1,4 @@
-export interface Star {
+interface Star {
     top: number;
     left: number;
     delay: number;

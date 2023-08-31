@@ -1,7 +1,7 @@
-import { URLQuery } from "enums";
+import { ClimateType } from "enums/index";
 
-export interface AppRequest {
-    toFetch: URLQuery;
+interface AppRequest {
+    toFetch: ClimateType;
     lat: number;
     lon: number;
     language: string;

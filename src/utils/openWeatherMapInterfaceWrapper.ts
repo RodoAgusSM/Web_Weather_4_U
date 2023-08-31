@@ -1,13 +1,13 @@
-import { InterfaceName, StorageKeys, Units } from 'enums/index';
+import { ClimateType, StorageKey, Units } from 'enums/index';
 import { AirPollution, Weather } from 'interfaces/index';
 
 import { getLastDateChecked, getLastDateCheckedAmerican, getLastTimeChecked, getLastTimeChecked12HoursFormat, getWindDirection } from './helpers';
 
-export const convertOpenWeatherMapResponseToInterface = (interfaceName: InterfaceName, unit: Units, object: any) => {
-    switch (interfaceName) {
-        case InterfaceName.WEATHER:
+export const convertOpenWeatherMapResponseToInterface = (climateType: ClimateType, unit: Units, object: any) => {
+    switch (climateType) {
+        case ClimateType.Weather:
             return convertToWeather(object, unit);
-        case InterfaceName.AIRPOLLUTION:
+        case ClimateType.AirPollution:
             return convertToAirPollution(object);
         default:
             break;
@@ -22,13 +22,13 @@ const convertToWeather = (object: any, unit: Units) => {
         icon: "",
         humidity: object.main.humidity,
         pressure: object.main.pressure,
-        windSpeed: Units.IMPERIAL === unit ? Math.trunc(object.wind.speed) : Math.trunc(object.wind.speed * 3.6),
+        windSpeed: Units.Imperial === unit ? Math.trunc(object.wind.speed) : Math.trunc(object.wind.speed * 3.6),
         windDirection: getWindDirection(object),
-        visibility: Units.IMPERIAL === unit ? Math.trunc(object.visibility / 1609.344) : object.visibility,
+        visibility: Units.Imperial === unit ? Math.trunc(object.visibility / 1609.344) : object.visibility,
         sunrise: object.sys.sunrise,
         sunset: object.sys.sunset,
-        lastTimeChecked: localStorage.getItem(StorageKeys.LANGUAGE) === 'en' ? getLastTimeChecked12HoursFormat() : getLastTimeChecked(),
-        lastDateChecked: localStorage.getItem(StorageKeys.LANGUAGE) === 'en' ? getLastDateCheckedAmerican() : getLastDateChecked(),
+        lastTimeChecked: localStorage.getItem(StorageKey.Language) === 'en' ? getLastTimeChecked12HoursFormat() : getLastTimeChecked(),
+        lastDateChecked: localStorage.getItem(StorageKey.Language) === 'en' ? getLastDateCheckedAmerican() : getLastDateChecked(),
     } as Weather
 }
 

@@ -1,4 +1,4 @@
-import { StorageKeys } from 'enums';
+import { StorageKey } from 'enums/index';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
@@ -18,7 +18,7 @@ i18n
 	.use(initReactI18next)
 	.init({
 		resources,
-		lng: localStorage.getItem(StorageKeys.LANGUAGE) ?? 'sp',
+		lng: localStorage.getItem(StorageKey.Language) ?? 'sp',
 		interpolation: {
 			escapeValue: false,
 		},

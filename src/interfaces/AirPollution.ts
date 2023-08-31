@@ -1,5 +1,5 @@
 interface AirPollution {
-	AQI: any;
+	AQI: number;
 	carbonMonoxide: number;
 	nitrogenMonoxide: number;
 	nitrogenDioxide: number;

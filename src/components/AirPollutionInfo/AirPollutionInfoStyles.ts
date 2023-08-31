@@ -1,18 +1,18 @@
 import styled from 'styled-components';
 import { Colors } from 'styles/colors';
 
-export const AirPollutionItemContainer = styled.div<{ isDesktopOrLaptop: boolean, isMobileDevice: boolean, isSmallMobileDevice: boolean }>`
+export const AirPollutionItemContainer = styled.div<{ $isDesktopOrLaptop: boolean, $isMobileDevice: boolean, $isSmallMobileDevice: boolean }>`
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	margin-top: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '20px'};
-	margin-top: ${({ isMobileDevice }) => isMobileDevice && '22px'};
-	margin-top: ${({ isSmallMobileDevice }) => isSmallMobileDevice && '18px'};
-	font-size:  ${({ isMobileDevice, isSmallMobileDevice }) => (isMobileDevice || isSmallMobileDevice) && '13px'};
-	background-color:  ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && `${Colors.menthol}`};
+	margin-top: ${({ $isDesktopOrLaptop }) => $isDesktopOrLaptop && '20px'};
+	margin-top: ${({ $isMobileDevice }) => $isMobileDevice && '22px'};
+	margin-top: ${({ $isSmallMobileDevice }) => $isSmallMobileDevice && '18px'};
+	font-size:  ${({ $isMobileDevice, $isSmallMobileDevice }) => ($isMobileDevice || $isSmallMobileDevice) && '13px'};
+	background-color:  ${({ $isDesktopOrLaptop }) => $isDesktopOrLaptop && `${Colors.menthol}`};
 	border-radius: 8px;
-	padding: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && '8px'};
-	box-shadow: ${({ isDesktopOrLaptop }) => isDesktopOrLaptop && `2px 2px 6px 1px ${Colors.sonicSilver}`};
+	padding: ${({ $isDesktopOrLaptop }) => $isDesktopOrLaptop && '8px'};
+	box-shadow: ${({ $isDesktopOrLaptop }) => $isDesktopOrLaptop && `2px 2px 6px 1px ${Colors.sonicSilver}`};
 `;
 
 export const AirPollutionItemSpan = styled.span<{ color: string }>`

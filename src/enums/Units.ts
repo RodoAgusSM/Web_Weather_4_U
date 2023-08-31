@@ -1,4 +1,6 @@
-export enum Units {
-    IMPERIAL = 'imperial',
-    METRIC = 'metric',
+enum Units {
+    Imperial = 'Imperial',
+    Metric = 'Metric',
 }
+
+export default Units;

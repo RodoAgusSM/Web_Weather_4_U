@@ -1,3 +1,5 @@
-export enum APIWeatherProvider {
-    OPENWEATHERMAP = "openWeatherMap",
+enum APIWeatherProvider {
+    OpenWeatherMap = "OpenWeatherMap",
 }
+
+export default APIWeatherProvider;
