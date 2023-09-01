@@ -7,23 +7,23 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import reportWebVitals from './reportWebVitals';
 
-import './index.css'
+import './index.css';
 
 import 'translations/i18n';
 
-const container = document.getElementById('root');
+const container = document.getElementById('root') as HTMLElement;
 const root = createRoot(container);
 root.render(
-	<React.StrictMode>
-		<BrowserRouter>
-			<Routes>
-				<Route path='/' element={<Weather />} />
-				<Route index element={<Weather />} />
-				<Route path='social_network' element={<SocialNetwork />} />
-				<Route path='air_pollution_info' element={<AirPollutionInfo />} />
-			</Routes>
-		</BrowserRouter>
-	</React.StrictMode>
+  <React.StrictMode>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Weather />} />
+        <Route index element={<Weather />} />
+        <Route path="social_network" element={<SocialNetwork />} />
+        <Route path="air_pollution_info" element={<AirPollutionInfo />} />
+      </Routes>
+    </BrowserRouter>
+  </React.StrictMode>
 );
 
 reportWebVitals();
