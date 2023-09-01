@@ -42,8 +42,6 @@ export const ColumnContainer = styled.div`
 	gap: 0.25rem;
 `
 
-
-
 export const Code = styled.code<{ $isMobileDevice: boolean, $isSmallMobileDevice: boolean }>`
 	cursor: default;
 	font-size: ${({ $isMobileDevice, $isSmallMobileDevice }) => ($isMobileDevice || $isSmallMobileDevice) && '12px'};
@@ -78,7 +76,6 @@ export const BackIconSpotImg = styled.image<{
 	background-image: url(${({ $hover }) => $hover});
 	}
 `;
-
 
 export const CenteredContainer = styled.div`
 	display: flex;
