@@ -13,6 +13,7 @@ import {
   GlobalStyle,
   WeatherCard,
 } from 'styles/styles';
+import { firstLowerToUppercase } from 'utils/helpers';
 
 import {
   AirPollutionItemContainer,
@@ -89,8 +90,9 @@ const AirPollutionInfo = () => {
   );
 
   const generateLabel = (label: AirQualityMetric, value: number) => {
-    const airQuality = AIR_QUALITY_LABELS[label] as any;
+    const airQuality = AIR_QUALITY_LABELS[firstLowerToUppercase(label) as AirQualityMetric] as any;
     if (!airQuality || Object.keys(airQuality).length === 0) return;
+
     const color = getColorForValue(value, airQuality.ranges);
     return generateLabelContent(
       `${airQuality.name} ${airQuality.symbol}`,

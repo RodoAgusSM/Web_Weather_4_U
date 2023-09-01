@@ -62,6 +62,8 @@ export const getLastDateCheckedAmerican = () => {
 const firstLowerToLowercase = (string: string): string =>
     string.replace(/(?:^|\s)\S/g, (a: string) => a.toLowerCase());
 
+export const firstLowerToUppercase = (string: string) => string.replace(/^./, char => char.toUpperCase());
+
 export const generateURL = ({ toFetch, lat, lon, language, units }: AppRequest) => {
     let splitted = toFetch.replace(/([a-zA-Z])(?=[A-Z])/g, '$1_').split('_');
     let params: string;
