@@ -14,7 +14,6 @@ import NotFoundIcon from 'images/not_found_icon.png';
 import SocialNetworkIcon from 'images/social_network.png';
 import SocialNetworkHoverIcon from 'images/social_network_hover.png';
 import { ApiError, ApiResponse } from 'interfaces/index';
-//import Logo from 'images/sun_half.svg';
 import {
   AirPollution as AirPollutionInterface,
   AppRequest,
@@ -47,7 +46,6 @@ import {
   SocialNetworkIconContainer,
   SocialNetworkSpotImg,
   SpinnerLogo,
-  //LogoApp,
   Subtitle,
   TitleApp,
   UnitsContainer,
@@ -149,7 +147,7 @@ const Weather = () => {
     }
   };
 
-  const fetchIcon = async (iconValue: string) => {
+  const fetchIconFromAPI = async (iconValue: string) => {
     try {
       setIsIconWorking(true);
       const iconUrl = `${iconURL}${iconValue}${iconExtension}`;
@@ -188,7 +186,7 @@ const Weather = () => {
       setIsSiteWorking(true);
       setCountryNameShort(weatherDataAPI.sys.country);
       const icon = weatherDataAPI.weather[0].icon;
-      fetchIcon(icon);
+      fetchIconFromAPI(icon);
       setWeather(
         Adapter(
           APIWeatherProvider.OpenWeatherMap,
@@ -210,9 +208,9 @@ const Weather = () => {
         ) as AirPollutionInterface
       );
     });
-
     setIsLoading(false);
   };
+
   const changeCity = useCallback(
     (
       newCity: SingleValue<{
@@ -299,13 +297,6 @@ const Weather = () => {
           <CitySearchBar changeCity={changeCity} />
           {validCoordinates ? (
             <>
-              {/* <LogoApp
-                src={Logo}
-                alt=""
-                $isDesktopOrLaptop={isDesktopOrLaptop}
-                $isMobileDevice={isMobileDevice}
-                $isSmallMobileDevice={isSmallMobileDevice}
-              /> */}
               <TitleApp>
                 <Subtitle
                   $isDesktopOrLaptop={isDesktopOrLaptop}
