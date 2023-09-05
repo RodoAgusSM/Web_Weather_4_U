@@ -59,6 +59,10 @@ export const getLastDateCheckedAmerican = () => {
     return date;
 }
 
+export const truncateToOneDecimal = (value: number) => {
+    return Math.floor(value * 10) / 10;
+}
+
 const firstLowerToLowercase = (string: string): string =>
     string.replace(/(?:^|\s)\S/g, (a: string) => a.toLowerCase());
 

@@ -1,7 +1,7 @@
 import { ClimateType, StorageKey, Units } from 'enums/index';
 import { AirPollution, Weather } from 'interfaces/index';
 
-import { getLastDateChecked, getLastDateCheckedAmerican, getLastTimeChecked, getLastTimeChecked12HoursFormat, getWindDirection } from './helpers';
+import { getLastDateChecked, getLastDateCheckedAmerican, getLastTimeChecked, getLastTimeChecked12HoursFormat, getWindDirection, truncateToOneDecimal } from './helpers';
 
 export const convertOpenWeatherMapResponseToInterface = (climateType: ClimateType, unit: Units, object: any) => {
     switch (climateType) {
@@ -16,15 +16,15 @@ export const convertOpenWeatherMapResponseToInterface = (climateType: ClimateTyp
 
 const convertToWeather = (object: any, unit: Units) => {
     return {
-        realFeel: Math.trunc(object.main.temp),
-        feelsLike: Math.trunc(object.main.feels_like),
+        realFeel: Math.round(object.main.temp),
+        feelsLike: Math.round(object.main.feels_like),
         description: object.weather[0].description.charAt(0).toUpperCase() + object.weather[0].description.substring(1),
         icon: "",
         humidity: object.main.humidity,
         pressure: object.main.pressure,
-        windSpeed: Units.Imperial === unit ? Math.trunc(object.wind.speed) : Math.trunc(object.wind.speed * 3.6),
+        windSpeed: Units.Imperial === unit ? truncateToOneDecimal(object.wind.speed) : truncateToOneDecimal(object.wind.speed * 3.6),
         windDirection: getWindDirection(object),
-        visibility: Units.Imperial === unit ? Math.trunc(object.visibility / 1609.344) : object.visibility,
+        visibility: Units.Imperial === unit ? truncateToOneDecimal(object.visibility / 1609.344) : object.visibility,
         sunrise: object.sys.sunrise,
         sunset: object.sys.sunset,
         lastTimeChecked: localStorage.getItem(StorageKey.Language) === 'en' ? getLastTimeChecked12HoursFormat() : getLastTimeChecked(),
