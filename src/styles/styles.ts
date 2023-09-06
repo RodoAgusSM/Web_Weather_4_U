@@ -5,8 +5,8 @@ import { Colors } from './colors';
 const desktopWidth = '34rem';
 const desktopHeight = '40rem';
 const mobileWidth = '21rem';
-const mobileHeightSmallDisplay = '35rem';
-const mobileHeightBigDisplay = '36rem';
+const mobileHeightSmallDisplay = '36rem';
+const mobileHeightBigDisplay = '37rem';
 
 export const GlobalStyle = createGlobalStyle<{ $isSmallMobileDevice: boolean }>`
 	body {

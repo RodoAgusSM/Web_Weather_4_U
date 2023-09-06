@@ -145,6 +145,7 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
           onClick={() => setOpenSearchBar(true)}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
+          onTouchStart={() => (setOpenSearchBar(!openSearchBar), handleMouseLeave())}
         >
           <AsyncSelect
             ref={selectRef}

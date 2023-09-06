@@ -27,7 +27,7 @@ export const SearchBarWrapper = styled.div`
 
 export const SearchBarContainer = styled.div<{ $isDesktopOrLaptop: boolean; $isMobileDevice: boolean; $isSmallMobileDevice: boolean, $openSearchBar: boolean | null }>`
 	width:  ${({ $isDesktopOrLaptop, $openSearchBar }) => $isDesktopOrLaptop && !$openSearchBar && '8%'};
-	width:  ${({ $isMobileDevice, $isSmallMobileDevice, $openSearchBar }) => ($isMobileDevice || $isSmallMobileDevice) && !$openSearchBar && '12%'};
+	width:  ${({ $isMobileDevice, $isSmallMobileDevice, $openSearchBar }) => ($isMobileDevice || $isSmallMobileDevice) && !$openSearchBar && '14%'};
 	width:  ${({ $openSearchBar }) => $openSearchBar && '100%'};
 	cursor: pointer;
 	height:40%;
@@ -43,7 +43,7 @@ export const SearchBarContainer = styled.div<{ $isDesktopOrLaptop: boolean; $isM
 		animation: ${generateCompressAnimation('8%')} 1s linear forwards;
 	`) ||
 			(($isMobileDevice || $isSmallMobileDevice) && css`
-		animation: ${generateCompressAnimation('12%')} 1s linear forwards;
+		animation: ${generateCompressAnimation('14%')} 1s linear forwards;
 	`))};
 `;
 
