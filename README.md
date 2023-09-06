@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+# <u> Weather4U </u>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## <b> Web version / Versión web. </b>
 
-## Available Scripts
+<img src='./src/demo_images/weather_web.gif' width='550' height='550'>
 
-In the project directory, you can run:
+<br>
 
-### `npm start`
+## <b> Mobile version / Versión móvil. </b>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<img src='./src/demo_images/weather_mobile.gif' width='350' height='650'>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## <u> Guide in english </u>
 
-### `npm test`
+Application made in React JS to view the actual weather of any city of the world. Fully responsive for mobile devices.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### <u> Installation </u>
 
-### `npm run build`
+1. Clone the project or download it as a .zip file.
+2. Navigate to the project directory and run `yarn install` to install the necessary dependencies.
+3. Start the project with `yarn start`.
+4. Enjoy real-time weather updates from any city around the globe!
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### <u> Features </u>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Automatic updates every 10 minutes.
+- Manual refresh option for quicker updates.
+- Access to the Air Quality Index (AQI).
+- Toggle between imperial and metric units.
+- User-friendly loading spinner during fetch times.
+- Search functionality for global city weather lookup.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+##### <u><b> Licence </b> </u>
 
-### `npm run eject`
+Made entirely by Rodolfo Agustín Silva Messano, Software Engineer from Montevideo (Uruguay). <br>
+All rights reserved.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## <u> Guia en español </u>
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Aplicación hecha en React JS para ver el clima de cualquier cuidad del mundo. Hecha responsive para dispositivos móviles.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### <u> Instalación </u>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+1. Clona el proyecto o descárgalo como un archivo .zip.
+2. Navega al directorio del proyecto y ejecuta `yarn install` para instalar las dependencias necesarias.
+3. Inicia el proyecto con `yarn start`.
+4. ¡Disfruta de actualizaciones climáticas en tiempo real de cualquier ciudad del mundo!
 
-## Learn More
+#### <u> Catacterísticas </u>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Actualizaciones automáticas cada 10 minutos.
+- Opción de actualización manual para actualizaciones más rápidas.
+- Acceso al Índice de Calidad del Aire (AQI).
+- Opción para cambiar entre unidades imperiales y métricas.
+- Spinner intuitivo durante los tiempos de carga.
+- Funcionalidad de búsqueda para consultar el clima de ciudades de todo el mundo.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+##### <u><b> Licencia </b></u>
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Hecha en su totalidad por Rodolfo Agustín Silva Messano, Ingeniero en Sistemas de Montevideo (Uruguay). <br>
+Todos los derechos reservados.
