@@ -23,3 +23,16 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# OS-specific files
+.DS_Store
+
+# Other files
+.env
+dist/
+
+# Node modules
+node_modules/
+
+# Yarn directory
+.yarn/
