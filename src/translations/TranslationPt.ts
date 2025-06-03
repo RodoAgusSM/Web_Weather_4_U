@@ -90,7 +90,7 @@ export const TranslationPt = {
 		},
 		networks: {
 			linkedIn: {
-				abbreviation: 'LinkedIn: ',
+				abbreviation: 'LinkedIn',
 				username: 'rodolfosilvamessano',
 				link: 'https://www.linkedin.com/in/rodolfosilvamessano/',
 			},
