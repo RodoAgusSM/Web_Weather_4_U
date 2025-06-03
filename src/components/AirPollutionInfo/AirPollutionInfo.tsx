@@ -1,34 +1,33 @@
-import { Fragment, memo, useCallback, useMemo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import StarsAnimation from 'components/Space/Space';
 import { AirQualityMetric } from 'enums/index';
-import useDimensions from 'hooks/useDimensions';
-import BackIcon from 'images/back_icon.png';
-import BackIconHover from 'images/back_icon_hover.png';
+import useResponsiveDesign from 'hooks/useResponsiveDesign';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
+import GlobalStyles  from 'styles/GlobalStyles';
 import {
   BackContainer,
   BackIconSpotImg,
-  CenteredContainer,
-  GlobalStyle,
   WeatherCard,
 } from 'styles/styles';
 import { firstLowerToUppercase } from 'utils/helpers';
 
 import {
-  AirPollutionItemContainer,
-  AirPollutionItemSpan,
-  AirPollutionLegendDesktopContainer,
-  AirPollutionLegendDesktopSubContainer,
-  AirPollutionLegendMobileContainer,
-  AirPollutionLegendMobileSubContainer,
+  AirPollutionColors,
+  AirQualityCard,
+  AirQualityHeader,
+  AirQualityName,
+  AirQualityValue,
+  CardsGridContainer,
+  CurrentQualityLabel,
+  ProgressBarContainer,
+  ProgressBarFill,
+  Title,
 } from './AirPollutionInfoStyles';
 
 type SpecialObject = {
   [index: number]: string;
 };
-
-const AirPollutionColors = ['#79BC6A', '#BBCf4C', '#EEC209', '#F39307', '#E8406F'];
 
 const getColorForValue = (value: number, valueRanges: number[]): string => {
   const index = valueRanges.findIndex((range) => value < range);
@@ -37,10 +36,52 @@ const getColorForValue = (value: number, valueRanges: number[]): string => {
     : AirPollutionColors[index];
 };
 
+const getPercentageForValue = (value: number, valueRanges: number[], qualityIndex: number): number => {
+  // If no ranges defined, return 0
+  if (!valueRanges || valueRanges.length === 0) {
+    return 0;
+  }
+
+  // Calculate segments for the 5 quality levels (0-4)
+  const segmentSize = 100 / 5;
+  
+  // For the first level (Good), map from 0 to first range
+  if (qualityIndex === 0) {
+    const maxInSegment = valueRanges[0];
+    return Math.min((value / maxInSegment) * segmentSize, segmentSize);
+  } 
+  // For levels 1-3 (Fair, Moderate, Poor), map between ranges
+  else if (qualityIndex < 4) {
+    const minValue = valueRanges[qualityIndex - 1];
+    const maxValue = valueRanges[qualityIndex];
+    const basePercentage = segmentSize * qualityIndex;
+    const relativePosition = (value - minValue) / (maxValue - minValue);
+    return basePercentage + (relativePosition * segmentSize);
+  } 
+  // For level 4 (Very Poor), anything above the last range
+  else {
+    const minValue = valueRanges[valueRanges.length - 1];
+    const relativePosition = Math.min((value - minValue) / minValue * 0.5, 1); // Cap at 100%
+    return segmentSize * 4 + (relativePosition * segmentSize);
+  }
+};
+
+const getQualityLevelIndex = (value: number, valueRanges: number[]): number => {
+  const index = valueRanges.findIndex((range) => value < range);
+  return index === -1 ? AirPollutionColors.length - 1 : index;
+};
+
 const AirPollutionInfo = () => {
   const { t } = useTranslation();
   const { state } = useLocation();
-  const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useDimensions();
+  const { 
+    isDesktopOrLaptop, 
+    isMobileDevice, 
+    isSmallMobileDevice,
+    isTouchDevice,
+    screenWidth,
+    screenHeight
+  } = useResponsiveDesign();
   const { airPollution } = state as any;
   let navigate = useNavigate();
   const [mouseOver, setMouseOver] = useState<boolean>(false);
@@ -89,62 +130,54 @@ const AirPollutionInfo = () => {
     [t]
   );
 
-  const generateLabel = (label: AirQualityMetric, value: number) => {
+  const renderProgressCard = (label: AirQualityMetric, value: number, index: number) => {
     const airQuality = AIR_QUALITY_LABELS[firstLowerToUppercase(label) as AirQualityMetric] as any;
-    if (!airQuality || Object.keys(airQuality).length === 0) return;
+    if (!airQuality || Object.keys(airQuality).length === 0) return null;
 
+    const qualityIndex = getQualityLevelIndex(value, airQuality.ranges);
     const color = getColorForValue(value, airQuality.ranges);
-    return generateLabelContent(
-      `${airQuality.name} ${airQuality.symbol}`,
-      color,
-      isDesktopOrLaptop,
-      isMobileDevice,
-      isSmallMobileDevice
+    
+    // Use the new percentage calculation function with quality index
+    const percentage = getPercentageForValue(value, airQuality.ranges, qualityIndex);
+    
+    const qualityLabel = Object.values(AirPollutionLabels)[qualityIndex];
+
+    return (
+      <AirQualityCard style={{ '--index': index } as React.CSSProperties}>
+        <AirQualityHeader>
+          <AirQualityName>{`${airQuality.name} ${airQuality.symbol}`}</AirQualityName>
+          <AirQualityValue>{`${value} μg/m³`}</AirQualityValue>
+        </AirQualityHeader>
+        
+        <ProgressBarContainer>
+          <ProgressBarFill 
+            $percentage={percentage} 
+            $color={color} 
+            style={{ '--index': index } as React.CSSProperties}
+          />
+        </ProgressBarContainer>
+        
+        <CurrentQualityLabel $color={color}>
+          {qualityLabel}
+        </CurrentQualityLabel>
+      </AirQualityCard>
     );
   };
 
-  const generateLabelContent = (
-    label: string,
-    color: string,
-    isDesktopOrLaptop: boolean,
-    isMobileDevice: boolean,
-    isSmallMobileDevice: boolean
-  ) => (
-    <AirPollutionItemContainer
-      $isDesktopOrLaptop={isDesktopOrLaptop}
-      $isMobileDevice={isMobileDevice}
-      $isSmallMobileDevice={isSmallMobileDevice}
-    >
-      {label}
-      <AirPollutionItemSpan color={color} />
-    </AirPollutionItemContainer>
-  );
-
-  const renderAirPollutionItems = useCallback(
-    (isDesktopOrLaptop: boolean) =>
-      AirPollutionColors.map((color: string, index: number) =>
-        isDesktopOrLaptop ? (
-          <Fragment key={index}>
-            <AirPollutionItemSpan color={color} key={index} />
-            {AirPollutionLabels[index]}
-          </Fragment>
-        ) : (
-          <AirPollutionLegendMobileSubContainer key={index}>
-            <AirPollutionItemSpan color={color} />
-            {AirPollutionLabels[index]}
-          </AirPollutionLegendMobileSubContainer>
-        )
-      ),
-    [AirPollutionLabels]
-  );
+  // We can now use additional responsive info for more precise adjustments
+  const isCompactLayout = screenHeight < 700 || (isMobileDevice && screenWidth < 380);
 
   return (
     <>
-      <GlobalStyle $isSmallMobileDevice={isSmallMobileDevice} />
+      <GlobalStyles />
       <WeatherCard
         $isDesktopOrLaptop={isDesktopOrLaptop}
         $isMobileDevice={isMobileDevice}
         $isSmallMobileDevice={isSmallMobileDevice}
+        aria-label="air-pollution-info"
+        // We can add additional responsive attributes if needed
+        data-compact={isCompactLayout ? 'true' : 'false'}
+        data-touch={isTouchDevice ? 'true' : 'false'}
       >
         <StarsAnimation />
         <BackContainer
@@ -152,29 +185,25 @@ const AirPollutionInfo = () => {
           onMouseLeave={() => setMouseOver(false)}
           onClick={() => navigate(`/`)}
         >
-          <BackIconSpotImg $mouseOver={mouseOver} $regular={BackIcon} $hover={BackIconHover} />
+          <BackIconSpotImg $mouseOver={mouseOver} />
           {t('words.back')}
         </BackContainer>
+        
+        <Title>{t('words.airPollution.title', { defaultValue: 'Air Quality Information' })}</Title>
 
-        {isDesktopOrLaptop && (
-          <AirPollutionLegendDesktopContainer>
-            <AirPollutionLegendDesktopSubContainer>
-              {renderAirPollutionItems(true)}
-            </AirPollutionLegendDesktopSubContainer>
-          </AirPollutionLegendDesktopContainer>
-        )}
-
-        {(isMobileDevice || isSmallMobileDevice) && (
-          <AirPollutionLegendMobileContainer>
-            {renderAirPollutionItems(false)}
-          </AirPollutionLegendMobileContainer>
-        )}
-
-        <CenteredContainer>
-          {airPollutionEntries.map((entry, index) => (
-            <div key={index}>{generateLabel(entry[0] as AirQualityMetric, entry[1] as number)}</div>
-          ))}
-        </CenteredContainer>
+        <CardsGridContainer>
+          {airPollutionEntries
+            .filter(entry => {
+              const metric = entry[0] as AirQualityMetric;
+              const airQuality = AIR_QUALITY_LABELS[firstLowerToUppercase(metric) as AirQualityMetric] as any;
+              return airQuality && Object.keys(airQuality).length > 0;
+            })
+            .map((entry, index) => (
+              <div key={index} style={{ width: '100%', maxWidth: '400px' }}>
+                {renderProgressCard(entry[0] as AirQualityMetric, entry[1] as number, index)}
+              </div>
+            ))}
+        </CardsGridContainer>
       </WeatherCard>
     </>
   );

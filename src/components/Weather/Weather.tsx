@@ -6,13 +6,13 @@ import StarsAnimation from 'components/Space/Space';
 import SunriseSunsetInfo from 'components/SunriseSunsetInfo/SunsetSunriseInfo';
 import { iconExtension, iconURL } from 'config/config';
 import { APIWeatherProvider, ClimateType, StorageKey, Units } from 'enums/index';
-import useDimensions from 'hooks/useDimensions';
+import useResponsiveDesign from 'hooks/useResponsiveDesign';
 import DangerIcon from 'images/danger.png';
+// Import the actual icon 
+import InfoIconImg from 'images/infoIcon.png';
 import LoadingIcon from 'images/loading.gif';
 import LocationNotFoundIcon from 'images/location_not_found_icon.png';
 import NotFoundIcon from 'images/not_found_icon.png';
-import SocialNetworkIcon from 'images/social_network.png';
-import SocialNetworkHoverIcon from 'images/social_network_hover.png';
 import { ApiError, ApiResponse } from 'interfaces/index';
 import {
   AirPollution as AirPollutionInterface,
@@ -22,11 +22,11 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { SingleValue } from 'react-select';
+import GlobalStyles from 'styles/GlobalStyles';
 import {
   CenteredContainer,
   Code,
   ColumnContainer,
-  GlobalStyle,
   Line,
   WeatherCard,
 } from 'styles/styles';
@@ -38,13 +38,14 @@ import {
   BreakLine,
   DangerLogo,
   FooterContainer,
+  InfoIcon,
+  InfoIconButton,
   LanguageAndSocialNetworkContainer,
   LocationNotFoundCode,
   LocationNotFoundContainer,
   LocationNotFoundSpotImg,
   MoreInfoButton,
   SocialNetworkIconContainer,
-  SocialNetworkSpotImg,
   SpinnerLogo,
   Subtitle,
   TitleApp,
@@ -68,7 +69,11 @@ const FETCH_INTERVAL_MS = 600000;
 const Weather = () => {
   const { t, i18n } = useTranslation();
   let navigate = useNavigate();
-  const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useDimensions();
+  const { 
+    isDesktopOrLaptop,
+    isMobileDevice, 
+    isSmallMobileDevice,
+  } = useResponsiveDesign();
   const [mouseOver, setMouseOver] = useState<boolean>(false);
   const [validCoordinates, setValidCoordinates] = useState<boolean>(true);
   const [siteWorking, setIsSiteWorking] = useState<boolean>(true);
@@ -245,6 +250,21 @@ const Weather = () => {
     [language]
   );
 
+  useEffect(() => {
+    // Add animation to initialize progress elements with appropriate delays
+    const initializeAnimations = () => {
+      const elements = document.querySelectorAll('[data-animate="true"]');
+      elements.forEach((element, index) => {
+        (element as HTMLElement).style.setProperty('--index', index.toString());
+      });
+    };
+
+    // Call animation initializer when weather data changes
+    if (!isLoading && weather.icon) {
+      setTimeout(initializeAnimations, 100);
+    }
+  }, [isLoading, weather.icon]);
+
   let toShow;
   if (siteWorking) {
     let showIcon;
@@ -292,6 +312,7 @@ const Weather = () => {
           $isDesktopOrLaptop={isDesktopOrLaptop}
           $isMobileDevice={isMobileDevice}
           $isSmallMobileDevice={isSmallMobileDevice}
+          data-animate="true"
         >
           <StarsAnimation />
           <CitySearchBar changeCity={changeCity} />
@@ -311,7 +332,7 @@ const Weather = () => {
                 $isMobileDevice={isMobileDevice}
                 $isSmallMobileDevice={isSmallMobileDevice}
               >
-                <WeatherMainContainer>
+                <WeatherMainContainer data-animate="true">
                   {showIcon}
                   <WeatherMain>
                     <ColumnContainer>
@@ -342,9 +363,9 @@ const Weather = () => {
                   </WeatherMain>
                 </WeatherMainContainer>
                 <WeatherDataContainer>
-                  <WeatherData>
+                  <WeatherData data-animate="true">
                     <SunriseSunsetInfo lat={lat} lon={lon} sunrise={sunrise} sunset={sunset} />
-                    <ColumnContainer>
+                    <ColumnContainer style={{ textAlign: 'left', width: '100%' }}>
                       <Code
                         $isMobileDevice={isMobileDevice}
                         $isSmallMobileDevice={isSmallMobileDevice}
@@ -380,7 +401,6 @@ const Weather = () => {
                           ? t('words.visibilityInfo.unit.imperial')
                           : t('words.visibilityInfo.unit.metric')}
                       </Code>
-                      <Line />
                     </ColumnContainer>
                     <AirQualitySectionContainer>
                       <Code
@@ -413,6 +433,7 @@ const Weather = () => {
                   $isDesktopOrLaptop={isDesktopOrLaptop}
                   $isMobileDevice={isMobileDevice}
                   $isSmallMobileDevice={isSmallMobileDevice}
+                  data-animate="true"
                 >
                   <UnitsSubContainer
                     $isMobileDevice={isMobileDevice}
@@ -439,6 +460,7 @@ const Weather = () => {
               $isDesktopOrLaptop={isDesktopOrLaptop}
               $isMobileDevice={isMobileDevice}
               $isSmallMobileDevice={isSmallMobileDevice}
+              data-animate="true"
             >
               <LocationNotFoundSpotImg
                 src={LocationNotFoundIcon}
@@ -481,20 +503,17 @@ const Weather = () => {
               <Language changeLanguage={changeLanguage} />
               <SocialNetworkIconContainer
                 $isDesktopOrLaptop={isDesktopOrLaptop}
-                onMouseEnter={() => setMouseOver(true)}
-                onMouseLeave={() => setMouseOver(false)}
                 onClick={() => {
                   navigate(`/social_network`);
                 }}
               >
-                <SocialNetworkSpotImg
-                  $isDesktopOrLaptop={isDesktopOrLaptop}
-                  $isMobileDevice={isMobileDevice}
-                  $isSmallMobileDevice={isSmallMobileDevice}
-                  $mouseOver={mouseOver}
-                  $regular={SocialNetworkIcon}
-                  $hover={SocialNetworkHoverIcon}
-                />
+                <InfoIconButton
+                  aria-label="View social networks"
+                  onMouseEnter={() => setMouseOver(true)}
+                  onMouseLeave={() => setMouseOver(false)}
+                >
+                  <InfoIcon src={InfoIconImg} alt='Info' $mouseOver={mouseOver} />
+                </InfoIconButton>
               </SocialNetworkIconContainer>
             </LanguageAndSocialNetworkContainer>
           </FooterContainer>
@@ -514,8 +533,18 @@ const Weather = () => {
   }
   return (
     <>
-      <GlobalStyle $isSmallMobileDevice={isSmallMobileDevice} />
-      {toShow}
+      <GlobalStyles />
+      <div
+        style={{
+          width: '100%',
+          minHeight: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        {toShow}
+      </div>
     </>
   );
 };

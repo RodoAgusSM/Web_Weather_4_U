@@ -1,12 +1,11 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { openStreetMapURL } from 'config/config';
-import useDimensions from 'hooks/useDimensions';
+import useResponsiveDesign from 'hooks/useResponsiveDesign';
 import { City } from 'interfaces/index';
 import { useTranslation } from 'react-i18next';
 import { SingleValue } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import { toast } from 'react-toastify';
-import { Colors } from 'styles/colors';
 
 import { SearchBarContainer, SearchBarWrapper, StyledToastContainer } from './CitySearchBarStyles';
 
@@ -20,7 +19,12 @@ interface CitySearchBarProps {
 
 const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
   const { t } = useTranslation();
-  const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useDimensions();
+  const {
+    isDesktopOrLaptop,
+    isMobileDevice,
+    isSmallMobileDevice,
+    isTouchDevice,
+  } = useResponsiveDesign();
   const [openSearchBar, setOpenSearchBar] = useState<boolean | null>(null);
   const [inputVal, setInputVal] = useState<string>('');
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -100,14 +104,17 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
     control: (provided: any) => ({
       ...provided,
       display: 'flex',
-      backgroundColor: Colors.veryPaleOrange,
-      borderRadius: openSearchBar ? '8px' : '25px',
-      border: `2px solid ${Colors.whiteChocolate}`,
+      backgroundColor: 'rgba(255, 255, 255, 0.15)',
+      backdropFilter: 'blur(8px)',
+      borderRadius: openSearchBar ? '0.5rem' : '9999px',
+      border: '1px solid rgba(255, 255, 255, 0.3)',
       cursor: 'pointer',
-      boxShadow: `2px 2px 6px 1px ${Colors.sonicSilver}`,
+      boxShadow: '0 2px 4px rgba(0,0,0,0.08)',
+      minHeight: '38px',
+      transition: 'all 0.2s ease',
       '&:hover': {
-        backgroundColor: Colors.whiteChocolate,
-        boxShadow: `2px 2px 6px 1px ${Colors.darkCharcoal}`,
+        backgroundColor: 'rgba(255, 255, 255, 0.25)',
+        boxShadow: '0 4px 8px rgba(0,0,0,0.12)',
       },
       overflow: 'hidden',
     }),
@@ -117,21 +124,93 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       maxWidth: '90%',
+      color: '#2C3E50',
+      opacity: 0.8,
+      fontWeight: 500,
+      fontSize: '0.9rem',
     }),
-    singleValue: (provided: any, state: any) => {
-      const whiteSpace = 'nowrap';
-      const overflow = 'hidden';
-      const textOverflow = 'ellipsis';
-      const opacity = state.isDisabled ? 0.5 : 1;
-      const transition = 'opacity 300ms';
-
-      return { ...provided, whiteSpace, overflow, textOverflow, opacity, transition };
-    },
-    option: (provided: any) => ({
+    input: (provided: any) => ({
       ...provided,
-      cursor: 'pointer', // This will give options a cursor pointer
+      color: '#2C3E50',
+      fontFamily: "'Poppins', sans-serif",
+      fontSize: '0.9rem',
+    }),
+    singleValue: (provided: any, state: any) => ({
+      ...provided,
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      opacity: state.isDisabled ? 0.5 : 1,
+      transition: 'opacity 300ms',
+      color: '#2C3E50',
+      fontWeight: 500,
+      fontSize: '0.9rem',
+    }),
+    option: (provided: any, { isFocused, isSelected }: any) => ({
+      ...provided,
+      cursor: 'pointer',
+      backgroundColor: isSelected ? '#3498DB' : isFocused ? 'rgba(52, 152, 219, 0.1)' : 'transparent',
+      color: isSelected ? 'white' : '#2C3E50',
+      fontWeight: isSelected ? 600 : 400,
+      fontSize: '0.9rem',
+      padding: '8px 12px',
+      fontFamily: "'Poppins', sans-serif",
+      transition: 'background-color 0.2s ease',
+    }),
+    menu: (provided: any) => ({
+      ...provided,
+      backgroundColor: 'rgba(255, 255, 255, 0.95)',
+      backdropFilter: 'blur(8px)',
+      border: '1px solid rgba(255, 255, 255, 0.3)',
+      borderRadius: '0.5rem',
+      boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+    }),
+    noOptionsMessage: (provided: any) => ({
+      ...provided,
+      color: '#7F8C8D',
+      fontSize: '0.85rem',
+      fontFamily: "'Poppins', sans-serif",
+    }),
+    loadingMessage: (provided: any) => ({
+      ...provided,
+      color: '#7F8C8D',
+      fontSize: '0.85rem',
+      fontFamily: "'Poppins', sans-serif",
     }),
   };
+
+  // Enhanced mobile touch handling
+  const handleTouchInteraction = useCallback(() => {
+    if (isTouchDevice) {
+      setOpenSearchBar(true);
+      
+      // Focus the input immediately on touch devices
+      if (selectRef.current) {
+        setTimeout(() => {
+          selectRef.current.focus();
+        }, 100);
+      }
+    }
+  }, [isTouchDevice]);
+
+  // Touch device specific customizations for the search control
+  const getTouchStyles = useCallback(() => {
+    if (isTouchDevice) {
+      return {
+        // Increase touch targets for touch devices
+        control: (base: any) => ({
+          ...base,
+          minHeight: '44px', // Minimum Apple HIG touch target
+        }),
+        // Larger text for touch devices
+        input: (base: any) => ({
+          ...base,
+          fontSize: '16px', // Prevents iOS zoom on focus
+        }),
+      };
+    }
+    return {};
+  }, [isTouchDevice]);
 
   return (
     <>
@@ -142,10 +221,15 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
           $isMobileDevice={isMobileDevice}
           $isSmallMobileDevice={isSmallMobileDevice}
           $openSearchBar={openSearchBar}
-          onClick={() => setOpenSearchBar(true)}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          onTouchStart={() => (setOpenSearchBar(!openSearchBar), handleMouseLeave())}
+          onClick={() => {
+            setOpenSearchBar(true);
+            if (isTouchDevice && selectRef.current) {
+              selectRef.current.focus();
+            }
+          }}
+          onMouseEnter={isTouchDevice ? undefined : handleMouseEnter}
+          onMouseLeave={isTouchDevice ? undefined : handleMouseLeave}
+          onTouchStart={handleTouchInteraction}
         >
           <AsyncSelect
             ref={selectRef}
@@ -164,7 +248,7 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
             onChange={handleChangeCity}
             loadingMessage={({ inputValue }) => inputValue && t('words.lookingForSuggestions')}
             noOptionsMessage={({ inputValue }) => inputValue && t('words.noSuggestions')}
-            styles={customStyles}
+            styles={{ ...customStyles, ...getTouchStyles() }}
             components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null }}
             filterOption={null}
             onMenuOpen={() => {

@@ -90,14 +90,14 @@ export const TranslationSp = {
 		},
 		networks: {
 			linkedIn: {
-				abbreviation: 'LinkedIn: ',
+				abbreviation: 'LinkedIn',
 				username: 'rodolfosilvamessano',
 				link: 'https://www.linkedin.com/in/rodolfosilvamessano/',
 			},
-			gitHub: { abbreviation: 'GitHub: ', username: 'RodoAgusSM', link: 'https://github.com/RodoAgusSM' },
-			iG: { abbreviation: 'Instagram: ', username: 'rodoagus_94', link: 'https://www.instagram.com/rodoagus_94' },
-			tW: { abbreviation: 'Twitter: ', username: 'RodoAgusSM', link: 'https://twitter.com/RodoAgusSM' },
-			fB: { abbreviation: 'Facebook: ', username: 'RodoAgusSM', link: 'https://www.facebook.com/RodoAgusSM' },
+			gitHub: { abbreviation: 'GitHub', username: 'RodoAgusSM', link: 'https://github.com/RodoAgusSM' },
+			iG: { abbreviation: 'Instagram', username: 'rodoagus_94', link: 'https://www.instagram.com/rodoagus_94' },
+			tW: { abbreviation: 'X', username: 'RodoAgusSM', link: 'https://twitter.com/RodoAgusSM' },
+			fB: { abbreviation: 'Facebook', username: 'RodoAgusSM', link: 'https://www.facebook.com/RodoAgusSM' },
 		},
 	},
 	errors: {

@@ -1,17 +1,19 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import StarsAnimation from 'components/Space/Space';
-import useDimensions from 'hooks/useDimensions';
-import BackIcon from 'images/back_icon.png';
-import BackIconHover from 'images/back_icon_hover.png';
+import useResponsiveDesign from 'hooks/useResponsiveDesign';
+import socialIcons from 'images/socialIcons';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { BackContainer, BackIconSpotImg, GlobalStyle, WeatherCard } from 'styles/styles';
+import GlobalStyles from 'styles/GlobalStyles';
+import { BackContainer, BackIconSpotImg, WeatherCard } from 'styles/styles';
 
 import {
   MiInfo,
   MiInfoContainer,
   NetworkContainer,
   NetworkMapContainer,
+  NetworkTitle,
+  SocialNetworkIcon,
   SocialNetworkItem,
   SocialNetworkName,
 } from './SocialNetworkStyles';
@@ -30,7 +32,12 @@ type SocialNetworkItemType = {
 const SocialNetwork = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useDimensions();
+  const { 
+    isDesktopOrLaptop, 
+    isMobileDevice, 
+    isSmallMobileDevice,
+    isTouchDevice
+  } = useResponsiveDesign();
   const [mouseOver, setMouseOver] = useState<boolean>(false);
 
   const handleMouseEnter = useCallback(() => setMouseOver(true), []);
@@ -44,38 +51,80 @@ const SocialNetwork = () => {
     })
   );
 
+  useEffect(() => {
+    // Initialize animations with staggered delays
+    const initializeAnimations = () => {
+      const elements = document.querySelectorAll('[data-animate="true"]');
+      elements.forEach((element, index) => {
+        (element as HTMLElement).style.setProperty('--index', index.toString());
+      });
+    };
+
+    setTimeout(initializeAnimations, 100);
+  }, []);
+
+  // Touch-specific event handling
+  const handleTouchStart = useCallback(() => {
+    if (isTouchDevice) {
+      // Special handling for touch devices
+    }
+  }, [isTouchDevice]);
+
   return (
     <>
-      <GlobalStyle $isSmallMobileDevice={isSmallMobileDevice} />
-      <WeatherCard
-        $isDesktopOrLaptop={isDesktopOrLaptop}
-        $isMobileDevice={isMobileDevice}
-        $isSmallMobileDevice={isSmallMobileDevice}
+      <GlobalStyles />
+      <div
+        style={{
+          width: '100%',
+          minHeight: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
       >
-        <StarsAnimation />
-        <BackContainer
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          onClick={handleBackClick}
+        <WeatherCard
+          $isDesktopOrLaptop={isDesktopOrLaptop}
+          $isMobileDevice={isMobileDevice}
+          $isSmallMobileDevice={isSmallMobileDevice}
+          data-animate="true"
+          onTouchStart={isTouchDevice ? handleTouchStart : undefined}
         >
-          <BackIconSpotImg $mouseOver={mouseOver} $regular={BackIcon} $hover={BackIconHover} />
-          {t('words.back')}
-        </BackContainer>
-        <MiInfoContainer>
-          <MiInfo>{myInfo.nameAndDegree}</MiInfo>
-          <MiInfo>{myInfo.likeAndView}</MiInfo>
-        </MiInfoContainer>
-        <NetworkContainer>
-          {socialNetworks.map((socialNetworkItem: SocialNetworkItemType, index: number) => (
-            <NetworkMapContainer key={index}>
-              <SocialNetworkName>{socialNetworkItem.abbreviation}</SocialNetworkName>
-              <SocialNetworkItem href={socialNetworkItem.link} target="_blank">
-                {socialNetworkItem.username}
-              </SocialNetworkItem>
-            </NetworkMapContainer>
-          ))}
-        </NetworkContainer>
-      </WeatherCard>
+          <StarsAnimation />
+          <BackContainer
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onClick={handleBackClick}
+            data-animate="true"
+          >
+            <BackIconSpotImg $mouseOver={mouseOver} />
+            {t('words.back')}
+          </BackContainer>
+
+          <MiInfoContainer data-animate="true">
+            <MiInfo>{myInfo.nameAndDegree}</MiInfo>
+            <MiInfo>{myInfo.likeAndView}</MiInfo>
+          </MiInfoContainer>
+
+          <NetworkContainer data-animate="true">
+            <NetworkTitle>{t('socialNetworks.title', { defaultValue: 'Find me on' })}</NetworkTitle>
+            {socialNetworks.map((socialNetworkItem: SocialNetworkItemType, index: number) => (
+              <NetworkMapContainer key={index} style={{ '--index': index } as React.CSSProperties}>
+                <SocialNetworkIcon 
+                  icon={socialIcons[socialNetworkItem.abbreviation]} 
+                />
+                <SocialNetworkName>{socialNetworkItem.abbreviation}</SocialNetworkName>
+                <SocialNetworkItem 
+                  href={socialNetworkItem.link} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  {socialNetworkItem.username}
+                </SocialNetworkItem>
+              </NetworkMapContainer>
+            ))}
+          </NetworkContainer>
+        </WeatherCard>
+      </div>
     </>
   );
 };
