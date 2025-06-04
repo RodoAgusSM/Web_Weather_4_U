@@ -235,7 +235,7 @@ const AirPollutionInfo = () => {
             {t('words.back')}
           </BackContainer>
 
-          <Title>{t('words.airPollution.title', { defaultValue: 'Air Quality Information' })}</Title>
+          <Title>{t('words.airPollution.title')}</Title>
 
           <CardsGridContainer>
             {sortedAirPollutionEntries

@@ -102,7 +102,7 @@ const SocialNetwork = () => {
           </MiInfoContainer>
 
           <NetworkContainer data-animate="true">
-            <NetworkTitle>{t('socialNetworks.title', { defaultValue: 'Find me on' })}</NetworkTitle>
+            <NetworkTitle>{t('socialNetworks.title')}</NetworkTitle>
             {socialNetworks.map((socialNetworkItem: SocialNetworkItemType, index: number) => (
               <NetworkMapContainer key={index} style={{ '--index': index } as React.CSSProperties}>
                 <SocialNetworkIcon icon={socialIcons[socialNetworkItem.abbreviation]} />

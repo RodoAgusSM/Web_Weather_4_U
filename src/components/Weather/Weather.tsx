@@ -36,7 +36,6 @@ import {
   DangerLogo,
   DataColumnContainer,
   DescriptionText,
-  EmptyGridCell,
   FeelsLikeText,
   FooterContainer,
   InfoIcon,
@@ -286,6 +285,7 @@ const Weather = () => {
       windSpeed,
       visibility,
       windDirection,
+      clouds,
       lastTimeChecked,
       lastDateChecked,
     } = weather as WeatherInterface;
@@ -299,11 +299,7 @@ const Weather = () => {
     return (
       <>
         <GlobalStyles />
-        <WeatherCard
-          {...responsiveProps}
-          data-animate="true"
-          onTouchStart={handleTouchStart}
-        >
+        <WeatherCard {...responsiveProps} data-animate="true" onTouchStart={handleTouchStart}>
           <StarsAnimation />
           <CitySearchBar changeCity={changeCity} />
 
@@ -390,19 +386,17 @@ const Weather = () => {
                       />
                     </WeatherDataGrid>
 
-                    {/* Air quality */}
+                    {/* Air quality and Cloudiness */}
                     <WeatherDataGrid>
                       <WeatherDataCard
                         label={t('words.airPollution.aqi')}
-                        value={
-                          t(`words.airPollution.status.${airPollution?.AQI}`)
-                        }
+                        value={t(`words.airPollution.status.${airPollution?.AQI}`)}
                         showInfoButton={true}
                         onInfoClick={() =>
                           navigate(`/air_pollution_info`, { state: { airPollution } })
                         }
                       />
-                      <EmptyGridCell />
+                      <WeatherDataCard label={t('words.clouds')} value={clouds} unit="%" />
                     </WeatherDataGrid>
                   </DataColumnContainer>
                 </CustomWeatherDataContainer>

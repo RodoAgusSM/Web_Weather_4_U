@@ -58,6 +58,7 @@ export const TranslationSp = {
 			},
 		},
 		airPollution: {
+			title: 'Información de la qualidad del aire',
 			aqi: 'Calidad del aire',
 			status: { 1: 'Buena', 2: 'Aceptable', 3: 'Moderada', 4: 'Pobre', 5: 'Muy pobre' },
 			moreInfo: 'i',
@@ -75,6 +76,7 @@ export const TranslationSp = {
 		},
 		sunrise: 'Amanece',
 		sunset: 'Oscurece',
+		clouds: 'Nubes',
 		locationNotFound: {
 			funnyMessage: 'Nuestra brújula no encontró la cuidad ',
 			realMessage: 'Vuelva a intentar con otra ubicación',
@@ -88,6 +90,7 @@ export const TranslationSp = {
 			nameAndDegree: 'Hola, soy Rodolfo Agustín Silva Messano Ingeniero en Sistemas.',
 			likeAndView: 'Si te gustó mi app, te invito a que visites mis redes sociales.',
 		},
+		title: 'Encuentrame en',
 		networks: {
 			linkedIn: {
 				abbreviation: 'LinkedIn',

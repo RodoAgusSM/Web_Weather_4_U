@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import AirQualityIcon from 'images/airQuality.png';
+import CloudIcon from 'images/clouds.png';
 import DefaultIcon from 'images/default.png';
 // Import necessary icons
 import HumidityIcon from 'images/humidity.png';
 import PressureIcon from 'images/pressure.png';
 import SunriseIcon from 'images/sunrise.png';
 import SunsetIcon from 'images/sunset.png';
-import TemperatureIcon from 'images/temperature.png';
 import VisibilityIcon from 'images/visibility.png';
 import WindIcon from 'images/wind.png';
 
@@ -101,12 +101,12 @@ const WeatherDataCard: React.FC<WeatherDataCardProps> = ({
     } else if (airQualityCheck) {
       setIcon(AirQualityIcon);
     } else if (
-      labelLower.includes('temperature') ||
-      labelLower.includes('temperature') ||
-      labelLower.includes('temperatura') ||
-      labelLower.includes('temperatura')
+      labelLower.includes('clouds') ||
+      labelLower.includes('nubes') ||
+      labelLower.includes('nuages') ||
+      labelLower.includes('nuvens')
     ) {
-      setIcon(TemperatureIcon);
+      setIcon(CloudIcon);
     } else {
       setIcon(DefaultIcon);
     }

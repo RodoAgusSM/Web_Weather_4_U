@@ -58,6 +58,7 @@ export const TranslationEn = {
 			},
 		},
 		airPollution: {
+			title: 'Air Pollution Information',
 			aqi: 'Air quality',
 			status: { 1: 'Good', 2: 'Fair', 3: 'Moderate', 4: 'Poor', 5: 'Very Poor' },
 			moreInfo: 'i',
@@ -75,6 +76,7 @@ export const TranslationEn = {
 		},
 		sunrise: 'Sunrise',
 		sunset: 'Sunset',
+		clouds: 'Clouds',
 		locationNotFound: {
 			funnyMessage: 'Our compass did not find the city ',
 			realMessage: 'Please try again with another location',
@@ -88,6 +90,7 @@ export const TranslationEn = {
 			nameAndDegree: 'Hello, I am Rodolfo Agustín Silva Messano Software Engineer.',
 			likeAndView: 'If you liked my app, I invite you to visit my social networks.',
 		},
+		title: 'Find me on',
 		networks: {
 			linkedIn: {
 				abbreviation: 'LinkedIn',

@@ -10,6 +10,7 @@ interface Weather {
     visibility: number;
     sunrise: number
     sunset: number;
+    clouds: number;
     lastTimeChecked: string;
     lastDateChecked: string;
 }

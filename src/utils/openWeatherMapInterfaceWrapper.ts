@@ -27,6 +27,7 @@ const convertToWeather = (object: any, unit: Units) => {
         visibility: Units.Imperial === unit ? truncateToOneDecimal(object.visibility / 1609.344) : object.visibility,
         sunrise: object.sys.sunrise,
         sunset: object.sys.sunset,
+        clouds: object.clouds.all,
         lastTimeChecked: localStorage.getItem(StorageKey.Language) === 'en' ? getLastTimeChecked12HoursFormat() : getLastTimeChecked(),
         lastDateChecked: localStorage.getItem(StorageKey.Language) === 'en' ? getLastDateCheckedAmerican() : getLastDateChecked(),
     } as Weather
