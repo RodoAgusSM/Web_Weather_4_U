@@ -6,6 +6,7 @@ import MainWeatherDisplay from 'components/MainWeatherDisplay/MainWeatherDisplay
 import StarsAnimation from 'components/Space/Space';
 import WeatherDataCard from 'components/WeatherDataCard/WeatherDataCard';
 import WeatherDataGrid from 'components/WeatherDataGrid/WeatherDataGrid';
+import WeatherDataGridSkeleton from 'components/WeatherDataGrid/WeatherDataGridSkeleton';
 import WeatherSpinner from 'components/WeatherSpinner/WeatherSpinner';
 import { iconExtension, iconURL } from 'config/config';
 import { APIWeatherProvider, ClimateType, StorageKey, Units } from 'enums/index';
@@ -81,6 +82,14 @@ const Weather = () => {
   const [airPollution, setAirPollution] = useState<AirPollutionInterface>(defaultAirPollution);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  // Add state to track individual card loading states
+  const [cardsLoading, setCardsLoading] = useState({
+    airQuality: true,
+    wind: true,
+    atmosphere: true,
+    time: true,
+  });
+
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // We're using useResponsiveDesign hook instead of manual width tracking
@@ -100,7 +109,7 @@ const Weather = () => {
         intervalRef.current = null;
       }
     };
-  }, [lat, lon, language, unit]);
+  }, [lat, lon, unit]); // Removed language from dependencies
 
   // API error handling
   const handleAPIError: ApiError = (error: any, response?: ApiResponse) => {
@@ -152,6 +161,14 @@ const Weather = () => {
 
   // Main data fetching function
   const fetchData = async () => {
+    // Reset all loading states when starting a new fetch
+    setCardsLoading({
+      airQuality: true,
+      wind: true,
+      atmosphere: true,
+      time: true,
+    });
+
     const weatherRequest: AppRequest = {
       toFetch: ClimateType.Weather,
       lat,
@@ -168,23 +185,31 @@ const Weather = () => {
       units: unit,
     };
 
-    // Fetch weather data
-    await fetchFromAPI(weatherRequest, (weatherDataAPI: any) => {
+    // Create promises for parallel fetching
+    const weatherPromise = fetchFromAPI(weatherRequest, (weatherDataAPI: any) => {
       setIsSiteWorking(true);
       setCountryNameShort(weatherDataAPI.sys.country);
       fetchIconFromAPI(weatherDataAPI.weather[0].icon);
-      setWeather(
-        Adapter(
-          APIWeatherProvider.OpenWeatherMap,
-          ClimateType.Weather,
-          unit,
-          weatherDataAPI
-        ) as WeatherInterface
-      );
+
+      const weatherData = Adapter(
+        APIWeatherProvider.OpenWeatherMap,
+        ClimateType.Weather,
+        unit,
+        weatherDataAPI
+      ) as WeatherInterface;
+
+      setWeather(weatherData);
+
+      // Once weather data is received, we can show wind, atmosphere, and time data
+      setCardsLoading((prev) => ({
+        ...prev,
+        wind: false,
+        atmosphere: false,
+        time: false,
+      }));
     });
 
-    // Fetch air pollution data
-    await fetchFromAPI(airPollutionRequest, (airPollutionDataAPI: any) => {
+    const airPollutionPromise = fetchFromAPI(airPollutionRequest, (airPollutionDataAPI: any) => {
       const airPollutionData = airPollutionDataAPI.list[0];
       setAirPollution(
         Adapter(
@@ -194,9 +219,19 @@ const Weather = () => {
           airPollutionData
         ) as AirPollutionInterface
       );
+
+      // Once air pollution data is received, we can show air quality
+      setCardsLoading((prev) => ({ ...prev, airQuality: false }));
     });
 
-    setIsLoading(false);
+    // Wait for all data to be fetched
+    await Promise.all([weatherPromise, airPollutionPromise])
+      .catch((error) => {
+        console.error('Error fetching weather data:', error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   // City change handler
@@ -220,14 +255,19 @@ const Weather = () => {
     [fullCityName]
   );
 
-  // Language change handler
+  // Language change handler - updated to prevent full reload
   const changeLanguage = useCallback(
     (newLanguage: string) => {
       if (language !== newLanguage) {
         localStorage.setItem(StorageKey.Language, newLanguage);
         i18n.changeLanguage(newLanguage);
         setLanguage(newLanguage);
-        setIsLoading(true);
+
+        // Don't set isLoading to true - this prevents the spinner from showing
+        // Don't refetch data - we only need to update the UI with existing data
+
+        // Instead, just update cards directly using the new language
+        // This will cause a re-render with the new translations without reloading data
       }
     },
     [language, i18n]
@@ -292,7 +332,7 @@ const Weather = () => {
               </Title>
 
               <AllDataContainer {...responsiveProps}>
-                {/* Main weather display - now using the new component */}
+                {/* Main weather display */}
                 <MainWeatherDisplay
                   icon={icon}
                   iconWorking={iconWorking}
@@ -305,51 +345,67 @@ const Weather = () => {
                 {/* Weather data cards */}
                 <CustomWeatherDataContainer>
                   <DataColumnContainer>
-                    {/* Temperature-related: Feels like + Air quality (Most important) */}
-                    <WeatherDataGrid>
-                      <WeatherDataCard
-                        label={t('words.airPollution.aqi')}
-                        value={t(`words.airPollution.status.${airPollution?.AQI}`)}
-                        showInfoButton={true}
-                        onInfoClick={() =>
-                          navigate(`/air_pollution_info`, { state: { airPollution } })
-                        }
-                      />
-                      <WeatherDataCard label={t('words.clouds')} value={clouds} unit="%" />
-                    </WeatherDataGrid>
+                    {/* Air quality and Clouds */}
+                    {cardsLoading.airQuality ? (
+                      <WeatherDataGridSkeleton hasInfoButton={true} />
+                    ) : (
+                      <WeatherDataGrid>
+                        <WeatherDataCard
+                          label={t('words.airPollution.aqi')}
+                          value={t(`words.airPollution.status.${airPollution?.AQI}`)}
+                          showInfoButton={true}
+                          onInfoClick={() =>
+                            navigate(`/air_pollution_info`, { state: { airPollution } })
+                          }
+                        />
+                        <WeatherDataCard label={t('words.clouds')} value={clouds} unit="%" />
+                      </WeatherDataGrid>
+                    )}
 
-                    {/* Current conditions: Wind and Visibility (Second most important) */}
-                    <WeatherDataGrid>
-                      <WeatherDataCard
-                        label={t('words.windInfo.wind')}
-                        value={`${windSpeed} ${
-                          Units.Imperial === unit
-                            ? t('words.windInfo.unit.imperial')
-                            : t('words.windInfo.unit.metric')
-                        } ${t(`words.windInfo.windDirection.${windDirection}`)}`}
-                      />
-                      <WeatherDataCard
-                        label={t('words.visibilityInfo.visibility')}
-                        value={visibility}
-                        unit={
-                          Units.Imperial === unit
-                            ? t('words.visibilityInfo.unit.imperial')
-                            : t('words.visibilityInfo.unit.metric')
-                        }
-                      />
-                    </WeatherDataGrid>
+                    {/* Wind and Visibility */}
+                    {cardsLoading.wind ? (
+                      <WeatherDataGridSkeleton />
+                    ) : (
+                      <WeatherDataGrid>
+                        <WeatherDataCard
+                          label={t('words.windInfo.wind')}
+                          value={`${windSpeed} ${
+                            Units.Imperial === unit
+                              ? t('words.windInfo.unit.imperial')
+                              : t('words.windInfo.unit.metric')
+                          } ${t(`words.windInfo.windDirection.${windDirection}`)}`}
+                        />
+                        <WeatherDataCard
+                          label={t('words.visibilityInfo.visibility')}
+                          value={visibility}
+                          unit={
+                            Units.Imperial === unit
+                              ? t('words.visibilityInfo.unit.imperial')
+                              : t('words.visibilityInfo.unit.metric')
+                          }
+                        />
+                      </WeatherDataGrid>
+                    )}
 
-                    {/* Atmospheric conditions: Humidity and Pressure (Third most important) */}
-                    <WeatherDataGrid>
-                      <WeatherDataCard label={t('words.humidity')} value={humidity} unit="%" />
-                      <WeatherDataCard label={t('words.pressure')} value={pressure} unit="hPa" />
-                    </WeatherDataGrid>
+                    {/* Humidity and Pressure */}
+                    {cardsLoading.atmosphere ? (
+                      <WeatherDataGridSkeleton />
+                    ) : (
+                      <WeatherDataGrid>
+                        <WeatherDataCard label={t('words.humidity')} value={humidity} unit="%" />
+                        <WeatherDataCard label={t('words.pressure')} value={pressure} unit="hPa" />
+                      </WeatherDataGrid>
+                    )}
 
-                    {/* Time-based information: Sunrise and Sunset (Less urgent but still useful) */}
-                    <WeatherDataGrid>
-                      <WeatherDataCard label={t('words.sunrise')} value={sunrise} />
-                      <WeatherDataCard label={t('words.sunset')} value={sunset} />
-                    </WeatherDataGrid>
+                    {/* Sunrise and Sunset */}
+                    {cardsLoading.time ? (
+                      <WeatherDataGridSkeleton />
+                    ) : (
+                      <WeatherDataGrid>
+                        <WeatherDataCard label={t('words.sunrise')} value={sunrise} />
+                        <WeatherDataCard label={t('words.sunset')} value={sunset} />
+                      </WeatherDataGrid>
+                    )}
                   </DataColumnContainer>
                 </CustomWeatherDataContainer>
 
@@ -477,8 +533,8 @@ const Weather = () => {
           alignItems: 'center',
         }}
       >
-        {isLoading || !weather.icon ? (
-          <WeatherSpinner size={isDesktopOrLaptop ? "large" : "medium"} />
+        {!weather.icon ? (
+          <WeatherSpinner size={isDesktopOrLaptop ? 'large' : 'medium'} />
         ) : siteWorking ? (
           renderWeatherData()
         ) : (
