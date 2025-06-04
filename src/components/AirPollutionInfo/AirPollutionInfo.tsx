@@ -4,12 +4,8 @@ import { AirQualityMetric } from 'enums/index';
 import useResponsiveDesign from 'hooks/useResponsiveDesign';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import GlobalStyles  from 'styles/GlobalStyles';
-import {
-  BackContainer,
-  BackIconSpotImg,
-  WeatherCard,
-} from 'styles/styles';
+import GlobalStyles from 'styles/GlobalStyles';
+import { BackContainer, BackIconSpotImg, WeatherCard } from 'styles/styles';
 import { firstLowerToUppercase } from 'utils/helpers';
 
 import {
@@ -36,7 +32,11 @@ const getColorForValue = (value: number, valueRanges: number[]): string => {
     : AirPollutionColors[index];
 };
 
-const getPercentageForValue = (value: number, valueRanges: number[], qualityIndex: number): number => {
+const getPercentageForValue = (
+  value: number,
+  valueRanges: number[],
+  qualityIndex: number
+): number => {
   // If no ranges defined, return 0
   if (!valueRanges || valueRanges.length === 0) {
     return 0;
@@ -44,25 +44,25 @@ const getPercentageForValue = (value: number, valueRanges: number[], qualityInde
 
   // Calculate segments for the 5 quality levels (0-4)
   const segmentSize = 100 / 5;
-  
+
   // For the first level (Good), map from 0 to first range
   if (qualityIndex === 0) {
     const maxInSegment = valueRanges[0];
     return Math.min((value / maxInSegment) * segmentSize, segmentSize);
-  } 
+  }
   // For levels 1-3 (Fair, Moderate, Poor), map between ranges
   else if (qualityIndex < 4) {
     const minValue = valueRanges[qualityIndex - 1];
     const maxValue = valueRanges[qualityIndex];
     const basePercentage = segmentSize * qualityIndex;
     const relativePosition = (value - minValue) / (maxValue - minValue);
-    return basePercentage + (relativePosition * segmentSize);
-  } 
+    return basePercentage + relativePosition * segmentSize;
+  }
   // For level 4 (Very Poor), anything above the last range
   else {
     const minValue = valueRanges[valueRanges.length - 1];
-    const relativePosition = Math.min((value - minValue) / minValue * 0.5, 1); // Cap at 100%
-    return segmentSize * 4 + (relativePosition * segmentSize);
+    const relativePosition = Math.min(((value - minValue) / minValue) * 0.5, 1); // Cap at 100%
+    return segmentSize * 4 + relativePosition * segmentSize;
   }
 };
 
@@ -74,13 +74,13 @@ const getQualityLevelIndex = (value: number, valueRanges: number[]): number => {
 const AirPollutionInfo = () => {
   const { t } = useTranslation();
   const { state } = useLocation();
-  const { 
-    isDesktopOrLaptop, 
-    isMobileDevice, 
+  const {
+    isDesktopOrLaptop,
+    isMobileDevice,
     isSmallMobileDevice,
     isTouchDevice,
     screenWidth,
-    screenHeight
+    screenHeight,
   } = useResponsiveDesign();
   const { airPollution } = state as any;
   let navigate = useNavigate();
@@ -94,27 +94,6 @@ const AirPollutionInfo = () => {
   const AIR_QUALITY_LABELS = useMemo(
     () => ({
       [AirQualityMetric.AQI]: {},
-      [AirQualityMetric.CarbonMonoxide]: {
-        name: t('words.airPollution.elements.carbonMonoxide.label'),
-        symbol: t('words.airPollution.elements.carbonMonoxide.symbol'),
-        ranges: [4400, 9400, 12400, 15400],
-      },
-      [AirQualityMetric.NitrogenMonoxide]: {},
-      [AirQualityMetric.NitrogenDioxide]: {
-        name: t('words.airPollution.elements.nitrogenDioxide.label'),
-        symbol: t('words.airPollution.elements.nitrogenDioxide.symbol'),
-        ranges: [40, 70, 150, 200],
-      },
-      [AirQualityMetric.Ozone]: {
-        name: t('words.airPollution.elements.ozone.label'),
-        symbol: t('words.airPollution.elements.ozone.symbol'),
-        ranges: [60, 100, 140, 180],
-      },
-      [AirQualityMetric.SulphurDioxide]: {
-        name: t('words.airPollution.elements.sulphurDioxide.label'),
-        symbol: t('words.airPollution.elements.sulphurDioxide.symbol'),
-        ranges: [20, 80, 250, 350],
-      },
       [AirQualityMetric.FineParticlesMatter]: {
         name: t('words.airPollution.elements.fineParticlesMatter.label'),
         symbol: t('words.airPollution.elements.fineParticlesMatter.symbol'),
@@ -125,6 +104,27 @@ const AirPollutionInfo = () => {
         symbol: t('words.airPollution.elements.coarseParticulateMatter.symbol'),
         ranges: [20, 50, 100, 200],
       },
+      [AirQualityMetric.Ozone]: {
+        name: t('words.airPollution.elements.ozone.label'),
+        symbol: t('words.airPollution.elements.ozone.symbol'),
+        ranges: [60, 100, 140, 180],
+      },
+      [AirQualityMetric.NitrogenDioxide]: {
+        name: t('words.airPollution.elements.nitrogenDioxide.label'),
+        symbol: t('words.airPollution.elements.nitrogenDioxide.symbol'),
+        ranges: [40, 70, 150, 200],
+      },
+      [AirQualityMetric.SulphurDioxide]: {
+        name: t('words.airPollution.elements.sulphurDioxide.label'),
+        symbol: t('words.airPollution.elements.sulphurDioxide.symbol'),
+        ranges: [20, 80, 250, 350],
+      },
+      [AirQualityMetric.CarbonMonoxide]: {
+        name: t('words.airPollution.elements.carbonMonoxide.label'),
+        symbol: t('words.airPollution.elements.carbonMonoxide.symbol'),
+        ranges: [4400, 9400, 12400, 15400],
+      },
+      [AirQualityMetric.NitrogenMonoxide]: {},
       [AirQualityMetric.Ammonia]: {},
     }),
     [t]
@@ -136,30 +136,28 @@ const AirPollutionInfo = () => {
 
     const qualityIndex = getQualityLevelIndex(value, airQuality.ranges);
     const color = getColorForValue(value, airQuality.ranges);
-    
+
     // Use the new percentage calculation function with quality index
     const percentage = getPercentageForValue(value, airQuality.ranges, qualityIndex);
-    
+
     const qualityLabel = Object.values(AirPollutionLabels)[qualityIndex];
 
     return (
-      <AirQualityCard style={{ '--index': index } as React.CSSProperties}>
+      <AirQualityCard key={index} style={{ '--index': index } as React.CSSProperties}>
         <AirQualityHeader>
           <AirQualityName>{`${airQuality.name} ${airQuality.symbol}`}</AirQualityName>
           <AirQualityValue>{`${value} μg/m³`}</AirQualityValue>
         </AirQualityHeader>
-        
+
         <ProgressBarContainer>
-          <ProgressBarFill 
-            $percentage={percentage} 
-            $color={color} 
+          <ProgressBarFill
+            $percentage={percentage}
+            $color={color}
             style={{ '--index': index } as React.CSSProperties}
           />
         </ProgressBarContainer>
-        
-        <CurrentQualityLabel $color={color}>
-          {qualityLabel}
-        </CurrentQualityLabel>
+
+        <CurrentQualityLabel $color={color}>{qualityLabel}</CurrentQualityLabel>
       </AirQualityCard>
     );
   };
@@ -167,44 +165,93 @@ const AirPollutionInfo = () => {
   // We can now use additional responsive info for more precise adjustments
   const isCompactLayout = screenHeight < 700 || (isMobileDevice && screenWidth < 380);
 
+  // Create a custom sorted order of metrics
+  const sortedMetricOrder = useMemo(
+    () => [
+      AirQualityMetric.FineParticlesMatter,
+      AirQualityMetric.CoarseParticulateMatter,
+      AirQualityMetric.Ozone,
+      AirQualityMetric.NitrogenDioxide,
+      AirQualityMetric.SulphurDioxide,
+      AirQualityMetric.CarbonMonoxide,
+      AirQualityMetric.NitrogenMonoxide,
+      AirQualityMetric.Ammonia,
+      AirQualityMetric.AQI,
+    ],
+    []
+  );
+
+  // Sort the airPollution entries according to our custom order
+  const sortedAirPollutionEntries = useMemo(() => {
+    // Create a map of metric name to its position in our sortedMetricOrder
+    const orderMap = sortedMetricOrder.reduce(
+      (acc, metric, index) => {
+        acc[metric] = index;
+        return acc;
+      },
+      {} as Record<string, number>
+    );
+
+    // Sort the entries based on the order in our orderMap
+    return [...airPollutionEntries].sort((a, b) => {
+      const metricA = firstLowerToUppercase(a[0] as AirQualityMetric);
+      const metricB = firstLowerToUppercase(b[0] as AirQualityMetric);
+
+      const orderA = orderMap[metricA] ?? 999; // Default to high number if not found
+      const orderB = orderMap[metricB] ?? 999;
+
+      return orderA - orderB;
+    });
+  }, [airPollutionEntries, sortedMetricOrder]);
+
   return (
     <>
       <GlobalStyles />
-      <WeatherCard
-        $isDesktopOrLaptop={isDesktopOrLaptop}
-        $isMobileDevice={isMobileDevice}
-        $isSmallMobileDevice={isSmallMobileDevice}
-        aria-label="air-pollution-info"
-        // We can add additional responsive attributes if needed
-        data-compact={isCompactLayout ? 'true' : 'false'}
-        data-touch={isTouchDevice ? 'true' : 'false'}
+      <div
+        style={{
+          width: '100%',
+          minHeight: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
       >
-        <StarsAnimation />
-        <BackContainer
-          onMouseEnter={() => setMouseOver(true)}
-          onMouseLeave={() => setMouseOver(false)}
-          onClick={() => navigate(`/`)}
+        <WeatherCard
+          $isDesktopOrLaptop={isDesktopOrLaptop}
+          $isMobileDevice={isMobileDevice}
+          $isSmallMobileDevice={isSmallMobileDevice}
+          aria-label="air-pollution-info"
+          // We can add additional responsive attributes if needed
+          data-compact={isCompactLayout ? 'true' : 'false'}
+          data-touch={isTouchDevice ? 'true' : 'false'}
         >
-          <BackIconSpotImg $mouseOver={mouseOver} />
-          {t('words.back')}
-        </BackContainer>
-        
-        <Title>{t('words.airPollution.title', { defaultValue: 'Air Quality Information' })}</Title>
+          <StarsAnimation />
+          <BackContainer
+            onMouseEnter={() => setMouseOver(true)}
+            onMouseLeave={() => setMouseOver(false)}
+            onClick={() => navigate(`/`)}
+          >
+            <BackIconSpotImg $mouseOver={mouseOver} />
+            {t('words.back')}
+          </BackContainer>
 
-        <CardsGridContainer>
-          {airPollutionEntries
-            .filter(entry => {
-              const metric = entry[0] as AirQualityMetric;
-              const airQuality = AIR_QUALITY_LABELS[firstLowerToUppercase(metric) as AirQualityMetric] as any;
-              return airQuality && Object.keys(airQuality).length > 0;
-            })
-            .map((entry, index) => (
-              <div key={index} style={{ width: '100%', maxWidth: '400px' }}>
-                {renderProgressCard(entry[0] as AirQualityMetric, entry[1] as number, index)}
-              </div>
-            ))}
-        </CardsGridContainer>
-      </WeatherCard>
+          <Title>{t('words.airPollution.title', { defaultValue: 'Air Quality Information' })}</Title>
+
+          <CardsGridContainer>
+            {sortedAirPollutionEntries
+              .filter((entry) => {
+                const metric = entry[0] as AirQualityMetric;
+                const airQuality = AIR_QUALITY_LABELS[
+                  firstLowerToUppercase(metric) as AirQualityMetric
+                ] as any;
+                return airQuality && Object.keys(airQuality).length > 0;
+              })
+              .map((entry, index) => (
+                renderProgressCard(entry[0] as AirQualityMetric, entry[1] as number, index)
+              ))}
+          </CardsGridContainer>
+        </WeatherCard>
+      </div>
     </>
   );
 };

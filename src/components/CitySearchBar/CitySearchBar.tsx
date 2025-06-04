@@ -19,12 +19,8 @@ interface CitySearchBarProps {
 
 const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
   const { t } = useTranslation();
-  const {
-    isDesktopOrLaptop,
-    isMobileDevice,
-    isSmallMobileDevice,
-    isTouchDevice,
-  } = useResponsiveDesign();
+  const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice, isTouchDevice } =
+    useResponsiveDesign();
   const [openSearchBar, setOpenSearchBar] = useState<boolean | null>(null);
   const [inputVal, setInputVal] = useState<string>('');
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -149,7 +145,11 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
     option: (provided: any, { isFocused, isSelected }: any) => ({
       ...provided,
       cursor: 'pointer',
-      backgroundColor: isSelected ? '#3498DB' : isFocused ? 'rgba(52, 152, 219, 0.1)' : 'transparent',
+      backgroundColor: isSelected
+        ? '#3498DB'
+        : isFocused
+        ? 'rgba(52, 152, 219, 0.1)'
+        : 'transparent',
       color: isSelected ? 'white' : '#2C3E50',
       fontWeight: isSelected ? 600 : 400,
       fontSize: '0.9rem',
@@ -183,7 +183,7 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
   const handleTouchInteraction = useCallback(() => {
     if (isTouchDevice) {
       setOpenSearchBar(true);
-      
+
       // Focus the input immediately on touch devices
       if (selectRef.current) {
         setTimeout(() => {

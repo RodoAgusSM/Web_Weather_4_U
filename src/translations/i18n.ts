@@ -14,14 +14,12 @@ const resources = {
 	fr: { translation: TranslationFr },
 };
 
-i18n
-	.use(initReactI18next)
-	.init({
-		resources,
-		lng: localStorage.getItem(StorageKey.Language) ?? 'sp',
-		interpolation: {
-			escapeValue: false,
-		},
-	});
+i18n.use(initReactI18next).init({
+	resources,
+	lng: localStorage.getItem(StorageKey.Language) ?? 'sp',
+	interpolation: {
+		escapeValue: false,
+	},
+});
 
 export default i18n;

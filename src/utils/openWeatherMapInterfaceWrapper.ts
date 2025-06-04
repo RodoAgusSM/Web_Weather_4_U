@@ -37,13 +37,13 @@ const convertToAirPollution = (object: any) => {
     const components = object?.components
     return {
         AQI: mainAQI,
-        ammonia: components?.so2,
+        ammonia: components?.nh3,
         carbonMonoxide: components?.co,
         coarseParticulateMatter: components?.pm10,
-        nitrogenDioxide: components?.no,
-        nitrogenMonoxide: components?.nh3,
-        ozone: components?.no2,
-        sulphurDioxide: components?.o3,
+        nitrogenDioxide: components?.no2,
+        nitrogenMonoxide: components?.no,
+        ozone: components?.o3,
+        sulphurDioxide: components?.so2,
         fineParticlesMatter: components?.pm2_5,
     } as AirPollution
 }

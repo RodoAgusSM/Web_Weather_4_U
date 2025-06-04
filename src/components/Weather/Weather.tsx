@@ -3,12 +3,12 @@ import Adapter from 'adapter/adapter';
 import CitySearchBar from 'components/CitySearchBar/CitySearchBar';
 import Language from 'components/Language/Language';
 import StarsAnimation from 'components/Space/Space';
-import SunriseSunsetInfo from 'components/SunriseSunsetInfo/SunsetSunriseInfo';
+import WeatherDataCard from 'components/WeatherDataCard/WeatherDataCard';
+import WeatherDataGrid from 'components/WeatherDataGrid/WeatherDataGrid';
 import { iconExtension, iconURL } from 'config/config';
 import { APIWeatherProvider, ClimateType, StorageKey, Units } from 'enums/index';
 import useResponsiveDesign from 'hooks/useResponsiveDesign';
 import DangerIcon from 'images/danger.png';
-// Import the actual icon 
 import InfoIconImg from 'images/infoIcon.png';
 import LoadingIcon from 'images/loading.gif';
 import LocationNotFoundIcon from 'images/location_not_found_icon.png';
@@ -23,20 +23,21 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { SingleValue } from 'react-select';
 import GlobalStyles from 'styles/GlobalStyles';
-import {
-  CenteredContainer,
-  Code,
-  ColumnContainer,
-  Line,
-  WeatherCard,
-} from 'styles/styles';
+import { CenteredContainer, Code, ColumnContainer } from 'styles/styles';
 import { generateURL } from 'utils/helpers';
 
 import {
-  AirQualitySectionContainer,
+  // Import all needed styled components
   AllDataContainer,
   BreakLine,
+  CustomUnitsContainer,
+  CustomWeatherDataContainer,
+  CustomWeatherMainContainer,
   DangerLogo,
+  DataColumnContainer,
+  DescriptionText,
+  EmptyGridCell,
+  FeelsLikeText,
   FooterContainer,
   InfoIcon,
   InfoIconButton,
@@ -44,22 +45,20 @@ import {
   LocationNotFoundCode,
   LocationNotFoundContainer,
   LocationNotFoundSpotImg,
-  MoreInfoButton,
+  MainContentWrapper,
   SocialNetworkIconContainer,
   SpinnerLogo,
   Subtitle,
+  TemperatureUnit,
+  TemperatureUnitWrapper,
+  TemperatureValue,
   TitleApp,
-  UnitsContainer,
   UnitSpan,
   UnitsSubContainer,
-  WeatherData,
-  WeatherDataContainer,
+  WeatherCard,
   WeatherIcon,
   WeatherIconContainer,
   WeatherMain,
-  WeatherMainContainer,
-  WeatherMainData,
-  WeatherMainTemperature,
 } from './WeatherStyles';
 
 const defaultWeather = {} as WeatherInterface;
@@ -68,12 +67,10 @@ const FETCH_INTERVAL_MS = 600000;
 
 const Weather = () => {
   const { t, i18n } = useTranslation();
-  let navigate = useNavigate();
-  const { 
-    isDesktopOrLaptop,
-    isMobileDevice, 
-    isSmallMobileDevice,
-  } = useResponsiveDesign();
+  const navigate = useNavigate();
+  const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useResponsiveDesign();
+
+  // State management
   const [mouseOver, setMouseOver] = useState<boolean>(false);
   const [validCoordinates, setValidCoordinates] = useState<boolean>(true);
   const [siteWorking, setIsSiteWorking] = useState<boolean>(true);
@@ -92,29 +89,19 @@ const Weather = () => {
   const [weather, setWeather] = useState<WeatherInterface>(defaultWeather);
   const [airPollution, setAirPollution] = useState<AirPollutionInterface>(defaultAirPollution);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [width, setWidth] = useState<number>(window.innerWidth);
+  const [mainContainerHovered, setMainContainerHovered] = useState(false);
+
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWidth(window.innerWidth);
-    };
-    window.addEventListener('resize', handleResize);
-  }, [width]);
+  // We're using useResponsiveDesign hook instead of manual width tracking
 
+  // Fetch data effect
   useEffect(() => {
-    const fetchDataInterval = async () => {
-      await fetchData();
-    };
-
+    const fetchDataInterval = async () => await fetchData();
     fetchDataInterval();
 
     if (!intervalRef.current) {
-      const intervalId = setInterval(async () => {
-        await fetchData();
-      }, FETCH_INTERVAL_MS);
-
-      intervalRef.current = intervalId;
+      intervalRef.current = setInterval(fetchData, FETCH_INTERVAL_MS);
     }
 
     return () => {
@@ -125,6 +112,7 @@ const Weather = () => {
     };
   }, [lat, lon, language, unit]);
 
+  // API error handling
   const handleAPIError: ApiError = (error: any, response?: ApiResponse) => {
     console.error('Error fetching data:', error);
     if (response?.data !== undefined && response?.data.message === 'city not found') {
@@ -134,6 +122,7 @@ const Weather = () => {
     }
   };
 
+  // Fetch data from API
   const fetchFromAPI = async (
     config: AppRequest,
     successCallback: Function,
@@ -152,13 +141,14 @@ const Weather = () => {
     }
   };
 
+  // Fetch weather icon
   const fetchIconFromAPI = async (iconValue: string) => {
     try {
       setIsIconWorking(true);
       const iconUrl = `${iconURL}${iconValue}${iconExtension}`;
       const response = await fetch(iconUrl);
       if (response.ok) {
-        setWeather((weather: WeatherInterface) => ({
+        setWeather((weather) => ({
           ...weather,
           icon: response.url,
         }));
@@ -170,6 +160,7 @@ const Weather = () => {
     }
   };
 
+  // Main data fetching function
   const fetchData = async () => {
     const weatherRequest: AppRequest = {
       toFetch: ClimateType.Weather,
@@ -187,11 +178,11 @@ const Weather = () => {
       units: unit,
     };
 
+    // Fetch weather data
     await fetchFromAPI(weatherRequest, (weatherDataAPI: any) => {
       setIsSiteWorking(true);
       setCountryNameShort(weatherDataAPI.sys.country);
-      const icon = weatherDataAPI.weather[0].icon;
-      fetchIconFromAPI(icon);
+      fetchIconFromAPI(weatherDataAPI.weather[0].icon);
       setWeather(
         Adapter(
           APIWeatherProvider.OpenWeatherMap,
@@ -202,6 +193,7 @@ const Weather = () => {
       );
     });
 
+    // Fetch air pollution data
     await fetchFromAPI(airPollutionRequest, (airPollutionDataAPI: any) => {
       const airPollutionData = airPollutionDataAPI.list[0];
       setAirPollution(
@@ -213,21 +205,21 @@ const Weather = () => {
         ) as AirPollutionInterface
       );
     });
+
     setIsLoading(false);
   };
 
+  // City change handler
   const changeCity = useCallback(
     (
-      newCity: SingleValue<{
-        label: string;
-        value: { lat: string; lon: string; name: string };
-      }>
+      newCity: SingleValue<{ label: string; value: { lat: string; lon: string; name: string } }>
     ) => {
       if (newCity && fullCityName !== newCity.label) {
         localStorage.setItem(StorageKey.CityName, newCity.value.name);
         localStorage.setItem(StorageKey.FullCityName, newCity.label);
         localStorage.setItem(StorageKey.Lat, newCity.value.lat);
         localStorage.setItem(StorageKey.Lon, newCity.value.lon);
+
         setFullCityName(newCity.label);
         setCityName(newCity.value.name);
         setLat(Number(newCity.value.lat));
@@ -235,9 +227,10 @@ const Weather = () => {
         setIsLoading(true);
       }
     },
-    [fullCityName, cityName, lat, lon]
+    [fullCityName]
   );
 
+  // Language change handler
   const changeLanguage = useCallback(
     (newLanguage: string) => {
       if (language !== newLanguage) {
@@ -247,194 +240,175 @@ const Weather = () => {
         setIsLoading(true);
       }
     },
-    [language]
+    [language, i18n]
   );
 
+  // Animation setup effect
   useEffect(() => {
-    // Add animation to initialize progress elements with appropriate delays
-    const initializeAnimations = () => {
-      const elements = document.querySelectorAll('[data-animate="true"]');
-      elements.forEach((element, index) => {
-        (element as HTMLElement).style.setProperty('--index', index.toString());
-      });
-    };
-
-    // Call animation initializer when weather data changes
     if (!isLoading && weather.icon) {
-      setTimeout(initializeAnimations, 100);
+      setTimeout(() => {
+        const elements = document.querySelectorAll('[data-animate="true"]');
+        elements.forEach((element, index) => {
+          (element as HTMLElement).style.setProperty('--index', index.toString());
+        });
+      }, 100);
     }
   }, [isLoading, weather.icon]);
 
-  let toShow;
-  if (siteWorking) {
-    let showIcon;
-    const { icon } = weather as WeatherInterface;
-    if (iconWorking) {
-      showIcon = (
-        <WeatherIconContainer>
-          <WeatherIcon src={icon} alt="" />
-        </WeatherIconContainer>
-      );
-    } else {
-      showIcon = (
-        <WeatherIconContainer>
-          <WeatherIcon src={NotFoundIcon} alt="" />;
-        </WeatherIconContainer>
-      );
+  // Add a touch event handler for better mobile interaction
+  const handleTouchStart = useCallback(() => {
+    // For handling touch events specifically
+    if (isMobileDevice) {
+      // Additional touch optimizations can be added here
     }
-    if (isLoading || icon === '') {
-      toShow = (
-        <SpinnerLogo
-          src={LoadingIcon}
-          alt=""
-          $isDesktopOrLaptop={isDesktopOrLaptop}
-          $isMobileDevice={isMobileDevice}
-          $isSmallMobileDevice={isSmallMobileDevice}
-        />
-      );
-    } else {
-      const {
-        realFeel,
-        feelsLike,
-        description,
-        sunrise,
-        sunset,
-        humidity,
-        pressure,
-        windSpeed,
-        visibility,
-        windDirection,
-        lastTimeChecked,
-        lastDateChecked,
-      } = weather as WeatherInterface;
-      toShow = (
+  }, [isMobileDevice]);
+
+  // Render weather icon
+  const renderWeatherIcon = () => {
+    const { icon } = weather as WeatherInterface;
+    return (
+      <WeatherIconContainer>
+        <WeatherIcon src={iconWorking ? icon : NotFoundIcon} alt="" />
+      </WeatherIconContainer>
+    );
+  };
+
+  // Render weather data
+  const renderWeatherData = () => {
+    const {
+      realFeel,
+      feelsLike,
+      description,
+      sunrise,
+      sunset,
+      humidity,
+      pressure,
+      windSpeed,
+      visibility,
+      windDirection,
+      lastTimeChecked,
+      lastDateChecked,
+    } = weather as WeatherInterface;
+
+    const responsiveProps = {
+      $isDesktopOrLaptop: isDesktopOrLaptop,
+      $isMobileDevice: isMobileDevice,
+      $isSmallMobileDevice: isSmallMobileDevice,
+    };
+
+    return (
+      <>
+        <GlobalStyles />
         <WeatherCard
-          $isDesktopOrLaptop={isDesktopOrLaptop}
-          $isMobileDevice={isMobileDevice}
-          $isSmallMobileDevice={isSmallMobileDevice}
+          {...responsiveProps}
           data-animate="true"
+          onTouchStart={handleTouchStart}
         >
           <StarsAnimation />
           <CitySearchBar changeCity={changeCity} />
+
           {validCoordinates ? (
             <>
               <TitleApp>
-                <Subtitle
-                  $isDesktopOrLaptop={isDesktopOrLaptop}
-                  $isMobileDevice={isMobileDevice}
-                  $isSmallMobileDevice={isSmallMobileDevice}
-                >
+                <Subtitle {...responsiveProps}>
                   {t('words.weatherIn')} {cityName} ({countryNameShort})
                 </Subtitle>
               </TitleApp>
-              <AllDataContainer
-                $isDesktopOrLaptop={isDesktopOrLaptop}
-                $isMobileDevice={isMobileDevice}
-                $isSmallMobileDevice={isSmallMobileDevice}
-              >
-                <WeatherMainContainer data-animate="true">
-                  {showIcon}
-                  <WeatherMain>
-                    <ColumnContainer>
-                      <WeatherMainTemperature>
-                        {realFeel}{' '}
-                        {Units.Imperial === unit
-                          ? t('words.temperature.unit.imperial')
-                          : t('words.temperature.unit.metric')}
-                      </WeatherMainTemperature>
-                      <WeatherMainData
-                        $isDesktopOrLaptop={isDesktopOrLaptop}
-                        $isMobileDevice={isMobileDevice}
-                        $isSmallMobileDevice={isSmallMobileDevice}
-                      >
+
+              <AllDataContainer {...responsiveProps}>
+                {/* Main weather display */}
+                <CustomWeatherMainContainer
+                  data-animate="true"
+                  $isHovered={mainContainerHovered}
+                  onMouseEnter={() => setMainContainerHovered(true)}
+                  onMouseLeave={() => setMainContainerHovered(false)}
+                  style={{ touchAction: 'manipulation' }}
+                >
+                  <MainContentWrapper>
+                    {/* Column 1: Weather Icon */}
+                    {renderWeatherIcon()}
+
+                    {/* Column 2: Temperature information in 3 rows */}
+                    <WeatherMain>
+                      {/* Row 1: Temperature */}
+                      <TemperatureUnitWrapper>
+                        <TemperatureValue>{realFeel}</TemperatureValue>
+                        <TemperatureUnit>
+                          {Units.Imperial === unit
+                            ? t('words.temperature.unit.imperial')
+                            : t('words.temperature.unit.metric')}
+                        </TemperatureUnit>
+                      </TemperatureUnitWrapper>
+
+                      {/* Row 2: Feels Like */}
+                      <FeelsLikeText>
                         {t('words.temperature.feelsLike')} {feelsLike}{' '}
                         {Units.Imperial === unit
                           ? t('words.temperature.unit.imperial')
                           : t('words.temperature.unit.metric')}
-                      </WeatherMainData>
-                      <WeatherMainData
-                        $isDesktopOrLaptop={isDesktopOrLaptop}
-                        $isMobileDevice={isMobileDevice}
-                        $isSmallMobileDevice={isSmallMobileDevice}
-                      >
-                        {description}
-                      </WeatherMainData>
-                    </ColumnContainer>
-                  </WeatherMain>
-                </WeatherMainContainer>
-                <WeatherDataContainer>
-                  <WeatherData data-animate="true">
-                    <SunriseSunsetInfo lat={lat} lon={lon} sunrise={sunrise} sunset={sunset} />
-                    <ColumnContainer style={{ textAlign: 'left', width: '100%' }}>
-                      <Code
-                        $isMobileDevice={isMobileDevice}
-                        $isSmallMobileDevice={isSmallMobileDevice}
-                      >
-                        {t('words.humidity')} {humidity}%
-                      </Code>
-                      <Line />
-                      <Code
-                        $isMobileDevice={isMobileDevice}
-                        $isSmallMobileDevice={isSmallMobileDevice}
-                      >
-                        {t('words.pressure')} {pressure} hPa
-                      </Code>
-                      <Line />
-                      <Code
-                        $isMobileDevice={isMobileDevice}
-                        $isSmallMobileDevice={isSmallMobileDevice}
-                      >
-                        {t('words.windInfo.wind')}
-                        {windSpeed}{' '}
-                        {Units.Imperial === unit
-                          ? t('words.windInfo.unit.imperial')
-                          : t('words.windInfo.unit.metric')}{' '}
-                        {t(`words.windInfo.windDirection.${windDirection}`)}
-                      </Code>
-                      <Line />
-                      <Code
-                        $isMobileDevice={isMobileDevice}
-                        $isSmallMobileDevice={isSmallMobileDevice}
-                      >
-                        {t('words.visibilityInfo.visibility')} {visibility}{' '}
-                        {Units.Imperial === unit
-                          ? t('words.visibilityInfo.unit.imperial')
-                          : t('words.visibilityInfo.unit.metric')}
-                      </Code>
-                    </ColumnContainer>
-                    <AirQualitySectionContainer>
-                      <Code
-                        $isMobileDevice={isMobileDevice}
-                        $isSmallMobileDevice={isSmallMobileDevice}
-                      >
-                        {t('words.airPollution.aqi')}
-                        {
-                          Object.values(t('words.airPollution.status', { returnObjects: true }))[
-                            airPollution?.AQI
-                          ]
+                      </FeelsLikeText>
+
+                      {/* Row 3: Weather Description */}
+                      <DescriptionText>{description}</DescriptionText>
+                    </WeatherMain>
+                  </MainContentWrapper>
+                </CustomWeatherMainContainer>
+
+                {/* Weather data cards */}
+                <CustomWeatherDataContainer>
+                  <DataColumnContainer>
+                    {/* Sunrise and sunset */}
+                    <WeatherDataGrid>
+                      <WeatherDataCard label={t('words.sunrise')} value={sunrise} />
+                      <WeatherDataCard label={t('words.sunset')} value={sunset} />
+                    </WeatherDataGrid>
+
+                    {/* Humidity and pressure */}
+                    <WeatherDataGrid>
+                      <WeatherDataCard label={t('words.humidity')} value={humidity} unit="%" />
+                      <WeatherDataCard label={t('words.pressure')} value={pressure} unit="hPa" />
+                    </WeatherDataGrid>
+
+                    {/* Wind and visibility */}
+                    <WeatherDataGrid>
+                      <WeatherDataCard
+                        label={t('words.windInfo.wind')}
+                        value={`${windSpeed} ${
+                          Units.Imperial === unit
+                            ? t('words.windInfo.unit.imperial')
+                            : t('words.windInfo.unit.metric')
+                        } ${t(`words.windInfo.windDirection.${windDirection}`)}`}
+                      />
+                      <WeatherDataCard
+                        label={t('words.visibilityInfo.visibility')}
+                        value={visibility}
+                        unit={
+                          Units.Imperial === unit
+                            ? t('words.visibilityInfo.unit.imperial')
+                            : t('words.visibilityInfo.unit.metric')
                         }
-                      </Code>
-                      <MoreInfoButton
-                        $isDesktopOrLaptop={isDesktopOrLaptop}
-                        $isMobileDevice={isMobileDevice}
-                        $isSmallMobileDevice={isSmallMobileDevice}
-                        onClick={() => {
-                          navigate(`/air_pollution_info`, {
-                            state: { airPollution },
-                          });
-                        }}
-                      >
-                        {t('words.airPollution.moreInfo')}
-                      </MoreInfoButton>
-                    </AirQualitySectionContainer>
-                  </WeatherData>
-                </WeatherDataContainer>
-                <UnitsContainer
-                  $isDesktopOrLaptop={isDesktopOrLaptop}
-                  $isMobileDevice={isMobileDevice}
-                  $isSmallMobileDevice={isSmallMobileDevice}
-                  data-animate="true"
-                >
+                      />
+                    </WeatherDataGrid>
+
+                    {/* Air quality */}
+                    <WeatherDataGrid>
+                      <WeatherDataCard
+                        label={t('words.airPollution.aqi')}
+                        value={
+                          t(`words.airPollution.status.${airPollution?.AQI}`)
+                        }
+                        showInfoButton={true}
+                        onInfoClick={() =>
+                          navigate(`/air_pollution_info`, { state: { airPollution } })
+                        }
+                      />
+                      <EmptyGridCell />
+                    </WeatherDataGrid>
+                  </DataColumnContainer>
+                </CustomWeatherDataContainer>
+
+                {/* Units selection */}
+                <CustomUnitsContainer {...responsiveProps} data-animate="true">
                   <UnitsSubContainer
                     $isMobileDevice={isMobileDevice}
                     $isSmallMobileDevice={isSmallMobileDevice}
@@ -452,23 +426,48 @@ const Weather = () => {
                       {t('words.unit.metric')}
                     </UnitSpan>
                   </UnitsSubContainer>
-                </UnitsContainer>
+                </CustomUnitsContainer>
               </AllDataContainer>
+
+              {/* Footer */}
+              <FooterContainer {...responsiveProps}>
+                <ColumnContainer>
+                  <CenteredContainer>
+                    <Code
+                      $isMobileDevice={isMobileDevice}
+                      $isSmallMobileDevice={isSmallMobileDevice}
+                    >
+                      {t('words.updatedAt')} {lastTimeChecked}
+                    </Code>
+                    <Code
+                      $isMobileDevice={isMobileDevice}
+                      $isSmallMobileDevice={isSmallMobileDevice}
+                    >
+                      {t('words.date')} {lastDateChecked}
+                    </Code>
+                  </CenteredContainer>
+                </ColumnContainer>
+                <LanguageAndSocialNetworkContainer>
+                  <Language changeLanguage={changeLanguage} />
+                  <SocialNetworkIconContainer
+                    $isDesktopOrLaptop={isDesktopOrLaptop}
+                    onClick={() => navigate(`/social_network`)}
+                  >
+                    <InfoIconButton
+                      aria-label="View social networks"
+                      onMouseEnter={() => setMouseOver(true)}
+                      onMouseLeave={() => setMouseOver(false)}
+                    >
+                      <InfoIcon src={InfoIconImg} alt="Info" $mouseOver={mouseOver} />
+                    </InfoIconButton>
+                  </SocialNetworkIconContainer>
+                </LanguageAndSocialNetworkContainer>
+              </FooterContainer>
             </>
           ) : (
-            <LocationNotFoundContainer
-              $isDesktopOrLaptop={isDesktopOrLaptop}
-              $isMobileDevice={isMobileDevice}
-              $isSmallMobileDevice={isSmallMobileDevice}
-              data-animate="true"
-            >
-              <LocationNotFoundSpotImg
-                src={LocationNotFoundIcon}
-                alt=""
-                $isDesktopOrLaptop={isDesktopOrLaptop}
-                $isMobileDevice={isMobileDevice}
-                $isSmallMobileDevice={isSmallMobileDevice}
-              />
+            // Location not found view
+            <LocationNotFoundContainer {...responsiveProps} data-animate="true">
+              <LocationNotFoundSpotImg src={LocationNotFoundIcon} alt="" {...responsiveProps} />
               <LocationNotFoundCode
                 $isMobileDevice={isMobileDevice}
                 $isSmallMobileDevice={isSmallMobileDevice}
@@ -484,53 +483,22 @@ const Weather = () => {
               </LocationNotFoundCode>
             </LocationNotFoundContainer>
           )}
-          <FooterContainer
-            $isDesktopOrLaptop={isDesktopOrLaptop}
-            $isMobileDevice={isMobileDevice}
-            $isSmallMobileDevice={isSmallMobileDevice}
-          >
-            <ColumnContainer>
-              <CenteredContainer>
-                <Code $isMobileDevice={isMobileDevice} $isSmallMobileDevice={isSmallMobileDevice}>
-                  {t('words.updatedAt')} {lastTimeChecked}
-                </Code>
-                <Code $isMobileDevice={isMobileDevice} $isSmallMobileDevice={isSmallMobileDevice}>
-                  {t('words.date')} {lastDateChecked}
-                </Code>
-              </CenteredContainer>
-            </ColumnContainer>
-            <LanguageAndSocialNetworkContainer>
-              <Language changeLanguage={changeLanguage} />
-              <SocialNetworkIconContainer
-                $isDesktopOrLaptop={isDesktopOrLaptop}
-                onClick={() => {
-                  navigate(`/social_network`);
-                }}
-              >
-                <InfoIconButton
-                  aria-label="View social networks"
-                  onMouseEnter={() => setMouseOver(true)}
-                  onMouseLeave={() => setMouseOver(false)}
-                >
-                  <InfoIcon src={InfoIconImg} alt='Info' $mouseOver={mouseOver} />
-                </InfoIconButton>
-              </SocialNetworkIconContainer>
-            </LanguageAndSocialNetworkContainer>
-          </FooterContainer>
         </WeatherCard>
-      );
-    }
-  } else {
-    toShow = (
-      <>
-        <DangerLogo src={DangerIcon} alt="" />
-        <BreakLine />
-        <Code $isMobileDevice={isMobileDevice} $isSmallMobileDevice={isSmallMobileDevice}>
-          {t('words.conectionError')}
-        </Code>
       </>
     );
-  }
+  };
+
+  // Render error message
+  const renderErrorMessage = () => (
+    <>
+      <DangerLogo src={DangerIcon} alt="" />
+      <BreakLine />
+      <Code $isMobileDevice={isMobileDevice} $isSmallMobileDevice={isSmallMobileDevice}>
+        {t('words.conectionError')}
+      </Code>
+    </>
+  );
+
   return (
     <>
       <GlobalStyles />
@@ -543,7 +511,19 @@ const Weather = () => {
           alignItems: 'center',
         }}
       >
-        {toShow}
+        {isLoading || !weather.icon ? (
+          <SpinnerLogo
+            src={LoadingIcon}
+            alt=""
+            $isDesktopOrLaptop={isDesktopOrLaptop}
+            $isMobileDevice={isMobileDevice}
+            $isSmallMobileDevice={isSmallMobileDevice}
+          />
+        ) : siteWorking ? (
+          renderWeatherData()
+        ) : (
+          renderErrorMessage()
+        )}
       </div>
     </>
   );

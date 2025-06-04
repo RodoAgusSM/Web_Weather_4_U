@@ -23,8 +23,8 @@ const sunPulse = keyframes`
 
 const Container = styled.div<{ size: number }>`
   position: relative;
-  width: ${props => props.size}px;
-  height: ${props => props.size}px;
+  width: ${(props) => props.size}px;
+  height: ${(props) => props.size}px;
 `;
 
 const DefaultIcon = styled.img`
@@ -56,18 +56,18 @@ const RainDrop = styled.div<{ delay: string }>`
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 50%;
   animation: ${rainDrop} 1.5s linear infinite;
-  animation-delay: ${props => props.delay};
+  animation-delay: ${(props) => props.delay};
 `;
 
 const AnimatedWeatherIcon: React.FC<AnimatedWeatherIconProps> = ({ iconCode, size = 100 }) => {
   const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
-  
+
   const renderAnimationEffects = () => {
     // Clear
     if (iconCode === '01d' || iconCode === '01n') {
       return <SunIcon src={iconUrl} alt="Weather icon" />;
     }
-    
+
     // Rain
     if (iconCode.includes('09') || iconCode.includes('10')) {
       return (
@@ -82,12 +82,12 @@ const AnimatedWeatherIcon: React.FC<AnimatedWeatherIconProps> = ({ iconCode, siz
         </>
       );
     }
-    
+
     // Clouds
     if (iconCode.includes('02') || iconCode.includes('03') || iconCode.includes('04')) {
       return <CloudIcon src={iconUrl} alt="Weather icon" />;
     }
-    
+
     // Default for any other icons
     return <DefaultIcon src={iconUrl} alt="Weather icon" />;
   };

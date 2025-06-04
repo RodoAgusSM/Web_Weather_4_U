@@ -31,8 +31,9 @@ const refinedGlassEffect = `
   background-blend-mode: overlay;
 `;
 
+const CONTAINER_MAX_WIDTH = '500px';
+
 export const WeatherCard = styled.div<{ $isSmallMobileDevice: boolean, $isMobileDevice: boolean, $isDesktopOrLaptop: boolean }>`
-  /* Restore the glassy background */
   background:  rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(10px);
   border-radius: 1.2rem;
@@ -40,7 +41,9 @@ export const WeatherCard = styled.div<{ $isSmallMobileDevice: boolean, $isMobile
   color: #2C3E50;
   word-wrap: break-word;
   width: ${({ $isDesktopOrLaptop }) => $isDesktopOrLaptop ? '34rem' : '21rem'};
-  max-width: 95vw;
+
+  max-width: '100%';
+  max-width: ${CONTAINER_MAX_WIDTH};
   height: auto;
   min-height: ${({ $isSmallMobileDevice, $isMobileDevice }) =>
     $isSmallMobileDevice ? '36rem' : $isMobileDevice ? '37rem' : '40rem'};
@@ -51,7 +54,6 @@ export const WeatherCard = styled.div<{ $isSmallMobileDevice: boolean, $isMobile
   margin: auto;
   animation: ${fadeIn} 0.5s ease-out forwards;
   background-color: ${refinedGlassEffect};
-  /* Air Pollution Info page should have wider card on desktop */
   body:has([aria-label="air-pollution-info"]) & {
     width: ${({ $isDesktopOrLaptop }) => $isDesktopOrLaptop ? '50rem' : '21rem'};
   }

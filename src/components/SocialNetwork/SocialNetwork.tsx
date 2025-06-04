@@ -32,12 +32,8 @@ type SocialNetworkItemType = {
 const SocialNetwork = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { 
-    isDesktopOrLaptop, 
-    isMobileDevice, 
-    isSmallMobileDevice,
-    isTouchDevice
-  } = useResponsiveDesign();
+  const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice, isTouchDevice } =
+    useResponsiveDesign();
   const [mouseOver, setMouseOver] = useState<boolean>(false);
 
   const handleMouseEnter = useCallback(() => setMouseOver(true), []);
@@ -109,13 +105,11 @@ const SocialNetwork = () => {
             <NetworkTitle>{t('socialNetworks.title', { defaultValue: 'Find me on' })}</NetworkTitle>
             {socialNetworks.map((socialNetworkItem: SocialNetworkItemType, index: number) => (
               <NetworkMapContainer key={index} style={{ '--index': index } as React.CSSProperties}>
-                <SocialNetworkIcon 
-                  icon={socialIcons[socialNetworkItem.abbreviation]} 
-                />
+                <SocialNetworkIcon icon={socialIcons[socialNetworkItem.abbreviation]} />
                 <SocialNetworkName>{socialNetworkItem.abbreviation}</SocialNetworkName>
-                <SocialNetworkItem 
-                  href={socialNetworkItem.link} 
-                  target="_blank" 
+                <SocialNetworkItem
+                  href={socialNetworkItem.link}
+                  target="_blank"
                   rel="noopener noreferrer"
                 >
                   {socialNetworkItem.username}

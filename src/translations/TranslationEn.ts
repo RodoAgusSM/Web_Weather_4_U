@@ -10,8 +10,8 @@ export const TranslationEn = {
 		lookingForSuggestions: 'Looking for matches...',
 		noSuggestions: 'No matches',
 		unit: {
-			imperial: "Imperial",
-			metric: "Metric",
+			imperial: 'Imperial',
+			metric: 'Metric',
 		},
 		weatherIn: 'Weather in ',
 		temperature: {
@@ -23,10 +23,10 @@ export const TranslationEn = {
 		},
 		updatedAt: 'Updated at ',
 		date: 'Date ',
-		humidity: 'Humidity: ',
-		pressure: 'Pressure: ',
+		humidity: 'Humidity',
+		pressure: 'Pressure',
 		windInfo: {
-			wind: 'Wind: ',
+			wind: 'Wind',
 			unit: {
 				imperial: 'mph',
 				metric: 'km/h',
@@ -48,33 +48,33 @@ export const TranslationEn = {
 				westNorthWest: 'WNW',
 				northWest: 'NW',
 				northNorthWest: 'NNW',
-			}
+			},
 		},
 		visibilityInfo: {
-			visibility: 'Visibility: ',
+			visibility: 'Visibility',
 			unit: {
 				imperial: 'mi',
 				metric: 'm',
 			},
 		},
 		airPollution: {
-			aqi: 'Air quality: ',
-			status: { 0: 'Good', 1: 'Fair', 2: 'Moderate', 3: 'Poor', 4: 'Very Poor' },
+			aqi: 'Air quality',
+			status: { 1: 'Good', 2: 'Fair', 3: 'Moderate', 4: 'Poor', 5: 'Very Poor' },
 			moreInfo: 'i',
 			elements: {
 				AQI: { label: 'Air Quality Index', symbol: '(AQI)' },
-				carbonMonoxide: { label: 'Carbon monoxide', symbol: '(NO)' },
-				nitrogenMonoxide: { label: 'Nitrogen monoxide', symbol: '(CO)' },
+				carbonMonoxide: { label: 'Carbon monoxide', symbol: '(CO)' },
+				nitrogenMonoxide: { label: 'Nitrogen monoxide', symbol: '(NO)' },
 				nitrogenDioxide: { label: 'Nitrogen dioxide', symbol: '(NO₂)' },
 				ozone: { label: 'Ozone', symbol: '(O₃)' },
-				sulphurDioxide: { label: 'Sulpgur dioxide', symbol: '(SO₂)' },
+				sulphurDioxide: { label: 'Sulfur dioxide', symbol: '(SO₂)' },
 				fineParticlesMatter: { label: 'Fine particles matter', symbol: '(PM2.5)' },
 				coarseParticulateMatter: { label: 'Coarse particulate matter', symbol: '(PM₁₀)' },
 				ammonia: { label: 'Ammonia', symbol: '(NH₃)' },
 			},
 		},
-		sunrise: 'Sunrise: ',
-		sunset: 'Sunset: ',
+		sunrise: 'Sunrise',
+		sunset: 'Sunset',
 		locationNotFound: {
 			funnyMessage: 'Our compass did not find the city ',
 			realMessage: 'Please try again with another location',
@@ -94,13 +94,26 @@ export const TranslationEn = {
 				username: 'rodolfosilvamessano',
 				link: 'https://www.linkedin.com/in/rodolfosilvamessano/',
 			},
-			gitHub: { abbreviation: 'GitHub', username: 'RodoAgusSM', link: 'https://github.com/RodoAgusSM' },
-			iG: { abbreviation: 'Instagram', username: 'rodoagus_94', link: 'https://www.instagram.com/rodoagus_94' },
+			gitHub: {
+				abbreviation: 'GitHub',
+				username: 'RodoAgusSM',
+				link: 'https://github.com/RodoAgusSM',
+			},
+			iG: {
+				abbreviation: 'Instagram',
+				username: 'rodoagus_94',
+				link: 'https://www.instagram.com/rodoagus_94',
+			},
 			tW: { abbreviation: 'X', username: 'RodoAgusSM', link: 'https://twitter.com/RodoAgusSM' },
-			fB: { abbreviation: 'Facebook', username: 'RodoAgusSM', link: 'https://www.facebook.com/RodoAgusSM' },
+			fB: {
+				abbreviation: 'Facebook',
+				username: 'RodoAgusSM',
+				link: 'https://www.facebook.com/RodoAgusSM',
+			},
 		},
 	},
 	errors: {
-		errorFetchingSuggestions: "Network Error: An error occurred while fetching suggestions. Please try again later",
-	}
+		errorFetchingSuggestions:
+			'Network Error: An error occurred while fetching suggestions. Please try again later',
+	},
 };

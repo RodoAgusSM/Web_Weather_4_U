@@ -9,13 +9,8 @@ interface LanguageProps {
 }
 
 const Language = ({ changeLanguage }: LanguageProps) => {
-  const { 
-    isMobileDevice, 
-    isSmallMobileDevice,
-    isTouchDevice,
-    screenWidth
-  } = useResponsiveDesign();
-  
+  const { isMobileDevice, isSmallMobileDevice, isTouchDevice, screenWidth } = useResponsiveDesign();
+
   const { t, i18n } = useTranslation();
   const [useAbbreviatedLabels, setUseAbbreviatedLabels] = useState(screenWidth < 360);
 
@@ -24,7 +19,7 @@ const Language = ({ changeLanguage }: LanguageProps) => {
     const handleResize = () => {
       setUseAbbreviatedLabels(window.innerWidth < 360);
     };
-    
+
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -34,19 +29,24 @@ const Language = ({ changeLanguage }: LanguageProps) => {
     // On small screens or when window width is below threshold, use abbreviated labels
     if (useAbbreviatedLabels || isSmallMobileDevice || screenWidth < 360) {
       switch (code) {
-        case 'en': return 'EN';
-        case 'es': return 'ES';
-        case 'pt': return 'PT';
-        case 'fr': return 'FR';
-        default: return code.toUpperCase();
+        case 'en':
+          return 'EN';
+        case 'es':
+          return 'ES';
+        case 'pt':
+          return 'PT';
+        case 'fr':
+          return 'FR';
+        default:
+          return code.toUpperCase();
       }
     }
     return label;
   };
-  
+
   return (
-    <LanguagesContainer 
-      $isMobileDevice={isMobileDevice} 
+    <LanguagesContainer
+      $isMobileDevice={isMobileDevice}
       $isSmallMobileDevice={isSmallMobileDevice}
       $isTouchDevice={isTouchDevice}
       $useAbbreviatedLabels={useAbbreviatedLabels}

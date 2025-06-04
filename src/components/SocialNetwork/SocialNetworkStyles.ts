@@ -2,12 +2,12 @@ import styled, { keyframes } from 'styled-components';
 
 // Modern color palette (matches the one in WeatherStyles.ts)
 const palette = {
-  primary: '#3498DB',       // Blue
-  secondary: '#2ECC71',     // Green
-  accent: '#F39C12',        // Orange
-  dark: '#2C3E50',          // Dark blue
-  light: '#ECF0F1',         // Light gray
-  white: '#FFFFFF',         // White
+  primary: '#3498DB', // Blue
+  secondary: '#2ECC71', // Green
+  accent: '#F39C12', // Orange
+  dark: '#2C3E50', // Dark blue
+  light: '#ECF0F1', // Light gray
+  white: '#FFFFFF', // White
 };
 
 // Design tokens
@@ -69,7 +69,7 @@ export const MiInfoContainer = styled.div`
   animation: ${fadeIn} 0.5s ease-out forwards;
   animation-delay: calc(var(--index, 0) * 0.1s + 0.3s);
   opacity: 0;
-  
+
   &:hover {
     transform: translateY(-3px);
     box-shadow: ${theme.shadow.md};
@@ -85,7 +85,7 @@ export const MiInfo = styled.span`
   color: ${palette.dark};
   padding-bottom: ${theme.spacing.md};
   line-height: 1.4;
-  
+
   &:last-child {
     font-size: 1.1rem;
     font-weight: 500;
@@ -122,7 +122,7 @@ export const NetworkTitle = styled.h3`
   text-align: center;
   position: relative;
   padding-bottom: ${theme.spacing.sm};
-  
+
   &::after {
     content: '';
     position: absolute;
@@ -148,13 +148,13 @@ export const NetworkMapContainer = styled.div`
   animation: ${fadeIn} 0.5s ease-out forwards;
   animation-delay: calc(var(--index, 0) * 0.1s + 0.6s);
   opacity: 0;
-  
+
   &:hover {
     background: rgba(255, 255, 255, 0.25);
     border-color: rgba(255, 255, 255, 0.4);
     box-shadow: ${theme.shadow.sm};
   }
-  
+
   &:not(:last-child) {
     border-bottom: 1px solid rgba(44, 62, 80, 0.1);
   }
@@ -165,7 +165,7 @@ export const SocialNetworkIcon = styled.div<{ icon: string }>`
   height: 36px;
   border-radius: ${theme.radius.sm};
   background-color: rgba(255, 255, 255, 0.9);
-  background-image: ${props => `url(${props.icon})`};
+  background-image: ${(props) => `url(${props.icon})`};
   background-size: 65%;
   background-position: center;
   background-repeat: no-repeat;
@@ -175,7 +175,7 @@ export const SocialNetworkIcon = styled.div<{ icon: string }>`
   transition: all 0.2s ease;
   transform: translateY(0);
   transition: all 0.3s ease;
-  
+
   ${NetworkMapContainer}:hover & {
     transform: scale(1.1) rotate(5deg);
     box-shadow: ${theme.shadow.md};
@@ -195,7 +195,7 @@ export const SocialNetworkName = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  
+
   ${NetworkMapContainer}:hover & {
     background: rgba(255, 255, 255, 0.5);
   }
@@ -218,15 +218,15 @@ export const SocialNetworkItem = styled.a`
   overflow: hidden;
   text-overflow: ellipsis;
   min-width: 0; /* Critical for text-overflow to work in flex items */
-  
+
   &:hover {
     color: ${palette.accent};
-    
+
     &::after {
       width: 100%;
     }
   }
-  
+
   &::after {
     content: '';
     position: absolute;

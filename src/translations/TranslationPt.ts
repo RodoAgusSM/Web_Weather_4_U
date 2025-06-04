@@ -15,7 +15,7 @@ export const TranslationPt = {
 		},
 		weatherIn: 'Clima em ',
 		temperature: {
-			feelsLike: 'Sensação termica: ',
+			feelsLike: 'Sensação termica',
 			unit: {
 				imperial: '°F',
 				metric: '°C',
@@ -23,10 +23,10 @@ export const TranslationPt = {
 		},
 		updatedAt: 'Atualizado em ',
 		date: 'Encontro ',
-		humidity: 'Umidade: ',
-		pressure: 'Pressão: ',
+		humidity: 'Umidade',
+		pressure: 'Pressão',
 		windInfo: {
-			wind: 'Vento: ',
+			wind: 'Vento',
 			unit: {
 				imperial: 'mph',
 				metric: 'km/h',
@@ -51,20 +51,20 @@ export const TranslationPt = {
 			}
 		},
 		visibilityInfo: {
-			visibility: 'Visibilidade: ',
+			visibility: 'Visibilidade',
 			unit: {
 				imperial: 'mi',
 				metric: 'm',
 			},
 		},
 		airPollution: {
-			aqi: 'Qualidade do ar: ',
-			status: { 0: 'Bom', 1: 'Aceitável', 2: 'Moderado', 3: 'Pobre', 4: 'Muito pobre' },
+			aqi: 'Qualidade do ar',
+			status: { 1: 'Bom', 2: 'Aceitável', 3: 'Moderado', 4: 'Pobre', 5: 'Muito pobre' },
 			moreInfo: 'i',
 			elements: {
 				AQI: { label: 'Qualidade do ar', symbol: '(AQI)' },
-				carbonMonoxide: { label: 'Monóxido de carbono', symbol: '(NO)' },
-				nitrogenMonoxide: { label: 'Monóxido de nitrogênio', symbol: '(CO)' },
+				carbonMonoxide: { label: 'Monóxido de carbono', symbol: '(CO)' },
+				nitrogenMonoxide: { label: 'Monóxido de nitrogênio', symbol: '(NO)' },
 				nitrogenDioxide: { label: 'Dióxido de nitrogênio', symbol: '(NO₂)' },
 				ozone: { label: 'Ozônio', symbol: '(O₃)' },
 				sulphurDioxide: { label: 'Dióxido de enxofre', symbol: '(SO₂)' },
@@ -73,8 +73,8 @@ export const TranslationPt = {
 				ammonia: { label: 'Amônia', symbol: '(NH₃)' },
 			},
 		},
-		sunrise: 'Nascer do sol: ',
-		sunset: 'Pôr do sol: ',
+		sunrise: 'Nascer do sol',
+		sunset: 'Pôr do sol',
 		locationNotFound: {
 			funnyMessage: 'Nossa bússola não encontrou a cidade ',
 			realMessage: 'Tente novamente com outro local',
