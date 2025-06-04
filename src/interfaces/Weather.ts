@@ -8,8 +8,8 @@ interface Weather {
     windSpeed: number;
     windDirection: string;
     visibility: number;
-    sunrise: number
-    sunset: number;
+    sunrise: string
+    sunset: string;
     clouds: number;
     lastTimeChecked: string;
     lastDateChecked: string;

@@ -49,12 +49,11 @@ export const LanguagesContainer = styled.div<{
     $isMobileDevice || $isSmallMobileDevice || $useAbbreviatedLabels ? '0.75rem' : '0.9rem'};
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(4px);
-  border-radius: ${theme.radius.lg};
+  border-radius: 8px;
   box-shadow: ${theme.shadow.sm};
   border: 1px solid rgba(255, 255, 255, 0.2);
-  width: fit-content;
-  margin: 0 auto; /* This should center it */
-  position: relative;
+  width: '100%';
+
 
   /* Enhanced touch targets for touch devices */
   ${({ $isTouchDevice, $isSmallMobileDevice }) =>

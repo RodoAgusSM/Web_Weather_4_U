@@ -11,14 +11,29 @@ export const CardContainer = styled.div<{ $isHovered: boolean; $hasInfoButton?: 
   padding: 12px;
   transition: all 0.3s ease;
   box-shadow: ${({ $isHovered }) =>
-    $isHovered ? '0 4px 8px rgba(0, 0, 0, 0.1)' : '0 2px 4px rgba(0, 0, 0, 0.05)'};
+    $isHovered ? '0 6px 12px rgba(0, 0, 0, 0.15)' : '0 2px 4px rgba(0, 0, 0, 0.05)'};
   border: 1px solid rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(4px);
+  transform: ${({ $isHovered }) => $isHovered ? 'translateY(-5px)' : 'translateY(0)'};
   
   @media (max-width: 480px) {
     grid-template-columns: ${props => props.$hasInfoButton ? '34px 1fr 34px' : '34px 1fr'};
     gap: 8px;
     padding: 10px;
+  }
+  
+  /* Add a subtle pulse animation on hover */
+  &:hover {
+    animation: pulse 1.5s infinite alternate;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: translateY(-5px) scale(1);
+    }
+    100% {
+      transform: translateY(-5px) scale(1.02);
+    }
   }
 `;
 
@@ -29,6 +44,11 @@ export const IconContainer = styled.div`
   width: 32px;
   height: 32px;
   flex-shrink: 0;
+  transition: transform 0.3s ease;
+
+  ${CardContainer}:hover & {
+    transform: scale(1.15);
+  }
 
   @media (max-width: 480px) {
     width: 28px;
@@ -58,6 +78,11 @@ export const Label = styled.div<{ $isHovered: boolean }>`
   color: ${({ $isHovered }) =>
     $isHovered ? '#2C3E50' : '#34495E'};
   transition: color 0.3s ease;
+  
+  ${CardContainer}:hover & {
+    color: #2C3E50;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+  }
 `;
 
 export const ValueText = styled.div<{ $isHovered: boolean }>`
@@ -65,7 +90,13 @@ export const ValueText = styled.div<{ $isHovered: boolean }>`
   font-weight: 600;
   color: ${({ $isHovered }) =>
     $isHovered ? '#2C3E50' : '#34495E'};
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.3s ease;
+  
+  ${CardContainer}:hover & {
+    color: #2C3E50;
+    transform: scale(1.05);
+    transform-origin: left center;
+  }
 `;
 
 export const InfoColumnContainer = styled.div`
@@ -90,7 +121,17 @@ export const InfoButton = styled.button`
 
   &:hover {
     background: rgba(243, 156, 18, 1);
-    transform: scale(1.1);
+    transform: scale(1.2) rotate(10deg);
+  }
+  
+  ${CardContainer}:hover & {
+    animation: wiggle 1s ease-in-out infinite;
+  }
+  
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-10deg); }
+    75% { transform: rotate(10deg); }
   }
 `;
 

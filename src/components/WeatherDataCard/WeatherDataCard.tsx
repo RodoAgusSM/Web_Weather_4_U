@@ -39,7 +39,7 @@ const WeatherDataCard: React.FC<WeatherDataCardProps> = ({
   onInfoClick,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [displayValue, setDisplayValue] = useState<string | number>(value);
+  const [displayValue] = useState<string | number>(value);
   const [icon, setIcon] = useState<string>(DefaultIcon);
   const [isAirQuality, setIsAirQuality] = useState(false);
 
@@ -109,34 +109,6 @@ const WeatherDataCard: React.FC<WeatherDataCardProps> = ({
       setIcon(CloudIcon);
     } else {
       setIcon(DefaultIcon);
-    }
-
-    // Handle time formatting for sunrise/sunset
-    const timeLabels = [
-      'Sunrise',
-      'Sunset',
-      'Amanece',
-      'Oscurece',
-      'Lever du soleil',
-      'Coucher de soleil',
-      'Nascer do sol',
-      'Pôr do sol',
-    ];
-
-    const isTimeLabel = timeLabels.some((timeLabel) =>
-      label.toLowerCase().includes(timeLabel.toLowerCase())
-    );
-
-    if (isTimeLabel && typeof value === 'number') {
-      const date = new Date(value * 1000);
-      const formattedTime = date.toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-      });
-      setDisplayValue(formattedTime);
-    } else {
-      setDisplayValue(value);
     }
   }, [label, value]);
 

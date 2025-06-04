@@ -21,8 +21,8 @@ export const TranslationPt = {
 				metric: '°C',
 			},
 		},
-		updatedAt: 'Atualizado em ',
-		date: 'Encontro ',
+		updatedAt: 'Atualizado em',
+		date: 'Encontro',
 		humidity: 'Umidade',
 		pressure: 'Pressão',
 		windInfo: {

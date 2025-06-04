@@ -2,17 +2,17 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Adapter from 'adapter/adapter';
 import CitySearchBar from 'components/CitySearchBar/CitySearchBar';
 import Language from 'components/Language/Language';
+import MainWeatherDisplay from 'components/MainWeatherDisplay/MainWeatherDisplay';
 import StarsAnimation from 'components/Space/Space';
 import WeatherDataCard from 'components/WeatherDataCard/WeatherDataCard';
 import WeatherDataGrid from 'components/WeatherDataGrid/WeatherDataGrid';
+import WeatherSpinner from 'components/WeatherSpinner/WeatherSpinner';
 import { iconExtension, iconURL } from 'config/config';
 import { APIWeatherProvider, ClimateType, StorageKey, Units } from 'enums/index';
 import useResponsiveDesign from 'hooks/useResponsiveDesign';
 import DangerIcon from 'images/danger.png';
 import InfoIconImg from 'images/infoIcon.png';
-import LoadingIcon from 'images/loading.gif';
 import LocationNotFoundIcon from 'images/location_not_found_icon.png';
-import NotFoundIcon from 'images/not_found_icon.png';
 import { ApiError, ApiResponse } from 'interfaces/index';
 import {
   AirPollution as AirPollutionInterface,
@@ -23,7 +23,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { SingleValue } from 'react-select';
 import GlobalStyles from 'styles/GlobalStyles';
-import { CenteredContainer, Code, ColumnContainer } from 'styles/styles';
+import { Code } from 'styles/styles';
 import { generateURL } from 'utils/helpers';
 
 import {
@@ -32,11 +32,8 @@ import {
   BreakLine,
   CustomUnitsContainer,
   CustomWeatherDataContainer,
-  CustomWeatherMainContainer,
   DangerLogo,
   DataColumnContainer,
-  DescriptionText,
-  FeelsLikeText,
   FooterContainer,
   InfoIcon,
   InfoIconButton,
@@ -44,20 +41,15 @@ import {
   LocationNotFoundCode,
   LocationNotFoundContainer,
   LocationNotFoundSpotImg,
-  MainContentWrapper,
   SocialNetworkIconContainer,
-  SpinnerLogo,
-  Subtitle,
-  TemperatureUnit,
-  TemperatureUnitWrapper,
-  TemperatureValue,
-  TitleApp,
+  TimeInfoContainer,
+  TimeInfoDivider,
+  TimeInfoItem,
+  Title,
   UnitSpan,
   UnitsSubContainer,
   WeatherCard,
-  WeatherIcon,
-  WeatherIconContainer,
-  WeatherMain,
+  WeatherContentContainer,
 } from './WeatherStyles';
 
 const defaultWeather = {} as WeatherInterface;
@@ -88,7 +80,6 @@ const Weather = () => {
   const [weather, setWeather] = useState<WeatherInterface>(defaultWeather);
   const [airPollution, setAirPollution] = useState<AirPollutionInterface>(defaultAirPollution);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [mainContainerHovered, setMainContainerHovered] = useState(false);
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -262,16 +253,6 @@ const Weather = () => {
     }
   }, [isMobileDevice]);
 
-  // Render weather icon
-  const renderWeatherIcon = () => {
-    const { icon } = weather as WeatherInterface;
-    return (
-      <WeatherIconContainer>
-        <WeatherIcon src={iconWorking ? icon : NotFoundIcon} alt="" />
-      </WeatherIconContainer>
-    );
-  };
-
   // Render weather data
   const renderWeatherData = () => {
     const {
@@ -288,6 +269,7 @@ const Weather = () => {
       clouds,
       lastTimeChecked,
       lastDateChecked,
+      icon,
     } = weather as WeatherInterface;
 
     const responsiveProps = {
@@ -304,68 +286,39 @@ const Weather = () => {
           <CitySearchBar changeCity={changeCity} />
 
           {validCoordinates ? (
-            <>
-              <TitleApp>
-                <Subtitle {...responsiveProps}>
-                  {t('words.weatherIn')} {cityName} ({countryNameShort})
-                </Subtitle>
-              </TitleApp>
+            <WeatherContentContainer>
+              <Title {...responsiveProps}>
+                {t('words.weatherIn')} {cityName} ({countryNameShort})
+              </Title>
 
               <AllDataContainer {...responsiveProps}>
-                {/* Main weather display */}
-                <CustomWeatherMainContainer
-                  data-animate="true"
-                  $isHovered={mainContainerHovered}
-                  onMouseEnter={() => setMainContainerHovered(true)}
-                  onMouseLeave={() => setMainContainerHovered(false)}
-                  style={{ touchAction: 'manipulation' }}
-                >
-                  <MainContentWrapper>
-                    {/* Column 1: Weather Icon */}
-                    {renderWeatherIcon()}
-
-                    {/* Column 2: Temperature information in 3 rows */}
-                    <WeatherMain>
-                      {/* Row 1: Temperature */}
-                      <TemperatureUnitWrapper>
-                        <TemperatureValue>{realFeel}</TemperatureValue>
-                        <TemperatureUnit>
-                          {Units.Imperial === unit
-                            ? t('words.temperature.unit.imperial')
-                            : t('words.temperature.unit.metric')}
-                        </TemperatureUnit>
-                      </TemperatureUnitWrapper>
-
-                      {/* Row 2: Feels Like */}
-                      <FeelsLikeText>
-                        {t('words.temperature.feelsLike')} {feelsLike}{' '}
-                        {Units.Imperial === unit
-                          ? t('words.temperature.unit.imperial')
-                          : t('words.temperature.unit.metric')}
-                      </FeelsLikeText>
-
-                      {/* Row 3: Weather Description */}
-                      <DescriptionText>{description}</DescriptionText>
-                    </WeatherMain>
-                  </MainContentWrapper>
-                </CustomWeatherMainContainer>
+                {/* Main weather display - now using the new component */}
+                <MainWeatherDisplay
+                  icon={icon}
+                  iconWorking={iconWorking}
+                  realFeel={realFeel}
+                  feelsLike={feelsLike}
+                  description={description}
+                  unit={unit}
+                />
 
                 {/* Weather data cards */}
                 <CustomWeatherDataContainer>
                   <DataColumnContainer>
-                    {/* Sunrise and sunset */}
+                    {/* Temperature-related: Feels like + Air quality (Most important) */}
                     <WeatherDataGrid>
-                      <WeatherDataCard label={t('words.sunrise')} value={sunrise} />
-                      <WeatherDataCard label={t('words.sunset')} value={sunset} />
+                      <WeatherDataCard
+                        label={t('words.airPollution.aqi')}
+                        value={t(`words.airPollution.status.${airPollution?.AQI}`)}
+                        showInfoButton={true}
+                        onInfoClick={() =>
+                          navigate(`/air_pollution_info`, { state: { airPollution } })
+                        }
+                      />
+                      <WeatherDataCard label={t('words.clouds')} value={clouds} unit="%" />
                     </WeatherDataGrid>
 
-                    {/* Humidity and pressure */}
-                    <WeatherDataGrid>
-                      <WeatherDataCard label={t('words.humidity')} value={humidity} unit="%" />
-                      <WeatherDataCard label={t('words.pressure')} value={pressure} unit="hPa" />
-                    </WeatherDataGrid>
-
-                    {/* Wind and visibility */}
+                    {/* Current conditions: Wind and Visibility (Second most important) */}
                     <WeatherDataGrid>
                       <WeatherDataCard
                         label={t('words.windInfo.wind')}
@@ -386,17 +339,16 @@ const Weather = () => {
                       />
                     </WeatherDataGrid>
 
-                    {/* Air quality and Cloudiness */}
+                    {/* Atmospheric conditions: Humidity and Pressure (Third most important) */}
                     <WeatherDataGrid>
-                      <WeatherDataCard
-                        label={t('words.airPollution.aqi')}
-                        value={t(`words.airPollution.status.${airPollution?.AQI}`)}
-                        showInfoButton={true}
-                        onInfoClick={() =>
-                          navigate(`/air_pollution_info`, { state: { airPollution } })
-                        }
-                      />
-                      <WeatherDataCard label={t('words.clouds')} value={clouds} unit="%" />
+                      <WeatherDataCard label={t('words.humidity')} value={humidity} unit="%" />
+                      <WeatherDataCard label={t('words.pressure')} value={pressure} unit="hPa" />
+                    </WeatherDataGrid>
+
+                    {/* Time-based information: Sunrise and Sunset (Less urgent but still useful) */}
+                    <WeatherDataGrid>
+                      <WeatherDataCard label={t('words.sunrise')} value={sunrise} />
+                      <WeatherDataCard label={t('words.sunset')} value={sunset} />
                     </WeatherDataGrid>
                   </DataColumnContainer>
                 </CustomWeatherDataContainer>
@@ -425,22 +377,42 @@ const Weather = () => {
 
               {/* Footer */}
               <FooterContainer {...responsiveProps}>
-                <ColumnContainer>
-                  <CenteredContainer>
-                    <Code
-                      $isMobileDevice={isMobileDevice}
-                      $isSmallMobileDevice={isSmallMobileDevice}
+                <TimeInfoContainer>
+                  <TimeInfoItem>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
-                      {t('words.updatedAt')} {lastTimeChecked}
-                    </Code>
-                    <Code
-                      $isMobileDevice={isMobileDevice}
-                      $isSmallMobileDevice={isSmallMobileDevice}
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>{t('words.updatedAt')}</span> {lastTimeChecked}
+                  </TimeInfoItem>
+                  <TimeInfoDivider aria-hidden="true" />
+                  <TimeInfoItem>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
-                      {t('words.date')} {lastDateChecked}
-                    </Code>
-                  </CenteredContainer>
-                </ColumnContainer>
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                      <line x1="16" y1="2" x2="16" y2="6"></line>
+                      <line x1="8" y1="2" x2="8" y2="6"></line>
+                      <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    <span>{t('words.date')}</span> {lastDateChecked}
+                  </TimeInfoItem>
+                </TimeInfoContainer>
+
                 <LanguageAndSocialNetworkContainer>
                   <Language changeLanguage={changeLanguage} />
                   <SocialNetworkIconContainer
@@ -457,7 +429,7 @@ const Weather = () => {
                   </SocialNetworkIconContainer>
                 </LanguageAndSocialNetworkContainer>
               </FooterContainer>
-            </>
+            </WeatherContentContainer>
           ) : (
             // Location not found view
             <LocationNotFoundContainer {...responsiveProps} data-animate="true">
@@ -506,13 +478,7 @@ const Weather = () => {
         }}
       >
         {isLoading || !weather.icon ? (
-          <SpinnerLogo
-            src={LoadingIcon}
-            alt=""
-            $isDesktopOrLaptop={isDesktopOrLaptop}
-            $isMobileDevice={isMobileDevice}
-            $isSmallMobileDevice={isSmallMobileDevice}
-          />
+          <WeatherSpinner size={isDesktopOrLaptop ? "large" : "medium"} />
         ) : siteWorking ? (
           renderWeatherData()
         ) : (

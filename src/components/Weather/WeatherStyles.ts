@@ -2,20 +2,20 @@ import styled, { css, keyframes } from 'styled-components';
 
 // Modern color palette - updated based on the image
 const palette = {
-  primary: '#85C1E9',       // Light Sky Blue
-  secondary: '#5DADE2',     // Medium Blue
-  accent: '#F39C12',        // Orange
-  dark: '#2C3E50',          // Dark Blue
-  light: '#ECF0F1',         // Light Gray
-  white: '#FFFFFF',         // White
-  lightBlue: '#AED6F1',     // Very Light Blue (for card backgrounds)
-  lighterBlue: '#D6EAF8',   // Even lighter blue (for main container)
-  darkBlue: '#2874A6',      // Dark Blue for text
-  black: '#000000',         // Black for text
-  danger: '#E74C3C',        // Red
-  info: '#3498DB',          // Blue
-  warning: '#F39C12',       // Orange
-  success: '#2ECC71',       // Green
+  primary: '#85C1E9', // Light Sky Blue
+  secondary: '#5DADE2', // Medium Blue
+  accent: '#F39C12', // Orange
+  dark: '#2C3E50', // Dark Blue
+  light: '#ECF0F1', // Light Gray
+  white: '#FFFFFF', // White
+  lightBlue: '#AED6F1', // Very Light Blue (for card backgrounds)
+  lighterBlue: '#D6EAF8', // Even lighter blue (for main container)
+  darkBlue: '#2874A6', // Dark Blue for text
+  black: '#000000', // Black for text
+  danger: '#E74C3C', // Red
+  info: '#3498DB', // Blue
+  warning: '#F39C12', // Orange
+  success: '#2ECC71', // Green
   mainBackground: '#85C1E9', // Main background light blue from image
 };
 
@@ -28,15 +28,15 @@ const theme = {
     background: {
       light: 'rgba(255, 255, 255, 0.6)',
       dark: 'rgba(174, 214, 241, 0.3)',
-      card: 'rgba(214, 234, 248, 0.8)'  // Lighter blue for cards
+      card: 'rgba(214, 234, 248, 0.8)', // Lighter blue for cards
     },
     text: {
-      primary: palette.darkBlue,  // Darker blue for better readability
+      primary: palette.darkBlue, // Darker blue for better readability
       secondary: '#34495E',
       muted: '#7F8C8D',
       light: palette.light,
-      white: palette.white
-    }
+      white: palette.white,
+    },
   },
   spacing: {
     xs: '0.25rem',
@@ -59,7 +59,7 @@ const theme = {
   gradient: {
     primary: 'linear-gradient(135deg, #3498DB 0%, #85C1E9 100%)',
     accent: 'linear-gradient(135deg, #F39C12 0%, #F7DC6F 100%)',
-    glass: 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%)'
+    glass: 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%)',
   },
 };
 
@@ -67,19 +67,19 @@ const theme = {
 const responsive = {
   device: (size: 'xs' | 'sm' | 'md' | 'lg' | 'xl') => {
     const sizes = {
-      xs: 479,  // Extra small devices
-      sm: 767,  // Small devices (mobile)
+      xs: 479, // Extra small devices
+      sm: 767, // Small devices (mobile)
       md: 1023, // Medium devices (tablets)
       lg: 1279, // Large devices (laptops)
-      xl: 1440  // Extra large devices (desktops)
+      xl: 1440, // Extra large devices (desktops)
     };
     return `@media (min-width: ${sizes[size]}px)`;
-  }
+  },
 };
 
 // Add landscape orientation support
 const orientationResponsive = {
-  landscape: `@media (orientation: landscape) and (max-height: 600px)`
+  landscape: `@media (orientation: landscape) and (max-height: 600px)`,
 };
 
 // Use a consistent container width value - increase for better readability
@@ -145,14 +145,20 @@ export const TitleApp = styled.div`
   cursor: default;
 `;
 
-export const Subtitle = styled.h2<{ $isDesktopOrLaptop: boolean, $isMobileDevice: boolean, $isSmallMobileDevice: boolean }>`
+export const Title = styled.h1<{
+  $isDesktopOrLaptop: boolean;
+  $isMobileDevice: boolean;
+  $isSmallMobileDevice: boolean;
+}>`
   font-size: 1.2rem;
   font-weight: 600;
+  display: flex;
   color: ${theme.colors.text.primary};
-  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   letter-spacing: 0.5px;
   margin: 0;
-  
+  justify-content: center;
+
   ${responsive.device('md')} {
     font-size: 1.4rem;
   }
@@ -177,32 +183,24 @@ export const WeatherIcon = styled.img<{ src: string }>`
   transition: all 0.2s ease;
   border: 1px solid rgba(255, 255, 255, 0.3);
   animation: ${pulse} 2s ease-in-out infinite;
-  
+
   @media (max-width: 480px) {
     width: 4rem;
     height: 4rem;
   }
-  
+
   @media (min-width: 1024px) {
     width: 6rem;
     height: 6rem;
   }
 `;
 
-export const SpinnerLogo = styled.img<{ src: string; $isDesktopOrLaptop: boolean, $isMobileDevice: boolean, $isSmallMobileDevice: boolean }>`
-  src: src;
-  width: 40%;
-  max-width: 150px;
-  display: block;
-  margin: ${theme.spacing.xl} auto;
-  
-  ${responsive.device('md')} {
-    width: 25%;
-  }
-`;
-
 // Main container components
-export const WeatherCard = styled.div<{ $isSmallMobileDevice: boolean, $isMobileDevice: boolean, $isDesktopOrLaptop: boolean }>`
+export const WeatherCard = styled.div<{
+  $isSmallMobileDevice: boolean;
+  $isMobileDevice: boolean;
+  $isDesktopOrLaptop: boolean;
+}>`
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -212,12 +210,13 @@ export const WeatherCard = styled.div<{ $isSmallMobileDevice: boolean, $isMobile
   box-shadow: ${theme.shadow.sm};
   border: 1px solid rgba(255, 255, 255, 0.3);
   margin: ${theme.spacing.md} auto;
-  padding: ${({ $isSmallMobileDevice }) => $isSmallMobileDevice ? theme.spacing.sm : theme.spacing.lg};
-  width: ${({ $isMobileDevice }) => $isMobileDevice ? CONTAINER_MAX_WIDTH_MOBILE : '100%'};
+  padding: ${({ $isSmallMobileDevice }) =>
+    $isSmallMobileDevice ? theme.spacing.sm : theme.spacing.lg};
+  width: ${({ $isMobileDevice }) => ($isMobileDevice ? CONTAINER_MAX_WIDTH_MOBILE : '100%')};
   max-width: ${CONTAINER_MAX_WIDTH};
   animation: ${fadeIn} 0.5s ease-out forwards;
   ${refinedGlassEffect}
-  
+
   /* Adjust for landscape orientation on mobile */
   ${orientationResponsive.landscape} {
     display: flex;
@@ -228,7 +227,7 @@ export const WeatherCard = styled.div<{ $isSmallMobileDevice: boolean, $isMobile
     max-height: 95vh;
     overflow-y: auto;
     padding: ${theme.spacing.md};
-    
+
     > * {
       flex-shrink: 0;
     }
@@ -255,7 +254,7 @@ export const WeatherMainContainer = styled.div`
   padding: ${theme.spacing.lg};
   border: 1px solid rgba(255, 255, 255, 0.5);
   transform: translateY(0);
-  
+
   &:hover {
     background: rgba(214, 234, 248, 0.9);
   }
@@ -265,21 +264,22 @@ export const WeatherMainContainer = styled.div`
 export const CustomWeatherMainContainer = styled(WeatherMainContainer) <{ $isHovered?: boolean }>`
   padding: ${theme.spacing.md};
   box-sizing: border-box;
-  background-color: ${({ $isHovered }) => $isHovered ? 'rgba(174, 214, 241, 0.9)' : 'rgba(174, 214, 241, 0.7)'};
+  background-color: ${({ $isHovered }) =>
+    $isHovered ? 'rgba(174, 214, 241, 0.9)' : 'rgba(174, 214, 241, 0.7)'};
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: ${theme.radius.lg};
   backdrop-filter: blur(8px);
-  box-shadow: ${({ $isHovered }) => $isHovered ? theme.shadow.md : theme.shadow.sm};
+  box-shadow: ${({ $isHovered }) => ($isHovered ? theme.shadow.md : theme.shadow.sm)};
   transition: all 0.3s ease;
   transform: ${({ $isHovered }) => ($isHovered ? 'translateY(-3px)' : 'translateY(0)')};
   width: 100%;
   margin-bottom: ${theme.spacing.md};
-  
+
   /* Mobile optimization */
   @media (max-width: 480px) {
     padding: ${theme.spacing.sm};
   }
-  
+
   /* Important: completely override parent's hover styles */
   &:hover {
     transform: none !important;
@@ -318,7 +318,7 @@ export const MainContentWrapper = styled.div`
   gap: 1.5rem;
   width: 100%;
   justify-content: center;
-  
+
   /* Stack vertically on very small screens */
   @media (max-width: 360px) {
     flex-direction: column;
@@ -338,7 +338,7 @@ export const TemperatureValue = styled(WeatherMainTemperature)`
   font-size: 2.2rem;
   color: ${palette.black};
   margin-right: 0.25rem;
-  
+
   @media (max-width: 480px) {
     font-size: 1.8rem;
   }
@@ -361,7 +361,7 @@ export const FeelsLikeText = styled.div`
   margin-top: 0.2rem;
   color: ${palette.darkBlue};
   white-space: nowrap;
-  
+
   @media (max-width: 480px) {
     font-size: 0.8rem;
   }
@@ -376,14 +376,18 @@ export const DescriptionText = styled.div`
 `;
 
 // Data display layout components
-export const WeatherMainData = styled.div<{ $isDesktopOrLaptop: boolean; $isMobileDevice: boolean, $isSmallMobileDevice: boolean }>`
+export const WeatherMainData = styled.div<{
+  $isDesktopOrLaptop: boolean;
+  $isMobileDevice: boolean;
+  $isSmallMobileDevice: boolean;
+}>`
   font-weight: 500;
   font-size: 0.85rem;
   color: ${theme.colors.text.primary};
   margin-bottom: ${theme.spacing.xs};
   margin-top: 0.25rem;
   color: ${palette.black};
-  
+
   ${responsive.device('md')} {
     font-size: 0.95rem;
   }
@@ -394,7 +398,7 @@ export const WeatherDataContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  
+
   /* Make sure content doesn't overflow on very small screens */
   @media (max-width: 320px) {
     font-size: 0.9em;
@@ -411,12 +415,12 @@ export const DataColumnContainer = styled.div`
   flex-direction: column;
   gap: 0.75rem;
   width: 100%;
-  
+
   /* Adjust spacing on mobile */
   @media (max-width: 480px) {
     gap: 0.5rem;
   }
-  
+
   /* Optimize for landscape */
   ${orientationResponsive.landscape} {
     display: grid;
@@ -426,7 +430,11 @@ export const DataColumnContainer = styled.div`
 `;
 
 // Units selection components
-export const UnitsContainer = styled.div<{ $isDesktopOrLaptop: boolean; $isMobileDevice: boolean; $isSmallMobileDevice: boolean }>`
+export const UnitsContainer = styled.div<{
+  $isDesktopOrLaptop: boolean;
+  $isMobileDevice: boolean;
+  $isSmallMobileDevice: boolean;
+}>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -442,6 +450,7 @@ export const UnitsContainer = styled.div<{ $isDesktopOrLaptop: boolean; $isMobil
   ${refinedGlassEffect}
   animation: ${fadeIn} 0.5s ease-out forwards;
   animation-delay: 0.4s;
+  border-radius: 8px;
 `;
 
 export const CustomUnitsContainer = styled(UnitsContainer)`
@@ -449,19 +458,22 @@ export const CustomUnitsContainer = styled(UnitsContainer)`
   width: 100%;
   margin-top: ${theme.spacing.lg};
   padding: ${theme.spacing.xs} 0;
-  
+  background: rgba(174, 214, 241, 0.5);
+
   /* Make it stand out more on mobile */
   @media (max-width: 480px) {
-    background: rgba(174, 214, 241, 0.5);
     margin-top: ${theme.spacing.md};
   }
 `;
 
-export const UnitsSubContainer = styled.div<{ $isMobileDevice: boolean; $isSmallMobileDevice: boolean }>`
+export const UnitsSubContainer = styled.div<{
+  $isMobileDevice: boolean;
+  $isSmallMobileDevice: boolean;
+}>`
   display: flex;
   gap: ${theme.spacing.xl};
   font-size: 0.8rem;
-  
+
   ${responsive.device('md')} {
     font-size: 0.85rem;
   }
@@ -472,28 +484,29 @@ export const UnitSpan = styled.span<{ $isSelected: boolean }>`
   transition: all 0.2s ease;
   position: relative;
   padding: ${theme.spacing.xs} ${theme.spacing.md};
-  color: ${({ $isSelected }) => $isSelected ? theme.colors.text.primary : theme.colors.text.muted};
-  font-weight: ${({ $isSelected }) => $isSelected ? '600' : '400'};
-  
+  color: ${({ $isSelected }) =>
+    $isSelected ? theme.colors.text.primary : theme.colors.text.muted};
+  font-weight: ${({ $isSelected }) => ($isSelected ? '600' : '400')};
+
   &::after {
     content: '';
     position: absolute;
     bottom: -2px;
     left: 0;
-    width: ${({ $isSelected }) => $isSelected ? '100%' : '0'};
+    width: ${({ $isSelected }) => ($isSelected ? '100%' : '0')};
     height: 2px;
     background-color: ${theme.colors.accent};
     transition: width 0.2s ease;
   }
-  
+
   &:hover {
     color: ${theme.colors.text.primary};
-    
+
     &::after {
       width: 100%;
     }
   }
-  
+
   /* Increase touch target size for mobile */
   @media (max-width: 768px) {
     padding: ${theme.spacing.sm} ${theme.spacing.lg};
@@ -504,12 +517,16 @@ export const UnitSpan = styled.span<{ $isSelected: boolean }>`
 `;
 
 // Footer and social components
-export const FooterContainer = styled.div<{ $isDesktopOrLaptop: boolean; $isMobileDevice: boolean; $isSmallMobileDevice: boolean }>`
+export const FooterContainer = styled.div<{
+  $isDesktopOrLaptop: boolean;
+  $isMobileDevice: boolean;
+  $isSmallMobileDevice: boolean;
+}>`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing.sm};
   margin-top: ${theme.spacing.lg};
-  
+
   ${responsive.device('md')} {
     gap: ${theme.spacing.md};
   }
@@ -523,18 +540,12 @@ export const LanguageAndSocialNetworkContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: ${theme.spacing.sm};
-  
+
   /* Fix the weird mobile centering by making the icon absolutely positioned */
   > div {
     width: auto; /* Don't force 100% width on the inner div */
     position: relative;
     z-index: 1;
-  }
-  
-  /* Make sure there's enough padding for the right-aligned icon */
-  @media (max-width: 480px) {
-    padding-right: 38px;
-    padding-top: ${theme.spacing.lg};
   }
 `;
 
@@ -545,11 +556,11 @@ export const SocialNetworkIconContainer = styled.span<{ $isDesktopOrLaptop: bool
   transform: translateY(-50%);
   z-index: 2;
   display: flex;
-  
+
   ${responsive.device('md')} {
     right: ${theme.spacing.md};
   }
-  
+
   /* Ensure proper positioning on very small screens */
   @media (max-width: 360px) {
     right: 0;
@@ -559,44 +570,50 @@ export const SocialNetworkIconContainer = styled.span<{ $isDesktopOrLaptop: bool
 export const InfoIconButton = styled.button`
   background: none;
   border: none;
-  padding: 8px;
+  padding: 4px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  
+
   &:hover {
     background-color: rgba(255, 255, 255, 0.3);
-    transform: scale(1.05);
+    transform: scale(1.06);
   }
-  
+
   &:focus {
     outline: none;
   }
 `;
 
-export const InfoIcon = styled.img<{ $mouseOver: boolean, src: string }>`
-  width: 24px;
-  height: 24px;
+export const InfoIcon = styled.img<{ $mouseOver: boolean; src: string }>`
+  width: 18px;
+  height: 18px;
   object-fit: contain;
   transition: all 0.2s ease;
-  filter: ${({ $mouseOver }) => $mouseOver ? 'invert(70%) sepia(54%) saturate(1500%) hue-rotate(358deg) brightness(102%) contrast(99%)' : 'none'};
-  
+  filter: ${({ $mouseOver }) =>
+    $mouseOver
+      ? 'invert(70%) sepia(54%) saturate(1500%) hue-rotate(358deg) brightness(102%) contrast(99%)'
+      : 'none'};
+
   ${InfoIconButton}:hover & {
     filter: invert(70%) sepia(54%) saturate(1500%) hue-rotate(358deg) brightness(102%) contrast(99%);
     transform: scale(1.1);
   }
-  
+
   ${responsive.device('md')} {
-    width: 26px;
-    height: 26px;
+    width: 22px;
+    height: 22px;
   }
 `;
 
 // Error and network components
-export const LocationNotFoundCode = styled.code<{ $isSmallMobileDevice: boolean, $isMobileDevice: boolean }>`
+export const LocationNotFoundCode = styled.code<{
+  $isSmallMobileDevice: boolean;
+  $isMobileDevice: boolean;
+}>`
   display: flex;
   background-color: rgba(231, 76, 60, 0.7);
   width: 100%;
@@ -608,11 +625,11 @@ export const LocationNotFoundCode = styled.code<{ $isSmallMobileDevice: boolean,
   font-size: 0.8rem;
   color: white;
   font-family: 'Roboto Mono', monospace;
-  
+
   ${responsive.device('md')} {
     font-size: 0.85rem;
   }
-  
+
   /* Better text handling on small screens */
   @media (max-width: 360px) {
     font-size: 0.75rem;
@@ -620,7 +637,11 @@ export const LocationNotFoundCode = styled.code<{ $isSmallMobileDevice: boolean,
   }
 `;
 
-export const LocationNotFoundContainer = styled.div<{ $isDesktopOrLaptop: boolean, $isMobileDevice: boolean, $isSmallMobileDevice: boolean }>`
+export const LocationNotFoundContainer = styled.div<{
+  $isDesktopOrLaptop: boolean;
+  $isMobileDevice: boolean;
+  $isSmallMobileDevice: boolean;
+}>`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -639,7 +660,12 @@ export const LocationNotFoundContainer = styled.div<{ $isDesktopOrLaptop: boolea
   animation: ${fadeIn} 0.8s ease-out forwards;
 `;
 
-export const LocationNotFoundSpotImg = styled.img<{ src: string; $isDesktopOrLaptop: boolean, $isMobileDevice: boolean, $isSmallMobileDevice: boolean }>`
+export const LocationNotFoundSpotImg = styled.img<{
+  src: string;
+  $isDesktopOrLaptop: boolean;
+  $isMobileDevice: boolean;
+  $isSmallMobileDevice: boolean;
+}>`
   src: src;
   width: 70%;
   max-width: 250px;
@@ -691,33 +717,37 @@ export const MiInfoContainer = styled.div`
   max-width: ${CONTAINER_MAX_WIDTH};
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  
+
   &:hover {
     transform: translateY(-3px);
     box-shadow: ${theme.shadow.md};
   }
 `;
 
-export const AllDataContainer = styled.div<{ $isDesktopOrLaptop: boolean, $isMobileDevice: boolean, $isSmallMobileDevice: boolean }>`
+export const AllDataContainer = styled.div<{
+  $isDesktopOrLaptop: boolean;
+  $isMobileDevice: boolean;
+  $isSmallMobileDevice: boolean;
+}>`
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing.md};
   width: 100%;
   align-items: center;
-  
+
   ${responsive.device('sm')} {
     gap: ${theme.spacing.lg};
   }
-  
+
   /* Tablet-specific layout improvements */
   @media (min-width: 768px) and (max-width: 1023px) {
     gap: ${theme.spacing.xl};
-    
+
     & > * {
       max-width: 95%;
     }
   }
-  
+
   /* Optimize for landscape orientation */
   ${orientationResponsive.landscape} {
     flex-direction: row;
@@ -725,7 +755,7 @@ export const AllDataContainer = styled.div<{ $isDesktopOrLaptop: boolean, $isMob
     justify-content: center;
     align-items: flex-start;
     gap: ${theme.spacing.sm};
-    
+
     & > * {
       width: calc(50% - ${theme.spacing.sm});
       margin: 0;
@@ -743,12 +773,125 @@ export const EmptyGridCell = styled.div`
   border-radius: ${theme.radius.md};
   backdrop-filter: blur(4px);
   min-height: 50px;
-  
+
   @media (max-width: 480px) {
     min-height: 40px;
   }
-  
+
   ${orientationResponsive.landscape} {
     min-height: 45px;
+  }
+`;
+
+export const WeatherContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+  padding: 0.5rem 0;
+
+  /* Add subtle animation */
+  animation: ${fadeIn} 0.6s ease-out forwards;
+
+  /* Better spacing on larger screens */
+  ${responsive.device('md')} {
+    gap: 1.5rem;
+  }
+
+  /* Optimize for landscape orientation */
+  ${orientationResponsive.landscape} {
+    gap: 1rem;
+    padding: 0.25rem 0;
+  }
+`;
+
+// New styled components for the updated footer
+export const TimeInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: rgba(174, 214, 241, 0.2);
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  &:hover {
+    background: rgba(174, 214, 241, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  ${responsive.device('md')} {
+    flex-direction: row;
+    gap: 12px;
+  }
+`;
+
+export const TimeInfoItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: ${theme.colors.text.primary};
+  white-space: nowrap;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    opacity: 0.8;
+  }
+
+  span {
+    font-weight: 500;
+  }
+
+  ${responsive.device('md')} {
+    font-size: 0.9rem;
+
+    &:not(:last-child)::after {
+      display: inline-block;
+      width: 1px;
+      height: 14px;
+      background-color: rgba(174, 214, 241, 0.6);
+      margin-left: 12px;
+    }
+  }
+`;
+
+export const TimeInfoDivider = styled.div`
+  display: none;
+
+  ${responsive.device('md')} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: ${palette.accent};
+    position: relative;
+    margin: 0 10px;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: rgba(243, 156, 18, 0.5);
+    }
+
+    &::before {
+      left: -10px;
+    }
+
+    &::after {
+      right: -10px;
+    }
   }
 `;

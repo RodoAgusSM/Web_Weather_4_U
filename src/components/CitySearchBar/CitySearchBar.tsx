@@ -25,15 +25,35 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
   const [inputVal, setInputVal] = useState<string>('');
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const selectRef = useRef<any>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const collapseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    // Add click outside listener
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node) &&
+        openSearchBar
+      ) {
+        setIsMenuOpen(false);
+        setInputVal('');
+        setOpenSearchBar(false);
+        if (selectRef.current) {
+          selectRef.current.blur();
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
     return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
       if (collapseTimeoutRef.current) {
         clearTimeout(collapseTimeoutRef.current);
       }
     };
-  }, []);
+  }, [openSearchBar]);
 
   const handleMouseEnter = useCallback(() => {
     if (collapseTimeoutRef.current) {
@@ -200,11 +220,13 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
         // Increase touch targets for touch devices
         control: (base: any) => ({
           ...base,
+          borderRadius: '8px',
           minHeight: '44px', // Minimum Apple HIG touch target
         }),
         // Larger text for touch devices
         input: (base: any) => ({
           ...base,
+          borderRadius: '8px',
           fontSize: '16px', // Prevents iOS zoom on focus
         }),
       };
@@ -217,6 +239,7 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
       <StyledToastContainer position="bottom-center" theme="light" />
       <SearchBarWrapper>
         <SearchBarContainer
+          ref={containerRef}
           $isDesktopOrLaptop={isDesktopOrLaptop}
           $isMobileDevice={isMobileDevice}
           $isSmallMobileDevice={isSmallMobileDevice}

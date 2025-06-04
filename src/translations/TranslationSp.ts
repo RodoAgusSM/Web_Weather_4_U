@@ -21,8 +21,8 @@ export const TranslationSp = {
 				metric: '°C',
 			},
 		},
-		updatedAt: 'Actualizado a las ',
-		date: 'Fecha ',
+		updatedAt: 'Actualizado a las',
+		date: 'Fecha',
 		humidity: 'Humedad',
 		pressure: 'Presión',
 		windInfo: {
