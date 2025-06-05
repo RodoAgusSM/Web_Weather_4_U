@@ -1,14 +1,13 @@
 import React, { useMemo } from 'react';
 import styled, { keyframes } from 'styled-components';
 
-// Weather-matching color palette
 const weatherColors = {
-  sun: ['#F39C12', '#F5B041', '#F7DC6F'],  // Warm sun colors
-  cloud: ['#D6EAF8', '#AED6F1', '#85C1E9'], // Matching the UI blues
-  rain: ['#5DADE2', '#3498DB', '#2E86C1'],  // Bluer rain drops
-  snow: ['#ECF0F1', '#D0D3D4', '#BDC3C7'],  // Snow whites
-  thunder: ['#F39C12', '#F1C40F', '#F4D03F'], // Lightning colors
-  mist: ['#D6DBDF', '#BDC3C7', '#A6ACAF'],   // Foggy grays
+  sun: ['#F39C12', '#F5B041', '#F7DC6F'],
+  cloud: ['#D6EAF8', '#AED6F1', '#85C1E9'],
+  rain: ['#5DADE2', '#3498DB', '#2E86C1'],
+  snow: ['#ECF0F1', '#D0D3D4', '#BDC3C7'],
+  thunder: ['#F39C12', '#F1C40F', '#F4D03F'],
+  mist: ['#D6DBDF', '#BDC3C7', '#A6ACAF'],
 };
 
 interface AnimatedWeatherIconProps {
@@ -134,8 +133,7 @@ const SnowFlake = styled.div<{ delay: string; color: string; size: number }>`
 
 const AnimatedWeatherIcon: React.FC<AnimatedWeatherIconProps> = ({ iconCode, size = 100 }) => {
   const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
-  
-  // Generate random positions for rain/snow particles
+
   const particlePositions = useMemo(() => {
     return Array.from({ length: 8 }, () => ({
       left: `${Math.random() * 80 + 10}%`,
@@ -143,25 +141,21 @@ const AnimatedWeatherIcon: React.FC<AnimatedWeatherIconProps> = ({ iconCode, siz
       size: Math.random() * 2 + 1.5,
     }));
   }, [iconCode]);
-  
-  // Select random colors from the palette based on weather type
+
   const getRandomColor = (type: keyof typeof weatherColors) => {
     const colors = weatherColors[type];
     return colors[Math.floor(Math.random() * colors.length)];
   };
 
   const renderAnimationEffects = () => {
-    // Clear day - sun animation
     if (iconCode === '01d') {
       return <SunIcon src={iconUrl} alt="Clear sky" />;
     }
-    
-    // Clear night
+
     if (iconCode === '01n') {
       return <DefaultIcon src={iconUrl} alt="Clear night" />;
     }
 
-    // Rain - cloud with rain drops
     if (iconCode.includes('09') || iconCode.includes('10')) {
       return (
         <>
@@ -180,8 +174,7 @@ const AnimatedWeatherIcon: React.FC<AnimatedWeatherIconProps> = ({ iconCode, siz
         </>
       );
     }
-    
-    // Snow
+
     if (iconCode.includes('13')) {
       return (
         <>
@@ -201,7 +194,6 @@ const AnimatedWeatherIcon: React.FC<AnimatedWeatherIconProps> = ({ iconCode, siz
       );
     }
 
-    // Thunderstorm
     if (iconCode.includes('11')) {
       return (
         <>
@@ -222,7 +214,6 @@ const AnimatedWeatherIcon: React.FC<AnimatedWeatherIconProps> = ({ iconCode, siz
       );
     }
 
-    // Mist, fog, etc
     if (iconCode.includes('50')) {
       return (
         <>
@@ -232,12 +223,10 @@ const AnimatedWeatherIcon: React.FC<AnimatedWeatherIconProps> = ({ iconCode, siz
       );
     }
 
-    // Clouds
     if (iconCode.includes('02') || iconCode.includes('03') || iconCode.includes('04')) {
       return <CloudIcon src={iconUrl} alt="Clouds" />;
     }
 
-    // Default for any other icons
     return <DefaultIcon src={iconUrl} alt="Weather" />;
   };
 

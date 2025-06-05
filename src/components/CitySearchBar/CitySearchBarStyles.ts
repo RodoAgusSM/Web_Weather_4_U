@@ -1,17 +1,15 @@
 import { ToastContainer } from 'react-toastify';
 import styled, { css, keyframes } from 'styled-components';
 
-// Modern color palette (matches the one in WeatherStyles.ts)
 const palette = {
-  primary: '#3498DB', // Blue
-  secondary: '#2ECC71', // Green
-  accent: '#F39C12', // Orange
-  dark: '#2C3E50', // Dark blue
-  light: '#ECF0F1', // Light gray
-  white: '#FFFFFF', // White
+  primary: '#3498DB',
+  secondary: '#2ECC71',
+  accent: '#F39C12',
+  dark: '#2C3E50',
+  light: '#ECF0F1',
+  white: '#FFFFFF',
 };
 
-// Design tokens
 const theme = {
   spacing: {
     xs: '0.25rem',
@@ -70,12 +68,11 @@ export const SearchBarContainer = styled.div<{
   $isSmallMobileDevice: boolean;
   $openSearchBar: boolean | null;
 }>`
-  /* Use a single width property with proper conditional logic */
   width: ${({ $isDesktopOrLaptop, $isMobileDevice, $isSmallMobileDevice, $openSearchBar }) => {
     if ($openSearchBar === true) return '100%';
     if ($isDesktopOrLaptop) return '10%';
     if ($isMobileDevice || $isSmallMobileDevice) return '15%';
-    return '20%'; // Default fallback
+    return '20%';
   }};
 
   cursor: pointer;
@@ -84,7 +81,6 @@ export const SearchBarContainer = styled.div<{
   transition: box-shadow 0.3s ease;
   max-width: 100%;
 
-  /* Handle animations with cleaner conditional logic */
   ${({ $openSearchBar, $isDesktopOrLaptop, $isMobileDevice, $isSmallMobileDevice }) => {
     if ($openSearchBar === true) {
       return css`
@@ -105,23 +101,20 @@ export const SearchBarContainer = styled.div<{
       }
     }
 
-    return ''; // No animation for initial render
+    return '';
   }}
 
   &:hover {
     box-shadow: ${theme.shadow.md};
   }
 
-  /* Ensure better accessibility on mobile */
   @media (max-width: 767px) {
-    height: 44px; /* Minimum touch target height for mobile */
+    height: 44px;
 
-    /* Ensure search bar is always visible enough to tap when closed */
     width: ${({ $openSearchBar }) => ($openSearchBar === true ? '100%' : '20%')};
     min-width: 44px;
   }
 
-  /* Fix for very small screens */
   @media (max-width: 320px) {
     font-size: 14px;
   }

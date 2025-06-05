@@ -1,6 +1,5 @@
 import styled, { css, keyframes } from 'styled-components';
 
-// Shimmer animation effect
 const shimmer = keyframes`
   0% {
     background-position: -200% 0;
@@ -10,7 +9,6 @@ const shimmer = keyframes`
   }
 `;
 
-// Base skeleton styling - fixed by using css helper
 const skeletonBase = css`
   background: linear-gradient(90deg, 
     rgba(155, 210, 230, 0.6) 25%, 

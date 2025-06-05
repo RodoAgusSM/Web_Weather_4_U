@@ -37,20 +37,16 @@ const getPercentageForValue = (
   valueRanges: number[],
   qualityIndex: number
 ): number => {
-  // If no ranges defined, return 0
   if (!valueRanges || valueRanges.length === 0) {
     return 0;
   }
 
-  // Calculate segments for the 5 quality levels (0-4)
   const segmentSize = 100 / 5;
 
-  // For the first level (Good), map from 0 to first range
   if (qualityIndex === 0) {
     const maxInSegment = valueRanges[0];
     return Math.min((value / maxInSegment) * segmentSize, segmentSize);
   }
-  // For levels 1-3 (Fair, Moderate, Poor), map between ranges
   else if (qualityIndex < 4) {
     const minValue = valueRanges[qualityIndex - 1];
     const maxValue = valueRanges[qualityIndex];
@@ -58,10 +54,9 @@ const getPercentageForValue = (
     const relativePosition = (value - minValue) / (maxValue - minValue);
     return basePercentage + relativePosition * segmentSize;
   }
-  // For level 4 (Very Poor), anything above the last range
   else {
     const minValue = valueRanges[valueRanges.length - 1];
-    const relativePosition = Math.min(((value - minValue) / minValue) * 0.5, 1); // Cap at 100%
+    const relativePosition = Math.min(((value - minValue) / minValue) * 0.5, 1);
     return segmentSize * 4 + relativePosition * segmentSize;
   }
 };
@@ -137,7 +132,6 @@ const AirPollutionInfo = () => {
     const qualityIndex = getQualityLevelIndex(value, airQuality.ranges);
     const color = getColorForValue(value, airQuality.ranges);
 
-    // Use the new percentage calculation function with quality index
     const percentage = getPercentageForValue(value, airQuality.ranges, qualityIndex);
 
     const qualityLabel = Object.values(AirPollutionLabels)[qualityIndex];
@@ -162,10 +156,8 @@ const AirPollutionInfo = () => {
     );
   };
 
-  // We can now use additional responsive info for more precise adjustments
   const isCompactLayout = screenHeight < 700 || (isMobileDevice && screenWidth < 380);
 
-  // Create a custom sorted order of metrics
   const sortedMetricOrder = useMemo(
     () => [
       AirQualityMetric.FineParticlesMatter,
@@ -181,9 +173,7 @@ const AirPollutionInfo = () => {
     []
   );
 
-  // Sort the airPollution entries according to our custom order
   const sortedAirPollutionEntries = useMemo(() => {
-    // Create a map of metric name to its position in our sortedMetricOrder
     const orderMap = sortedMetricOrder.reduce(
       (acc, metric, index) => {
         acc[metric] = index;
@@ -192,12 +182,11 @@ const AirPollutionInfo = () => {
       {} as Record<string, number>
     );
 
-    // Sort the entries based on the order in our orderMap
     return [...airPollutionEntries].sort((a, b) => {
       const metricA = firstLowerToUppercase(a[0] as AirQualityMetric);
       const metricB = firstLowerToUppercase(b[0] as AirQualityMetric);
 
-      const orderA = orderMap[metricA] ?? 999; // Default to high number if not found
+      const orderA = orderMap[metricA] ?? 999;
       const orderB = orderMap[metricB] ?? 999;
 
       return orderA - orderB;
@@ -221,7 +210,6 @@ const AirPollutionInfo = () => {
           $isMobileDevice={isMobileDevice}
           $isSmallMobileDevice={isSmallMobileDevice}
           aria-label="air-pollution-info"
-          // We can add additional responsive attributes if needed
           data-compact={isCompactLayout ? 'true' : 'false'}
           data-touch={isTouchDevice ? 'true' : 'false'}
         >

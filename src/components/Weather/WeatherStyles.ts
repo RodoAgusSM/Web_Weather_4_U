@@ -1,25 +1,23 @@
 import styled, { css, keyframes } from 'styled-components';
 
-// Modern color palette - updated based on the image
 const palette = {
-  primary: '#85C1E9', // Light Sky Blue
-  secondary: '#5DADE2', // Medium Blue
-  accent: '#F39C12', // Orange
-  dark: '#2C3E50', // Dark Blue
-  light: '#ECF0F1', // Light Gray
-  white: '#FFFFFF', // White
-  lightBlue: '#AED6F1', // Very Light Blue (for card backgrounds)
-  lighterBlue: '#D6EAF8', // Even lighter blue (for main container)
-  darkBlue: '#2874A6', // Dark Blue for text
-  black: '#000000', // Black for text
-  danger: '#E74C3C', // Red
-  info: '#3498DB', // Blue
-  warning: '#F39C12', // Orange
-  success: '#2ECC71', // Green
-  mainBackground: '#85C1E9', // Main background light blue from image
+  primary: '#85C1E9',
+  secondary: '#5DADE2',
+  accent: '#F39C12',
+  dark: '#2C3E50',
+  light: '#ECF0F1',
+  white: '#FFFFFF',
+  lightBlue: '#AED6F1',
+  lighterBlue: '#D6EAF8',
+  darkBlue: '#2874A6',
+  black: '#000000',
+  danger: '#E74C3C',
+  info: '#3498DB',
+  warning: '#F39C12',
+  success: '#2ECC71',
+  mainBackground: '#85C1E9',
 };
 
-// Design tokens based on modern color palette
 const theme = {
   colors: {
     primary: palette.primary,
@@ -28,10 +26,10 @@ const theme = {
     background: {
       light: 'rgba(255, 255, 255, 0.6)',
       dark: 'rgba(174, 214, 241, 0.3)',
-      card: 'rgba(214, 234, 248, 0.8)', // Lighter blue for cards
+      card: 'rgba(214, 234, 248, 0.8)',
     },
     text: {
-      primary: palette.darkBlue, // Darker blue for better readability
+      primary: palette.darkBlue,
       secondary: '#34495E',
       muted: '#7F8C8D',
       light: palette.light,
@@ -63,30 +61,26 @@ const theme = {
   },
 };
 
-// Responsive styling based on screen size
 const responsive = {
   device: (size: 'xs' | 'sm' | 'md' | 'lg' | 'xl') => {
     const sizes = {
-      xs: 479, // Extra small devices
-      sm: 767, // Small devices (mobile)
-      md: 1023, // Medium devices (tablets)
-      lg: 1279, // Large devices (laptops)
-      xl: 1440, // Extra large devices (desktops)
+      xs: 479,
+      sm: 767,
+      md: 1023,
+      lg: 1279,
+      xl: 1440,
     };
     return `@media (min-width: ${sizes[size]}px)`;
   },
 };
 
-// Add landscape orientation support
 const orientationResponsive = {
   landscape: `@media (orientation: landscape) and (max-height: 600px)`,
 };
 
-// Use a consistent container width value - increase for better readability
 const CONTAINER_MAX_WIDTH = '500px';
 const CONTAINER_MAX_WIDTH_MOBILE = '95%';
 
-// Animation keyframes
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -110,16 +104,6 @@ const pulse = keyframes`
   }
 `;
 
-// Shared styles that can be reused across components
-/* const glassContainer = `
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
-  border-radius: ${theme.radius.lg};
-  box-shadow: ${theme.shadow.sm};
-  border: 1px solid rgba(255, 255, 255, 0.3);
-`; */
-
-// Refined glass effect with the right opacity values
 const refinedGlassEffect = `
   background-image: 
     radial-gradient(circle at top left, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
@@ -127,7 +111,6 @@ const refinedGlassEffect = `
   background-blend-mode: overlay;
 `;
 
-// Hover animation shared across components
 const hoverLiftEffect = `
   transition: all 0.3s ease;
   cursor: default;
@@ -138,7 +121,6 @@ const hoverLiftEffect = `
   }
 `;
 
-// Basic text styles
 export const TitleApp = styled.div`
   text-align: center;
   margin: ${theme.spacing.sm} 0;
@@ -164,7 +146,6 @@ export const Title = styled.h1<{
   }
 `;
 
-// Icon and image components
 export const WeatherIconContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -195,7 +176,6 @@ export const WeatherIcon = styled.img<{ src: string }>`
   }
 `;
 
-// Main container components
 export const WeatherCard = styled.div<{
   $isSmallMobileDevice: boolean;
   $isMobileDevice: boolean;
@@ -217,7 +197,6 @@ export const WeatherCard = styled.div<{
   animation: ${fadeIn} 0.5s ease-out forwards;
   ${refinedGlassEffect}
 
-  /* Adjust for landscape orientation on mobile */
   ${orientationResponsive.landscape} {
     display: flex;
     flex-direction: row;
@@ -260,7 +239,6 @@ export const WeatherMainContainer = styled.div`
   }
 `;
 
-// Update the CustomWeatherMainContainer for better mobile display
 export const CustomWeatherMainContainer = styled(WeatherMainContainer) <{ $isHovered?: boolean }>`
   padding: ${theme.spacing.md};
   box-sizing: border-box;
@@ -275,19 +253,16 @@ export const CustomWeatherMainContainer = styled(WeatherMainContainer) <{ $isHov
   width: 100%;
   margin-bottom: ${theme.spacing.md};
 
-  /* Mobile optimization */
   @media (max-width: 480px) {
     padding: ${theme.spacing.sm};
   }
 
-  /* Important: completely override parent's hover styles */
   &:hover {
     transform: none !important;
     background: none !important;
     box-shadow: none !important;
   }
 
-  /* Better touch interaction */
   @media (hover: none) {
     &:active {
       transform: scale(0.98);
@@ -296,7 +271,6 @@ export const CustomWeatherMainContainer = styled(WeatherMainContainer) <{ $isHov
   }
 `;
 
-// Weather content components - Improve layout for mobile
 export const WeatherMain = styled.div`
   display: flex;
   flex-direction: column;
@@ -305,7 +279,6 @@ export const WeatherMain = styled.div`
   text-align: left;
   cursor: default;
 
-  /* Center align text on very small screens */
   @media (max-width: 360px) {
     text-align: center;
     align-items: center;
@@ -319,14 +292,12 @@ export const MainContentWrapper = styled.div`
   width: 100%;
   justify-content: center;
 
-  /* Stack vertically on very small screens */
   @media (max-width: 360px) {
     flex-direction: column;
     gap: ${theme.spacing.md};
   }
 `;
 
-// Temperature display components
 export const WeatherMainTemperature = styled.div`
   font-size: 1.8rem;
   font-weight: 700;
@@ -375,7 +346,6 @@ export const DescriptionText = styled.div`
   margin-top: 0.1rem;
 `;
 
-// Data display layout components
 export const WeatherMainData = styled.div<{
   $isDesktopOrLaptop: boolean;
   $isMobileDevice: boolean;
@@ -393,13 +363,11 @@ export const WeatherMainData = styled.div<{
   }
 `;
 
-// Weather data container components
 export const WeatherDataContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
 
-  /* Make sure content doesn't overflow on very small screens */
   @media (max-width: 320px) {
     font-size: 0.9em;
   }
@@ -416,12 +384,10 @@ export const DataColumnContainer = styled.div`
   gap: 0.75rem;
   width: 100%;
 
-  /* Adjust spacing on mobile */
   @media (max-width: 480px) {
     gap: 0.5rem;
   }
 
-  /* Optimize for landscape */
   ${orientationResponsive.landscape} {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -429,7 +395,6 @@ export const DataColumnContainer = styled.div`
   }
 `;
 
-// Units selection components
 export const UnitsContainer = styled.div<{
   $isDesktopOrLaptop: boolean;
   $isMobileDevice: boolean;
@@ -460,7 +425,6 @@ export const CustomUnitsContainer = styled(UnitsContainer)`
   padding: ${theme.spacing.xs} 0;
   background: rgba(174, 214, 241, 0.5);
 
-  /* Make it stand out more on mobile */
   @media (max-width: 480px) {
     margin-top: ${theme.spacing.md};
   }
@@ -507,7 +471,6 @@ export const UnitSpan = styled.span<{ $isSelected: boolean }>`
     }
   }
 
-  /* Increase touch target size for mobile */
   @media (max-width: 768px) {
     padding: ${theme.spacing.sm} ${theme.spacing.lg};
     min-height: 44px;
@@ -516,7 +479,6 @@ export const UnitSpan = styled.span<{ $isSelected: boolean }>`
   }
 `;
 
-// Footer and social components
 export const FooterContainer = styled.div<{
   $isDesktopOrLaptop: boolean;
   $isMobileDevice: boolean;
@@ -541,9 +503,8 @@ export const LanguageAndSocialNetworkContainer = styled.div`
   justify-content: center;
   margin-top: ${theme.spacing.sm};
 
-  /* Fix the weird mobile centering by making the icon absolutely positioned */
   > div {
-    width: auto; /* Don't force 100% width on the inner div */
+    width: auto;
     position: relative;
     z-index: 1;
   }
@@ -561,7 +522,6 @@ export const SocialNetworkIconContainer = styled.span<{ $isDesktopOrLaptop: bool
     right: ${theme.spacing.md};
   }
 
-  /* Ensure proper positioning on very small screens */
   @media (max-width: 360px) {
     right: 0;
   }
@@ -609,7 +569,6 @@ export const InfoIcon = styled.img<{ $mouseOver: boolean; src: string }>`
   }
 `;
 
-// Error and network components
 export const LocationNotFoundCode = styled.code<{
   $isSmallMobileDevice: boolean;
   $isMobileDevice: boolean;
@@ -630,7 +589,6 @@ export const LocationNotFoundCode = styled.code<{
     font-size: 0.85rem;
   }
 
-  /* Better text handling on small screens */
   @media (max-width: 360px) {
     font-size: 0.75rem;
     padding: ${theme.spacing.xs};
@@ -739,7 +697,6 @@ export const AllDataContainer = styled.div<{
     gap: ${theme.spacing.lg};
   }
 
-  /* Tablet-specific layout improvements */
   @media (min-width: 768px) and (max-width: 1023px) {
     gap: ${theme.spacing.xl};
 
@@ -748,7 +705,6 @@ export const AllDataContainer = styled.div<{
     }
   }
 
-  /* Optimize for landscape orientation */
   ${orientationResponsive.landscape} {
     flex-direction: row;
     flex-wrap: wrap;
@@ -763,7 +719,6 @@ export const AllDataContainer = styled.div<{
   }
 `;
 
-// Empty grid cell component - updated for visual consistency
 export const EmptyGridCell = styled.div`
   height: 100%;
   display: flex;
@@ -790,22 +745,18 @@ export const WeatherContentContainer = styled.div`
   width: 100%;
   padding: 0.5rem 0;
 
-  /* Add subtle animation */
   animation: ${fadeIn} 0.6s ease-out forwards;
 
-  /* Better spacing on larger screens */
   ${responsive.device('md')} {
     gap: 1.5rem;
   }
 
-  /* Optimize for landscape orientation */
   ${orientationResponsive.landscape} {
     gap: 1rem;
     padding: 0.25rem 0;
   }
 `;
 
-// New styled components for the updated footer
 export const TimeInfoContainer = styled.div`
   display: flex;
   flex-direction: column;

@@ -59,10 +59,6 @@ export interface ResponsiveInfo {
     };
 }
 
-/**
- * Enhanced responsive design hook that provides detailed information
- * about device characteristics for improved mobile responsiveness
- */
 const useResponsiveDesign = (): ResponsiveInfo => {
     // Initialize with default values
     const [responsiveInfo, setResponsiveInfo] = useState<ResponsiveInfo>({

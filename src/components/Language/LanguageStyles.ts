@@ -1,16 +1,14 @@
 import styled from 'styled-components';
 
-// Modern color palette (matches the one in WeatherStyles.ts)
 const palette = {
-  primary: '#3498DB', // Blue
-  secondary: '#2ECC71', // Green
-  accent: '#F39C12', // Orange
-  dark: '#2C3E50', // Dark blue
-  light: '#ECF0F1', // Light gray
-  white: '#FFFFFF', // White
+  primary: '#3498DB',
+  secondary: '#2ECC71',
+  accent: '#F39C12',
+  dark: '#2C3E50',
+  light: '#ECF0F1',
+  white: '#FFFFFF',
 };
 
-// Design tokens
 const theme = {
   spacing: {
     xs: '0.25rem',
@@ -54,8 +52,6 @@ export const LanguagesContainer = styled.div<{
   border: 1px solid rgba(255, 255, 255, 0.2);
   width: '100%';
 
-
-  /* Enhanced touch targets for touch devices */
   ${({ $isTouchDevice, $isSmallMobileDevice }) =>
     $isTouchDevice &&
     !$isSmallMobileDevice &&
@@ -63,13 +59,12 @@ export const LanguagesContainer = styled.div<{
 		padding: ${theme.spacing.sm} ${theme.spacing.md};
 	`}
 
-  /* Fix for small screens */
 	@media (max-width: 360px) {
     padding: ${theme.spacing.xs} ${theme.spacing.xs};
     gap: 0.2rem;
     margin-left: auto;
     margin-right: auto;
-    transform: translateX(-10px); /* Shift slightly to compensate for the icon */
+    transform: translateX(-10px);
   }
 `;
 
@@ -113,20 +108,17 @@ export const LanguageButton = styled.button<{
     outline: none;
   }
 
-  /* Larger touch targets on mobile/touch devices */
   @media (max-width: 768px) {
     padding: ${theme.spacing.sm} ${theme.spacing.sm};
-    min-height: 44px; /* Minimum touch target size per accessibility guidelines */
+    min-height: 44px;
   }
 
-  /* Adjust padding on very small screens */
   @media (max-width: 360px) {
     padding: ${theme.spacing.xs} ${theme.spacing.xs};
     min-height: 32px;
     font-size: 0.75rem;
   }
 
-  /* Force smaller text on very small screens */
   @media (max-width: 320px) {
     font-size: 0.7rem !important;
     padding: ${theme.spacing.xs} ${theme.spacing.xs};

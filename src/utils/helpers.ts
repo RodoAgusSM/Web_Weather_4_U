@@ -105,3 +105,37 @@ export const formatTimeToPreferredFormat = (
         hour12: use12HourFormat,
     });
 };
+
+export const convertFrom24To12Hours = (time24: string): string => {
+    const [hours, minutes] = time24.split(':').map(Number);
+    const period = hours >= 12 ? 'PM' : 'AM';
+    const hours12 = hours % 12 || 12;
+    return `${hours12}:${minutes.toString().padStart(2, '0')} ${period}`;
+};
+
+export const convertFrom12To24Hours = (time12: string): string => {
+    const [time, period] = time12.split(' ');
+    let [hours, minutes] = time.split(':').map(Number);
+    if (period === 'PM' && hours < 12) {
+        hours += 12;
+    } else if (period === 'AM' && hours === 12) {
+        hours = 0;
+    }
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+};
+
+export const kmToMiles = (km: number): number => {
+    return Math.round(km * 0.621371);
+};
+
+export const milesToKm = (miles: number): number => {
+    return Math.round(miles / 0.621371);
+};
+
+export const celsiusToFahrenheit = (celsius: number): number => {
+    return Math.round((celsius * 9) / 5 + 32);
+};
+
+export const fahrenheitToCelsius = (fahrenheit: number): number => {
+    return Math.round(((fahrenheit - 32) * 5) / 9);
+};

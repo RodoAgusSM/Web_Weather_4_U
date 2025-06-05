@@ -1,24 +1,20 @@
 import styled, { keyframes } from 'styled-components';
 
-// Match the app's color palette
 const colors = {
-    // Primary colors
-    sunColor: '#F39C12',
-    sunGlow: 'rgba(243, 156, 18, 0.4)',
-    cloudColor: 'rgba(236, 240, 241, 0.9)',
-    cloudShadow: 'rgba(52, 73, 94, 0.2)',
-    rainColor: '#5DADE2',
-    snowColor: '#ECF0F1',
-    spinnerBg: 'rgba(174, 214, 241, 0.25)',
+  sunColor: '#F39C12',
+  sunGlow: 'rgba(243, 156, 18, 0.4)',
+  cloudColor: 'rgba(236, 240, 241, 0.9)',
+  cloudShadow: 'rgba(52, 73, 94, 0.2)',
+  rainColor: '#5DADE2',
+  snowColor: '#ECF0F1',
+  spinnerBg: 'rgba(174, 214, 241, 0.25)',
 
-    // Additional colors for more visual interest
-    lightBlue: '#85C1E9',
-    mediumBlue: '#3498DB',
-    darkBlue: '#2874A6',
-    lightGray: '#D6EAF8',
+  lightBlue: '#85C1E9',
+  mediumBlue: '#3498DB',
+  darkBlue: '#2874A6',
+  lightGray: '#D6EAF8',
 };
 
-// Enhanced keyframes for animations
 const rotate = keyframes`
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -35,7 +31,7 @@ const twinkle = keyframes`
 `;
 
 const raindropFall = keyframes`
-  0% { 
+  0% {
     transform: translateY(-15px) scale(1);
     opacity: 0;
   }
@@ -45,7 +41,7 @@ const raindropFall = keyframes`
   90% {
     opacity: 1;
   }
-  100% { 
+  100% {
     transform: translateY(70px) scale(0.5); 
     opacity: 0;
   }
@@ -90,23 +86,21 @@ const pulseRay = keyframes`
   50% { transform: scaleY(1.3); opacity: 1; }
 `;
 
-// Size maps for different spinner sizes
 const sizeMap = {
-    small: {
-        container: '80px',
-        inner: '65px',
-    },
-    medium: {
-        container: '140px',
-        inner: '120px',
-    },
-    large: {
-        container: '200px',
-        inner: '170px',
-    },
+  small: {
+    container: '80px',
+    inner: '65px',
+  },
+  medium: {
+    container: '140px',
+    inner: '120px',
+  },
+  large: {
+    container: '200px',
+    inner: '170px',
+  },
 };
 
-// Styled components
 export const SpinnerContainer = styled.div<{ $size: 'small' | 'medium' | 'large' }>`
   display: flex;
   align-items: center;
@@ -141,8 +135,7 @@ export const GlassOverlay = styled.div`
     );
   border-radius: inherit;
   z-index: 1;
-  
-  /* Add a subtle shimmer effect */
+
   &::after {
     content: '';
     position: absolute;
@@ -196,10 +189,10 @@ export const SunRay = styled.div<{ $angle: number; $length: number; $delay: numb
 `;
 
 export const CloudElement = styled.div<{
-    $delay: number;
-    $size: number;
-    $distance: number;
-    $rotation: number;
+  $delay: number;
+  $size: number;
+  $distance: number;
+  $rotation: number;
 }>`
   position: absolute;
   top: ${props => 50 - props.$size / 2}%;
@@ -243,10 +236,10 @@ export const CloudElement = styled.div<{
 `;
 
 export const RainDrop = styled.div<{
-    $delay: number;
-    $position: number;
-    $size: number;
-    $duration: number;
+  $delay: number;
+  $position: number;
+  $size: number;
+  $duration: number;
 }>`
   position: absolute;
   top: 40%;
@@ -263,10 +256,10 @@ export const RainDrop = styled.div<{
 `;
 
 export const SnowFlake = styled.div<{
-    $delay: number;
-    $position: number;
-    $size: number;
-    $duration: number;
+  $delay: number;
+  $position: number;
+  $size: number;
+  $duration: number;
 }>`
   position: absolute;
   top: 30%;

@@ -1,13 +1,11 @@
 import styled, { css, keyframes } from 'styled-components';
 
-// Color palette
 const palette = {
   primary: '#85C1E9',
   darkBlue: '#2874A6',
   black: '#000000',
 };
 
-// Design tokens
 const theme = {
   spacing: {
     xs: '0.25rem',
@@ -33,10 +31,8 @@ const theme = {
   },
 };
 
-// Use a consistent container width value
 const CONTAINER_MAX_WIDTH = '500px';
 
-// Animation keyframes
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -48,7 +44,6 @@ const fadeIn = keyframes`
   }
 `;
 
-// Refined glass effect with the right opacity values
 const refinedGlassEffect = `
   background-image: 
     radial-gradient(circle at top left, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
@@ -56,7 +51,6 @@ const refinedGlassEffect = `
   background-blend-mode: overlay;
 `;
 
-// Hover animation shared across components
 const hoverLiftEffect = `
   transition: all 0.3s ease;
   cursor: default;
@@ -93,7 +87,6 @@ export const WeatherMainContainer = styled.div`
   }
 `;
 
-// Custom container styling
 export const CustomWeatherMainContainer = styled.div<{ $isHovered?: boolean }>`
   display: flex;
   flex-direction: row;
@@ -118,12 +111,10 @@ export const CustomWeatherMainContainer = styled.div<{ $isHovered?: boolean }>`
   margin-bottom: ${theme.spacing.md};
   animation: ${fadeIn} 0.5s ease-out forwards;
 
-  /* Mobile optimization */
   @media (max-width: 480px) {
     padding: ${theme.spacing.sm};
   }
 
-  /* Add pulse animation on hover like the data cards */
   &:hover {
     animation: pulse 1.5s infinite alternate;
   }
@@ -137,7 +128,6 @@ export const CustomWeatherMainContainer = styled.div<{ $isHovered?: boolean }>`
     }
   }
 
-  /* Better touch interaction */
   @media (hover: none) {
     &:active {
       transform: scale(0.98);
@@ -146,7 +136,6 @@ export const CustomWeatherMainContainer = styled.div<{ $isHovered?: boolean }>`
   }
 `;
 
-// Weather content components
 export const WeatherMain = styled.div`
   display: flex;
   flex-direction: column;
@@ -160,7 +149,6 @@ export const WeatherMain = styled.div`
     transform: scale(1.02);
   }
 
-  /* Center align text on very small screens */
   @media (max-width: 360px) {
     text-align: center;
     align-items: center;
@@ -174,14 +162,12 @@ export const MainContentWrapper = styled.div`
   width: 100%;
   justify-content: center;
 
-  /* Stack vertically on very small screens */
   @media (max-width: 360px) {
     flex-direction: column;
     gap: ${theme.spacing.md};
   }
 `;
 
-// Icon components
 export const WeatherIconContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -219,7 +205,6 @@ export const WeatherIcon = styled.img`
   }
 `;
 
-// Temperature display components
 export const WeatherMainTemperature = styled.div`
   font-size: 1.8rem;
   font-weight: 700;

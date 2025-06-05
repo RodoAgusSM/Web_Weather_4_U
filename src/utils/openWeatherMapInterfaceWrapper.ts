@@ -13,8 +13,8 @@ import {
 
 export const convertOpenWeatherMapResponseToInterface = (
     climateType: ClimateType,
-    unit: Units,
-    object: any
+    object: any,
+    unit: Units
 ) => {
     switch (climateType) {
         case ClimateType.Weather:

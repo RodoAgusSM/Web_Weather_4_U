@@ -14,7 +14,6 @@ const Language = ({ changeLanguage }: LanguageProps) => {
   const { t, i18n } = useTranslation();
   const [useAbbreviatedLabels, setUseAbbreviatedLabels] = useState(screenWidth < 360);
 
-  // Monitor screen width and update abbreviation state
   useEffect(() => {
     const handleResize = () => {
       setUseAbbreviatedLabels(window.innerWidth < 360);
@@ -24,9 +23,7 @@ const Language = ({ changeLanguage }: LanguageProps) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Choose shorter labels for very small screens
   const getLanguageLabel = (code: string, label: string): string => {
-    // On small screens or when window width is below threshold, use abbreviated labels
     if (useAbbreviatedLabels || isSmallMobileDevice || screenWidth < 360) {
       switch (code) {
         case 'en':

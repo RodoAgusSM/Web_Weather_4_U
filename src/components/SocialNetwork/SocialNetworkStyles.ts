@@ -1,16 +1,14 @@
 import styled, { keyframes } from 'styled-components';
 
-// Modern color palette (matches the one in WeatherStyles.ts)
 const palette = {
-  primary: '#3498DB', // Blue
-  secondary: '#2ECC71', // Green
-  accent: '#F39C12', // Orange
-  dark: '#2C3E50', // Dark blue
-  light: '#ECF0F1', // Light gray
-  white: '#FFFFFF', // White
+  primary: '#3498DB',
+  secondary: '#2ECC71',
+  accent: '#F39C12',
+  dark: '#2C3E50',
+  light: '#ECF0F1',
+  white: '#FFFFFF',
 };
 
-// Design tokens
 const theme = {
   spacing: {
     xs: '0.25rem',
@@ -32,7 +30,6 @@ const theme = {
   },
 };
 
-// Animation for fading in elements
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -217,7 +214,7 @@ export const SocialNetworkItem = styled.a`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  min-width: 0; /* Critical for text-overflow to work in flex items */
+  min-width: 0;
 
   &:hover {
     color: ${palette.accent};

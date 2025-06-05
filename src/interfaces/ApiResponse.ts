@@ -6,7 +6,7 @@ interface ApiResponse {
     url: string;
     data?: {
         message?: string;
-        [key: string]: any; // any other properties that might exist on 'data'
+        [key: string]: any;
     };
 }
 

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import Adapter from 'adapter/adapter';
+import { Adapter, convertWeatherUnits,formatWeatherTimeByLanguage } from 'adapter/adapter';
 import CitySearchBar from 'components/CitySearchBar/CitySearchBar';
 import Language from 'components/Language/Language';
 import MainWeatherDisplay from 'components/MainWeatherDisplay/MainWeatherDisplay';
@@ -28,7 +28,6 @@ import { Code } from 'styles/styles';
 import { generateURL } from 'utils/helpers';
 
 import {
-  // Import all needed styled components
   AllDataContainer,
   BreakLine,
   CustomUnitsContainer,
@@ -61,8 +60,6 @@ const Weather = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useResponsiveDesign();
-
-  // State management
   const [mouseOver, setMouseOver] = useState<boolean>(false);
   const [validCoordinates, setValidCoordinates] = useState<boolean>(true);
   const [siteWorking, setIsSiteWorking] = useState<boolean>(true);
@@ -81,8 +78,6 @@ const Weather = () => {
   const [weather, setWeather] = useState<WeatherInterface>(defaultWeather);
   const [airPollution, setAirPollution] = useState<AirPollutionInterface>(defaultAirPollution);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  // Add state to track individual card loading states
   const [cardsLoading, setCardsLoading] = useState({
     airQuality: true,
     wind: true,
@@ -92,9 +87,6 @@ const Weather = () => {
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // We're using useResponsiveDesign hook instead of manual width tracking
-
-  // Fetch data effect
   useEffect(() => {
     const fetchDataInterval = async () => await fetchData();
     fetchDataInterval();
@@ -109,9 +101,8 @@ const Weather = () => {
         intervalRef.current = null;
       }
     };
-  }, [lat, lon, unit]); // Removed language from dependencies
+  }, [lat, lon]);
 
-  // API error handling
   const handleAPIError: ApiError = (error: any, response?: ApiResponse) => {
     console.error('Error fetching data:', error);
     if (response?.data !== undefined && response?.data.message === 'city not found') {
@@ -121,7 +112,6 @@ const Weather = () => {
     }
   };
 
-  // Fetch data from API
   const fetchFromAPI = async (
     config: AppRequest,
     successCallback: Function,
@@ -140,7 +130,6 @@ const Weather = () => {
     }
   };
 
-  // Fetch weather icon
   const fetchIconFromAPI = async (iconValue: string) => {
     try {
       setIsIconWorking(true);
@@ -159,9 +148,7 @@ const Weather = () => {
     }
   };
 
-  // Main data fetching function
   const fetchData = async () => {
-    // Reset all loading states when starting a new fetch
     setCardsLoading({
       airQuality: true,
       wind: true,
@@ -185,22 +172,17 @@ const Weather = () => {
       units: unit,
     };
 
-    // Create promises for parallel fetching
     const weatherPromise = fetchFromAPI(weatherRequest, (weatherDataAPI: any) => {
       setIsSiteWorking(true);
       setCountryNameShort(weatherDataAPI.sys.country);
       fetchIconFromAPI(weatherDataAPI.weather[0].icon);
-
       const weatherData = Adapter(
         APIWeatherProvider.OpenWeatherMap,
         ClimateType.Weather,
         unit,
         weatherDataAPI
       ) as WeatherInterface;
-
       setWeather(weatherData);
-
-      // Once weather data is received, we can show wind, atmosphere, and time data
       setCardsLoading((prev) => ({
         ...prev,
         wind: false,
@@ -219,12 +201,8 @@ const Weather = () => {
           airPollutionData
         ) as AirPollutionInterface
       );
-
-      // Once air pollution data is received, we can show air quality
       setCardsLoading((prev) => ({ ...prev, airQuality: false }));
     });
-
-    // Wait for all data to be fetched
     await Promise.all([weatherPromise, airPollutionPromise])
       .catch((error) => {
         console.error('Error fetching weather data:', error);
@@ -234,7 +212,6 @@ const Weather = () => {
       });
   };
 
-  // City change handler
   const changeCity = useCallback(
     (
       newCity: SingleValue<{ label: string; value: { lat: string; lon: string; name: string } }>
@@ -255,7 +232,6 @@ const Weather = () => {
     [fullCityName]
   );
 
-  // Language change handler - updated to prevent full reload
   const changeLanguage = useCallback(
     (newLanguage: string) => {
       if (language !== newLanguage) {
@@ -263,17 +239,28 @@ const Weather = () => {
         i18n.changeLanguage(newLanguage);
         setLanguage(newLanguage);
 
-        // Don't set isLoading to true - this prevents the spinner from showing
-        // Don't refetch data - we only need to update the UI with existing data
-
-        // Instead, just update cards directly using the new language
-        // This will cause a re-render with the new translations without reloading data
+        if (weather && Object.keys(weather).length > 0) {
+          const weatherData = formatWeatherTimeByLanguage(weather) as WeatherInterface;
+          setWeather(weatherData);
+        }
       }
     },
-    [language, i18n]
+    [language, i18n, weather]
   );
 
-  // Animation setup effect
+  const changeUnit = useCallback(
+    (newUnit: Units) => {
+      if (unit !== newUnit) {
+        if (weather && Object.keys(weather).length > 0) {
+          const weatherData = convertWeatherUnits(newUnit, weather) as WeatherInterface;
+          setWeather(weatherData);
+          setUnit(newUnit);
+        }
+      }
+    },
+    [unit, weather]
+  );
+
   useEffect(() => {
     if (!isLoading && weather.icon) {
       setTimeout(() => {
@@ -285,15 +272,11 @@ const Weather = () => {
     }
   }, [isLoading, weather.icon]);
 
-  // Add a touch event handler for better mobile interaction
   const handleTouchStart = useCallback(() => {
-    // For handling touch events specifically
     if (isMobileDevice) {
-      // Additional touch optimizations can be added here
     }
   }, [isMobileDevice]);
 
-  // Render weather data
   const renderWeatherData = () => {
     const {
       realFeel,
@@ -318,6 +301,8 @@ const Weather = () => {
       $isSmallMobileDevice: isSmallMobileDevice,
     };
 
+    const getUniqueKey = (prefix: string, value: string) => `${prefix}-${language}-${value}`;
+
     return (
       <>
         <GlobalStyles />
@@ -332,7 +317,6 @@ const Weather = () => {
               </Title>
 
               <AllDataContainer {...responsiveProps}>
-                {/* Main weather display */}
                 <MainWeatherDisplay
                   icon={icon}
                   iconWorking={iconWorking}
@@ -341,11 +325,8 @@ const Weather = () => {
                   description={description}
                   unit={unit}
                 />
-
-                {/* Weather data cards */}
                 <CustomWeatherDataContainer>
                   <DataColumnContainer>
-                    {/* Air quality and Clouds */}
                     {cardsLoading.airQuality ? (
                       <WeatherDataGridSkeleton hasInfoButton={true} />
                     ) : (
@@ -361,8 +342,6 @@ const Weather = () => {
                         <WeatherDataCard label={t('words.clouds')} value={clouds} unit="%" />
                       </WeatherDataGrid>
                     )}
-
-                    {/* Wind and Visibility */}
                     {cardsLoading.wind ? (
                       <WeatherDataGridSkeleton />
                     ) : (
@@ -386,8 +365,6 @@ const Weather = () => {
                         />
                       </WeatherDataGrid>
                     )}
-
-                    {/* Humidity and Pressure */}
                     {cardsLoading.atmosphere ? (
                       <WeatherDataGridSkeleton />
                     ) : (
@@ -396,20 +373,24 @@ const Weather = () => {
                         <WeatherDataCard label={t('words.pressure')} value={pressure} unit="hPa" />
                       </WeatherDataGrid>
                     )}
-
-                    {/* Sunrise and Sunset */}
                     {cardsLoading.time ? (
                       <WeatherDataGridSkeleton />
                     ) : (
-                      <WeatherDataGrid>
-                        <WeatherDataCard label={t('words.sunrise')} value={sunrise} />
-                        <WeatherDataCard label={t('words.sunset')} value={sunset} />
+                      <WeatherDataGrid key={`time-grid-${language}`}>
+                        <WeatherDataCard
+                          key={getUniqueKey('sunrise', sunrise)}
+                          label={t('words.sunrise')}
+                          value={sunrise}
+                        />
+                        <WeatherDataCard
+                          key={getUniqueKey('sunset', sunset)}
+                          label={t('words.sunset')}
+                          value={sunset}
+                        />
                       </WeatherDataGrid>
                     )}
                   </DataColumnContainer>
                 </CustomWeatherDataContainer>
-
-                {/* Units selection */}
                 <CustomUnitsContainer {...responsiveProps} data-animate="true">
                   <UnitsSubContainer
                     $isMobileDevice={isMobileDevice}
@@ -417,21 +398,19 @@ const Weather = () => {
                   >
                     <UnitSpan
                       $isSelected={Units.Imperial === unit}
-                      onClick={() => setUnit(Units.Imperial)}
+                      onClick={() => changeUnit(Units.Imperial)}
                     >
                       {t('words.unit.imperial')}
                     </UnitSpan>
                     <UnitSpan
                       $isSelected={Units.Metric === unit}
-                      onClick={() => setUnit(Units.Metric)}
+                      onClick={() => changeUnit(Units.Metric)}
                     >
                       {t('words.unit.metric')}
                     </UnitSpan>
                   </UnitsSubContainer>
                 </CustomUnitsContainer>
               </AllDataContainer>
-
-              {/* Footer */}
               <FooterContainer {...responsiveProps}>
                 <TimeInfoContainer>
                   <TimeInfoItem>
@@ -487,7 +466,6 @@ const Weather = () => {
               </FooterContainer>
             </WeatherContentContainer>
           ) : (
-            // Location not found view
             <LocationNotFoundContainer {...responsiveProps} data-animate="true">
               <LocationNotFoundSpotImg src={LocationNotFoundIcon} alt="" {...responsiveProps} />
               <LocationNotFoundCode
@@ -509,8 +487,7 @@ const Weather = () => {
       </>
     );
   };
-
-  // Render error message
+  
   const renderErrorMessage = () => (
     <>
       <DangerLogo src={DangerIcon} alt="" />

@@ -45,14 +45,11 @@ const MainWeatherDisplay: React.FC<MainWeatherDisplayProps> = ({
       style={{ touchAction: 'manipulation' }}
     >
       <MainContentWrapper>
-        {/* Column 1: Weather Icon */}
         <WeatherIconContainer>
           <WeatherIcon src={iconWorking ? icon : NotFoundIcon} alt="" />
         </WeatherIconContainer>
 
-        {/* Column 2: Temperature information in 3 rows */}
         <WeatherMain>
-          {/* Row 1: Temperature */}
           <TemperatureUnitWrapper>
             <TemperatureValue>{realFeel}</TemperatureValue>
             <TemperatureUnit>
@@ -62,7 +59,6 @@ const MainWeatherDisplay: React.FC<MainWeatherDisplayProps> = ({
             </TemperatureUnit>
           </TemperatureUnitWrapper>
 
-          {/* Row 2: Feels Like */}
           <FeelsLikeText>
             {t('words.temperature.feelsLike')} {feelsLike}{' '}
             {Units.Imperial === unit
@@ -70,7 +66,6 @@ const MainWeatherDisplay: React.FC<MainWeatherDisplayProps> = ({
               : t('words.temperature.unit.metric')}
           </FeelsLikeText>
 
-          {/* Row 3: Weather Description */}
           <DescriptionText>{description}</DescriptionText>
         </WeatherMain>
       </MainContentWrapper>

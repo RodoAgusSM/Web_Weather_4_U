@@ -1,6 +1,5 @@
 import styled, { keyframes } from 'styled-components';
 
-// Define theme with spacing values
 export const theme = {
   spacing: {
     xs: '0.25rem',
@@ -11,7 +10,6 @@ export const theme = {
   }
 };
 
-// Animation keyframes
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -23,7 +21,6 @@ const fadeIn = keyframes`
   }
 `;
 
-// Replace noisy texture with refined glass effect
 const refinedGlassEffect = `
   background-image: 
     radial-gradient(circle at top left, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
@@ -84,8 +81,8 @@ export const BackContainer = styled.span`
   font-size: 0.9rem;
   font-weight: 600;
   margin-right: auto;
-  margin-left: 0; /* Aligned with card padding */
-  margin-top: 0; /* Aligned with card padding */
+  margin-left: 0;
+  margin-top: 0;
   margin-bottom: ${theme.spacing.md};
   cursor: pointer;
   color: #2C3E50;
@@ -104,7 +101,7 @@ export const BackContainer = styled.span`
     background: rgba(255, 255, 255, 0.3);
     transform: translateX(-2px);
     box-shadow: 0 2px 5px rgba(0,0,0,0.12);
-    color: #F39C12; /* Changed from blue to orange */
+    color: #F39C12;
   }
 `;
 
@@ -121,13 +118,13 @@ export const BackIconSpotImg = styled.div<{
   mask-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHBhdGggZD0iTTE5IDEySDE5LjVNNSAxMkwxOSAxMk01IDEyTDEyIDVNNSAxMkwxMiAxOSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==');
   mask-size: contain;
   mask-repeat: no-repeat;
-  background-color: ${({ $mouseOver }) => $mouseOver ? '#F39C12' : '#2C3E50'}; /* Changed from blue to orange */
+  background-color: ${({ $mouseOver }) => $mouseOver ? '#F39C12' : '#2C3E50'};
   margin-right: 0.5rem;
   transition: transform 0.2s ease, background-color 0.2s ease;
   
   ${BackContainer}:hover & {
     transform: translateX(-2px);
-    background-color: #F39C12; /* Changed from blue to orange */
+    background-color: #F39C12;
   }
 `;
 

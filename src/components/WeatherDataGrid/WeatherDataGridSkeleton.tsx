@@ -7,8 +7,8 @@ interface WeatherDataGridSkeletonProps {
   hasInfoButton?: boolean;
 }
 
-const WeatherDataGridSkeleton: React.FC<WeatherDataGridSkeletonProps> = ({ 
-  hasInfoButton = false 
+const WeatherDataGridSkeleton: React.FC<WeatherDataGridSkeletonProps> = ({
+  hasInfoButton = false
 }) => {
   return (
     <GridContainer $marginTop="0">

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import AirQualityIcon from 'images/airQuality.png';
 import CloudIcon from 'images/clouds.png';
 import DefaultIcon from 'images/default.png';
-// Import necessary icons
 import HumidityIcon from 'images/humidity.png';
 import PressureIcon from 'images/pressure.png';
 import SunriseIcon from 'images/sunrise.png';
@@ -39,15 +38,12 @@ const WeatherDataCard: React.FC<WeatherDataCardProps> = ({
   onInfoClick,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [displayValue] = useState<string | number>(value);
   const [icon, setIcon] = useState<string>(DefaultIcon);
   const [isAirQuality, setIsAirQuality] = useState(false);
 
   useEffect(() => {
-    // Set appropriate icon based on the label
     const labelLower = label.toLowerCase();
 
-    // Check if this is air quality data
     const airQualityCheck =
       labelLower.includes(`qualité de l'aire`) ||
       labelLower.includes('air quality') ||
@@ -110,7 +106,7 @@ const WeatherDataCard: React.FC<WeatherDataCardProps> = ({
     } else {
       setIcon(DefaultIcon);
     }
-  }, [label, value]);
+  }, [label]);
 
   return (
     <CardContainer
@@ -124,14 +120,14 @@ const WeatherDataCard: React.FC<WeatherDataCardProps> = ({
         <CardIcon src={icon} alt={label} />
       </IconContainer>
 
-      {/* Column 2: Content (Label and Value) */}
+      {/* Column 2: Content (Label and Value) - Use value prop directly */}
       <ContentContainer>
         <HeaderContainer>
           <Label $isHovered={isHovered}>{label}:</Label>
         </HeaderContainer>
 
         <ValueText $isHovered={isHovered}>
-          {displayValue}
+          {value}
           {unit && ` ${unit}`}
         </ValueText>
       </ContentContainer>
@@ -148,4 +144,11 @@ const WeatherDataCard: React.FC<WeatherDataCardProps> = ({
   );
 };
 
-export default WeatherDataCard;
+export default React.memo(WeatherDataCard, (prevProps, nextProps) => {
+  return (
+    prevProps.label === nextProps.label &&
+    prevProps.value === nextProps.value &&
+    prevProps.unit === nextProps.unit &&
+    prevProps.showInfoButton === nextProps.showInfoButton
+  );
+});

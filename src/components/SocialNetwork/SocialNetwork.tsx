@@ -48,7 +48,6 @@ const SocialNetwork = () => {
   );
 
   useEffect(() => {
-    // Initialize animations with staggered delays
     const initializeAnimations = () => {
       const elements = document.querySelectorAll('[data-animate="true"]');
       elements.forEach((element, index) => {
@@ -59,10 +58,8 @@ const SocialNetwork = () => {
     setTimeout(initializeAnimations, 100);
   }, []);
 
-  // Touch-specific event handling
   const handleTouchStart = useCallback(() => {
     if (isTouchDevice) {
-      // Special handling for touch devices
     }
   }, [isTouchDevice]);
 

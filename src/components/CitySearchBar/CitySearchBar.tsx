@@ -29,7 +29,6 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
   const collapseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    // Add click outside listener
     const handleClickOutside = (event: MouseEvent) => {
       if (
         containerRef.current &&
@@ -199,12 +198,10 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
     }),
   };
 
-  // Enhanced mobile touch handling
   const handleTouchInteraction = useCallback(() => {
     if (isTouchDevice) {
       setOpenSearchBar(true);
 
-      // Focus the input immediately on touch devices
       if (selectRef.current) {
         setTimeout(() => {
           selectRef.current.focus();
@@ -213,21 +210,18 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
     }
   }, [isTouchDevice]);
 
-  // Touch device specific customizations for the search control
   const getTouchStyles = useCallback(() => {
     if (isTouchDevice) {
       return {
-        // Increase touch targets for touch devices
         control: (base: any) => ({
           ...base,
           borderRadius: '8px',
-          minHeight: '44px', // Minimum Apple HIG touch target
+          minHeight: '44px',
         }),
-        // Larger text for touch devices
         input: (base: any) => ({
           ...base,
           borderRadius: '8px',
-          fontSize: '16px', // Prevents iOS zoom on focus
+          fontSize: '16px',
         }),
       };
     }

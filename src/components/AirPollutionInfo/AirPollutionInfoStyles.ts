@@ -1,6 +1,5 @@
 import styled, { keyframes } from 'styled-components';
 
-// Responsive breakpoints
 const responsive = {
   breakpoints: {
     sm: '576px',
@@ -12,17 +11,15 @@ const responsive = {
     `@media (min-width: ${responsive.breakpoints[size]})`,
 };
 
-// Modern color palette (matches the one in WeatherStyles.ts)
 const palette = {
-  primary: '#3498DB', // Blue
-  secondary: '#2ECC71', // Green
-  accent: '#F39C12', // Orange
-  dark: '#2C3E50', // Dark blue
-  light: '#ECF0F1', // Light gray
-  white: '#FFFFFF', // White
+  primary: '#3498DB',
+  secondary: '#2ECC71',
+  accent: '#F39C12',
+  dark: '#2C3E50',
+  light: '#ECF0F1',
+  white: '#FFFFFF',
 };
 
-// Design tokens
 const theme = {
   spacing: {
     xs: '0.25rem',
@@ -44,16 +41,14 @@ const theme = {
   },
 };
 
-// Air pollution quality colors (improved visibility palette)
 export const AirPollutionColors = [
-  '#2ECC71', // Good - Vibrant Green
-  '#82E0AA', // Fair - Lighter Green (improved visibility)
-  '#F4D03F', // Moderate - Bright Yellow
-  '#F39C12', // Poor - Orange
-  '#E74C3C', // Very Poor - Red
+  '#2ECC71',
+  '#82E0AA',
+  '#F4D03F',
+  '#F39C12',
+  '#E74C3C',
 ];
 
-// Animation for progress bar filling
 const fillProgress = keyframes`
   from {
     width: 0%;
@@ -82,7 +77,6 @@ export const ProgressBarFill = styled.div<{ $percentage: number; $color: string 
   background-blend-mode: overlay;
 `;
 
-// Animation for cards fading in
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -111,7 +105,7 @@ export const AirQualityCard = styled.div`
   box-shadow: ${theme.shadow.sm};
   border: 1px solid rgba(255, 255, 255, 0.3);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  height: 100%; // Ensure consistent height
+  height: 100%;
   animation: ${fadeIn} 0.5s ease-out forwards;
   animation-delay: calc(var(--index, 0) * 0.1s);
   opacity: 0;
@@ -122,7 +116,6 @@ export const AirQualityCard = styled.div`
     box-shadow: ${theme.shadow.md};
   }
 
-  /* Make cards more compact on very small screens */
   @media (max-width: 360px) {
     padding: ${theme.spacing.sm};
   }
@@ -153,7 +146,6 @@ export const AirQualityName = styled.h3`
   white-space: normal;
   hyphens: auto;
 
-  /* Smaller font size on very small screens */
   @media (max-width: 360px) {
     font-size: 0.85rem;
   }
@@ -181,7 +173,6 @@ export const ProgressBarContainer = styled.div`
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   position: relative;
 
-  /* Add markers for the 5 segments */
   &::after {
     content: '';
     position: absolute;
@@ -368,7 +359,6 @@ export const CurrentQualityLabel = styled.div<{ $color: string }>`
     box-shadow: ${theme.shadow.md};
   }
 
-  /* Ensure minimum touch target size */
   @media (max-width: 767px) {
     padding: ${theme.spacing.sm} ${theme.spacing.md};
     min-height: 36px;
@@ -385,17 +375,14 @@ export const CardsGridContainer = styled.div`
   width: 100%;
   margin: 1rem 0;
 
-  /* Display in rows of 2 on larger screens */
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* Handle very small screens */
   @media (max-width: 360px) {
     gap: 0.75rem;
   }
 
-  /* Adjust for landscape mode */
   @media (orientation: landscape) and (max-height: 600px) {
     grid-template-columns: repeat(2, 1fr);
   }
