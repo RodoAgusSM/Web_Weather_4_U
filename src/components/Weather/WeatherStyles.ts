@@ -464,7 +464,7 @@ export const UnitSpan = styled.span<{ $isSelected: boolean }>`
   }
 
   &:hover {
-    color: ${theme.colors.text.primary};
+    color: ${theme.colors.accent};
 
     &::after {
       width: 100%;

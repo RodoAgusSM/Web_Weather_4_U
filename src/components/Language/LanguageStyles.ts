@@ -7,6 +7,7 @@ const palette = {
   dark: '#2C3E50',
   light: '#ECF0F1',
   white: '#FFFFFF',
+  muted: '#7F8C8D',
 };
 
 const theme = {
@@ -79,7 +80,7 @@ export const LanguageButton = styled.button<{
   background: none;
   border: none;
   padding: ${theme.spacing.xs} ${theme.spacing.sm};
-  color: ${palette.dark};
+  color: ${palette.muted};
   font-weight: ${(props) => (props.$isActive ? '600' : '500')};
   position: relative;
   transition: all 0.2s ease;
