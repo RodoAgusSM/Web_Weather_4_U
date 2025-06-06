@@ -34,6 +34,7 @@ import {
   CustomWeatherDataContainer,
   DangerLogo,
   DataColumnContainer,
+  FadeInContainer,
   FooterContainer,
   InfoIcon,
   InfoIconButton,
@@ -48,13 +49,14 @@ import {
   Title,
   UnitSpan,
   UnitsSubContainer,
-  WeatherCard,
+  WeatherCardWithTransition,
   WeatherContentContainer,
 } from './WeatherStyles';
 
 const defaultWeather = {} as WeatherInterface;
 const defaultAirPollution = {} as AirPollutionInterface;
 const FETCH_INTERVAL_MS = 600000;
+const LOADING_DELAY_MS = 300;
 
 const Weather = () => {
   const { t, i18n } = useTranslation();
@@ -78,17 +80,36 @@ const Weather = () => {
   const [weather, setWeather] = useState<WeatherInterface>(defaultWeather);
   const [airPollution, setAirPollution] = useState<AirPollutionInterface>(defaultAirPollution);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [dataFetched, setDataFetched] = useState<boolean>(false);
   const [cardsLoading, setCardsLoading] = useState({
     airQuality: true,
     wind: true,
     atmosphere: true,
     time: true,
   });
+  const [uiReady, setUiReady] = useState<boolean>(false);
+  const [showSkeletons, setShowSkeletons] = useState<boolean>(true);
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const initialLoadRef = useRef<boolean>(true);
 
   useEffect(() => {
-    const fetchDataInterval = async () => await fetchData();
+    const fetchDataInterval = async () => {
+      if (initialLoadRef.current) {
+        setShowSkeletons(true);
+        await fetchData();
+        initialLoadRef.current = false;
+      } else {
+        // On subsequent loads, just show the spinner instead of skeletons
+        setShowSkeletons(false);
+        setUiReady(false);
+        setIsLoading(true);
+        setTimeout(async () => {
+          await fetchData();
+        }, LOADING_DELAY_MS);
+      }
+    };
+    
     fetchDataInterval();
 
     if (!intervalRef.current) {
@@ -102,6 +123,17 @@ const Weather = () => {
       }
     };
   }, [lat, lon]);
+
+  // Add effect to control UI ready state
+  useEffect(() => {
+    if (!isLoading && weather.icon && !Object.values(cardsLoading).some(value => value)) {
+      // Small delay before showing UI to ensure everything is ready
+      const timer = setTimeout(() => {
+        setUiReady(true);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading, weather.icon, cardsLoading]);
 
   const handleAPIError: ApiError = (error: any, response?: ApiResponse) => {
     console.error('Error fetching data:', error);
@@ -149,12 +181,21 @@ const Weather = () => {
   };
 
   const fetchData = async () => {
-    setCardsLoading({
-      airQuality: true,
-      wind: true,
-      atmosphere: true,
-      time: true,
-    });
+    if (initialLoadRef.current) {
+      setCardsLoading({
+        airQuality: true,
+        wind: true,
+        atmosphere: true,
+        time: true,
+      });
+    } else {
+      setCardsLoading({
+        airQuality: false,
+        wind: false,
+        atmosphere: false,
+        time: false,
+      });
+    }
 
     const weatherRequest: AppRequest = {
       toFetch: ClimateType.Weather,
@@ -172,6 +213,7 @@ const Weather = () => {
       units: unit,
     };
 
+    // Modify to batch state updates
     const weatherPromise = fetchFromAPI(weatherRequest, (weatherDataAPI: any) => {
       setIsSiteWorking(true);
       setCountryNameShort(weatherDataAPI.sys.country);
@@ -183,12 +225,6 @@ const Weather = () => {
         weatherDataAPI
       ) as WeatherInterface;
       setWeather(weatherData);
-      setCardsLoading((prev) => ({
-        ...prev,
-        wind: false,
-        atmosphere: false,
-        time: false,
-      }));
     });
 
     const airPollutionPromise = fetchFromAPI(airPollutionRequest, (airPollutionDataAPI: any) => {
@@ -201,14 +237,25 @@ const Weather = () => {
           airPollutionData
         ) as AirPollutionInterface
       );
-      setCardsLoading((prev) => ({ ...prev, airQuality: false }));
     });
+
     await Promise.all([weatherPromise, airPollutionPromise])
+      .then(() => {
+        setDataFetched(true);
+        setCardsLoading({
+          airQuality: false,
+          wind: false,
+          atmosphere: false,
+          time: false,
+        });
+      })
       .catch((error) => {
         console.error('Error fetching weather data:', error);
       })
       .finally(() => {
-        setIsLoading(false);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, LOADING_DELAY_MS);
       });
   };
 
@@ -306,184 +353,193 @@ const Weather = () => {
     return (
       <>
         <GlobalStyles />
-        <WeatherCard {...responsiveProps} data-animate="true" onTouchStart={handleTouchStart}>
+        <WeatherCardWithTransition 
+          {...responsiveProps} 
+          data-animate="true" 
+          onTouchStart={handleTouchStart}
+          $isVisible={uiReady}
+        >
           <StarsAnimation />
           <CitySearchBar changeCity={changeCity} />
 
           {validCoordinates ? (
-            <WeatherContentContainer>
-              <Title {...responsiveProps}>
-                {t('words.weatherIn')} {cityName} ({countryNameShort})
-              </Title>
+            <FadeInContainer $isVisible={uiReady}>
+              <WeatherContentContainer>
+                <Title {...responsiveProps}>
+                  {t('words.weatherIn')} {cityName} ({countryNameShort})
+                </Title>
 
-              <AllDataContainer {...responsiveProps}>
-                <MainWeatherDisplay
-                  icon={icon}
-                  iconWorking={iconWorking}
-                  realFeel={realFeel}
-                  feelsLike={feelsLike}
-                  description={description}
-                  unit={unit}
-                />
-                <CustomWeatherDataContainer>
-                  <DataColumnContainer>
-                    {cardsLoading.airQuality ? (
-                      <WeatherDataGridSkeleton hasInfoButton={true} />
-                    ) : (
-                      <WeatherDataGrid>
-                        <WeatherDataCard
-                          label={t('words.airPollution.aqi')}
-                          value={t(`words.airPollution.status.${airPollution?.AQI}`)}
-                          showInfoButton={true}
-                          onInfoClick={() =>
-                            navigate(`/air_pollution_info`, { state: { airPollution } })
-                          }
-                        />
-                        <WeatherDataCard label={t('words.clouds')} value={clouds} unit="%" />
-                      </WeatherDataGrid>
-                    )}
-                    {cardsLoading.wind ? (
-                      <WeatherDataGridSkeleton />
-                    ) : (
-                      <WeatherDataGrid>
-                        <WeatherDataCard
-                          label={t('words.windInfo.wind')}
-                          value={`${windSpeed} ${
-                            Units.Imperial === unit
-                              ? t('words.windInfo.unit.imperial')
-                              : t('words.windInfo.unit.metric')
-                          } ${t(`words.windInfo.windDirection.${windDirection}`)}`}
-                        />
-                        <WeatherDataCard
-                          label={t('words.visibilityInfo.visibility')}
-                          value={visibility}
-                          unit={
-                            Units.Imperial === unit
-                              ? t('words.visibilityInfo.unit.imperial')
-                              : t('words.visibilityInfo.unit.metric')
-                          }
-                        />
-                      </WeatherDataGrid>
-                    )}
-                    {cardsLoading.atmosphere ? (
-                      <WeatherDataGridSkeleton />
-                    ) : (
-                      <WeatherDataGrid>
-                        <WeatherDataCard label={t('words.humidity')} value={humidity} unit="%" />
-                        <WeatherDataCard label={t('words.pressure')} value={pressure} unit="hPa" />
-                      </WeatherDataGrid>
-                    )}
-                    {cardsLoading.time ? (
-                      <WeatherDataGridSkeleton />
-                    ) : (
-                      <WeatherDataGrid key={`time-grid-${language}`}>
-                        <WeatherDataCard
-                          key={getUniqueKey('sunrise', sunrise)}
-                          label={t('words.sunrise')}
-                          value={sunrise}
-                        />
-                        <WeatherDataCard
-                          key={getUniqueKey('sunset', sunset)}
-                          label={t('words.sunset')}
-                          value={sunset}
-                        />
-                      </WeatherDataGrid>
-                    )}
-                  </DataColumnContainer>
-                </CustomWeatherDataContainer>
-                <CustomUnitsContainer {...responsiveProps} data-animate="true">
-                  <UnitsSubContainer
-                    $isMobileDevice={isMobileDevice}
-                    $isSmallMobileDevice={isSmallMobileDevice}
-                  >
-                    <UnitSpan
-                      $isSelected={Units.Imperial === unit}
-                      onClick={() => changeUnit(Units.Imperial)}
+                <AllDataContainer {...responsiveProps}>
+                  <MainWeatherDisplay
+                    icon={icon}
+                    iconWorking={iconWorking}
+                    realFeel={realFeel}
+                    feelsLike={feelsLike}
+                    description={description}
+                    unit={unit}
+                  />
+                  <CustomWeatherDataContainer>
+                    <DataColumnContainer>
+                      {showSkeletons && cardsLoading.airQuality ? (
+                        <WeatherDataGridSkeleton hasInfoButton={true} />
+                      ) : (
+                        <WeatherDataGrid>
+                          <WeatherDataCard
+                            label={t('words.airPollution.aqi')}
+                            value={t(`words.airPollution.status.${airPollution?.AQI}`)}
+                            showInfoButton={true}
+                            onInfoClick={() =>
+                              navigate(`/air_pollution_info`, { state: { airPollution } })
+                            }
+                          />
+                          <WeatherDataCard label={t('words.clouds')} value={clouds} unit="%" />
+                        </WeatherDataGrid>
+                      )}
+                      {showSkeletons && cardsLoading.wind ? (
+                        <WeatherDataGridSkeleton />
+                      ) : (
+                        <WeatherDataGrid>
+                          <WeatherDataCard
+                            label={t('words.windInfo.wind')}
+                            value={`${windSpeed} ${
+                              Units.Imperial === unit
+                                ? t('words.windInfo.unit.imperial')
+                                : t('words.windInfo.unit.metric')
+                            } ${t(`words.windInfo.windDirection.${windDirection}`)}`}
+                          />
+                          <WeatherDataCard
+                            label={t('words.visibilityInfo.visibility')}
+                            value={visibility}
+                            unit={
+                              Units.Imperial === unit
+                                ? t('words.visibilityInfo.unit.imperial')
+                                : t('words.visibilityInfo.unit.metric')
+                            }
+                          />
+                        </WeatherDataGrid>
+                      )}
+                      {showSkeletons && cardsLoading.atmosphere ? (
+                        <WeatherDataGridSkeleton />
+                      ) : (
+                        <WeatherDataGrid>
+                          <WeatherDataCard label={t('words.humidity')} value={humidity} unit="%" />
+                          <WeatherDataCard label={t('words.pressure')} value={pressure} unit="hPa" />
+                        </WeatherDataGrid>
+                      )}
+                      {showSkeletons && cardsLoading.time ? (
+                        <WeatherDataGridSkeleton />
+                      ) : (
+                        <WeatherDataGrid key={`time-grid-${language}`}>
+                          <WeatherDataCard
+                            key={getUniqueKey('sunrise', sunrise)}
+                            label={t('words.sunrise')}
+                            value={sunrise}
+                          />
+                          <WeatherDataCard
+                            key={getUniqueKey('sunset', sunset)}
+                            label={t('words.sunset')}
+                            value={sunset}
+                          />
+                        </WeatherDataGrid>
+                      )}
+                    </DataColumnContainer>
+                  </CustomWeatherDataContainer>
+                  <CustomUnitsContainer {...responsiveProps} data-animate="true">
+                    <UnitsSubContainer
+                      $isMobileDevice={isMobileDevice}
+                      $isSmallMobileDevice={isSmallMobileDevice}
                     >
-                      {t('words.unit.imperial')}
-                    </UnitSpan>
-                    <UnitSpan
-                      $isSelected={Units.Metric === unit}
-                      onClick={() => changeUnit(Units.Metric)}
-                    >
-                      {t('words.unit.metric')}
-                    </UnitSpan>
-                  </UnitsSubContainer>
-                </CustomUnitsContainer>
-              </AllDataContainer>
-              <FooterContainer {...responsiveProps}>
-                <TimeInfoContainer>
-                  <TimeInfoItem>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                    <span>{t('words.updatedAt')}</span> {lastTimeChecked}
-                  </TimeInfoItem>
-                  <TimeInfoDivider aria-hidden="true" />
-                  <TimeInfoItem>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                      <line x1="16" y1="2" x2="16" y2="6"></line>
-                      <line x1="8" y1="2" x2="8" y2="6"></line>
-                      <line x1="3" y1="10" x2="21" y2="10"></line>
-                    </svg>
-                    <span>{t('words.date')}</span> {lastDateChecked}
-                  </TimeInfoItem>
-                </TimeInfoContainer>
+                      <UnitSpan
+                        $isSelected={Units.Imperial === unit}
+                        onClick={() => changeUnit(Units.Imperial)}
+                      >
+                        {t('words.unit.imperial')}
+                      </UnitSpan>
+                      <UnitSpan
+                        $isSelected={Units.Metric === unit}
+                        onClick={() => changeUnit(Units.Metric)}
+                      >
+                        {t('words.unit.metric')}
+                      </UnitSpan>
+                    </UnitsSubContainer>
+                  </CustomUnitsContainer>
+                </AllDataContainer>
+                <FooterContainer {...responsiveProps}>
+                  <TimeInfoContainer>
+                    <TimeInfoItem>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                      </svg>
+                      <span>{t('words.updatedAt')}</span> {lastTimeChecked}
+                    </TimeInfoItem>
+                    <TimeInfoDivider aria-hidden="true" />
+                    <TimeInfoItem>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                      </svg>
+                      <span>{t('words.date')}</span> {lastDateChecked}
+                    </TimeInfoItem>
+                  </TimeInfoContainer>
 
-                <LanguageAndSocialNetworkContainer>
-                  <Language changeLanguage={changeLanguage} />
-                  <SocialNetworkIconContainer
-                    $isDesktopOrLaptop={isDesktopOrLaptop}
-                    onClick={() => navigate(`/social_network`)}
-                  >
-                    <InfoIconButton
-                      aria-label="View social networks"
-                      onMouseEnter={() => setMouseOver(true)}
-                      onMouseLeave={() => setMouseOver(false)}
+                  <LanguageAndSocialNetworkContainer>
+                    <Language changeLanguage={changeLanguage} />
+                    <SocialNetworkIconContainer
+                      $isDesktopOrLaptop={isDesktopOrLaptop}
+                      onClick={() => navigate(`/social_network`)}
                     >
-                      <InfoIcon src={InfoIconImg} alt="Info" $mouseOver={mouseOver} />
-                    </InfoIconButton>
-                  </SocialNetworkIconContainer>
-                </LanguageAndSocialNetworkContainer>
-              </FooterContainer>
-            </WeatherContentContainer>
+                      <InfoIconButton
+                        aria-label="View social networks"
+                        onMouseEnter={() => setMouseOver(true)}
+                        onMouseLeave={() => setMouseOver(false)}
+                      >
+                        <InfoIcon src={InfoIconImg} alt="Info" $mouseOver={mouseOver} />
+                      </InfoIconButton>
+                    </SocialNetworkIconContainer>
+                  </LanguageAndSocialNetworkContainer>
+                </FooterContainer>
+              </WeatherContentContainer>
+            </FadeInContainer>
           ) : (
-            <LocationNotFoundContainer {...responsiveProps} data-animate="true">
-              <LocationNotFoundSpotImg src={LocationNotFoundIcon} alt="" {...responsiveProps} />
-              <LocationNotFoundCode
-                $isMobileDevice={isMobileDevice}
-                $isSmallMobileDevice={isSmallMobileDevice}
-              >
-                {t('words.locationNotFound.funnyMessage')} {cityName}
-              </LocationNotFoundCode>
-              <BreakLine />
-              <LocationNotFoundCode
-                $isMobileDevice={isMobileDevice}
-                $isSmallMobileDevice={isSmallMobileDevice}
-              >
-                {t('words.locationNotFound.realMessage')}
-              </LocationNotFoundCode>
-            </LocationNotFoundContainer>
+            <FadeInContainer $isVisible={uiReady}>
+              <LocationNotFoundContainer {...responsiveProps} data-animate="true">
+                <LocationNotFoundSpotImg src={LocationNotFoundIcon} alt="" {...responsiveProps} />
+                <LocationNotFoundCode
+                  $isMobileDevice={isMobileDevice}
+                  $isSmallMobileDevice={isSmallMobileDevice}
+                >
+                  {t('words.locationNotFound.funnyMessage')} {cityName}
+                </LocationNotFoundCode>
+                <BreakLine />
+                <LocationNotFoundCode
+                  $isMobileDevice={isMobileDevice}
+                  $isSmallMobileDevice={isSmallMobileDevice}
+                >
+                  {t('words.locationNotFound.realMessage')}
+                </LocationNotFoundCode>
+              </LocationNotFoundContainer>
+            </FadeInContainer>
           )}
-        </WeatherCard>
+        </WeatherCardWithTransition>
       </>
     );
   };
@@ -510,7 +566,7 @@ const Weather = () => {
           alignItems: 'center',
         }}
       >
-        {!weather.icon ? (
+        {!dataFetched || isLoading ? (
           <WeatherSpinner size={isDesktopOrLaptop ? 'large' : 'medium'} />
         ) : siteWorking ? (
           renderWeatherData()

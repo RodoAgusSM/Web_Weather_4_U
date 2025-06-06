@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import useResponsiveDesign from 'hooks/useResponsiveDesign';
 import { useTranslation } from 'react-i18next';
 
@@ -10,36 +10,38 @@ interface LanguageProps {
 
 const Language = ({ changeLanguage }: LanguageProps) => {
   const { isMobileDevice, isSmallMobileDevice, isTouchDevice, screenWidth } = useResponsiveDesign();
-
   const { t, i18n } = useTranslation();
-  const [useAbbreviatedLabels, setUseAbbreviatedLabels] = useState(screenWidth < 360);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setUseAbbreviatedLabels(window.innerWidth < 360);
-    };
+  const useAbbreviatedLabels = useMemo(() =>
+    screenWidth < 360 || isSmallMobileDevice,
+    [screenWidth, isSmallMobileDevice]
+  );
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const getLanguageLabel = (code: string, label: string): string => {
-    if (useAbbreviatedLabels || isSmallMobileDevice || screenWidth < 360) {
+  const getLanguageLabel = useCallback((code: string, label: string): string => {
+    if (useAbbreviatedLabels) {
       switch (code) {
-        case 'en':
-          return 'EN';
-        case 'es':
-          return 'ES';
-        case 'pt':
-          return 'PT';
-        case 'fr':
-          return 'FR';
-        default:
-          return code.toUpperCase();
+        case 'en': return 'EN';
+        case 'es': return 'ES';
+        case 'pt': return 'PT';
+        case 'fr': return 'FR';
+        default:   return code.toUpperCase();
       }
     }
     return label;
-  };
+  }, [useAbbreviatedLabels]);
+
+  const languageItems = useMemo(() => {
+    const items = t('languages', { returnObjects: true }) as Record<string, string>;
+    return Object.entries(items).map(([code, label]) => ({
+      code,
+      label: getLanguageLabel(code, label),
+      isActive: i18n.language === code
+    }));
+  }, [t, i18n.language, getLanguageLabel]);
+
+  const handleLanguageChange = useCallback((code: string) => {
+    changeLanguage(code);
+  }, [changeLanguage]);
 
   return (
     <LanguagesContainer
@@ -48,23 +50,17 @@ const Language = ({ changeLanguage }: LanguageProps) => {
       $isTouchDevice={isTouchDevice}
       $useAbbreviatedLabels={useAbbreviatedLabels}
     >
-      {Object.entries(
-        t('languages', {
-          returnObjects: true,
-        })
-      ).map((languageItem) => (
+      {languageItems.map(({ code, label, isActive }) => (
         <LanguageButton
-          key={languageItem[0]}
-          onClick={() => {
-            changeLanguage(languageItem[0]);
-          }}
+          key={code}
+          onClick={() => handleLanguageChange(code)}
           style={{
-            fontWeight: i18n.language === languageItem[0] ? '600' : '400',
-            opacity: i18n.language === languageItem[0] ? 1 : 0.8,
+            fontWeight: isActive ? '600' : '400',
+            opacity: isActive ? 1 : 0.8,
           }}
-          $isActive={i18n.language === languageItem[0]}
+          $isActive={isActive}
         >
-          {getLanguageLabel(languageItem[0], languageItem[1] as string)}
+          {label}
         </LanguageButton>
       ))}
     </LanguagesContainer>

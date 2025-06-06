@@ -846,3 +846,13 @@ export const TimeInfoDivider = styled.div`
     }
   }
 `;
+
+export const WeatherCardWithTransition = styled(WeatherCard) <{ $isVisible: boolean }>`
+  opacity: ${props => (props.$isVisible ? 1 : 0)};
+  transition: opacity 0.3s ease-in-out;
+`;
+
+export const FadeInContainer = styled.div<{ $isVisible: boolean }>`
+  opacity: ${props => (props.$isVisible ? 1 : 0)};
+  transition: opacity 0.3s ease-in-out;
+`;
