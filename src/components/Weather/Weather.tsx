@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Adapter, convertWeatherUnits,formatWeatherTimeByLanguage } from 'adapter/adapter';
+import { Adapter, convertWeatherUnits, formatWeatherTimeByLanguage } from 'adapter/adapter';
 import CitySearchBar from 'components/CitySearchBar/CitySearchBar';
 import Language from 'components/Language/Language';
 import MainWeatherDisplay from 'components/MainWeatherDisplay/MainWeatherDisplay';
@@ -24,11 +24,10 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { SingleValue } from 'react-select';
 import GlobalStyles from 'styles/GlobalStyles';
-import { Code } from 'styles/styles';
+import { BoxWrapper,Code } from 'styles/styles';
 import { generateURL } from 'utils/helpers';
 
 import {
-  AllDataContainer,
   BreakLine,
   CustomUnitsContainer,
   CustomWeatherDataContainer,
@@ -109,7 +108,7 @@ const Weather = () => {
         }, LOADING_DELAY_MS);
       }
     };
-    
+
     fetchDataInterval();
 
     if (!intervalRef.current) {
@@ -126,7 +125,7 @@ const Weather = () => {
 
   // Add effect to control UI ready state
   useEffect(() => {
-    if (!isLoading && weather.icon && !Object.values(cardsLoading).some(value => value)) {
+    if (!isLoading && weather.icon && !Object.values(cardsLoading).some((value) => value)) {
       // Small delay before showing UI to ensure everything is ready
       const timer = setTimeout(() => {
         setUiReady(true);
@@ -353,9 +352,9 @@ const Weather = () => {
     return (
       <>
         <GlobalStyles />
-        <WeatherCardWithTransition 
-          {...responsiveProps} 
-          data-animate="true" 
+        <WeatherCardWithTransition
+          {...responsiveProps}
+          data-animate="true"
           onTouchStart={handleTouchStart}
           $isVisible={uiReady}
         >
@@ -369,7 +368,7 @@ const Weather = () => {
                   {t('words.weatherIn')} {cityName} ({countryNameShort})
                 </Title>
 
-                <AllDataContainer {...responsiveProps}>
+                <BoxWrapper {...responsiveProps}>
                   <MainWeatherDisplay
                     icon={icon}
                     iconWorking={iconWorking}
@@ -423,7 +422,11 @@ const Weather = () => {
                       ) : (
                         <WeatherDataGrid>
                           <WeatherDataCard label={t('words.humidity')} value={humidity} unit="%" />
-                          <WeatherDataCard label={t('words.pressure')} value={pressure} unit="hPa" />
+                          <WeatherDataCard
+                            label={t('words.pressure')}
+                            value={pressure}
+                            unit="hPa"
+                          />
                         </WeatherDataGrid>
                       )}
                       {showSkeletons && cardsLoading.time ? (
@@ -463,7 +466,7 @@ const Weather = () => {
                       </UnitSpan>
                     </UnitsSubContainer>
                   </CustomUnitsContainer>
-                </AllDataContainer>
+                </BoxWrapper>
                 <FooterContainer {...responsiveProps}>
                   <TimeInfoContainer>
                     <TimeInfoItem>
@@ -543,7 +546,7 @@ const Weather = () => {
       </>
     );
   };
-  
+
   const renderErrorMessage = () => (
     <>
       <DangerLogo src={DangerIcon} alt="" />

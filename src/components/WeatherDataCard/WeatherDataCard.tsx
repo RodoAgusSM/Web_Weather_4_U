@@ -9,6 +9,8 @@ import SunsetIcon from 'images/sunset.png';
 import VisibilityIcon from 'images/visibility.png';
 import WindIcon from 'images/wind.png';
 
+import useResponsiveDesign from '../../hooks/useResponsiveDesign';
+
 import {
   CardContainer,
   CardIcon,
@@ -40,6 +42,7 @@ const WeatherDataCard: React.FC<WeatherDataCardProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const [icon, setIcon] = useState<string>(DefaultIcon);
   const [isAirQuality, setIsAirQuality] = useState(false);
+  const responsiveInfo = useResponsiveDesign();
 
   useEffect(() => {
     const labelLower = label.toLowerCase();
@@ -112,21 +115,24 @@ const WeatherDataCard: React.FC<WeatherDataCardProps> = ({
     <CardContainer
       $isHovered={isHovered}
       $hasInfoButton={isAirQuality && showInfoButton}
+      $isMobile={responsiveInfo.isMobileDevice}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Column 1: Icon */}
-      <IconContainer>
-        <CardIcon src={icon} alt={label} />
+      <IconContainer $isMobile={responsiveInfo.isMobileDevice}>
+        <CardIcon src={icon} alt={label} $isMobile={responsiveInfo.isMobileDevice} />
       </IconContainer>
 
       {/* Column 2: Content (Label and Value) - Use value prop directly */}
-      <ContentContainer>
+      <ContentContainer $isMobile={responsiveInfo.isMobileDevice}>
         <HeaderContainer>
-          <Label $isHovered={isHovered}>{label}:</Label>
+          <Label $isHovered={isHovered} $isMobile={responsiveInfo.isMobileDevice}>
+            {label}:
+          </Label>
         </HeaderContainer>
 
-        <ValueText $isHovered={isHovered}>
+        <ValueText $isHovered={isHovered} $isMobile={responsiveInfo.isMobileDevice}>
           {value}
           {unit && ` ${unit}`}
         </ValueText>
@@ -134,8 +140,8 @@ const WeatherDataCard: React.FC<WeatherDataCardProps> = ({
 
       {/* Column 3: Info Button (only for Air Quality) */}
       {isAirQuality && showInfoButton && (
-        <InfoColumnContainer>
-          <InfoButton onClick={onInfoClick}>
+        <InfoColumnContainer $isMobile={responsiveInfo.isMobileDevice}>
+          <InfoButton $isMobile={responsiveInfo.isMobileDevice} onClick={onInfoClick}>
             <InfoButtonText>i</InfoButtonText>
           </InfoButton>
         </InfoColumnContainer>

@@ -1,13 +1,84 @@
 import styled, { keyframes } from 'styled-components';
 
-export const theme = {
+const palette = {
+  primary: '#85C1E9',
+  secondary: '#5DADE2',
+  accent: '#F39C12',
+  dark: '#2C3E50',
+  light: '#ECF0F1',
+  white: '#FFFFFF',
+  lightBlue: '#AED6F1',
+  lighterBlue: '#D6EAF8',
+  darkBlue: '#2874A6',
+  black: '#000000',
+  danger: '#E74C3C',
+  info: '#3498DB',
+  warning: '#F39C12',
+  success: '#2ECC71',
+  mainBackground: '#85C1E9',
+};
+
+const theme = {
+  colors: {
+    primary: palette.primary,
+    secondary: palette.secondary,
+    accent: palette.accent,
+    background: {
+      light: 'rgba(255, 255, 255, 0.6)',
+      dark: 'rgba(174, 214, 241, 0.3)',
+      card: 'rgba(214, 234, 248, 0.8)',
+    },
+    text: {
+      primary: palette.darkBlue,
+      secondary: '#34495E',
+      muted: '#7F8C8D',
+      light: palette.light,
+      white: palette.white,
+    },
+  },
   spacing: {
     xs: '0.25rem',
     sm: '0.5rem',
-    md: '1rem',
-    lg: '1.5rem',
-    xl: '2rem',
-  }
+    md: '0.75rem',
+    lg: '1rem',
+    xl: '1.5rem',
+  },
+  radius: {
+    sm: '0.3rem',
+    md: '0.6rem',
+    lg: '0.9rem',
+    pill: '9999px',
+  },
+  shadow: {
+    sm: '0 1px 3px rgba(0,0,0,0.08)',
+    md: '0 3px 6px rgba(0,0,0,0.1)',
+    lg: '0 8px 20px rgba(0,0,0,0.12)',
+  },
+  gradient: {
+    primary: 'linear-gradient(135deg, #3498DB 0%, #85C1E9 100%)',
+    accent: 'linear-gradient(135deg, #F39C12 0%, #F7DC6F 100%)',
+    glass: 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%)',
+  },
+};
+
+const orientationResponsive = {
+  landscape: `@media (orientation: landscape) and (max-height: 600px)`,
+};
+
+const CONTAINER_MAX_WIDTH = '500px';
+const CONTAINER_MAX_WIDTH_MOBILE = '95%';
+
+const responsive = {
+  device: (size: 'xs' | 'sm' | 'md' | 'lg' | 'xl') => {
+    const sizes = {
+      xs: 479,
+      sm: 767,
+      md: 1023,
+      lg: 1279,
+      xl: 1440,
+    };
+    return `@media (min-width: ${sizes[size]}px)`;
+  },
 };
 
 const fadeIn = keyframes`
@@ -28,31 +99,77 @@ const refinedGlassEffect = `
   background-blend-mode: overlay;
 `;
 
-const CONTAINER_MAX_WIDTH = '500px';
-
-export const WeatherCard = styled.div<{ $isSmallMobileDevice: boolean, $isMobileDevice: boolean, $isDesktopOrLaptop: boolean }>`
-  background:  rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(10px);
-  border-radius: 1.2rem;
-  padding: 1.2rem 1.2rem;
-  color: #2C3E50;
-  word-wrap: break-word;
-  width: ${({ $isDesktopOrLaptop }) => $isDesktopOrLaptop ? '34rem' : '21rem'};
-
-  max-width: '100%';
-  max-width: ${CONTAINER_MAX_WIDTH};
-  height: auto;
-  min-height: ${({ $isSmallMobileDevice, $isMobileDevice }) =>
-    $isSmallMobileDevice ? '36rem' : $isMobileDevice ? '37rem' : '40rem'};
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+export const BoxContainer = styled.div<{
+  $isSmallMobileDevice: boolean;
+  $isMobileDevice: boolean;
+  $isDesktopOrLaptop: boolean;
+}>`
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
-  position: relative;
-  margin: auto;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border-radius: ${theme.radius.lg};
+  box-shadow: ${theme.shadow.sm};
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  margin: ${theme.spacing.md} auto;
+  padding: ${({ $isSmallMobileDevice }) =>
+    $isSmallMobileDevice ? theme.spacing.sm : theme.spacing.lg};
+  width: ${({ $isMobileDevice }) => ($isMobileDevice ? CONTAINER_MAX_WIDTH_MOBILE : '100%')};
+  max-width: ${CONTAINER_MAX_WIDTH};
   animation: ${fadeIn} 0.5s ease-out forwards;
-  background-color: ${refinedGlassEffect};
-  body:has([aria-label="air-pollution-info"]) & {
-    width: ${({ $isDesktopOrLaptop }) => $isDesktopOrLaptop ? '50rem' : '21rem'};
+  ${refinedGlassEffect}
+
+  ${orientationResponsive.landscape} {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    min-height: auto;
+    max-height: 95vh;
+    overflow-y: auto;
+    padding: ${theme.spacing.md};
+
+    > * {
+      flex-shrink: 0;
+    }
+  }
+`;
+
+export const BoxWrapper = styled.div<{
+  $isDesktopOrLaptop: boolean;
+  $isMobileDevice: boolean;
+  $isSmallMobileDevice: boolean;
+}>`
+  display: flex;
+  flex-direction: column;
+  gap: ${theme.spacing.md};
+  width: 100%;
+  align-items: center;
+
+  ${responsive.device('sm')} {
+    gap: ${theme.spacing.lg};
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    gap: ${theme.spacing.xl};
+
+    & > * {
+      max-width: 95%;
+    }
+  }
+
+  ${orientationResponsive.landscape} {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: ${theme.spacing.sm};
+
+    & > * {
+      width: calc(50% - ${theme.spacing.sm});
+      margin: 0;
+    }
   }
 `;
 

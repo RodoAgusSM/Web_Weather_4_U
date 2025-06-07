@@ -59,7 +59,6 @@ export const MiInfoContainer = styled.div`
   box-shadow: ${theme.shadow.sm};
   margin: ${theme.spacing.xl} auto ${theme.spacing.lg};
   border: 1px solid rgba(255, 255, 255, 0.3);
-  max-width: 400px;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   ${refinedGlassEffect}
@@ -100,8 +99,7 @@ export const NetworkContainer = styled.div`
   border-radius: ${theme.radius.lg};
   box-shadow: ${theme.shadow.sm};
   padding: ${theme.spacing.xl} ${theme.spacing.lg};
-  margin: 0 auto;
-  max-width: 400px;
+margin: 0 auto;
   width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.3);
   gap: ${theme.spacing.md};

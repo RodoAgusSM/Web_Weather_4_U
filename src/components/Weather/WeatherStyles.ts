@@ -1,4 +1,5 @@
 import styled, { css, keyframes } from 'styled-components';
+import { BoxContainer } from 'styles/styles';
 
 const palette = {
   primary: '#85C1E9',
@@ -79,7 +80,6 @@ const orientationResponsive = {
 };
 
 const CONTAINER_MAX_WIDTH = '500px';
-const CONTAINER_MAX_WIDTH_MOBILE = '95%';
 
 const fadeIn = keyframes`
   from {
@@ -173,43 +173,6 @@ export const WeatherIcon = styled.img<{ src: string }>`
   @media (min-width: 1024px) {
     width: 6rem;
     height: 6rem;
-  }
-`;
-
-export const WeatherCard = styled.div<{
-  $isSmallMobileDevice: boolean;
-  $isMobileDevice: boolean;
-  $isDesktopOrLaptop: boolean;
-}>`
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(8px);
-  border-radius: ${theme.radius.lg};
-  box-shadow: ${theme.shadow.sm};
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  margin: ${theme.spacing.md} auto;
-  padding: ${({ $isSmallMobileDevice }) =>
-    $isSmallMobileDevice ? theme.spacing.sm : theme.spacing.lg};
-  width: ${({ $isMobileDevice }) => ($isMobileDevice ? CONTAINER_MAX_WIDTH_MOBILE : '100%')};
-  max-width: ${CONTAINER_MAX_WIDTH};
-  animation: ${fadeIn} 0.5s ease-out forwards;
-  ${refinedGlassEffect}
-
-  ${orientationResponsive.landscape} {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    min-height: auto;
-    max-height: 95vh;
-    overflow-y: auto;
-    padding: ${theme.spacing.md};
-
-    > * {
-      flex-shrink: 0;
-    }
   }
 `;
 
@@ -682,62 +645,6 @@ export const MiInfoContainer = styled.div`
   }
 `;
 
-export const AllDataContainer = styled.div<{
-  $isDesktopOrLaptop: boolean;
-  $isMobileDevice: boolean;
-  $isSmallMobileDevice: boolean;
-}>`
-  display: flex;
-  flex-direction: column;
-  gap: ${theme.spacing.md};
-  width: 100%;
-  align-items: center;
-
-  ${responsive.device('sm')} {
-    gap: ${theme.spacing.lg};
-  }
-
-  @media (min-width: 768px) and (max-width: 1023px) {
-    gap: ${theme.spacing.xl};
-
-    & > * {
-      max-width: 95%;
-    }
-  }
-
-  ${orientationResponsive.landscape} {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    gap: ${theme.spacing.sm};
-
-    & > * {
-      width: calc(50% - ${theme.spacing.sm});
-      margin: 0;
-    }
-  }
-`;
-
-export const EmptyGridCell = styled.div`
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: ${theme.radius.md};
-  backdrop-filter: blur(4px);
-  min-height: 50px;
-
-  @media (max-width: 480px) {
-    min-height: 40px;
-  }
-
-  ${orientationResponsive.landscape} {
-    min-height: 45px;
-  }
-`;
-
 export const WeatherContentContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -847,7 +754,7 @@ export const TimeInfoDivider = styled.div`
   }
 `;
 
-export const WeatherCardWithTransition = styled(WeatherCard) <{ $isVisible: boolean }>`
+export const WeatherCardWithTransition = styled(BoxContainer) <{ $isVisible: boolean }>`
   opacity: ${props => (props.$isVisible ? 1 : 0)};
   transition: opacity 0.3s ease-in-out;
 `;

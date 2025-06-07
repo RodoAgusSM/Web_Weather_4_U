@@ -5,7 +5,7 @@ import socialIcons from 'images/socialIcons';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import GlobalStyles from 'styles/GlobalStyles';
-import { BackContainer, BackIconSpotImg, WeatherCard } from 'styles/styles';
+import { BackContainer, BackIconSpotImg, BoxContainer,BoxWrapper } from 'styles/styles';
 
 import {
   MiInfo,
@@ -63,6 +63,12 @@ const SocialNetwork = () => {
     }
   }, [isTouchDevice]);
 
+  const responsiveProps = {
+    $isDesktopOrLaptop: isDesktopOrLaptop,
+    $isMobileDevice: isMobileDevice,
+    $isSmallMobileDevice: isSmallMobileDevice,
+  };
+
   return (
     <>
       <GlobalStyles />
@@ -75,46 +81,49 @@ const SocialNetwork = () => {
           alignItems: 'center',
         }}
       >
-        <WeatherCard
-          $isDesktopOrLaptop={isDesktopOrLaptop}
-          $isMobileDevice={isMobileDevice}
-          $isSmallMobileDevice={isSmallMobileDevice}
+        <BoxContainer
+          {...responsiveProps}
           data-animate="true"
           onTouchStart={isTouchDevice ? handleTouchStart : undefined}
         >
-          <StarsAnimation />
-          <BackContainer
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onClick={handleBackClick}
-            data-animate="true"
-          >
-            <BackIconSpotImg $mouseOver={mouseOver} />
-            {t('words.back')}
-          </BackContainer>
+          <BoxWrapper {...responsiveProps}>
+            <StarsAnimation />
+            <BackContainer
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              onClick={handleBackClick}
+              data-animate="true"
+            >
+              <BackIconSpotImg $mouseOver={mouseOver} />
+              {t('words.back')}
+            </BackContainer>
 
-          <MiInfoContainer data-animate="true">
-            <MiInfo>{myInfo.nameAndDegree}</MiInfo>
-            <MiInfo>{myInfo.likeAndView}</MiInfo>
-          </MiInfoContainer>
+            <MiInfoContainer data-animate="true">
+              <MiInfo>{myInfo.nameAndDegree}</MiInfo>
+              <MiInfo>{myInfo.likeAndView}</MiInfo>
+            </MiInfoContainer>
 
-          <NetworkContainer data-animate="true">
-            <NetworkTitle>{t('socialNetworks.title')}</NetworkTitle>
-            {socialNetworks.map((socialNetworkItem: SocialNetworkItemType, index: number) => (
-              <NetworkMapContainer key={index} style={{ '--index': index } as React.CSSProperties}>
-                <SocialNetworkIcon icon={socialIcons[socialNetworkItem.abbreviation]} />
-                <SocialNetworkName>{socialNetworkItem.abbreviation}</SocialNetworkName>
-                <SocialNetworkItem
-                  href={socialNetworkItem.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
+            <NetworkContainer data-animate="true">
+              <NetworkTitle>{t('socialNetworks.title')}</NetworkTitle>
+              {socialNetworks.map((socialNetworkItem: SocialNetworkItemType, index: number) => (
+                <NetworkMapContainer
+                  key={index}
+                  style={{ '--index': index } as React.CSSProperties}
                 >
-                  {socialNetworkItem.username}
-                </SocialNetworkItem>
-              </NetworkMapContainer>
-            ))}
-          </NetworkContainer>
-        </WeatherCard>
+                  <SocialNetworkIcon icon={socialIcons[socialNetworkItem.abbreviation]} />
+                  <SocialNetworkName>{socialNetworkItem.abbreviation}</SocialNetworkName>
+                  <SocialNetworkItem
+                    href={socialNetworkItem.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {socialNetworkItem.username}
+                  </SocialNetworkItem>
+                </NetworkMapContainer>
+              ))}
+            </NetworkContainer>
+          </BoxWrapper>
+        </BoxContainer>
       </div>
     </>
   );
