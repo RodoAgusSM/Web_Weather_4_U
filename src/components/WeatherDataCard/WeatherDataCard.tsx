@@ -126,7 +126,7 @@ const WeatherDataCard: React.FC<WeatherDataCardProps> = ({
       <ContentContainer $isMobile={responsiveInfo.isMobileDevice}>
         <HeaderContainer>
           <Label $isHovered={isHovered} $isMobile={responsiveInfo.isMobileDevice}>
-            {label}:
+            {label}
           </Label>
         </HeaderContainer>
 

@@ -5,9 +5,12 @@ import Weather from 'components/Weather/Weather';
 import useResponsiveDesign from 'hooks/useResponsiveDesign';
 import { I18nextProvider } from 'react-i18next';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import i18n from 'translations/i18n';
 
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 import GlobalStyles from './styles/GlobalStyles';
+import { darkTheme, lightTheme } from './styles/theme';
 
 function App() {
   const {
@@ -110,16 +113,29 @@ function App() {
     }
   }, [isMobileDevice, isTouchDevice]);
 
+  const ThemedApp = () => {
+    const { isDarkMode } = useTheme();
+    const theme = isDarkMode ? darkTheme : lightTheme;
+
+    return (
+      <StyledThemeProvider theme={theme}>
+        <GlobalStyles theme={theme} />
+        <Router>
+          <Routes>
+            <Route path="/" element={<Weather />} />
+            <Route path="/social_network" element={<SocialNetwork />} />
+            <Route path="/air_pollution_info" element={<AirPollutionInfo />} />
+          </Routes>
+        </Router>
+      </StyledThemeProvider>
+    );
+  };
+
   return (
     <I18nextProvider i18n={i18n}>
-      <GlobalStyles />
-      <Router>
-        <Routes>
-          <Route path="/" element={<Weather />} />
-          <Route path="/social_network" element={<SocialNetwork />} />
-          <Route path="/air_pollution_info" element={<AirPollutionInfo />} />
-        </Routes>
-      </Router>
+      <ThemeProvider>
+        <ThemedApp />
+      </ThemeProvider>
     </I18nextProvider>
   );
 }

@@ -5,8 +5,11 @@ import useResponsiveDesign from 'hooks/useResponsiveDesign';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import GlobalStyles from 'styles/GlobalStyles';
-import { BackContainer, BackIconSpotImg, BoxContainer,BoxWrapper } from 'styles/styles';
+import { BackContainer, BackIconSpotImg, BoxContainer, BoxWrapper } from 'styles/styles';
 import { firstLowerToUppercase } from 'utils/helpers';
+
+import { useTheme } from '../../context/ThemeContext';
+import { darkTheme, lightTheme } from '../../styles/theme';
 
 import {
   AirPollutionColors,
@@ -67,6 +70,9 @@ const getQualityLevelIndex = (value: number, valueRanges: number[]): number => {
 const AirPollutionInfo = () => {
   const { t } = useTranslation();
   const { state } = useLocation();
+  const { isDarkMode } = useTheme();
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
   const {
     isDesktopOrLaptop,
     isMobileDevice,
@@ -193,10 +199,9 @@ const AirPollutionInfo = () => {
       return orderA - orderB;
     });
   }, [airPollutionEntries, sortedMetricOrder]);
-
   return (
     <>
-      <GlobalStyles />
+      <GlobalStyles theme={theme} />
       <div
         style={{
           width: '100%',

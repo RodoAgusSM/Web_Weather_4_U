@@ -1,15 +1,18 @@
 import { createGlobalStyle } from 'styled-components';
 
-const GlobalStyles = createGlobalStyle`
+import { ThemeType } from './theme';
+
+const GlobalStyles = createGlobalStyle<{ theme: ThemeType }>`
   body {
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #85C1E9 0%, #5DADE2 100%);
+    background: ${({ theme }) => theme.body};
     min-height: 100vh;
-    color: #2C3E50;
+    color: ${({ theme }) => theme.text};
+    transition: all 0.3s ease;
   }
-  
+
   * {
     box-sizing: border-box;
   }

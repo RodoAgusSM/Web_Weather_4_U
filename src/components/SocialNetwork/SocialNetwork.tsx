@@ -7,6 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import GlobalStyles from 'styles/GlobalStyles';
 import { BackContainer, BackIconSpotImg, BoxContainer,BoxWrapper } from 'styles/styles';
 
+import { useTheme } from '../../context/ThemeContext';
+import { darkTheme, lightTheme } from '../../styles/theme';
+
 import {
   MiInfo,
   MiInfoContainer,
@@ -32,6 +35,8 @@ type SocialNetworkItemType = {
 const SocialNetwork = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { isDarkMode } = useTheme();
+  const theme = isDarkMode ? darkTheme : lightTheme;
   const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice, isTouchDevice } =
     useResponsiveDesign();
   const [mouseOver, setMouseOver] = useState<boolean>(false);
@@ -71,7 +76,7 @@ const SocialNetwork = () => {
 
   return (
     <>
-      <GlobalStyles />
+      <GlobalStyles theme={theme} />
       <div
         style={{
           width: '100%',

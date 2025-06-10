@@ -337,7 +337,7 @@ export const WeatherDataContainer = styled.div`
 `;
 
 export const CustomWeatherDataContainer = styled(WeatherDataContainer)`
-  max-width: 500px; /* Match CONTAINER_MAX_WIDTH */
+  max-width: 500px;
   margin: 0 auto;
   width: 100%;
   padding: 0;
@@ -455,10 +455,18 @@ export const FooterContainer = styled.div<{
 }>`
   display: flex;
   flex-direction: column;
-  gap: ${theme.spacing.sm};
+  gap: ${theme.spacing.md};
 
-  ${responsive.device('md')} {
-    gap: ${theme.spacing.md};
+  ${responsive.device('sm')} {
+    gap: ${theme.spacing.lg};
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    gap: ${theme.spacing.xl};
+
+    & > * {
+      max-width: 95%;
+    }
   }
 `;
 

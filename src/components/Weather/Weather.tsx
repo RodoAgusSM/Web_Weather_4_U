@@ -5,6 +5,7 @@ import Language from 'components/Language/Language';
 import MainWeatherDisplay from 'components/MainWeatherDisplay/MainWeatherDisplay';
 import StarsAnimation from 'components/Space/Space';
 import Toggle from 'components/Toggle/Toggle';
+import TriToggle from 'components/TriToggle/TriToggle';
 import WeatherDataCard from 'components/WeatherDataCard/WeatherDataCard';
 import WeatherDataGrid from 'components/WeatherDataGrid/WeatherDataGrid';
 import WeatherDataGridSkeleton from 'components/WeatherDataGrid/WeatherDataGridSkeleton';
@@ -26,6 +27,9 @@ import { SingleValue } from 'react-select';
 import GlobalStyles from 'styles/GlobalStyles';
 import { BoxWrapper, Code } from 'styles/styles';
 import { generateURL } from 'utils/helpers';
+
+import { useTheme } from '../../context/ThemeContext';
+import { darkTheme, lightTheme } from '../../styles/theme';
 
 import {
   BreakLine,
@@ -56,6 +60,8 @@ const LOADING_DELAY_MS = 300;
 const Weather = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const { mode, setMode, isDarkMode } = useTheme();
+  const theme = isDarkMode ? darkTheme : lightTheme;
   const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useResponsiveDesign();
   const [validCoordinates, setValidCoordinates] = useState<boolean>(true);
   const [siteWorking, setIsSiteWorking] = useState<boolean>(true);
@@ -349,9 +355,76 @@ const Weather = () => {
       { id: 'metric', label: t('words.unit.metric'), value: Units.Metric },
     ];
 
+    const themeToggleItems = [
+      {
+        id: 'light',
+        value: 'light',
+        icon: (
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="#FFD700"
+            stroke="#FFD700"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        ),
+      },
+      {
+        id: 'dark',
+        value: 'dark',
+        icon: (
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="#000000"
+            stroke="#000000"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        ),
+      },
+      {
+        id: 'system',
+        value: 'system',
+        icon: (
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="#D3D3D3"
+            stroke="#36454F"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+        ),
+      },
+    ];
+
     return (
       <>
-        <GlobalStyles />
+        <GlobalStyles theme={theme} />
         <WeatherCardWithTransition
           {...responsiveProps}
           data-animate="true"
@@ -490,13 +563,16 @@ const Weather = () => {
                       <span>{t('words.date')}</span> {lastDateChecked}
                     </TimeInfoItem>
                   </TimeInfoContainer>
-
                   <Toggle
                     items={unitToggleItems}
                     selectedValue={unit}
                     onChange={(value) => changeUnit(value as Units)}
                   />
-
+                  <TriToggle
+                    items={themeToggleItems}
+                    selectedValue={mode}
+                    onChange={(value) => setMode(value as 'light' | 'dark' | 'system')}
+                  />
                   <LanguageAndSocialNetworkContainer>
                     <Language changeLanguage={changeLanguage} />
                     <SocialNetworkIconContainer
@@ -548,7 +624,7 @@ const Weather = () => {
 
   return (
     <>
-      <GlobalStyles />
+      <GlobalStyles theme={theme} />
       <div
         style={{
           width: '100%',

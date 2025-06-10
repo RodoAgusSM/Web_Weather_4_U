@@ -5,7 +5,6 @@ export const ToggleContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin: 15px 0;
 `;
 
 export const ToggleWrapper = styled.div`
