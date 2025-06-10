@@ -1,24 +1,27 @@
 import React, { useState } from 'react';
 import { Units } from 'enums/index';
+import useResponsiveDesign from 'hooks/useResponsiveDesign';
 import NotFoundIcon from 'images/not_found_icon.png';
 import { useTranslation } from 'react-i18next';
 
 import {
-  CustomWeatherMainContainer,
-  DescriptionText,
-  FeelsLikeText,
-  MainContentWrapper,
-  TemperatureUnit,
-  TemperatureUnitWrapper,
-  TemperatureValue,
+  ColumnsContainer,
+  DataRowsContainer,
+  DescriptionContainer,
+  FeelLikeContainer,
+  IconRowsContainer,
+  LocationContainer,
+  MainWeatherDisplayContainer,
+  RealFeelColumnContainer,
+  RealFeelContainer,
+  UnitContainer,
   WeatherIcon,
-  WeatherIconContainer,
-  WeatherMain,
 } from './MainWeatherDisplayStyles';
 
 interface MainWeatherDisplayProps {
   icon: string;
   iconWorking: boolean;
+  location: string;
   realFeel: string | number;
   feelsLike: string | number;
   description: string;
@@ -28,6 +31,7 @@ interface MainWeatherDisplayProps {
 const MainWeatherDisplay: React.FC<MainWeatherDisplayProps> = ({
   icon,
   iconWorking,
+  location,
   realFeel,
   feelsLike,
   description,
@@ -35,41 +39,51 @@ const MainWeatherDisplay: React.FC<MainWeatherDisplayProps> = ({
 }) => {
   const { t } = useTranslation();
   const [isHovered, setIsHovered] = useState(false);
+  const { isMobileDevice, isSmallMobileDevice } = useResponsiveDesign();
+
+  const degreeUnit =
+    Units.Imperial === unit
+      ? t('words.temperature.unit.imperial')
+      : t('words.temperature.unit.metric');
 
   return (
-    <CustomWeatherMainContainer
+    <MainWeatherDisplayContainer
       data-animate="true"
       $isHovered={isHovered}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{ touchAction: 'manipulation' }}
     >
-      <MainContentWrapper>
-        <WeatherIconContainer>
-          <WeatherIcon src={iconWorking ? icon : NotFoundIcon} alt="" />
-        </WeatherIconContainer>
-
-        <WeatherMain>
-          <TemperatureUnitWrapper>
-            <TemperatureValue>{realFeel}</TemperatureValue>
-            <TemperatureUnit>
-              {Units.Imperial === unit
-                ? t('words.temperature.unit.imperial')
-                : t('words.temperature.unit.metric')}
-            </TemperatureUnit>
-          </TemperatureUnitWrapper>
-
-          <FeelsLikeText>
-            {t('words.temperature.feelsLike')} {feelsLike}{' '}
-            {Units.Imperial === unit
-              ? t('words.temperature.unit.imperial')
-              : t('words.temperature.unit.metric')}
-          </FeelsLikeText>
-
-          <DescriptionText>{description}</DescriptionText>
-        </WeatherMain>
-      </MainContentWrapper>
-    </CustomWeatherMainContainer>
+      <ColumnsContainer>
+        <DataRowsContainer>
+          <LocationContainer $isMobile={isMobileDevice} $isSmallMobile={isSmallMobileDevice}>
+            {location}
+          </LocationContainer>
+          <RealFeelColumnContainer>
+            <RealFeelContainer $isMobile={isMobileDevice} $isSmallMobile={isSmallMobileDevice}>
+              {realFeel}
+            </RealFeelContainer>
+            <UnitContainer $isMobile={isMobileDevice} $isSmallMobile={isSmallMobileDevice}>
+              {degreeUnit}
+            </UnitContainer>
+          </RealFeelColumnContainer>
+          <FeelLikeContainer $isMobile={isMobileDevice}>
+            {t('words.temperature.feelsLike')} {feelsLike} {degreeUnit}
+          </FeelLikeContainer>
+          <DescriptionContainer $isMobile={isMobileDevice} $isSmallMobile={isSmallMobileDevice}>
+            {description}
+          </DescriptionContainer>
+        </DataRowsContainer>
+        <IconRowsContainer>
+          <WeatherIcon
+            src={iconWorking ? icon : NotFoundIcon}
+            alt=""
+            $isMobile={isMobileDevice}
+            $isSmallMobile={isSmallMobileDevice}
+          />
+        </IconRowsContainer>
+      </ColumnsContainer>
+    </MainWeatherDisplayContainer>
   );
 };
 

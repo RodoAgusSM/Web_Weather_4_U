@@ -28,12 +28,6 @@ const theme = {
     lg: '1rem',
     xl: '1.5rem',
   },
-  radius: {
-    sm: '0.3rem',
-    md: '0.6rem',
-    lg: '0.9rem',
-    pill: '9999px',
-  },
   shadow: {
     sm: '0 1px 3px rgba(0,0,0,0.08)',
     md: '0 3px 6px rgba(0,0,0,0.1)',
@@ -62,7 +56,7 @@ export const ProgressBarFill = styled.div<{ $percentage: number; $color: string 
   height: 100%;
   width: 0%;
   background-color: ${(props) => props.$color};
-  border-radius: ${theme.radius.pill};
+  border-radius: 8px;
   animation: ${fillProgress} 1.2s ease-out forwards;
   animation-delay: calc(var(--index, 0) * 0.1s + 0.3s);
   --target-width: ${(props) => props.$percentage}%;
@@ -88,19 +82,12 @@ const fadeIn = keyframes`
   }
 `;
 
-const refinedGlassEffect = `
-  background-image: 
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
-  background-blend-mode: overlay;
-`;
-
 export const AirQualityCard = styled.div`
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.2);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(240, 248, 255, 0.65));
   backdrop-filter: blur(8px);
-  border-radius: ${theme.radius.md};
+  border-radius: 8px;
   padding: ${theme.spacing.md};
   box-shadow: ${theme.shadow.sm};
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -109,7 +96,6 @@ export const AirQualityCard = styled.div`
   animation: ${fadeIn} 0.5s ease-out forwards;
   animation-delay: calc(var(--index, 0) * 0.1s);
   opacity: 0;
-  ${refinedGlassEffect}
 
   &:hover {
     transform: translateY(-2px);
@@ -157,7 +143,7 @@ export const AirQualityValue = styled.div`
   color: ${palette.dark};
   background: rgba(255, 255, 255, 0.3);
   padding: ${theme.spacing.xs} ${theme.spacing.md};
-  border-radius: ${theme.radius.pill};
+  border-radius: 8px;
   white-space: nowrap;
   margin-top: ${theme.spacing.xs};
   margin-left: auto;
@@ -167,7 +153,7 @@ export const ProgressBarContainer = styled.div`
   width: 100%;
   height: 10px;
   background: rgba(255, 255, 255, 0.3);
-  border-radius: ${theme.radius.pill};
+  border-radius: 8px;
   overflow: hidden;
   margin-bottom: ${theme.spacing.sm};
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -260,7 +246,7 @@ export const AirPollutionLegendDesktopContainer = styled.div`
   margin: ${theme.spacing.xl} 0;
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(8px);
-  border-radius: ${theme.radius.lg};
+  border-radius: 8px;
   padding: ${theme.spacing.md};
   box-shadow: ${theme.shadow.sm};
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -293,7 +279,7 @@ export const AirPollutionLegendMobileContainer = styled.div`
   gap: ${theme.spacing.sm};
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(8px);
-  border-radius: ${theme.radius.lg};
+  border-radius: 8px;
   padding: ${theme.spacing.md};
   box-shadow: ${theme.shadow.sm};
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -336,7 +322,7 @@ export const Title = styled.h2`
     width: 50px;
     height: 2px;
     background: ${palette.accent};
-    border-radius: ${theme.radius.pill};
+    border-radius: 8px;
   }
 `;
 
@@ -345,7 +331,7 @@ export const CurrentQualityLabel = styled.div<{ $color: string }>`
   font-weight: 600;
   padding: ${theme.spacing.xs} ${theme.spacing.sm};
   margin-top: ${theme.spacing.sm};
-  border-radius: ${theme.radius.pill};
+  border-radius: 8px;
   color: #fff;
   background-color: ${(props) => props.$color};
   box-shadow: ${theme.shadow.sm};

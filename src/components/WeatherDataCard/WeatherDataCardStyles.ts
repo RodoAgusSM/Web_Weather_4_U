@@ -1,239 +1,174 @@
 import styled from 'styled-components';
 
-export const CardContainer = styled.div<{ $isHovered: boolean; $hasInfoButton?: boolean; $isMobile?: boolean }>`
-  display: grid;
-  grid-template-columns: ${props => props.$hasInfoButton ? '40px 1fr 40px' : '40px 1fr'};
+export const CardContainer = styled.div<{
+  $isHovered: boolean;
+  $hasInfoButton: boolean;
+  $isMobile: boolean;
+}>`
+  display: flex;
   align-items: center;
-  gap: 12px;
-  background-color: ${({ $isHovered }) =>
-    $isHovered ? 'rgba(174, 214, 241, 0.75)' : 'rgba(174, 214, 241, 0.5)'};
+  width: 100%;
+  height: ${(props) => (props.$isMobile ? '70px' : '80px')};
   border-radius: 8px;
-  padding: 12px;
-  transition: all 0.3s ease;
-  box-shadow: ${({ $isHovered }) =>
-    $isHovered ? '0 6px 12px rgba(0, 0, 0, 0.15)' : '0 2px 4px rgba(0, 0, 0, 0.05)'};
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(4px);
-  transform: ${({ $isHovered }) => $isHovered ? 'translateY(-5px)' : 'translateY(0)'};
+  padding: ${(props) => (props.$isMobile ? '10px' : '14px 16px')};
+  box-sizing: border-box;
+  gap: ${(props) => (props.$isMobile ? '8px' : '12px')};
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
   
-  ${props => props.$isMobile && `
-    grid-template-columns: ${props.$hasInfoButton ? '26px 1fr 30px' : '26px 1fr'};
-    gap: 5px;
-    padding: 6px 8px;
-    width: 95%; 
-    max-width: 280px;
-    height: auto;
-    min-height: 65px;
-    max-height: 75px;
-    margin: 3px auto;
-    border-radius: 6px;
-  `}
-  
-  /* Add a subtle pulse animation on hover */
+  /* Fixed dimensions to ensure consistent layout */
+  min-height: ${(props) => (props.$isMobile ? '70px' : '80px')};
+  max-height: ${(props) => (props.$isMobile ? '70px' : '80px')};
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(240, 248, 255, 0.65));
+  /* Hover effect */
   &:hover {
-    animation: pulse 1.5s infinite alternate;
-  }
-  
-  @keyframes pulse {
-    0% {
-      transform: translateY(-5px) scale(1);
-    }
-    100% {
-      transform: translateY(-5px) scale(1.02);
-    }
+    transform: translateY(-3px);
+    box-shadow: 
+      0 8px 20px rgba(0, 0, 0, 0.1), 
+      inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.5);
   }
 `;
 
-export const IconContainer = styled.div<{ $isMobile?: boolean }>`
+export const IconContainer = styled.div<{ $isMobile: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
   flex-shrink: 0;
-  transition: transform 0.3s ease;
-
-  ${CardContainer}:hover & {
-    transform: scale(1.15);
-  }
-
-  ${props => props.$isMobile && `
-    width: 22px;
-    height: 22px;
-    min-width: 22px;
-    min-height: 22px;
-    margin-right: 2px;
-  `}
+  width: ${(props) => (props.$isMobile ? '32px' : '40px')};
+  height: ${(props) => (props.$isMobile ? '32px' : '40px')};
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  backdrop-filter: blur(4px);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8);
+  padding: 6px;
+  transition: all 0.2s ease;
 `;
 
-export const CardIcon = styled.img<{ $isMobile?: boolean }>`
-  width: 100%;
-  height: 100%;
+export const CardIcon = styled.img<{ $isMobile: boolean; src: string }>`
+  width: ${(props) => (props.$isMobile ? '22px' : '28px')};
+  height: ${(props) => (props.$isMobile ? '22px' : '28px')};
   object-fit: contain;
+  opacity: 0.85;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+  transition: all 0.3s ease;
   
-  ${props => props.$isMobile && `
-    max-width: 20px;
-    max-height: 20px;
-  `}
+  ${CardContainer}:hover & {
+    opacity: 1;
+    transform: scale(1.05);
+  }
 `;
 
-export const ContentContainer = styled.div<{ $isMobile?: boolean }>`
+export const ContentContainer = styled.div<{ $isMobile: boolean }>`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  
-  ${props => props.$isMobile && `
-    width: 100%;
-    overflow: hidden;
-    padding-left: 0;
-  `}
+  flex-grow: 1;
+  overflow: hidden;
+  gap: ${(props) => (props.$isMobile ? '2px' : '4px')};
+  width: 0;
 `;
 
 export const HeaderContainer = styled.div`
-  margin-bottom: 4px;
-  
-  @media (max-width: 480px) {
-    margin-bottom: 2px;
-  }
+  display: flex;
+  align-items: center;
+  width: 100%;
+  overflow: hidden;
 `;
 
-export const Label = styled.div<{ $isHovered: boolean; $isMobile?: boolean }>`
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: ${({ $isHovered }) =>
-    $isHovered ? '#2C3E50' : '#34495E'};
-  transition: color 0.3s ease;
-  
-  ${CardContainer}:hover & {
-    color: #2C3E50;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-  }
-  
-  ${props => props.$isMobile && `
-    font-size: 0.65rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: 0;
-  `}
-`;
-
-export const ValueText = styled.div<{ $isHovered: boolean; $isMobile?: boolean }>`
-  font-size: 1rem;
+export const Label = styled.div<{ $isHovered: boolean; $isMobile: boolean }>`
+  font-size: ${(props) => (props.$isMobile ? '0.75rem' : '0.85rem')};
   font-weight: 600;
-  color: ${({ $isHovered }) =>
-    $isHovered ? '#2C3E50' : '#34495E'};
-  transition: color 0.3s ease, transform 0.3s ease;
+  color: #1976d2;
+  transition: color 0.2s ease;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   
   ${CardContainer}:hover & {
-    color: #2C3E50;
-    transform: scale(1.05);
-    transform-origin: left center;
-  }
-  
-  ${props => props.$isMobile && `
-    font-size: 0.8rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  `}
-  
-  ${CardContainer}:hover & {
-    animation: wiggle 1s ease-in-out infinite;
-  }
-  
-  @keyframes wiggle {
-    0%, 100% { transform: rotate(0); }
-    25% { transform: rotate(-10deg); }
-    75% { transform: rotate(10deg); }
+    color: #0d47a1;
   }
 `;
 
-export const InfoColumnContainer = styled.div<{ $isMobile?: boolean }>`
+export const ValueText = styled.div<{ $isHovered: boolean; $isMobile: boolean }>`
+  font-size: ${(props) => (props.$isMobile ? '0.85rem' : '0.95rem')};
+  font-weight: 500;
+  color: #333;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
+  ${CardContainer}:hover & {
+    color: #1a1a1a;
+  }
+`;
+
+export const InfoColumnContainer = styled.div<{ $isMobile: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
-  
-  ${props => props.$isMobile && `
-    width: 100%;
-    max-width: 26px;
-    margin-left: -2px;
-  `}
+  flex-shrink: 0;
+  margin-left: auto;
 `;
 
-export const InfoButton = styled.button<{ $isMobile?: boolean }>`
-  background: rgba(243, 156, 18, 0.8);
-  border: none;
+export const InfoButton = styled.button<{ $isMobile: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: ${(props) => (props.$isMobile ? '20px' : '22px')};
+  height: ${(props) => (props.$isMobile ? '20px' : '22px')};
   border-radius: 50%;
-  width: 22px;
-  height: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: linear-gradient(135deg, #1976d2, #2196f3);
+  border: none;
   cursor: pointer;
   transition: all 0.2s ease;
-  padding: 0;
-
+  box-shadow: 0 2px 5px rgba(25, 118, 210, 0.3);
+  
   &:hover {
-    background: rgba(243, 156, 18, 1);
-    transform: scale(1.2) rotate(10deg);
+    background: linear-gradient(135deg, #0d47a1, #1976d2);
+    transform: scale(1.1);
+    box-shadow: 0 3px 7px rgba(25, 118, 210, 0.4);
   }
   
-  ${CardContainer}:hover & {
-    animation: wiggle 1s ease-in-out infinite;
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.4);
   }
-  
-  @keyframes wiggle {
-    0%, 100% { transform: rotate(0); }
-    25% { transform: rotate(-10deg); }
-    75% { transform: rotate(10deg); }
-  }
-  
-  ${props => props.$isMobile && `
-    width: 18px;
-    height: 18px;
-  `}
 `;
 
 export const InfoButtonText = styled.span`
   color: white;
-  font-size: 0.7rem;
-  font-weight: bold;
-  font-style: italic;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
+  font-size: 0.75rem;
+  font-weight: 600;
   line-height: 1;
-  
-  @media (max-width: 480px) {
-    font-size: 0.6rem;
-  }
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 `;
 
-export const Card = styled.div<{ $isMobileDevice: boolean, $isHovered: boolean; }>`
+export const Card = styled.div<{ $isMobileDevice: boolean; $isHovered: boolean }>`
   background-color: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
   flex: 1;
-  min-width: 0; /* Allow cards to shrink below content size */
-  height: ${props => props.$isMobileDevice ? '100px' : '120px'}; /* Fixed height for consistency */
-  
-  /* Add these properties for more consistent sizing on mobile */
-  ${props => props.$isMobileDevice && `
+  min-width: 0;
+  height: ${(props) =>
+    props.$isMobileDevice ? '100px' : '120px'};
+
+  ${(props) =>
+    props.$isMobileDevice &&
+    `
     max-width: 100%;
     min-height: 100px;
     display: flex;
     align-items: stretch;
   `}
-  
-  /* Ensure all cards have the same dimensions */
+
   box-sizing: border-box;
-  
-  /* Add transition for smooth resizing */
+
   transition: height 0.3s ease, padding 0.3s ease;
 `;
 
@@ -244,8 +179,7 @@ export const CardContent = styled.div`
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  
-  /* Prevent content from overflowing */
+
   overflow: hidden;
   text-overflow: ellipsis;
 `;
@@ -257,7 +191,7 @@ export const CardLabel = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  
+
   @media (max-width: 480px) {
     font-size: 0.75rem;
   }
@@ -278,16 +212,16 @@ export const CardValue = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  
+
   span {
     font-size: 0.875rem;
     margin-left: 4px;
     color: rgba(255, 255, 255, 0.7);
   }
-  
+
   @media (max-width: 480px) {
     font-size: 1.25rem;
-    
+
     span {
       font-size: 0.75rem;
     }

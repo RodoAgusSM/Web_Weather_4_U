@@ -337,8 +337,11 @@ export const WeatherDataContainer = styled.div`
 `;
 
 export const CustomWeatherDataContainer = styled(WeatherDataContainer)`
-  max-width: ${CONTAINER_MAX_WIDTH};
+  max-width: 500px; /* Match CONTAINER_MAX_WIDTH */
   margin: 0 auto;
+  width: 100%;
+  padding: 0;
+  box-sizing: border-box;
 `;
 
 export const DataColumnContainer = styled.div`
@@ -346,6 +349,9 @@ export const DataColumnContainer = styled.div`
   flex-direction: column;
   gap: 0.75rem;
   width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 
   @media (max-width: 480px) {
     gap: 0.5rem;
@@ -450,7 +456,6 @@ export const FooterContainer = styled.div<{
   display: flex;
   flex-direction: column;
   gap: ${theme.spacing.sm};
-  margin-top: ${theme.spacing.lg};
 
   ${responsive.device('md')} {
     gap: ${theme.spacing.md};
@@ -460,16 +465,20 @@ export const FooterContainer = styled.div<{
 export const LanguageAndSocialNetworkContainer = styled.div`
   position: relative;
   width: 100%;
-  padding: ${theme.spacing.md} 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: ${theme.spacing.sm};
+  margin: 0;
+  padding: 0;
+  min-height: 40px;
+  height: auto;
 
   > div {
     width: auto;
     position: relative;
     z-index: 1;
+    margin: 0;
+    padding: 0;
   }
 `;
 
@@ -487,48 +496,6 @@ export const SocialNetworkIconContainer = styled.span<{ $isDesktopOrLaptop: bool
 
   @media (max-width: 360px) {
     right: 0;
-  }
-`;
-
-export const InfoIconButton = styled.button`
-  background: none;
-  border: none;
-  padding: 4px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-    transform: scale(1.06);
-  }
-
-  &:focus {
-    outline: none;
-  }
-`;
-
-export const InfoIcon = styled.img<{ $mouseOver: boolean; src: string }>`
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
-  transition: all 0.2s ease;
-  filter: ${({ $mouseOver }) =>
-    $mouseOver
-      ? 'invert(70%) sepia(54%) saturate(1500%) hue-rotate(358deg) brightness(102%) contrast(99%)'
-      : 'none'};
-
-  ${InfoIconButton}:hover & {
-    filter: invert(70%) sepia(54%) saturate(1500%) hue-rotate(358deg) brightness(102%) contrast(99%);
-    transform: scale(1.1);
-  }
-
-  ${responsive.device('md')} {
-    width: 22px;
-    height: 22px;
   }
 `;
 
@@ -671,14 +638,13 @@ export const TimeInfoContainer = styled.div`
   justify-content: center;
   gap: 4px;
   padding: 8px 12px;
-  background: rgba(174, 214, 241, 0.2);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(240, 248, 255, 0.65));
   border-radius: 8px;
   backdrop-filter: blur(4px);
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.2);
 
   &:hover {
-    background: rgba(174, 214, 241, 0.4);
     transform: translateY(-2px);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   }
@@ -730,7 +696,7 @@ export const TimeInfoDivider = styled.div`
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background-color: ${palette.accent};
+    background: linear-gradient(135deg, #2006f3, #199992);
     position: relative;
     margin: 0 10px;
 
@@ -741,7 +707,7 @@ export const TimeInfoDivider = styled.div`
       width: 4px;
       height: 4px;
       border-radius: 50%;
-      background-color: rgba(243, 156, 18, 0.5);
+      background: linear-gradient(135deg, #2006f3, #199992);
     }
 
     &::before {
@@ -762,4 +728,37 @@ export const WeatherCardWithTransition = styled(BoxContainer) <{ $isVisible: boo
 export const FadeInContainer = styled.div<{ $isVisible: boolean }>`
   opacity: ${props => (props.$isVisible ? 1 : 0)};
   transition: opacity 0.3s ease-in-out;
+`;
+
+export const InfoButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1976d2, #2196f3);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(25, 118, 210, 0.3);
+  
+  &:hover {
+    background: linear-gradient(135deg, #0d47a1, #1976d2);
+    transform: scale(1.1);
+    box-shadow: 0 3px 7px rgba(25, 118, 210, 0.4);
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.4);
+  }
+`;
+
+export const InfoButtonText = styled.span`
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 `;

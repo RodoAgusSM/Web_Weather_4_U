@@ -126,3 +126,17 @@ export const LanguageButton = styled.button<{
     min-height: 28px;
   }
 `;
+
+interface LanguageContainerProps {
+  $isMobileDevice: boolean;
+  $isSmallMobileDevice: boolean;
+  $isTouchDevice: boolean;
+}
+
+export const LanguageContainer = styled.div<LanguageContainerProps>`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: ${props => (props.$isMobileDevice ? '0.5rem' : '1rem')};
+  width: ${props => (props.$isMobileDevice ? '120px' : '150px')};
+`;

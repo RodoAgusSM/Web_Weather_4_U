@@ -1,35 +1,4 @@
-import styled, { css, keyframes } from 'styled-components';
-
-const palette = {
-  primary: '#85C1E9',
-  darkBlue: '#2874A6',
-  black: '#000000',
-};
-
-const theme = {
-  spacing: {
-    xs: '0.25rem',
-    sm: '0.5rem',
-    md: '0.75rem',
-    lg: '1rem',
-    xl: '1.5rem',
-  },
-  radius: {
-    sm: '0.3rem',
-    md: '0.6rem',
-    lg: '0.9rem',
-    pill: '9999px',
-  },
-  shadow: {
-    sm: '0 1px 3px rgba(0,0,0,0.08)',
-    md: '0 3px 6px rgba(0,0,0,0.1)',
-  },
-  colors: {
-    text: {
-      primary: '#2874A6',
-    },
-  },
-};
+import styled, { keyframes } from 'styled-components';
 
 const CONTAINER_MAX_WIDTH = '500px';
 
@@ -44,75 +13,29 @@ const fadeIn = keyframes`
   }
 `;
 
-const refinedGlassEffect = `
-  background-image: 
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
-  background-blend-mode: overlay;
-`;
-
-const hoverLiftEffect = `
-  transition: all 0.3s ease;
-  cursor: default;
-  
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: ${theme.shadow.md};
-  }
-`;
-
-const baseContainerStyles = css`
+export const MainWeatherDisplayContainer = styled.div<{ $isHovered?: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  border-radius: ${theme.radius.lg};
+  border-radius: 8px;
   margin: 0 auto;
   max-width: ${CONTAINER_MAX_WIDTH};
   width: 100%;
-  ${refinedGlassEffect}
-  animation: ${fadeIn} 0.5s ease-out forwards;
-  ${hoverLiftEffect}
-`;
-
-export const WeatherMainContainer = styled.div`
-  ${baseContainerStyles}
-  gap: ${theme.spacing.lg};
-  padding: ${theme.spacing.lg};
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  transform: translateY(0);
-
-  &:hover {
-    background: rgba(214, 234, 248, 0.9);
-  }
-`;
-
-export const CustomWeatherMainContainer = styled.div<{ $isHovered?: boolean }>`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  border-radius: ${theme.radius.lg};
-  margin: 0 auto;
-  max-width: ${CONTAINER_MAX_WIDTH};
-  width: 100%;
-  padding: ${theme.spacing.md};
+  padding: 0.75rem;
   box-sizing: border-box;
-  background-color: ${({ $isHovered }) =>
-    $isHovered ? 'rgba(174, 214, 241, 0.9)' : 'rgba(174, 214, 241, 0.7)'};
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(240, 248, 255, 0.65));
   border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: ${theme.radius.lg};
-  backdrop-filter: blur(8px);
   box-shadow: ${({ $isHovered }) =>
-    $isHovered ? '0 6px 12px rgba(0, 0, 0, 0.15)' : theme.shadow.sm};
+    $isHovered ? '0 6px 12px rgba(0, 0, 0, 0.15)' : '0 1px 3px rgba(0,0,0,0.08)'};
   transition: all 0.3s ease;
   transform: ${({ $isHovered }) => ($isHovered ? 'translateY(-5px)' : 'translateY(0)')};
   width: 100%;
-  margin-bottom: ${theme.spacing.md};
+  margin-bottom: 0.75rem;
   animation: ${fadeIn} 0.5s ease-out forwards;
 
   @media (max-width: 480px) {
-    padding: ${theme.spacing.sm};
+    padding: 0.5rem;
   }
 
   &:hover {
@@ -136,146 +59,93 @@ export const CustomWeatherMainContainer = styled.div<{ $isHovered?: boolean }>`
   }
 `;
 
-export const WeatherMain = styled.div`
+export const ColumnsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+`;
+
+export const DataRowsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 0.3rem;
-  text-align: left;
-  cursor: default;
-  transition: transform 0.3s ease;
-
-  ${CustomWeatherMainContainer}:hover & {
-    transform: scale(1.02);
-  }
-
-  @media (max-width: 360px) {
-    text-align: center;
-    align-items: center;
-  }
+  width: 65%;
+  gap: 5px;
 `;
 
-export const MainContentWrapper = styled.div`
+export const IconRowsContainer = styled.div`
   display: flex;
+  justify-content: end;
   align-items: center;
-  gap: 1.5rem;
-  width: 100%;
-  justify-content: center;
-
-  @media (max-width: 360px) {
-    flex-direction: column;
-    gap: ${theme.spacing.md};
-  }
+  width: 35%;
 `;
 
-export const WeatherIconContainer = styled.div`
+export const LocationContainer = styled.div<{
+  $isMobile: boolean;
+  $isSmallMobile: boolean;
+}>`
+  font-size: ${(props) => (props.$isSmallMobile ? '18px' : props.$isMobile ? '22px' : '24px')};
+  font-weight: 600;
+  white-space: ${(props) => (props.$isMobile ? 'normal' : 'nowrap')};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+`;
+
+export const RealFeelColumnContainer = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: transform 0.3s ease;
-
-  ${CustomWeatherMainContainer}:hover & {
-    transform: scale(1.15);
-  }
+  flex-direction: row;
 `;
 
-export const WeatherIcon = styled.img`
-  width: 5rem;
-  height: 5rem;
-  border-radius: ${theme.radius.pill};
+export const RealFeelContainer = styled.div<{
+  $isMobile: boolean;
+  $isSmallMobile: boolean;
+}>`
+  font-size: ${(props) => (props.$isSmallMobile ? '32px' : props.$isMobile ? '38px' : '42px')};
+  font-weight: 900;
+`;
+
+export const UnitContainer = styled.div<{
+  $isMobile: boolean;
+  $isSmallMobile: boolean;
+}>`
+  font-size: ${(props) => (props.$isSmallMobile ? '20px' : props.$isMobile ? '22px' : '26px')};
+  font-weight: 700;
+  margin-left: 4px;
+`;
+
+export const FeelLikeContainer = styled.div<{
+  $isMobile: boolean;
+}>`
+  color: #1976d2;
+  font-size: ${(props) => (props.$isMobile ? '13px' : '14px')};
+`;
+
+export const DescriptionContainer = styled.div<{
+  $isMobile: boolean;
+  $isSmallMobile: boolean;
+}>`
+  font-size: ${(props) => (props.$isSmallMobile ? '15px' : props.$isMobile ? '16px' : '17px')};
+  font-weight: 500;
+  white-space: ${(props) => (props.$isSmallMobile ? 'normal' : 'nowrap')};
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+export const WeatherIcon = styled.img<{
+  $isMobile: boolean;
+  $isSmallMobile: boolean;
+}>`
+  width: ${(props) => (props.$isSmallMobile ? '4rem' : props.$isMobile ? '4.5rem' : '5rem')};
+  height: ${(props) => (props.$isSmallMobile ? '4rem' : props.$isMobile ? '4.5rem' : '5rem')};
+  border-radius: 50%;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
   backdrop-filter: blur(4px);
-  box-shadow: ${theme.shadow.sm};
-  padding: ${theme.spacing.xs};
+  box-shadow: '0 1px 3px rgba(0,0,0,0.08)';
+  padding: 0.25rem;
   transition: all 0.2s ease;
   border: 1px solid rgba(255, 255, 255, 0.3);
 
-  ${CustomWeatherMainContainer}:hover & {
+  ${MainWeatherDisplayContainer}:hover & {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  }
-
-  @media (max-width: 480px) {
-    width: 4rem;
-    height: 4rem;
-  }
-
-  @media (min-width: 1024px) {
-    width: 6rem;
-    height: 6rem;
-  }
-`;
-
-export const WeatherMainTemperature = styled.div`
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: ${theme.colors.text.primary};
-  line-height: 1;
-`;
-
-export const TemperatureValue = styled.div`
-  font-size: 2.2rem;
-  font-weight: 700;
-  color: ${palette.black};
-  margin-right: 0.25rem;
-  transition: all 0.3s ease;
-
-  ${CustomWeatherMainContainer}:hover & {
-    color: #2c3e50;
-    transform: scale(1.05);
-    transform-origin: left center;
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.3);
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1.8rem;
-  }
-`;
-
-export const TemperatureUnitWrapper = styled.div`
-  display: flex;
-  align-items: baseline;
-`;
-
-export const TemperatureUnit = styled.span`
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: ${palette.black};
-  transition: color 0.3s ease;
-
-  ${CustomWeatherMainContainer}:hover & {
-    color: #2c3e50;
-  }
-`;
-
-export const FeelsLikeText = styled.div`
-  font-size: 0.9rem;
-  font-weight: 500;
-  margin-top: 0.2rem;
-  color: ${palette.darkBlue};
-  white-space: nowrap;
-  transition: all 0.3s ease;
-
-  ${CustomWeatherMainContainer}:hover & {
-    color: #2c3e50;
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
-  }
-
-  @media (max-width: 480px) {
-    font-size: 0.8rem;
-  }
-`;
-
-export const DescriptionText = styled.div`
-  text-transform: capitalize;
-  font-weight: 600;
-  font-size: 1rem;
-  color: ${theme.colors.text.primary};
-  margin-top: 0.1rem;
-  transition: all 0.3s ease;
-
-  ${CustomWeatherMainContainer}:hover & {
-    color: #2c3e50;
-    transform: scale(1.05);
-    transform-origin: left center;
   }
 `;

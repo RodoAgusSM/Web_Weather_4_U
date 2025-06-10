@@ -11,7 +11,7 @@ const WeatherDataGridSkeleton: React.FC<WeatherDataGridSkeletonProps> = ({
   hasInfoButton = false
 }) => {
   return (
-    <GridContainer $marginTop="0">
+    <GridContainer>
       <WeatherCardSkeleton hasInfoButton={hasInfoButton} />
       <WeatherCardSkeleton />
     </GridContainer>

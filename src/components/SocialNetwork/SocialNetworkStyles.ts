@@ -41,19 +41,11 @@ const fadeIn = keyframes`
   }
 `;
 
-const refinedGlassEffect = `
-  background-image: 
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 100%);
-  background-blend-mode: overlay;
-`;
-
 export const MiInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: ${theme.spacing.xl} ${theme.spacing.md};
   cursor: default;
-  background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(8px);
   border-radius: ${theme.radius.lg};
   box-shadow: ${theme.shadow.sm};
@@ -61,7 +53,7 @@ export const MiInfoContainer = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.3);
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  ${refinedGlassEffect}
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(240, 248, 255, 0.65));
   animation: ${fadeIn} 0.5s ease-out forwards;
   animation-delay: calc(var(--index, 0) * 0.1s + 0.3s);
   opacity: 0;
@@ -94,7 +86,6 @@ export const NetworkContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(8px);
   border-radius: ${theme.radius.lg};
   box-shadow: ${theme.shadow.sm};
@@ -103,7 +94,7 @@ margin: 0 auto;
   width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.3);
   gap: ${theme.spacing.md};
-  ${refinedGlassEffect}
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(240, 248, 255, 0.65));
   animation: ${fadeIn} 0.5s ease-out forwards;
   animation-delay: calc(var(--index, 1) * 0.1s + 0.4s);
   opacity: 0;

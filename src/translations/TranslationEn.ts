@@ -21,7 +21,7 @@ export const TranslationEn = {
 				metric: '°C',
 			},
 		},
-		updatedAt: 'Updated at',
+		updatedAt: 'Updated',
 		date: 'Date',
 		humidity: 'Humidity',
 		pressure: 'Pressure',

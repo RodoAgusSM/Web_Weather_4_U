@@ -119,12 +119,10 @@ const WeatherDataCard: React.FC<WeatherDataCardProps> = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Column 1: Icon */}
       <IconContainer $isMobile={responsiveInfo.isMobileDevice}>
         <CardIcon src={icon} alt={label} $isMobile={responsiveInfo.isMobileDevice} />
       </IconContainer>
 
-      {/* Column 2: Content (Label and Value) - Use value prop directly */}
       <ContentContainer $isMobile={responsiveInfo.isMobileDevice}>
         <HeaderContainer>
           <Label $isHovered={isHovered} $isMobile={responsiveInfo.isMobileDevice}>
@@ -138,7 +136,6 @@ const WeatherDataCard: React.FC<WeatherDataCardProps> = ({
         </ValueText>
       </ContentContainer>
 
-      {/* Column 3: Info Button (only for Air Quality) */}
       {isAirQuality && showInfoButton && (
         <InfoColumnContainer $isMobile={responsiveInfo.isMobileDevice}>
           <InfoButton $isMobile={responsiveInfo.isMobileDevice} onClick={onInfoClick}>

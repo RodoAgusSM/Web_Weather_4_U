@@ -1,69 +1,121 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import { Dropdown, DropdownItem } from 'components/Dropdown/Dropdown';
+import { StorageKey } from 'enums/index';
 import useResponsiveDesign from 'hooks/useResponsiveDesign';
 import { useTranslation } from 'react-i18next';
 
-import { LanguageButton, LanguagesContainer } from './LanguageStyles';
+import brasilFlag from '../../images/brasilFlag.png';
+import franceFlag from '../../images/franceFlag.png';
+import spainFlag from '../../images/spainFlag.png';
+import usaFlag from '../../images/usaFlag.png';
+
+import { LanguageContainer } from './LanguageStyles';
+
+const FlagImage = ({ src, alt }: { src: string; alt: string }) => {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError) {
+    return (
+      <div
+        style={{
+          width: '20px',
+          height: '15px',
+          borderRadius: '2px',
+          backgroundColor: '#e0e0e0',
+        }}
+      />
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      onError={() => setHasError(true)}
+      style={{
+        width: '20px',
+        height: '15px',
+        borderRadius: '2px',
+        objectFit: 'cover',
+      }}
+    />
+  );
+};
+
+const LANGUAGE_DATA: Record<string, { label: string; flagUrl: string }> = {
+  en: {
+    label: 'English',
+    flagUrl: usaFlag,
+  },
+  fr: {
+    label: 'French',
+    flagUrl: franceFlag,
+  },
+  pt: {
+    label: 'Portuguese',
+    flagUrl: brasilFlag,
+  },
+  sp: {
+    label: 'Spanish',
+    flagUrl: spainFlag,
+  },
+};
 
 interface LanguageProps {
   changeLanguage: (languageCode: string) => void;
 }
 
 const Language = ({ changeLanguage }: LanguageProps) => {
-  const { isMobileDevice, isSmallMobileDevice, isTouchDevice, screenWidth } = useResponsiveDesign();
+  const { isMobileDevice, isSmallMobileDevice, isTouchDevice } = useResponsiveDesign();
   const { t, i18n } = useTranslation();
 
-  const useAbbreviatedLabels = useMemo(() =>
-    screenWidth < 360 || isSmallMobileDevice,
-    [screenWidth, isSmallMobileDevice]
-  );
-
-  const getLanguageLabel = useCallback((code: string, label: string): string => {
-    if (useAbbreviatedLabels) {
-      switch (code) {
-        case 'en': return 'EN';
-        case 'es': return 'ES';
-        case 'pt': return 'PT';
-        case 'fr': return 'FR';
-        default:   return code.toUpperCase();
-      }
-    }
-    return label;
-  }, [useAbbreviatedLabels]);
-
-  const languageItems = useMemo(() => {
+  const languageDropdownItems = useMemo(() => {
     const items = t('languages', { returnObjects: true }) as Record<string, string>;
     return Object.entries(items).map(([code, label]) => ({
-      code,
-      label: getLanguageLabel(code, label),
-      isActive: i18n.language === code
+      id: code,
+      value: code,
+      label: label,
+      icon: LANGUAGE_DATA[code]?.flagUrl ? (
+        <FlagImage src={LANGUAGE_DATA[code].flagUrl} alt={`${label} flag`} />
+      ) : undefined,
     }));
-  }, [t, i18n.language, getLanguageLabel]);
+  }, [t]);
 
-  const handleLanguageChange = useCallback((code: string) => {
-    changeLanguage(code);
-  }, [changeLanguage]);
+  const currentLanguageItem = useMemo(() => {
+    return languageDropdownItems.find((item) => item.value === i18n.language);
+  }, [languageDropdownItems, i18n.language]);
+
+  const handleLanguageSelect = useCallback(
+    (item: DropdownItem<string>) => {
+      changeLanguage(item.value);
+    },
+    [changeLanguage]
+  );
+
+  const language = localStorage.getItem(StorageKey.Language) ?? 'sp';
+  const langData = LANGUAGE_DATA[language] || LANGUAGE_DATA.sp;
+
+  const defaultLanguage: DropdownItem<string> = {
+    id: language,
+    value: language,
+    label: langData.label,
+    icon: <FlagImage src={langData.flagUrl} alt={`${langData.label} flag`} />,
+  };
 
   return (
-    <LanguagesContainer
+    <LanguageContainer
       $isMobileDevice={isMobileDevice}
       $isSmallMobileDevice={isSmallMobileDevice}
       $isTouchDevice={isTouchDevice}
-      $useAbbreviatedLabels={useAbbreviatedLabels}
     >
-      {languageItems.map(({ code, label, isActive }) => (
-        <LanguageButton
-          key={code}
-          onClick={() => handleLanguageChange(code)}
-          style={{
-            fontWeight: isActive ? '600' : '400',
-            opacity: isActive ? 1 : 0.8,
-          }}
-          $isActive={isActive}
-        >
-          {label}
-        </LanguageButton>
-      ))}
-    </LanguagesContainer>
+      <Dropdown
+        items={languageDropdownItems}
+        selectedValue={currentLanguageItem}
+        defaultValue={defaultLanguage}
+        onSelect={handleLanguageSelect}
+        placeholder={t('selectLanguage')}
+      />
+    </LanguageContainer>
   );
 };
 

@@ -4,6 +4,7 @@ import CitySearchBar from 'components/CitySearchBar/CitySearchBar';
 import Language from 'components/Language/Language';
 import MainWeatherDisplay from 'components/MainWeatherDisplay/MainWeatherDisplay';
 import StarsAnimation from 'components/Space/Space';
+import Toggle from 'components/Toggle/Toggle';
 import WeatherDataCard from 'components/WeatherDataCard/WeatherDataCard';
 import WeatherDataGrid from 'components/WeatherDataGrid/WeatherDataGrid';
 import WeatherDataGridSkeleton from 'components/WeatherDataGrid/WeatherDataGridSkeleton';
@@ -12,7 +13,6 @@ import { iconExtension, iconURL } from 'config/config';
 import { APIWeatherProvider, ClimateType, StorageKey, Units } from 'enums/index';
 import useResponsiveDesign from 'hooks/useResponsiveDesign';
 import DangerIcon from 'images/danger.png';
-import InfoIconImg from 'images/infoIcon.png';
 import LocationNotFoundIcon from 'images/location_not_found_icon.png';
 import { ApiError, ApiResponse } from 'interfaces/index';
 import {
@@ -24,19 +24,18 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { SingleValue } from 'react-select';
 import GlobalStyles from 'styles/GlobalStyles';
-import { BoxWrapper,Code } from 'styles/styles';
+import { BoxWrapper, Code } from 'styles/styles';
 import { generateURL } from 'utils/helpers';
 
 import {
   BreakLine,
-  CustomUnitsContainer,
   CustomWeatherDataContainer,
   DangerLogo,
   DataColumnContainer,
   FadeInContainer,
   FooterContainer,
-  InfoIcon,
-  InfoIconButton,
+  InfoButton,
+  InfoButtonText,
   LanguageAndSocialNetworkContainer,
   LocationNotFoundCode,
   LocationNotFoundContainer,
@@ -45,9 +44,6 @@ import {
   TimeInfoContainer,
   TimeInfoDivider,
   TimeInfoItem,
-  Title,
-  UnitSpan,
-  UnitsSubContainer,
   WeatherCardWithTransition,
   WeatherContentContainer,
 } from './WeatherStyles';
@@ -61,7 +57,6 @@ const Weather = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useResponsiveDesign();
-  const [mouseOver, setMouseOver] = useState<boolean>(false);
   const [validCoordinates, setValidCoordinates] = useState<boolean>(true);
   const [siteWorking, setIsSiteWorking] = useState<boolean>(true);
   const [iconWorking, setIsIconWorking] = useState<boolean>(true);
@@ -349,6 +344,11 @@ const Weather = () => {
 
     const getUniqueKey = (prefix: string, value: string) => `${prefix}-${language}-${value}`;
 
+    const unitToggleItems = [
+      { id: 'imperial', label: t('words.unit.imperial'), value: Units.Imperial },
+      { id: 'metric', label: t('words.unit.metric'), value: Units.Metric },
+    ];
+
     return (
       <>
         <GlobalStyles />
@@ -364,21 +364,20 @@ const Weather = () => {
           {validCoordinates ? (
             <FadeInContainer $isVisible={uiReady}>
               <WeatherContentContainer>
-                <Title {...responsiveProps}>
-                  {t('words.weatherIn')} {cityName} ({countryNameShort})
-                </Title>
-
                 <BoxWrapper {...responsiveProps}>
                   <MainWeatherDisplay
                     icon={icon}
                     iconWorking={iconWorking}
+                    location={cityName + ', ' + countryNameShort}
                     realFeel={realFeel}
                     feelsLike={feelsLike}
                     description={description}
                     unit={unit}
                   />
+
                   <CustomWeatherDataContainer>
                     <DataColumnContainer>
+                      {/* Air quality and clouds */}
                       {showSkeletons && cardsLoading.airQuality ? (
                         <WeatherDataGridSkeleton hasInfoButton={true} />
                       ) : (
@@ -394,6 +393,8 @@ const Weather = () => {
                           <WeatherDataCard label={t('words.clouds')} value={clouds} unit="%" />
                         </WeatherDataGrid>
                       )}
+
+                      {/* Wind and visibility - keep together as they're related to air conditions */}
                       {showSkeletons && cardsLoading.wind ? (
                         <WeatherDataGridSkeleton />
                       ) : (
@@ -417,6 +418,8 @@ const Weather = () => {
                           />
                         </WeatherDataGrid>
                       )}
+
+                      {/* Humidity and pressure - keep together as they're related atmospheric conditions */}
                       {showSkeletons && cardsLoading.atmosphere ? (
                         <WeatherDataGridSkeleton />
                       ) : (
@@ -429,6 +432,8 @@ const Weather = () => {
                           />
                         </WeatherDataGrid>
                       )}
+
+                      {/* Sun data - sunrise/sunset */}
                       {showSkeletons && cardsLoading.time ? (
                         <WeatherDataGridSkeleton />
                       ) : (
@@ -447,26 +452,8 @@ const Weather = () => {
                       )}
                     </DataColumnContainer>
                   </CustomWeatherDataContainer>
-                  <CustomUnitsContainer {...responsiveProps} data-animate="true">
-                    <UnitsSubContainer
-                      $isMobileDevice={isMobileDevice}
-                      $isSmallMobileDevice={isSmallMobileDevice}
-                    >
-                      <UnitSpan
-                        $isSelected={Units.Imperial === unit}
-                        onClick={() => changeUnit(Units.Imperial)}
-                      >
-                        {t('words.unit.imperial')}
-                      </UnitSpan>
-                      <UnitSpan
-                        $isSelected={Units.Metric === unit}
-                        onClick={() => changeUnit(Units.Metric)}
-                      >
-                        {t('words.unit.metric')}
-                      </UnitSpan>
-                    </UnitsSubContainer>
-                  </CustomUnitsContainer>
                 </BoxWrapper>
+
                 <FooterContainer {...responsiveProps}>
                   <TimeInfoContainer>
                     <TimeInfoItem>
@@ -504,19 +491,21 @@ const Weather = () => {
                     </TimeInfoItem>
                   </TimeInfoContainer>
 
+                  <Toggle
+                    items={unitToggleItems}
+                    selectedValue={unit}
+                    onChange={(value) => changeUnit(value as Units)}
+                  />
+
                   <LanguageAndSocialNetworkContainer>
                     <Language changeLanguage={changeLanguage} />
                     <SocialNetworkIconContainer
                       $isDesktopOrLaptop={isDesktopOrLaptop}
                       onClick={() => navigate(`/social_network`)}
                     >
-                      <InfoIconButton
-                        aria-label="View social networks"
-                        onMouseEnter={() => setMouseOver(true)}
-                        onMouseLeave={() => setMouseOver(false)}
-                      >
-                        <InfoIcon src={InfoIconImg} alt="Info" $mouseOver={mouseOver} />
-                      </InfoIconButton>
+                      <InfoButton>
+                        <InfoButtonText>i</InfoButtonText>
+                      </InfoButton>
                     </SocialNetworkIconContainer>
                   </LanguageAndSocialNetworkContainer>
                 </FooterContainer>
