@@ -3,6 +3,7 @@ export const TranslationPt = {
 	languages: {
 		sp: 'Espanhol',
 		en: 'Inglês',
+		pt: 'Português',
 		fr: 'Francês',
 	},
 	words: {

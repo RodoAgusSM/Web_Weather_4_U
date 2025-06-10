@@ -4,6 +4,7 @@ export const TranslationFr = {
 		sp: 'Spanish',
 		en: 'Anglais',
 		pt: 'Portugais',
+		fr: 'Français',
 	},
 	words: {
 		writeCity: 'Écrivez une ville',

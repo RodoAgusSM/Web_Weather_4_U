@@ -1,6 +1,7 @@
 export const TranslationSp = {
 	name: 'Español',
 	languages: {
+		sp: 'Español',
 		en: 'Inglés',
 		pt: 'Portugués',
 		fr: 'Francés',

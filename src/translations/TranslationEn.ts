@@ -1,6 +1,7 @@
 export const TranslationEn = {
 	name: 'English',
 	languages: {
+		en: 'English',
 		sp: 'Spanish',
 		pt: 'Portuguese',
 		fr: 'French',
