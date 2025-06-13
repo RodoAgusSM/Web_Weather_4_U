@@ -4,6 +4,9 @@ import useResponsiveDesign from 'hooks/useResponsiveDesign';
 import NotFoundIcon from 'images/not_found_icon.png';
 import { useTranslation } from 'react-i18next';
 
+import { useTheme } from '../../context/ThemeContext';
+import { darkTheme, lightTheme } from '../../styles/theme';
+
 import {
   ColumnsContainer,
   DataRowsContainer,
@@ -40,6 +43,9 @@ const MainWeatherDisplay: React.FC<MainWeatherDisplayProps> = ({
   const { t } = useTranslation();
   const [isHovered, setIsHovered] = useState(false);
   const { isMobileDevice, isSmallMobileDevice } = useResponsiveDesign();
+  const { isDarkMode } = useTheme();
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
 
   const degreeUnit =
     Units.Imperial === unit
@@ -48,6 +54,7 @@ const MainWeatherDisplay: React.FC<MainWeatherDisplayProps> = ({
 
   return (
     <MainWeatherDisplayContainer
+      theme={theme}
       data-animate="true"
       $isHovered={isHovered}
       onMouseEnter={() => setIsHovered(true)}
@@ -67,7 +74,7 @@ const MainWeatherDisplay: React.FC<MainWeatherDisplayProps> = ({
               {degreeUnit}
             </UnitContainer>
           </RealFeelColumnContainer>
-          <FeelLikeContainer $isMobile={isMobileDevice}>
+          <FeelLikeContainer theme={theme} $isHovered={isHovered} $isMobile={isMobileDevice}>
             {t('words.temperature.feelsLike')} {feelsLike} {degreeUnit}
           </FeelLikeContainer>
           <DescriptionContainer $isMobile={isMobileDevice} $isSmallMobile={isSmallMobileDevice}>

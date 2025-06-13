@@ -1,5 +1,8 @@
 import React, { ReactNode } from 'react';
 
+import { useTheme } from '../../context/ThemeContext';
+import { darkTheme, lightTheme } from '../../styles/theme';
+
 import { IconContainer, ToggleButton, ToggleContainer, ToggleWrapper } from './TriToggleStyles';
 
 interface ToggleItem {
@@ -16,6 +19,9 @@ interface TriToggleProps {
 }
 
 const TriToggle: React.FC<TriToggleProps> = ({ items, selectedValue, onChange }) => {
+  const { isDarkMode } = useTheme();
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
   if (!items || items.length !== 3) {
     console.error('TriToggle requires exactly three items');
     return null;
@@ -23,7 +29,7 @@ const TriToggle: React.FC<TriToggleProps> = ({ items, selectedValue, onChange })
 
   return (
     <ToggleContainer>
-      <ToggleWrapper>
+      <ToggleWrapper theme={theme}>
         {items.map((item) => (
           <ToggleButton
             key={item.id}

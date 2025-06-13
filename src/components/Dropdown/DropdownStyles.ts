@@ -1,4 +1,5 @@
 import styled, { css, keyframes } from 'styled-components';
+import { ThemeType } from 'styles/theme';
 
 const menuFadeIn = keyframes`
   from {
@@ -60,13 +61,12 @@ export const DropdownContainer = styled.div`
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.05));
 `;
 
-export const DropdownHeader = styled.div`
+export const DropdownHeader = styled.div<{ theme: ThemeType; }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -74,7 +74,7 @@ export const DropdownHeader = styled.div`
   width: 100%;
   box-sizing: border-box;
   min-width: 150px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(240, 248, 255, 0.65));
+ background: ${({ theme }) => theme.dropdownBackground};
 
   &:hover {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
@@ -131,19 +131,19 @@ export const DropdownArrow = styled.span<{ isOpen: boolean }>`
   right: 16px;
 `;
 
-export const DropdownMenu = styled.ul<{ $isClosing?: boolean }>`
+export const DropdownMenu = styled.ul<{ theme: ThemeType; $isClosing?: boolean }>`
   position: absolute;
   bottom: calc(100% + 8px);
   left: 0;
   margin: 0;
   padding: 6px 10px 6px 6px;
   list-style: none;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(240, 248, 255, 0.85));
-  backdrop-filter: blur(10px);
+  background-color: red;
+  background: ${({ theme }) => theme.dropdownBackground};
   border-radius: 8px;
   max-height: 240px;
   overflow-y: auto;
-  z-index: 100;
+  z-index: 2;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.2);
   transform-origin: bottom center;

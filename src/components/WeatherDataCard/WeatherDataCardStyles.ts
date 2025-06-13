@@ -1,6 +1,8 @@
 import styled from 'styled-components';
+import { ThemeType } from 'styles/theme';
 
 export const CardContainer = styled.div<{
+  theme: ThemeType;
   $isHovered: boolean;
   $hasInfoButton: boolean;
   $isMobile: boolean;
@@ -22,8 +24,7 @@ export const CardContainer = styled.div<{
   flex: 1;
   min-width: 0;
   margin: 0;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(240, 248, 255, 0.65));
-  /* Hover effect */
+  background: ${({ theme }) => theme.cardBackground};
   &:hover {
     transform: translateY(-3px);
     box-shadow: 
@@ -33,14 +34,14 @@ export const CardContainer = styled.div<{
   }
 `;
 
-export const IconContainer = styled.div<{ $isMobile: boolean }>`
+export const IconContainer = styled.div < { theme: ThemeType; $isMobile: boolean } > `
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   width: ${(props) => (props.$isMobile ? '32px' : '40px')};
   height: ${(props) => (props.$isMobile ? '32px' : '40px')};
-  background: rgba(255, 255, 255, 0.3);
+  background: ${({ theme }) => theme.dataPointIconBackground};
   border-radius: 50%;
   backdrop-filter: blur(4px);
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8);
@@ -55,7 +56,6 @@ export const CardIcon = styled.img<{ $isMobile: boolean; src: string }>`
   opacity: 0.85;
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
   transition: all 0.3s ease;
-  
   ${CardContainer}:hover & {
     opacity: 1;
     transform: scale(1.05);
@@ -78,19 +78,16 @@ export const HeaderContainer = styled.div`
   overflow: hidden;
 `;
 
-export const Label = styled.div<{ $isHovered: boolean; $isMobile: boolean }>`
+export const Label = styled.div<{ theme: ThemeType; $isHovered: boolean; $isMobile: boolean }>`
   font-size: ${(props) => (props.$isMobile ? '0.75rem' : '0.85rem')};
-  font-weight: 600;
-  color: #1976d2;
+  font-weight: 700;
+  color: ${(props) =>
+    props.$isHovered ? props.theme.blueTextHovered : props.theme.blueText};
   transition: color 0.2s ease;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  
-  ${CardContainer}:hover & {
-    color: #0d47a1;
-  }
 `;
 
 export const ValueText = styled.div<{ $isHovered: boolean; $isMobile: boolean }>`
@@ -101,7 +98,7 @@ export const ValueText = styled.div<{ $isHovered: boolean; $isMobile: boolean }>
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  
+
   ${CardContainer}:hover & {
     color: #1a1a1a;
   }
@@ -127,13 +124,13 @@ export const InfoButton = styled.button<{ $isMobile: boolean }>`
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 2px 5px rgba(25, 118, 210, 0.3);
-  
+
   &:hover {
     background: linear-gradient(135deg, #0d47a1, #1976d2);
     transform: scale(1.1);
     box-shadow: 0 3px 7px rgba(25, 118, 210, 0.4);
   }
-  
+
   &:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.4);

@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { ThemeType } from 'styles/theme';
 
 const palette = {
   primary: '#3498DB',
@@ -41,7 +42,7 @@ const fadeIn = keyframes`
   }
 `;
 
-export const MiInfoContainer = styled.div`
+export const MiInfoContainer = styled.div<{ theme: ThemeType }>`
   display: flex;
   flex-direction: column;
   padding: ${theme.spacing.xl} ${theme.spacing.md};
@@ -53,7 +54,7 @@ export const MiInfoContainer = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.3);
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(240, 248, 255, 0.65));
+  background: ${({ theme }) => theme.cardBackground};
   animation: ${fadeIn} 0.5s ease-out forwards;
   animation-delay: calc(var(--index, 0) * 0.1s + 0.3s);
   opacity: 0;
@@ -82,7 +83,7 @@ export const MiInfo = styled.span`
   }
 `;
 
-export const NetworkContainer = styled.div`
+export const NetworkContainer = styled.div<{ theme: ThemeType }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -94,7 +95,7 @@ margin: 0 auto;
   width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.3);
   gap: ${theme.spacing.md};
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(240, 248, 255, 0.65));
+  background: ${({ theme }) => theme.cardBackground};
   animation: ${fadeIn} 0.5s ease-out forwards;
   animation-delay: calc(var(--index, 1) * 0.1s + 0.4s);
   opacity: 0;
@@ -187,12 +188,12 @@ export const SocialNetworkName = styled.span`
   }
 `;
 
-export const SocialNetworkItem = styled.a`
+export const SocialNetworkItem = styled.a<{ theme: ThemeType }>`
   font-size: 0.95rem;
   font-weight: 500;
   position: relative;
   cursor: pointer;
-  color: ${palette.primary};
+  color: ${(props) => props.theme.blueText};
   text-decoration: none;
   transition: all 0.2s ease;
   flex-grow: 1;
@@ -206,7 +207,7 @@ export const SocialNetworkItem = styled.a`
   min-width: 0;
 
   &:hover {
-    color: ${palette.accent};
+    color:  ${(props) => props.theme.blueTextHovered};
 
     &::after {
       width: 100%;

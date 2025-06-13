@@ -9,7 +9,9 @@ import SunsetIcon from 'images/sunset.png';
 import VisibilityIcon from 'images/visibility.png';
 import WindIcon from 'images/wind.png';
 
+import { useTheme } from '../../context/ThemeContext';
 import useResponsiveDesign from '../../hooks/useResponsiveDesign';
+import { darkTheme, lightTheme } from '../../styles/theme';
 
 import {
   CardContainer,
@@ -43,6 +45,8 @@ const WeatherDataCard: React.FC<WeatherDataCardProps> = ({
   const [icon, setIcon] = useState<string>(DefaultIcon);
   const [isAirQuality, setIsAirQuality] = useState(false);
   const responsiveInfo = useResponsiveDesign();
+  const { isDarkMode } = useTheme();
+  const theme = isDarkMode ? darkTheme : lightTheme;
 
   useEffect(() => {
     const labelLower = label.toLowerCase();
@@ -113,19 +117,20 @@ const WeatherDataCard: React.FC<WeatherDataCardProps> = ({
 
   return (
     <CardContainer
+      theme={theme}
       $isHovered={isHovered}
       $hasInfoButton={isAirQuality && showInfoButton}
       $isMobile={responsiveInfo.isMobileDevice}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <IconContainer $isMobile={responsiveInfo.isMobileDevice}>
+      <IconContainer theme={theme} $isMobile={responsiveInfo.isMobileDevice}>
         <CardIcon src={icon} alt={label} $isMobile={responsiveInfo.isMobileDevice} />
       </IconContainer>
 
       <ContentContainer $isMobile={responsiveInfo.isMobileDevice}>
         <HeaderContainer>
-          <Label $isHovered={isHovered} $isMobile={responsiveInfo.isMobileDevice}>
+          <Label theme={theme} $isHovered={isHovered} $isMobile={responsiveInfo.isMobileDevice}>
             {label}
           </Label>
         </HeaderContainer>

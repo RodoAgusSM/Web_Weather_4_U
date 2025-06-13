@@ -25,7 +25,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { SingleValue } from 'react-select';
 import GlobalStyles from 'styles/GlobalStyles';
-import { BoxWrapper, Code } from 'styles/styles';
+import { BoxContainer, BoxWrapper, Code } from 'styles/styles';
 import { generateURL } from 'utils/helpers';
 
 import { useTheme } from '../../context/ThemeContext';
@@ -48,7 +48,6 @@ import {
   TimeInfoContainer,
   TimeInfoDivider,
   TimeInfoItem,
-  WeatherCardWithTransition,
   WeatherContentContainer,
 } from './WeatherStyles';
 
@@ -63,6 +62,7 @@ const Weather = () => {
   const { mode, setMode, isDarkMode } = useTheme();
   const theme = isDarkMode ? darkTheme : lightTheme;
   const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useResponsiveDesign();
+  const [isHovered, setIsHovered] = useState(false);
   const [validCoordinates, setValidCoordinates] = useState<boolean>(true);
   const [siteWorking, setIsSiteWorking] = useState<boolean>(true);
   const [iconWorking, setIsIconWorking] = useState<boolean>(true);
@@ -425,189 +425,213 @@ const Weather = () => {
     return (
       <>
         <GlobalStyles theme={theme} />
-        <WeatherCardWithTransition
-          {...responsiveProps}
-          data-animate="true"
-          onTouchStart={handleTouchStart}
-          $isVisible={uiReady}
+        <div
+          style={{
+            width: '100%',
+            minHeight: '100vh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
         >
-          <StarsAnimation />
-          <CitySearchBar changeCity={changeCity} />
+          <BoxContainer
+            {...responsiveProps}
+            theme={theme}
+            data-animate="true"
+            onTouchStart={handleTouchStart}
+          >
+            <StarsAnimation />
+            <CitySearchBar changeCity={changeCity} />
 
-          {validCoordinates ? (
-            <FadeInContainer $isVisible={uiReady}>
-              <WeatherContentContainer>
-                <BoxWrapper {...responsiveProps}>
-                  <MainWeatherDisplay
-                    icon={icon}
-                    iconWorking={iconWorking}
-                    location={cityName + ', ' + countryNameShort}
-                    realFeel={realFeel}
-                    feelsLike={feelsLike}
-                    description={description}
-                    unit={unit}
-                  />
+            {validCoordinates ? (
+              <FadeInContainer $isVisible={uiReady}>
+                <WeatherContentContainer>
+                  <BoxWrapper {...responsiveProps}>
+                    <MainWeatherDisplay
+                      icon={icon}
+                      iconWorking={iconWorking}
+                      location={cityName + ', ' + countryNameShort}
+                      realFeel={realFeel}
+                      feelsLike={feelsLike}
+                      description={description}
+                      unit={unit}
+                    />
 
-                  <CustomWeatherDataContainer>
-                    <DataColumnContainer>
-                      {/* Air quality and clouds */}
-                      {showSkeletons && cardsLoading.airQuality ? (
-                        <WeatherDataGridSkeleton hasInfoButton={true} />
-                      ) : (
-                        <WeatherDataGrid>
-                          <WeatherDataCard
-                            label={t('words.airPollution.aqi')}
-                            value={t(`words.airPollution.status.${airPollution?.AQI}`)}
-                            showInfoButton={true}
-                            onInfoClick={() =>
-                              navigate(`/air_pollution_info`, { state: { airPollution } })
-                            }
-                          />
-                          <WeatherDataCard label={t('words.clouds')} value={clouds} unit="%" />
-                        </WeatherDataGrid>
-                      )}
+                    <CustomWeatherDataContainer>
+                      <DataColumnContainer>
+                        {/* Air quality and clouds */}
+                        {showSkeletons && cardsLoading.airQuality ? (
+                          <WeatherDataGridSkeleton hasInfoButton={true} />
+                        ) : (
+                          <WeatherDataGrid>
+                            <WeatherDataCard
+                              label={t('words.airPollution.aqi')}
+                              value={t(`words.airPollution.status.${airPollution?.AQI}`)}
+                              showInfoButton={true}
+                              onInfoClick={() =>
+                                navigate(`/air_pollution_info`, { state: { airPollution } })
+                              }
+                            />
+                            <WeatherDataCard label={t('words.clouds')} value={clouds} unit="%" />
+                          </WeatherDataGrid>
+                        )}
 
-                      {/* Wind and visibility - keep together as they're related to air conditions */}
-                      {showSkeletons && cardsLoading.wind ? (
-                        <WeatherDataGridSkeleton />
-                      ) : (
-                        <WeatherDataGrid>
-                          <WeatherDataCard
-                            label={t('words.windInfo.wind')}
-                            value={`${windSpeed} ${
-                              Units.Imperial === unit
-                                ? t('words.windInfo.unit.imperial')
-                                : t('words.windInfo.unit.metric')
-                            } ${t(`words.windInfo.windDirection.${windDirection}`)}`}
-                          />
-                          <WeatherDataCard
-                            label={t('words.visibilityInfo.visibility')}
-                            value={visibility}
-                            unit={
-                              Units.Imperial === unit
-                                ? t('words.visibilityInfo.unit.imperial')
-                                : t('words.visibilityInfo.unit.metric')
-                            }
-                          />
-                        </WeatherDataGrid>
-                      )}
+                        {/* Wind and visibility - keep together as they're related to air conditions */}
+                        {showSkeletons && cardsLoading.wind ? (
+                          <WeatherDataGridSkeleton />
+                        ) : (
+                          <WeatherDataGrid>
+                            <WeatherDataCard
+                              label={t('words.windInfo.wind')}
+                              value={`${windSpeed} ${
+                                Units.Imperial === unit
+                                  ? t('words.windInfo.unit.imperial')
+                                  : t('words.windInfo.unit.metric')
+                              } ${t(`words.windInfo.windDirection.${windDirection}`)}`}
+                            />
+                            <WeatherDataCard
+                              label={t('words.visibilityInfo.visibility')}
+                              value={visibility}
+                              unit={
+                                Units.Imperial === unit
+                                  ? t('words.visibilityInfo.unit.imperial')
+                                  : t('words.visibilityInfo.unit.metric')
+                              }
+                            />
+                          </WeatherDataGrid>
+                        )}
 
-                      {/* Humidity and pressure - keep together as they're related atmospheric conditions */}
-                      {showSkeletons && cardsLoading.atmosphere ? (
-                        <WeatherDataGridSkeleton />
-                      ) : (
-                        <WeatherDataGrid>
-                          <WeatherDataCard label={t('words.humidity')} value={humidity} unit="%" />
-                          <WeatherDataCard
-                            label={t('words.pressure')}
-                            value={pressure}
-                            unit="hPa"
-                          />
-                        </WeatherDataGrid>
-                      )}
+                        {/* Humidity and pressure - keep together as they're related atmospheric conditions */}
+                        {showSkeletons && cardsLoading.atmosphere ? (
+                          <WeatherDataGridSkeleton />
+                        ) : (
+                          <WeatherDataGrid>
+                            <WeatherDataCard
+                              label={t('words.humidity')}
+                              value={humidity}
+                              unit="%"
+                            />
+                            <WeatherDataCard
+                              label={t('words.pressure')}
+                              value={pressure}
+                              unit="hPa"
+                            />
+                          </WeatherDataGrid>
+                        )}
 
-                      {/* Sun data - sunrise/sunset */}
-                      {showSkeletons && cardsLoading.time ? (
-                        <WeatherDataGridSkeleton />
-                      ) : (
-                        <WeatherDataGrid key={`time-grid-${language}`}>
-                          <WeatherDataCard
-                            key={getUniqueKey('sunrise', sunrise)}
-                            label={t('words.sunrise')}
-                            value={sunrise}
-                          />
-                          <WeatherDataCard
-                            key={getUniqueKey('sunset', sunset)}
-                            label={t('words.sunset')}
-                            value={sunset}
-                          />
-                        </WeatherDataGrid>
-                      )}
-                    </DataColumnContainer>
-                  </CustomWeatherDataContainer>
-                </BoxWrapper>
+                        {/* Sun data - sunrise/sunset */}
+                        {showSkeletons && cardsLoading.time ? (
+                          <WeatherDataGridSkeleton />
+                        ) : (
+                          <WeatherDataGrid key={`time-grid-${language}`}>
+                            <WeatherDataCard
+                              key={getUniqueKey('sunrise', sunrise)}
+                              label={t('words.sunrise')}
+                              value={sunrise}
+                            />
+                            <WeatherDataCard
+                              key={getUniqueKey('sunset', sunset)}
+                              label={t('words.sunset')}
+                              value={sunset}
+                            />
+                          </WeatherDataGrid>
+                        )}
+                      </DataColumnContainer>
+                    </CustomWeatherDataContainer>
+                  </BoxWrapper>
 
-                <FooterContainer {...responsiveProps}>
-                  <TimeInfoContainer>
-                    <TimeInfoItem>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                      </svg>
-                      <span>{t('words.updatedAt')}</span> {lastTimeChecked}
-                    </TimeInfoItem>
-                    <TimeInfoDivider aria-hidden="true" />
-                    <TimeInfoItem>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="16" y1="2" x2="16" y2="6"></line>
-                        <line x1="8" y1="2" x2="8" y2="6"></line>
-                        <line x1="3" y1="10" x2="21" y2="10"></line>
-                      </svg>
-                      <span>{t('words.date')}</span> {lastDateChecked}
-                    </TimeInfoItem>
-                  </TimeInfoContainer>
-                  <Toggle
-                    items={unitToggleItems}
-                    selectedValue={unit}
-                    onChange={(value) => changeUnit(value as Units)}
-                  />
-                  <TriToggle
-                    items={themeToggleItems}
-                    selectedValue={mode}
-                    onChange={(value) => setMode(value as 'light' | 'dark' | 'system')}
-                  />
-                  <LanguageAndSocialNetworkContainer>
-                    <Language changeLanguage={changeLanguage} />
-                    <SocialNetworkIconContainer
-                      $isDesktopOrLaptop={isDesktopOrLaptop}
-                      onClick={() => navigate(`/social_network`)}
+                  <FooterContainer {...responsiveProps}>
+                    <TimeInfoContainer
+                      theme={theme}
+                      onMouseEnter={() => setIsHovered(true)}
+                      onMouseLeave={() => setIsHovered(false)}
                     >
-                      <InfoButton>
-                        <InfoButtonText>i</InfoButtonText>
-                      </InfoButton>
-                    </SocialNetworkIconContainer>
-                  </LanguageAndSocialNetworkContainer>
-                </FooterContainer>
-              </WeatherContentContainer>
-            </FadeInContainer>
-          ) : (
-            <FadeInContainer $isVisible={uiReady}>
-              <LocationNotFoundContainer {...responsiveProps} data-animate="true">
-                <LocationNotFoundSpotImg src={LocationNotFoundIcon} alt="" {...responsiveProps} />
-                <LocationNotFoundCode
-                  $isMobileDevice={isMobileDevice}
-                  $isSmallMobileDevice={isSmallMobileDevice}
-                >
-                  {t('words.locationNotFound.funnyMessage')} {cityName}
-                </LocationNotFoundCode>
-                <BreakLine />
-                <LocationNotFoundCode
-                  $isMobileDevice={isMobileDevice}
-                  $isSmallMobileDevice={isSmallMobileDevice}
-                >
-                  {t('words.locationNotFound.realMessage')}
-                </LocationNotFoundCode>
-              </LocationNotFoundContainer>
-            </FadeInContainer>
-          )}
-        </WeatherCardWithTransition>
+                      <TimeInfoItem
+                        theme={theme}
+                        $isHovered={isHovered}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <circle cx="12" cy="12" r="10"></circle>
+                          <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span>{t('words.updatedAt')}</span> {lastTimeChecked}
+                      </TimeInfoItem>
+                      <TimeInfoDivider aria-hidden="true" />
+                      <TimeInfoItem
+                        theme={theme}
+                        $isHovered={isHovered}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                          <line x1="16" y1="2" x2="16" y2="6"></line>
+                          <line x1="8" y1="2" x2="8" y2="6"></line>
+                          <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        <span>{t('words.date')}</span> {lastDateChecked}
+                      </TimeInfoItem>
+                    </TimeInfoContainer>
+                    <Toggle
+                      items={unitToggleItems}
+                      selectedValue={unit}
+                      onChange={(value) => changeUnit(value as Units)}
+                    />
+                    <TriToggle
+                      items={themeToggleItems}
+                      selectedValue={mode}
+                      onChange={(value) => setMode(value as 'light' | 'dark' | 'system')}
+                    />
+                    <LanguageAndSocialNetworkContainer>
+                      <Language changeLanguage={changeLanguage} />
+                      <SocialNetworkIconContainer
+                        $isDesktopOrLaptop={isDesktopOrLaptop}
+                        onClick={() => navigate(`/social_network`)}
+                      >
+                        <InfoButton>
+                          <InfoButtonText>i</InfoButtonText>
+                        </InfoButton>
+                      </SocialNetworkIconContainer>
+                    </LanguageAndSocialNetworkContainer>
+                  </FooterContainer>
+                </WeatherContentContainer>
+              </FadeInContainer>
+            ) : (
+              <FadeInContainer $isVisible={uiReady}>
+                <LocationNotFoundContainer {...responsiveProps} data-animate="true">
+                  <LocationNotFoundSpotImg src={LocationNotFoundIcon} alt="" {...responsiveProps} />
+                  <LocationNotFoundCode
+                    $isMobileDevice={isMobileDevice}
+                    $isSmallMobileDevice={isSmallMobileDevice}
+                  >
+                    {t('words.locationNotFound.funnyMessage')} {cityName}
+                  </LocationNotFoundCode>
+                  <BreakLine />
+                  <LocationNotFoundCode
+                    $isMobileDevice={isMobileDevice}
+                    $isSmallMobileDevice={isSmallMobileDevice}
+                  >
+                    {t('words.locationNotFound.realMessage')}
+                  </LocationNotFoundCode>
+                </LocationNotFoundContainer>
+              </FadeInContainer>
+            )}
+          </BoxContainer>
+        </div>
       </>
     );
   };

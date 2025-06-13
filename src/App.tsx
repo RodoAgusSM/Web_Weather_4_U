@@ -9,7 +9,6 @@ import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import i18n from 'translations/i18n';
 
 import { ThemeProvider, useTheme } from './context/ThemeContext';
-import GlobalStyles from './styles/GlobalStyles';
 import { darkTheme, lightTheme } from './styles/theme';
 
 function App() {
@@ -119,7 +118,6 @@ function App() {
 
     return (
       <StyledThemeProvider theme={theme}>
-        <GlobalStyles theme={theme} />
         <Router>
           <Routes>
             <Route path="/" element={<Weather />} />

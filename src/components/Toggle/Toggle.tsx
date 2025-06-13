@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { useTheme } from '../../context/ThemeContext';
+import { darkTheme, lightTheme } from '../../styles/theme';
+
 import { ToggleContainer, ToggleIcon, ToggleOption, ToggleWrapper } from './ToggleStyles';
 
 export interface ToggleItem {
@@ -22,6 +25,9 @@ const Toggle: React.FC<ToggleProps> = ({
   onChange,
   className = '',
 }) => {
+  const { isDarkMode } = useTheme();
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
   if (items.length < 2) {
     console.warn('Toggle component requires at least 2 items');
     return null;
@@ -29,7 +35,7 @@ const Toggle: React.FC<ToggleProps> = ({
 
   return (
     <ToggleContainer className={className}>
-      <ToggleWrapper>
+      <ToggleWrapper theme={theme} >
         {items.map((item) => (
           <ToggleOption
             key={item.id}

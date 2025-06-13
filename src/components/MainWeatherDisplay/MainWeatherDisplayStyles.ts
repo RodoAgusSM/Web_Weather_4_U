@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { ThemeType } from 'styles/theme';
 
 const CONTAINER_MAX_WIDTH = '500px';
 
@@ -13,7 +14,7 @@ const fadeIn = keyframes`
   }
 `;
 
-export const MainWeatherDisplayContainer = styled.div<{ $isHovered?: boolean }>`
+export const MainWeatherDisplayContainer = styled.div<{ theme: ThemeType; $isHovered?: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -24,14 +25,13 @@ export const MainWeatherDisplayContainer = styled.div<{ $isHovered?: boolean }>`
   width: 100%;
   padding: 0.75rem;
   box-sizing: border-box;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(240, 248, 255, 0.65));
+  background: ${({ theme }) => theme.cardBackground};
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: ${({ $isHovered }) =>
     $isHovered ? '0 6px 12px rgba(0, 0, 0, 0.15)' : '0 1px 3px rgba(0,0,0,0.08)'};
   transition: all 0.3s ease;
   transform: ${({ $isHovered }) => ($isHovered ? 'translateY(-5px)' : 'translateY(0)')};
   width: 100%;
-  margin-bottom: 0.75rem;
   animation: ${fadeIn} 0.5s ease-out forwards;
 
   @media (max-width: 480px) {
@@ -89,6 +89,7 @@ export const LocationContainer = styled.div<{
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.2;
+  color: black
 `;
 
 export const RealFeelColumnContainer = styled.div`
@@ -102,6 +103,7 @@ export const RealFeelContainer = styled.div<{
 }>`
   font-size: ${(props) => (props.$isSmallMobile ? '32px' : props.$isMobile ? '38px' : '42px')};
   font-weight: 900;
+  color: black
 `;
 
 export const UnitContainer = styled.div<{
@@ -111,12 +113,16 @@ export const UnitContainer = styled.div<{
   font-size: ${(props) => (props.$isSmallMobile ? '20px' : props.$isMobile ? '22px' : '26px')};
   font-weight: 700;
   margin-left: 4px;
+  color: black
 `;
 
 export const FeelLikeContainer = styled.div<{
+  theme: ThemeType;
+  $isHovered: boolean;
   $isMobile: boolean;
 }>`
-  color: #1976d2;
+   color: ${(props) =>
+    props.$isHovered ? props.theme.blueTextHovered : props.theme.blueText};
   font-size: ${(props) => (props.$isMobile ? '13px' : '14px')};
 `;
 
@@ -129,6 +135,7 @@ export const DescriptionContainer = styled.div<{
   white-space: ${(props) => (props.$isSmallMobile ? 'normal' : 'nowrap')};
   overflow: hidden;
   text-overflow: ellipsis;
+  color: black
 `;
 
 export const WeatherIcon = styled.img<{

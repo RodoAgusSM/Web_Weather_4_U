@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
+import { useTheme } from '../../context/ThemeContext';
+import { darkTheme, lightTheme } from '../../styles/theme';
+
 import {
   DropdownArrow,
   DropdownContainer,
@@ -35,12 +38,15 @@ export const Dropdown = <T,>({
   placeholder = 'Select an option',
   className = '',
 }: DropdownProps<T>) => {
+  const { isDarkMode } = useTheme();
+  const theme = isDarkMode ? darkTheme : lightTheme;
+
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLUListElement>(null);
   const displayValue = selectedValue || defaultValue;
-  
+
   // Calculate animation duration based on number of items
   const CLOSING_DURATION = Math.max(300, items.length * 50 + 200);
 
@@ -112,13 +118,17 @@ export const Dropdown = <T,>({
   }, [isOpen]);
 
   // Add a prop to check if an item is the active one
-  const isItemActive = useCallback((item: DropdownItem<T>) => {
-    return displayValue?.id === item.id;
-  }, [displayValue]);
+  const isItemActive = useCallback(
+    (item: DropdownItem<T>) => {
+      return displayValue?.id === item.id;
+    },
+    [displayValue]
+  );
 
   return (
     <DropdownContainer className={className} ref={dropdownRef}>
       <DropdownHeader
+        theme={theme}
         onClick={toggleDropdown}
         role="combobox"
         aria-expanded={isOpen}
@@ -145,11 +155,7 @@ export const Dropdown = <T,>({
         <DropdownArrow isOpen={isOpen}>▼</DropdownArrow>
       </DropdownHeader>
       {(isOpen || isClosing) && (
-        <DropdownMenu 
-          role="listbox" 
-          ref={menuRef}
-          $isClosing={isClosing}
-        >
+        <DropdownMenu theme={theme} role="listbox" ref={menuRef} $isClosing={isClosing}>
           {items.map((item, index) => (
             <DropdownMenuItem
               key={item.id}
@@ -170,22 +176,22 @@ export const Dropdown = <T,>({
             >
               {item.icon && <DropdownIcon>{item.icon}</DropdownIcon>}
               <span>{item.label}</span>
-              
+
               {/* Add checkmark for selected item to match your app's UI */}
               {isItemActive(item) && (
-                <svg 
-                  width="16" 
-                  height="16" 
-                  viewBox="0 0 16 16" 
-                  fill="none" 
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                   style={{ marginLeft: '4px' }}
                 >
-                  <path 
-                    d="M13.3334 4L6.00008 11.3333L2.66675 8" 
-                    stroke="#1976d2" 
-                    strokeWidth="2" 
-                    strokeLinecap="round" 
+                  <path
+                    d="M13.3334 4L6.00008 11.3333L2.66675 8"
+                    stroke="#1976d2"
+                    strokeWidth="2"
+                    strokeLinecap="round"
                     strokeLinejoin="round"
                   />
                 </svg>

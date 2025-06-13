@@ -1,4 +1,5 @@
 import styled, { keyframes } from 'styled-components';
+import { ThemeType } from 'styles/theme';
 
 const responsive = {
   breakpoints: {
@@ -82,10 +83,10 @@ const fadeIn = keyframes`
   }
 `;
 
-export const AirQualityCard = styled.div`
+export const AirQualityCard = styled.div<{ theme: ThemeType }>`
   display: flex;
   flex-direction: column;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(240, 248, 255, 0.65));
+  background: ${({ theme }) => theme.cardBackground};
   backdrop-filter: blur(8px);
   border-radius: 8px;
   padding: ${theme.spacing.md};
@@ -152,7 +153,7 @@ export const AirQualityValue = styled.div`
 export const ProgressBarContainer = styled.div`
   width: 100%;
   height: 10px;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(215, 215, 215, 0.3);
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: ${theme.spacing.sm};
@@ -170,7 +171,7 @@ export const ProgressBarContainer = styled.div`
         to right,
         transparent 19.8%,
         rgba(255, 255, 255, 0.5) 20%,
-        rgba(255, 255, 255, 0.5) 20.2%,
+        rgba(230, 230, 255, 0.5) 20.2%,
         transparent 20.2%
       ),
       linear-gradient(
@@ -312,6 +313,7 @@ export const Title = styled.h2`
   margin-bottom: ${theme.spacing.md};
   position: relative;
   padding-bottom: ${theme.spacing.sm};
+  color: black;
 
   &::after {
     content: '';

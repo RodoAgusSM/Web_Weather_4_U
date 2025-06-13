@@ -88,6 +88,7 @@ const SocialNetwork = () => {
       >
         <BoxContainer
           {...responsiveProps}
+          theme={theme}
           data-animate="true"
           onTouchStart={isTouchDevice ? handleTouchStart : undefined}
         >
@@ -103,12 +104,12 @@ const SocialNetwork = () => {
               {t('words.back')}
             </BackContainer>
 
-            <MiInfoContainer data-animate="true">
+            <MiInfoContainer theme={theme} data-animate="true">
               <MiInfo>{myInfo.nameAndDegree}</MiInfo>
               <MiInfo>{myInfo.likeAndView}</MiInfo>
             </MiInfoContainer>
 
-            <NetworkContainer data-animate="true">
+            <NetworkContainer theme={theme} data-animate="true">
               <NetworkTitle>{t('socialNetworks.title')}</NetworkTitle>
               {socialNetworks.map((socialNetworkItem: SocialNetworkItemType, index: number) => (
                 <NetworkMapContainer
@@ -118,6 +119,7 @@ const SocialNetwork = () => {
                   <SocialNetworkIcon icon={socialIcons[socialNetworkItem.abbreviation]} />
                   <SocialNetworkName>{socialNetworkItem.abbreviation}</SocialNetworkName>
                   <SocialNetworkItem
+                    theme={theme}
                     href={socialNetworkItem.link}
                     target="_blank"
                     rel="noopener noreferrer"

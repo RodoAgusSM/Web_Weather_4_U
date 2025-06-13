@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { ThemeType } from 'styles/theme';
 
 export const ToggleContainer = styled.div`
   display: flex;
@@ -7,22 +8,18 @@ export const ToggleContainer = styled.div`
   width: 100%;
 `;
 
-export const ToggleWrapper = styled.div`
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(240, 248, 255, 0.65));
+export const ToggleWrapper = styled.div<{ theme: ThemeType }>`
+  background: ${({ theme }) => theme.cardBackground};
   border-radius: 8px;
   padding: 4px;
   gap: 4px;
   display: flex;
   position: relative;
   width: fit-content;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.2s ease;
-
-  /* Match the card style of the weather data panels */
   margin: 0 auto;
-
+  z-index: 1;
   &:hover {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
     border-color: rgba(255, 255, 255, 0.4);
@@ -48,7 +45,7 @@ export const ToggleButton = styled.button<{ $isActive: boolean }>`
 
   &:hover {
     background: ${(props) =>
-        props.$isActive ? '#4a8ed3' : 'rgba(255, 255, 255, 0.5)'};
+    props.$isActive ? '#4a8ed3' : 'rgba(255, 255, 255, 0.5)'};
   }
 
   &:focus {

@@ -147,7 +147,7 @@ const AirPollutionInfo = () => {
     const qualityLabel = Object.values(AirPollutionLabels)[qualityIndex];
 
     return (
-      <AirQualityCard key={index} style={{ '--index': index } as React.CSSProperties}>
+      <AirQualityCard theme={theme} key={index} style={{ '--index': index } as React.CSSProperties}>
         <AirQualityHeader>
           <AirQualityName>{`${airQuality.name} ${airQuality.symbol}`}</AirQualityName>
           <AirQualityValue>{`${value} μg/m³`}</AirQualityValue>
@@ -213,6 +213,7 @@ const AirPollutionInfo = () => {
       >
         <BoxContainer
           {...responsiveProps}
+          theme={theme}
           aria-label="air-pollution-info"
           data-compact={isCompactLayout ? 'true' : 'false'}
           data-touch={isTouchDevice ? 'true' : 'false'}

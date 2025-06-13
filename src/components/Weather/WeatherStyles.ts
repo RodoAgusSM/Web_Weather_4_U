@@ -1,5 +1,5 @@
 import styled, { css, keyframes } from 'styled-components';
-import { BoxContainer } from 'styles/styles';
+import { ThemeType } from 'styles/theme';
 
 const palette = {
   primary: '#85C1E9',
@@ -455,15 +455,9 @@ export const FooterContainer = styled.div<{
 }>`
   display: flex;
   flex-direction: column;
-  gap: ${theme.spacing.md};
-
-  ${responsive.device('sm')} {
-    gap: ${theme.spacing.lg};
-  }
+  gap: 1rem;
 
   @media (min-width: 768px) and (max-width: 1023px) {
-    gap: ${theme.spacing.xl};
-
     & > * {
       max-width: 95%;
     }
@@ -623,30 +617,26 @@ export const MiInfoContainer = styled.div`
 export const WeatherContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1rem;
   width: 100%;
   padding: 0.5rem 0;
-
   animation: ${fadeIn} 0.6s ease-out forwards;
 
-  ${responsive.device('md')} {
-    gap: 1.5rem;
-  }
+
 
   ${orientationResponsive.landscape} {
-    gap: 1rem;
     padding: 0.25rem 0;
   }
 `;
 
-export const TimeInfoContainer = styled.div`
+export const TimeInfoContainer = styled.div<{ theme: ThemeType }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 4px;
   padding: 8px 12px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(240, 248, 255, 0.65));
+  background: ${({ theme }) => theme.cardBackground};
   border-radius: 8px;
   backdrop-filter: blur(4px);
   transition: all 0.3s ease;
@@ -663,12 +653,12 @@ export const TimeInfoContainer = styled.div`
   }
 `;
 
-export const TimeInfoItem = styled.div`
+export const TimeInfoItem = styled.div<{ theme: ThemeType; $isHovered: boolean }>`
   display: flex;
   align-items: center;
   gap: 6px;
   font-size: 0.85rem;
-  color: ${theme.colors.text.primary};
+  color: ${(props) => (props.$isHovered ? props.theme.blueTextHovered : props.theme.blueText)};
   white-space: nowrap;
 
   svg {
@@ -726,11 +716,6 @@ export const TimeInfoDivider = styled.div`
       right: -10px;
     }
   }
-`;
-
-export const WeatherCardWithTransition = styled(BoxContainer) <{ $isVisible: boolean }>`
-  opacity: ${props => (props.$isVisible ? 1 : 0)};
-  transition: opacity 0.3s ease-in-out;
 `;
 
 export const FadeInContainer = styled.div<{ $isVisible: boolean }>`

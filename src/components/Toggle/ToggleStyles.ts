@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { ThemeType } from 'styles/theme';
 
 export const ToggleContainer = styled.div`
   display: flex;
@@ -7,8 +8,8 @@ export const ToggleContainer = styled.div`
   width: 100%;
 `;
 
-export const ToggleWrapper = styled.div`
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.75), rgba(240, 248, 255, 0.65));
+export const ToggleWrapper = styled.div<{ theme: ThemeType }>`
+  background: ${({ theme }) => theme.cardBackground};
   border-radius: 8px;
   padding: 4px;
   gap: 4px;
@@ -19,10 +20,8 @@ export const ToggleWrapper = styled.div`
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.2s ease;
-  
-  /* Match the card style of the weather data panels */
   margin: 0 auto;
-  
+
   &:hover {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
     border-color: rgba(255, 255, 255, 0.4);

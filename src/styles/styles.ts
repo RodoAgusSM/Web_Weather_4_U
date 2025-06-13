@@ -1,5 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 
+import { ThemeType } from './theme';
+
 const palette = {
   primary: '#85C1E9',
   secondary: '#5DADE2',
@@ -68,19 +70,6 @@ const orientationResponsive = {
 const CONTAINER_MAX_WIDTH = '500px';
 const CONTAINER_MAX_WIDTH_MOBILE = '95%';
 
-const responsive = {
-  device: (size: 'xs' | 'sm' | 'md' | 'lg' | 'xl') => {
-    const sizes = {
-      xs: 479,
-      sm: 767,
-      md: 1023,
-      lg: 1279,
-      xl: 1440,
-    };
-    return `@media (min-width: ${sizes[size]}px)`;
-  },
-};
-
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -103,11 +92,12 @@ export const BoxContainer = styled.div<{
   $isSmallMobileDevice: boolean;
   $isMobileDevice: boolean;
   $isDesktopOrLaptop: boolean;
+  theme: ThemeType;
 }>`
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.2);
+  background: ${({ theme }) => theme.card};
   backdrop-filter: blur(8px);
   border-radius: ${theme.radius.lg};
   box-shadow: ${theme.shadow.sm};
@@ -143,17 +133,11 @@ export const BoxWrapper = styled.div<{
 }>`
   display: flex;
   flex-direction: column;
-  gap: ${theme.spacing.md};
   width: 100%;
   align-items: center;
-
-  ${responsive.device('sm')} {
-    gap: ${theme.spacing.lg};
-  }
+  gap: 1rem;
 
   @media (min-width: 768px) and (max-width: 1023px) {
-    gap: ${theme.spacing.xl};
-
     & > * {
       max-width: 95%;
     }
@@ -213,12 +197,12 @@ export const BackContainer = styled.span`
   animation: ${fadeIn} 0.5s ease-out forwards;
   animation-delay: 0.2s;
   ${refinedGlassEffect}
-  
+
   &:hover {
     background: rgba(255, 255, 255, 0.3);
     transform: translateX(-2px);
     box-shadow: 0 2px 5px rgba(0,0,0,0.12);
-    color: #F39C12;
+    color: #1976d2;
   }
 `;
 
@@ -235,13 +219,12 @@ export const BackIconSpotImg = styled.div<{
   mask-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHBhdGggZD0iTTE5IDEySDE5LjVNNSAxMkwxOSAxMk01IDEyTDEyIDVNNSAxMkwxMiAxOSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==');
   mask-size: contain;
   mask-repeat: no-repeat;
-  background-color: ${({ $mouseOver }) => $mouseOver ? '#F39C12' : '#2C3E50'};
+  background: #2C3E50;
   margin-right: 0.5rem;
   transition: transform 0.2s ease, background-color 0.2s ease;
-  
   ${BackContainer}:hover & {
     transform: translateX(-2px);
-    background-color: #F39C12;
+    background: #1976d2;
   }
 `;
 
