@@ -74,7 +74,7 @@ export const DropdownHeader = styled.div<{ theme: ThemeType; }>`
   width: 100%;
   box-sizing: border-box;
   min-width: 150px;
- background: ${({ theme }) => theme.dropdownBackground};
+  background: ${({ theme }) => theme.dropdownBackground};
 
   &:hover {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
@@ -90,7 +90,7 @@ export const DropdownHeader = styled.div<{ theme: ThemeType; }>`
   color: #1976d2;
 `;
 
-export const DropdownSelected = styled.div`
+export const DropdownSelected = styled.div<{ $isMobile: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -101,7 +101,7 @@ export const DropdownSelected = styled.div`
   width: 100%;
   text-align: center;
   padding-right: 16px;
-
+  font-size: ${(props) => (props.$isMobile ? '0.8rem' : '0.85rem')};
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
 `;
 
@@ -138,7 +138,6 @@ export const DropdownMenu = styled.ul<{ theme: ThemeType; $isClosing?: boolean }
   margin: 0;
   padding: 6px 10px 6px 6px;
   list-style: none;
-  background-color: red;
   background: ${({ theme }) => theme.dropdownBackground};
   border-radius: 8px;
   max-height: 240px;
@@ -189,6 +188,7 @@ export const DropdownMenuItem = styled.li<{
   $isClosing?: boolean;
   $totalItems?: number;
   $isActive?: boolean;
+  $isMobile: boolean
 }>`
   display: flex;
   align-items: center;
@@ -199,11 +199,14 @@ export const DropdownMenuItem = styled.li<{
   cursor: pointer;
   border-radius: 8px;
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  font-size: 0.95rem;
+  background: ${(props) => (props.$isActive ? 'rgba(25, 118, 210, 0.15)' : 'transparent')};
+  font-size: ${(props) => (props.$isMobile ? '0.8rem' : '0.85rem')};
   color: #1976d2;
   font-weight: 400;
   white-space: nowrap;
   text-align: center;
+  opacity: 0;
+  border-bottom: 1px solid rgba(230, 240, 255, 0.4);
 
   animation: ${(props) => {
     if (!props.$isClosing) {
@@ -221,12 +224,6 @@ export const DropdownMenuItem = styled.li<{
       `;
     }
   }};
-
-  opacity: 0;
-
-  background: ${(props) => (props.$isActive ? 'rgba(25, 118, 210, 0.15)' : 'transparent')};
-
-  border-bottom: 1px solid rgba(230, 240, 255, 0.4);
 
   &:last-child {
     border-bottom: none;

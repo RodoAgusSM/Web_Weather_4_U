@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import useResponsiveDesign from 'hooks/useResponsiveDesign';
 
 import { useTheme } from '../../context/ThemeContext';
 import { darkTheme, lightTheme } from '../../styles/theme';
@@ -40,6 +41,7 @@ export const Dropdown = <T,>({
 }: DropdownProps<T>) => {
   const { isDarkMode } = useTheme();
   const theme = isDarkMode ? darkTheme : lightTheme;
+  const responsiveInfo = useResponsiveDesign();
 
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -47,14 +49,11 @@ export const Dropdown = <T,>({
   const menuRef = useRef<HTMLUListElement>(null);
   const displayValue = selectedValue || defaultValue;
 
-  // Calculate animation duration based on number of items
   const CLOSING_DURATION = Math.max(300, items.length * 50 + 200);
 
   const toggleDropdown = () => {
     if (isOpen) {
-      // Start closing animation
       setIsClosing(true);
-      // Actually close after animation completes
       setTimeout(() => {
         setIsOpen(false);
         setIsClosing(false);
@@ -66,9 +65,7 @@ export const Dropdown = <T,>({
 
   const handleItemClick = (item: DropdownItem<T>) => {
     onSelect(item);
-    // Start closing animation
     setIsClosing(true);
-    // Actually close after animation completes
     setTimeout(() => {
       setIsOpen(false);
       setIsClosing(false);
@@ -97,13 +94,10 @@ export const Dropdown = <T,>({
     }
   }, [isOpen]);
 
-  // Modify the outside click handler to use the animation
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node) && isOpen) {
-        // Start closing animation
         setIsClosing(true);
-        // Actually close after animation completes
         setTimeout(() => {
           setIsOpen(false);
           setIsClosing(false);
@@ -117,7 +111,6 @@ export const Dropdown = <T,>({
     };
   }, [isOpen]);
 
-  // Add a prop to check if an item is the active one
   const isItemActive = useCallback(
     (item: DropdownItem<T>) => {
       return displayValue?.id === item.id;
@@ -145,9 +138,9 @@ export const Dropdown = <T,>({
         }}
       >
         {displayValue ? (
-          <DropdownSelected>
+          <DropdownSelected $isMobile={responsiveInfo.isMobileDevice}>
             {displayValue.icon && <DropdownIcon>{displayValue.icon}</DropdownIcon>}
-            <span>{displayValue.label}</span>
+            {displayValue.label}
           </DropdownSelected>
         ) : (
           <DropdownPlaceholder>{placeholder}</DropdownPlaceholder>
@@ -173,11 +166,11 @@ export const Dropdown = <T,>({
                   e.preventDefault();
                 }
               }}
+              $isMobile={responsiveInfo.isMobileDevice}
             >
               {item.icon && <DropdownIcon>{item.icon}</DropdownIcon>}
-              <span>{item.label}</span>
+              {item.label}
 
-              {/* Add checkmark for selected item to match your app's UI */}
               {isItemActive(item) && (
                 <svg
                   width="16"

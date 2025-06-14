@@ -1,4 +1,5 @@
 import React from 'react';
+import useResponsiveDesign from 'hooks/useResponsiveDesign';
 
 import { useTheme } from '../../context/ThemeContext';
 import { darkTheme, lightTheme } from '../../styles/theme';
@@ -27,6 +28,7 @@ const Toggle: React.FC<ToggleProps> = ({
 }) => {
   const { isDarkMode } = useTheme();
   const theme = isDarkMode ? darkTheme : lightTheme;
+  const responsiveInfo = useResponsiveDesign();
 
   if (items.length < 2) {
     console.warn('Toggle component requires at least 2 items');
@@ -46,11 +48,12 @@ const Toggle: React.FC<ToggleProps> = ({
             role="switch"
             aria-checked={selectedValue === item.value}
             aria-label={`Select ${item.label}`}
+            $isMobile={responsiveInfo.isMobileDevice}
           >
             {item.icon && (
               <ToggleIcon $isActive={selectedValue === item.value}>{item.icon}</ToggleIcon>
             )}
-            <span>{item.label}</span>
+            {item.label}
           </ToggleOption>
         ))}
       </ToggleWrapper>

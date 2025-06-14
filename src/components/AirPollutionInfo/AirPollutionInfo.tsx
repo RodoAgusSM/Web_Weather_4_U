@@ -147,7 +147,7 @@ const AirPollutionInfo = () => {
     const qualityLabel = Object.values(AirPollutionLabels)[qualityIndex];
 
     return (
-      <AirQualityCard theme={theme} key={index} style={{ '--index': index } as React.CSSProperties}>
+      <AirQualityCard theme={theme} key={index} $isMobile={responsiveProps.$isMobileDevice} style={{ '--index': index } as React.CSSProperties}>
         <AirQualityHeader>
           <AirQualityName>{`${airQuality.name} ${airQuality.symbol}`}</AirQualityName>
           <AirQualityValue>{`${value} μg/m³`}</AirQualityValue>
@@ -221,6 +221,7 @@ const AirPollutionInfo = () => {
           <BoxWrapper {...responsiveProps}>
             <StarsAnimation />
             <BackContainer
+              $isMobile={responsiveProps.$isMobileDevice}
               onMouseEnter={() => setMouseOver(true)}
               onMouseLeave={() => setMouseOver(false)}
               onClick={() => navigate(`/`)}
@@ -229,7 +230,7 @@ const AirPollutionInfo = () => {
               {t('words.back')}
             </BackContainer>
 
-            <Title>{t('words.airPollution.title')}</Title>
+            <Title $isMobile={responsiveProps.$isMobileDevice}>{t('words.airPollution.title')}</Title>
 
             <CardsGridContainer>
               {sortedAirPollutionEntries

@@ -1,18 +1,7 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { ThemeType } from 'styles/theme';
 
 const CONTAINER_MAX_WIDTH = '500px';
-
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
 
 export const MainWeatherDisplayContainer = styled.div<{ theme: ThemeType; $isHovered?: boolean }>`
   display: flex;
@@ -32,30 +21,13 @@ export const MainWeatherDisplayContainer = styled.div<{ theme: ThemeType; $isHov
   transition: all 0.3s ease;
   transform: ${({ $isHovered }) => ($isHovered ? 'translateY(-5px)' : 'translateY(0)')};
   width: 100%;
-  animation: ${fadeIn} 0.5s ease-out forwards;
-
-  @media (max-width: 480px) {
-    padding: 0.5rem;
-  }
 
   &:hover {
-    animation: pulse 1.5s infinite alternate;
-  }
-
-  @keyframes pulse {
-    0% {
-      transform: translateY(-5px) scale(1);
-    }
-    100% {
-      transform: translateY(-5px) scale(1.02);
-    }
-  }
-
-  @media (hover: none) {
-    &:active {
-      transform: scale(0.98);
-      transition: transform 0.1s;
-    }
+    transform: translateY(-3px);
+    box-shadow:
+      0 8px 20px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.5);
   }
 `;
 
@@ -139,14 +111,14 @@ export const DescriptionContainer = styled.div<{
 `;
 
 export const WeatherIcon = styled.img<{
+  theme: ThemeType;
   $isMobile: boolean;
   $isSmallMobile: boolean;
 }>`
   width: ${(props) => (props.$isSmallMobile ? '4rem' : props.$isMobile ? '4.5rem' : '5rem')};
   height: ${(props) => (props.$isSmallMobile ? '4rem' : props.$isMobile ? '4.5rem' : '5rem')};
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
-  backdrop-filter: blur(4px);
+  background: ${({ theme }) => theme.iconBackground};
   box-shadow: '0 1px 3px rgba(0,0,0,0.08)';
   padding: 0.25rem;
   transition: all 0.2s ease;

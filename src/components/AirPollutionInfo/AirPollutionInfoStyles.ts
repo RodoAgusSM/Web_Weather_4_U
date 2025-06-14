@@ -83,7 +83,7 @@ const fadeIn = keyframes`
   }
 `;
 
-export const AirQualityCard = styled.div<{ theme: ThemeType }>`
+export const AirQualityCard = styled.div<{ $isMobile: boolean; theme: ThemeType }>`
   display: flex;
   flex-direction: column;
   background: ${({ theme }) => theme.cardBackground};
@@ -91,6 +91,7 @@ export const AirQualityCard = styled.div<{ theme: ThemeType }>`
   border-radius: 8px;
   padding: ${theme.spacing.md};
   box-shadow: ${theme.shadow.sm};
+  font-size: ${(props) => (props.$isMobile ? '0.75rem' : '0.85rem')};
   border: 1px solid rgba(255, 255, 255, 0.3);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   height: 100%;
@@ -124,7 +125,6 @@ export const AirQualityTitle = styled.div`
 `;
 
 export const AirQualityName = styled.h3`
-  font-size: 0.95rem;
   font-weight: 600;
   color: ${palette.dark};
   margin: 0;
@@ -139,7 +139,6 @@ export const AirQualityName = styled.h3`
 `;
 
 export const AirQualityValue = styled.div`
-  font-size: 0.9rem;
   font-weight: 700;
   color: ${palette.dark};
   background: rgba(255, 255, 255, 0.3);
@@ -305,8 +304,8 @@ export const AirPollutionLegendMobileSubContainer = styled.div`
   }
 `;
 
-export const Title = styled.h2`
-  font-size: 1.2rem;
+export const Title = styled.h2<{ $isMobile: boolean }>`
+  font-size: ${(props) => (props.$isMobile ? '1.1rem' : '1.2rem')};
   font-weight: 600;
   color: ${palette.dark};
   text-align: center;
@@ -329,7 +328,6 @@ export const Title = styled.h2`
 `;
 
 export const CurrentQualityLabel = styled.div<{ $color: string }>`
-  font-size: 0.8rem;
   font-weight: 600;
   padding: ${theme.spacing.xs} ${theme.spacing.sm};
   margin-top: ${theme.spacing.sm};

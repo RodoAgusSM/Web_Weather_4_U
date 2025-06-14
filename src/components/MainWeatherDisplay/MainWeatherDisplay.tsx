@@ -83,6 +83,7 @@ const MainWeatherDisplay: React.FC<MainWeatherDisplayProps> = ({
         </DataRowsContainer>
         <IconRowsContainer>
           <WeatherIcon
+            theme={theme}
             src={iconWorking ? icon : NotFoundIcon}
             alt=""
             $isMobile={isMobileDevice}

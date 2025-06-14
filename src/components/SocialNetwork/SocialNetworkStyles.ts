@@ -46,8 +46,6 @@ export const MiInfoContainer = styled.div<{ theme: ThemeType }>`
   display: flex;
   flex-direction: column;
   padding: ${theme.spacing.xl} ${theme.spacing.md};
-  cursor: default;
-  backdrop-filter: blur(8px);
   border-radius: ${theme.radius.lg};
   box-shadow: ${theme.shadow.sm};
   margin: ${theme.spacing.xl} auto ${theme.spacing.lg};
@@ -65,18 +63,18 @@ export const MiInfoContainer = styled.div<{ theme: ThemeType }>`
   }
 `;
 
-export const MiInfo = styled.span`
+export const MiInfo = styled.span<{ $isMobile: boolean }>`
   display: flex;
   text-align: center;
   justify-content: center;
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 700;
   color: ${palette.dark};
   padding-bottom: ${theme.spacing.md};
   line-height: 1.4;
+  font-size: ${(props) => (props.$isMobile ? '1rem' : '1.2rem')};
 
   &:last-child {
-    font-size: 1.1rem;
+    font-size: ${(props) => (props.$isMobile ? '0.8rem' : '1rem')};
     font-weight: 500;
     color: ${palette.dark};
     opacity: 0.9;
@@ -87,11 +85,10 @@ export const NetworkContainer = styled.div<{ theme: ThemeType }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  backdrop-filter: blur(8px);
   border-radius: ${theme.radius.lg};
   box-shadow: ${theme.shadow.sm};
   padding: ${theme.spacing.xl} ${theme.spacing.lg};
-margin: 0 auto;
+  margin: 0 auto;
   width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.3);
   gap: ${theme.spacing.md};
@@ -101,8 +98,8 @@ margin: 0 auto;
   opacity: 0;
 `;
 
-export const NetworkTitle = styled.h3`
-  font-size: 1.1rem;
+export const NetworkTitle = styled.h3<{ $isMobile: boolean }>`
+  font-size: ${(props) => (props.$isMobile ? '1.1rem' : '1.2rem')};
   font-weight: 600;
   color: ${palette.dark};
   margin-bottom: ${theme.spacing.md};
@@ -123,7 +120,7 @@ export const NetworkTitle = styled.h3`
   }
 `;
 
-export const NetworkMapContainer = styled.div`
+export const NetworkMapContainer = styled.div<{ $isMobile: boolean }>`
   display: flex;
   align-items: center;
   gap: ${theme.spacing.md};
@@ -131,6 +128,7 @@ export const NetworkMapContainer = styled.div`
   width: 100%;
   transition: all 0.2s ease;
   border-radius: ${theme.radius.md};
+  font-size: ${(props) => (props.$isMobile ? '0.8rem' : '0.95rem')};
   border: 1px solid transparent;
   animation: ${fadeIn} 0.5s ease-out forwards;
   animation-delay: calc(var(--index, 0) * 0.1s + 0.6s);
@@ -170,7 +168,6 @@ export const SocialNetworkIcon = styled.div<{ icon: string }>`
 `;
 
 export const SocialNetworkName = styled.span`
-  font-size: 0.95rem;
   font-weight: 600;
   color: ${palette.dark};
   min-width: 40px;
@@ -189,7 +186,6 @@ export const SocialNetworkName = styled.span`
 `;
 
 export const SocialNetworkItem = styled.a<{ theme: ThemeType }>`
-  font-size: 0.95rem;
   font-weight: 500;
   position: relative;
   cursor: pointer;

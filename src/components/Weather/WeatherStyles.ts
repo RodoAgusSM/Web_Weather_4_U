@@ -622,23 +622,21 @@ export const WeatherContentContainer = styled.div`
   padding: 0.5rem 0;
   animation: ${fadeIn} 0.6s ease-out forwards;
 
-
-
   ${orientationResponsive.landscape} {
     padding: 0.25rem 0;
   }
 `;
 
-export const TimeInfoContainer = styled.div<{ theme: ThemeType }>`
+export const TimeInfoContainer = styled.div<{ theme: ThemeType; $isMobile: boolean }>`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 4px;
   padding: 8px 12px;
   background: ${({ theme }) => theme.cardBackground};
   border-radius: 8px;
-  backdrop-filter: blur(4px);
+  font-size: ${(props) => (props.$isMobile ? '0.7rem' : '0.8rem')};
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.2);
 
@@ -657,7 +655,6 @@ export const TimeInfoItem = styled.div<{ theme: ThemeType; $isHovered: boolean }
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.85rem;
   color: ${(props) => (props.$isHovered ? props.theme.blueTextHovered : props.theme.blueText)};
   white-space: nowrap;
 
@@ -672,54 +669,47 @@ export const TimeInfoItem = styled.div<{ theme: ThemeType; $isHovered: boolean }
   }
 
   ${responsive.device('md')} {
-    font-size: 0.9rem;
-
     &:not(:last-child)::after {
       display: inline-block;
       width: 1px;
       height: 14px;
       background-color: rgba(174, 214, 241, 0.6);
-      margin-left: 12px;
     }
   }
 `;
 
 export const TimeInfoDivider = styled.div`
-  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2006f3, #199992);
+  position: relative;
+  margin: 0 20px;
 
-  ${responsive.device('md')} {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 6px;
-    height: 6px;
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 4px;
+    height: 4px;
     border-radius: 50%;
     background: linear-gradient(135deg, #2006f3, #199992);
-    position: relative;
-    margin: 0 10px;
+  }
 
-    &::before,
-    &::after {
-      content: '';
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #2006f3, #199992);
-    }
+  &::before {
+    left: -10px;
+  }
 
-    &::before {
-      left: -10px;
-    }
-
-    &::after {
-      right: -10px;
-    }
+  &::after {
+    right: -10px;
   }
 `;
 
 export const FadeInContainer = styled.div<{ $isVisible: boolean }>`
-  opacity: ${props => (props.$isVisible ? 1 : 0)};
+  opacity: ${(props) => (props.$isVisible ? 1 : 0)};
   transition: opacity 0.3s ease-in-out;
 `;
 
@@ -735,13 +725,13 @@ export const InfoButton = styled.button`
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 2px 5px rgba(25, 118, 210, 0.3);
-  
+
   &:hover {
     background: linear-gradient(135deg, #0d47a1, #1976d2);
     transform: scale(1.1);
     box-shadow: 0 3px 7px rgba(25, 118, 210, 0.4);
   }
-  
+
   &:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.4);

@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import useResponsiveDesign from 'hooks/useResponsiveDesign';
 
 import { useTheme } from '../../context/ThemeContext';
 import { darkTheme, lightTheme } from '../../styles/theme';
@@ -21,6 +22,7 @@ interface TriToggleProps {
 const TriToggle: React.FC<TriToggleProps> = ({ items, selectedValue, onChange }) => {
   const { isDarkMode } = useTheme();
   const theme = isDarkMode ? darkTheme : lightTheme;
+  const responsiveInfo = useResponsiveDesign();
 
   if (!items || items.length !== 3) {
     console.error('TriToggle requires exactly three items');
@@ -35,6 +37,7 @@ const TriToggle: React.FC<TriToggleProps> = ({ items, selectedValue, onChange })
             key={item.id}
             $isActive={selectedValue === item.value}
             onClick={() => onChange(item.value)}
+            $isMobile={responsiveInfo.isMobileDevice}
           >
             {item.icon && <IconContainer>{item.icon}</IconContainer>}
             {item.label}

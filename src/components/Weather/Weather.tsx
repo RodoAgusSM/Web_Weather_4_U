@@ -545,6 +545,7 @@ const Weather = () => {
                       theme={theme}
                       onMouseEnter={() => setIsHovered(true)}
                       onMouseLeave={() => setIsHovered(false)}
+                      $isMobile={responsiveProps.$isMobileDevice}
                     >
                       <TimeInfoItem
                         theme={theme}
@@ -615,15 +616,15 @@ const Weather = () => {
                 <LocationNotFoundContainer {...responsiveProps} data-animate="true">
                   <LocationNotFoundSpotImg src={LocationNotFoundIcon} alt="" {...responsiveProps} />
                   <LocationNotFoundCode
-                    $isMobileDevice={isMobileDevice}
-                    $isSmallMobileDevice={isSmallMobileDevice}
+                    $isMobileDevice={responsiveProps.$isMobileDevice}
+                    $isSmallMobileDevice={responsiveProps.$isSmallMobileDevice}
                   >
                     {t('words.locationNotFound.funnyMessage')} {cityName}
                   </LocationNotFoundCode>
                   <BreakLine />
                   <LocationNotFoundCode
-                    $isMobileDevice={isMobileDevice}
-                    $isSmallMobileDevice={isSmallMobileDevice}
+                    $isMobileDevice={responsiveProps.$isMobileDevice}
+                    $isSmallMobileDevice={responsiveProps.$isSmallMobileDevice}
                   >
                     {t('words.locationNotFound.realMessage')}
                   </LocationNotFoundCode>

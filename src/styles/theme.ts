@@ -6,7 +6,7 @@ export const lightTheme = {
     blueText: '#1976d2',
     blueTextHovered: '#0d47a1',
     border: '#E0E0E0',
-    dataPointIconBackground: '#F3F3F3',
+    iconBackground: '#F7F7F7',
     cardBackground: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.85), rgba(220, 240, 255, 0.75))',
     dropdownBackground: 'linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(220, 240, 255, 0.9))',
 };
@@ -19,7 +19,7 @@ export const darkTheme = {
     blueText: '#0047AB',
     blueTextHovered: '#0437F2',
     border: '#4A5568',
-    dataPointIconBackground: '#28445f',
+    iconBackground: '#4682B4',
     cardBackground: 'linear-gradient(to bottom, rgba(200, 210, 225, 0.85), rgba(170, 180, 195, 0.75))',
     dropdownBackground: 'linear-gradient(to bottom, rgba(200, 210, 225, 1), rgba(170, 180, 195, 0.9))',
 };

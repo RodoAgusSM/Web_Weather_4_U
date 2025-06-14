@@ -26,13 +26,13 @@ export const ToggleWrapper = styled.div<{ theme: ThemeType }>`
   }
 `;
 
-export const ToggleButton = styled.button<{ $isActive: boolean }>`
+export const ToggleButton = styled.button<{ $isActive: boolean; $isMobile: boolean }>`
   background: ${({ $isActive }) => ($isActive ? 'rgba(255, 255, 255, 0.9)' : 'transparent')};
   color: ${({ $isActive }) => ($isActive ? '#3498db' : 'rgba(255, 255, 255, 0.8)')};
   border: none;
   border-radius: 8px;
   padding: 6px 12px;
-  font-size: 14px;
+  font-size: ${(props) => (props.$isMobile ? '0.7rem' : '0.8rem')};
   font-weight: ${({ $isActive }) => ($isActive ? '600' : '400')};
   cursor: pointer;
   transition: all 0.2s ease;

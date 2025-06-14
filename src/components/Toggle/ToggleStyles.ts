@@ -52,7 +52,7 @@ export const ToggleIcon = styled.span<{ $isActive: boolean }>`
   }
 `;
 
-export const ToggleOption = styled.button<{ $isActive: boolean }>`
+export const ToggleOption = styled.button<{ $isActive: boolean; $isMobile: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -61,8 +61,8 @@ export const ToggleOption = styled.button<{ $isActive: boolean }>`
   border: none;
   background: ${(props) => (props.$isActive ? '#4a8ed3' : 'transparent')};
   color: ${(props) => (props.$isActive ? 'white' : '#1976d2')};
-  font-size: 0.95rem;
-  font-weight: ${(props) => (props.$isActive ? '600' : '500')};
+  font-size: ${(props) => (props.$isMobile ? '0.7rem' : '0.8rem')};
+  font-weight: ${(props) => (props.$isActive ? '700' : '500')};
   letter-spacing: 0.01em;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -89,13 +89,11 @@ export const ToggleOption = styled.button<{ $isActive: boolean }>`
   }
 `;
 
-// New component to position the toggle better in the layout
 export const ToggleContainerCentered = styled(ToggleContainer)`
   margin: 20px auto 25px;
   max-width: 320px;
   position: relative;
-  
-  /* Add subtle highlight effect */
+
   &::after {
     content: '';
     position: absolute;

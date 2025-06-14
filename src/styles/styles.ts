@@ -175,11 +175,11 @@ export const Code = styled.code<{ $isMobileDevice: boolean, $isSmallMobileDevice
   line-height: 1.5;
 `;
 
-export const BackContainer = styled.span`
+export const BackContainer = styled.span<{ $isMobile: boolean }>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.9rem;
+  font-size: ${(props) => (props.$isMobile ? '0.8rem' : '0.9rem')};
   font-weight: 600;
   margin-right: auto;
   margin-left: 0;

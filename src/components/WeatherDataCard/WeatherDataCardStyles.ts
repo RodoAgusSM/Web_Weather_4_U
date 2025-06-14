@@ -17,18 +17,17 @@ export const CardContainer = styled.div<{
   gap: ${(props) => (props.$isMobile ? '8px' : '12px')};
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   overflow: hidden;
-  
-  /* Fixed dimensions to ensure consistent layout */
   min-height: ${(props) => (props.$isMobile ? '70px' : '80px')};
   max-height: ${(props) => (props.$isMobile ? '70px' : '80px')};
   flex: 1;
   min-width: 0;
   margin: 0;
   background: ${({ theme }) => theme.cardBackground};
+
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 
-      0 8px 20px rgba(0, 0, 0, 0.1), 
+    box-shadow:
+      0 8px 20px rgba(0, 0, 0, 0.1),
       inset 0 1px 0 rgba(255, 255, 255, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.5);
   }
@@ -41,7 +40,7 @@ export const IconContainer = styled.div < { theme: ThemeType; $isMobile: boolean
   flex-shrink: 0;
   width: ${(props) => (props.$isMobile ? '32px' : '40px')};
   height: ${(props) => (props.$isMobile ? '32px' : '40px')};
-  background: ${({ theme }) => theme.dataPointIconBackground};
+  background: ${({ theme }) => theme.iconBackground};
   border-radius: 50%;
   backdrop-filter: blur(4px);
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8);
@@ -79,7 +78,7 @@ export const HeaderContainer = styled.div`
 `;
 
 export const Label = styled.div<{ theme: ThemeType; $isHovered: boolean; $isMobile: boolean }>`
-  font-size: ${(props) => (props.$isMobile ? '0.75rem' : '0.85rem')};
+  font-size: ${(props) => (props.$isMobile ? '0.65rem' : '0.85rem')};
   font-weight: 700;
   color: ${(props) =>
     props.$isHovered ? props.theme.blueTextHovered : props.theme.blueText};
@@ -91,7 +90,7 @@ export const Label = styled.div<{ theme: ThemeType; $isHovered: boolean; $isMobi
 `;
 
 export const ValueText = styled.div<{ $isHovered: boolean; $isMobile: boolean }>`
-  font-size: ${(props) => (props.$isMobile ? '0.85rem' : '0.95rem')};
+  font-size: ${(props) => (props.$isMobile ? '0.75rem' : '0.95rem')};
   font-weight: 500;
   color: #333;
   transition: color 0.2s ease;

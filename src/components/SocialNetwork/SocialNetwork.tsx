@@ -95,6 +95,7 @@ const SocialNetwork = () => {
           <BoxWrapper {...responsiveProps}>
             <StarsAnimation />
             <BackContainer
+              $isMobile={responsiveProps.$isMobileDevice}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               onClick={handleBackClick}
@@ -105,14 +106,15 @@ const SocialNetwork = () => {
             </BackContainer>
 
             <MiInfoContainer theme={theme} data-animate="true">
-              <MiInfo>{myInfo.nameAndDegree}</MiInfo>
-              <MiInfo>{myInfo.likeAndView}</MiInfo>
+              <MiInfo $isMobile={responsiveProps.$isMobileDevice}>{myInfo.nameAndDegree}</MiInfo>
+              <MiInfo $isMobile={responsiveProps.$isMobileDevice}>{myInfo.likeAndView}</MiInfo>
             </MiInfoContainer>
 
             <NetworkContainer theme={theme} data-animate="true">
-              <NetworkTitle>{t('socialNetworks.title')}</NetworkTitle>
+              <NetworkTitle $isMobile={responsiveProps.$isMobileDevice}>{t('socialNetworks.title')}</NetworkTitle>
               {socialNetworks.map((socialNetworkItem: SocialNetworkItemType, index: number) => (
                 <NetworkMapContainer
+                  $isMobile={responsiveProps.$isMobileDevice}
                   key={index}
                   style={{ '--index': index } as React.CSSProperties}
                 >
