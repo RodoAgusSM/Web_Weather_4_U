@@ -631,13 +631,13 @@ const Weather = () => {
   };
 
   const renderErrorMessage = () => (
-    <>
+    <div style={{ textAlign: 'center' }}>
       <DangerLogo src={DangerIcon} alt="" />
       <BreakLine />
       <Code $isMobileDevice={isMobileDevice} $isSmallMobileDevice={isSmallMobileDevice}>
         {t('words.conectionError')}
       </Code>
-    </>
+    </div>
   );
 
   return (

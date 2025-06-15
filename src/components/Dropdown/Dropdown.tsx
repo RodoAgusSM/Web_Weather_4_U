@@ -145,7 +145,7 @@ export const Dropdown = <T,>({
         ) : (
           <DropdownPlaceholder>{placeholder}</DropdownPlaceholder>
         )}
-        <DropdownArrow isOpen={isOpen}>▼</DropdownArrow>
+        <DropdownArrow $isOpen={isOpen}>▼</DropdownArrow>
       </DropdownHeader>
       {(isOpen || isClosing) && (
         <DropdownMenu theme={theme} role="listbox" ref={menuRef} $isClosing={isClosing}>

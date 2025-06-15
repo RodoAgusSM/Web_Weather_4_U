@@ -121,11 +121,11 @@ export const DropdownPlaceholder = styled.div`
   padding-right: 16px;
 `;
 
-export const DropdownArrow = styled.span<{ isOpen: boolean }>`
+export const DropdownArrow = styled.span<{ $isOpen: boolean }>`
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   font-size: 0.7em;
   color: #1976d2;
-  transform: ${(props) => (props.isOpen ? 'rotate(180deg)' : 'rotate(0)')};
+  transform: ${(props) => (props.$isOpen ? 'rotate(180deg)' : 'rotate(0)')};
   opacity: 0.8;
   position: absolute;
   right: 16px;
