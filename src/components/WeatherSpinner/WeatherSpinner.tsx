@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import useResponsiveDesign from 'hooks/useResponsiveDesign';
 
 import {
@@ -86,4 +86,4 @@ const WeatherSpinner: React.FC<WeatherSpinnerProps> = ({ size = 'medium' }) => {
   );
 };
 
-export default WeatherSpinner;
+export default memo(WeatherSpinner);

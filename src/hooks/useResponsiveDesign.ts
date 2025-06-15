@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 
-// Define breakpoints based on common device sizes
+// Define breakpoints based on common device sizes, updated for modern larger phones
 const breakpoints = {
     xs: 320,    // Small smartphones
     sm: 480,    // Mobile devices
-    md: 768,    // Tablets
+    md: 900,    // Updated: Increased to accommodate large phones in landscape
     lg: 1024,   // Small laptops
     xl: 1280,   // Desktops
     xxl: 1440   // Large screens
@@ -103,16 +103,31 @@ const useResponsiveDesign = (): ResponsiveInfo => {
             const isLargeDevice = width >= breakpoints.lg && width < breakpoints.xl;
             const isExtraLargeDevice = width >= breakpoints.xl;
 
-            // Group devices
-            const isMobileDevice = width < breakpoints.md;
-            const isTabletDevice = width >= breakpoints.md && width < breakpoints.lg;
-            const isDesktopDevice = width >= breakpoints.lg;
+            // Improved mobile detection
+            const userAgent = navigator.userAgent.toLowerCase();
+            const mobileKeywords = /iphone|ipod|android|blackberry|windows\s+phone|opera\s+mini|iemobile/i;
+            const tabletKeywords = /ipad|android(?!.*mobile)/i;
+
+            const isMobileUserAgent = mobileKeywords.test(userAgent);
+            const isTabletUserAgent = tabletKeywords.test(userAgent);
+
+            // Check for large mobile devices in landscape
+            const isLargePhoneInLandscape = (
+                isLandscape &&
+                (height <= 500 || (width <= 950 && height <= 650)) &&
+                (isMobileUserAgent || navigator.maxTouchPoints > 1)
+            );
+
+            // Group devices with improved detection
+            const isMobileDevice = width < breakpoints.md || isLargePhoneInLandscape || (isMobileUserAgent && !isTabletUserAgent);
+            const isTabletDevice = (width >= breakpoints.md && width < breakpoints.lg && !isLargePhoneInLandscape) || isTabletUserAgent;
+            const isDesktopDevice = width >= breakpoints.lg && !isMobileDevice && !isTabletDevice;
 
             // Set legacy properties for backward compatibility
             const isSmallMobileDevice = isExtraSmallDevice;
             const isDesktopOrLaptop = isDesktopDevice;
 
-            // Combined orientation and device
+            // Combined orientation and device with updated logic
             const isMobilePortrait = isMobileDevice && isPortrait;
             const isMobileLandscape = isMobileDevice && isLandscape;
             const isTabletPortrait = isTabletDevice && isPortrait;

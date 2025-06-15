@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { Adapter, convertWeatherUnits, formatWeatherTimeByLanguage } from 'adapter/adapter';
 import CitySearchBar from 'components/CitySearchBar/CitySearchBar';
 import Language from 'components/Language/Language';
@@ -18,7 +18,7 @@ import LocationNotFoundIcon from 'images/location_not_found_icon.png';
 import { ApiError, ApiResponse } from 'interfaces/index';
 import {
   AirPollution as AirPollutionInterface,
-  AppRequest,
+  AppRequest as AppRequestInterface,
   Weather as WeatherInterface,
 } from 'interfaces/index';
 import { useTranslation } from 'react-i18next';
@@ -61,7 +61,8 @@ const Weather = () => {
   const navigate = useNavigate();
   const { mode, setMode, isDarkMode } = useTheme();
   const theme = isDarkMode ? darkTheme : lightTheme;
-  const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice, isLandscape, isPortrait } = useResponsiveDesign();
+  const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice, isLandscape, isPortrait } =
+    useResponsiveDesign();
   const [isHovered, setIsHovered] = useState(false);
   const [validCoordinates, setValidCoordinates] = useState<boolean>(true);
   const [siteWorking, setIsSiteWorking] = useState<boolean>(true);
@@ -142,7 +143,7 @@ const Weather = () => {
   };
 
   const fetchFromAPI = async (
-    config: AppRequest,
+    config: AppRequestInterface,
     successCallback: Function,
     errorCallback: ApiError = handleAPIError
   ) => {
@@ -194,7 +195,7 @@ const Weather = () => {
       });
     }
 
-    const weatherRequest: AppRequest = {
+    const weatherRequest: AppRequestInterface = {
       toFetch: ClimateType.Weather,
       lat,
       lon,
@@ -202,7 +203,7 @@ const Weather = () => {
       units: unit,
     };
 
-    const airPollutionRequest: AppRequest = {
+    const airPollutionRequest: AppRequestInterface = {
       toFetch: ClimateType.AirPollution,
       lat,
       lon,
@@ -543,12 +544,9 @@ const Weather = () => {
                       theme={theme}
                       onMouseEnter={() => setIsHovered(true)}
                       onMouseLeave={() => setIsHovered(false)}
-                      $isMobile={responsiveProps.$isMobileDevice}
+                      $isMobileDevice={responsiveProps.$isMobileDevice}
                     >
-                      <TimeInfoItem
-                        theme={theme}
-                        $isHovered={isHovered}
-                      >
+                      <TimeInfoItem theme={theme} $isHovered={isHovered}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -564,10 +562,7 @@ const Weather = () => {
                         <span>{t('words.updatedAt')}</span> {lastTimeChecked}
                       </TimeInfoItem>
                       <TimeInfoDivider aria-hidden="true" />
-                      <TimeInfoItem
-                        theme={theme}
-                        $isHovered={isHovered}
-                      >
+                      <TimeInfoItem theme={theme} $isHovered={isHovered}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -669,4 +664,4 @@ const Weather = () => {
   );
 };
 
-export default Weather;
+export default memo(Weather);

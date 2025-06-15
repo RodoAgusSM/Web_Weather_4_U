@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import useResponsiveDesign from 'hooks/useResponsiveDesign';
 
 import { useTheme } from '../../context/ThemeContext';
@@ -20,12 +20,7 @@ interface ToggleProps {
   className?: string;
 }
 
-const Toggle: React.FC<ToggleProps> = ({
-  items,
-  selectedValue,
-  onChange,
-  className = '',
-}) => {
+const Toggle: React.FC<ToggleProps> = ({ items, selectedValue, onChange, className = '' }) => {
   const { isDarkMode } = useTheme();
   const theme = isDarkMode ? darkTheme : lightTheme;
   const responsiveInfo = useResponsiveDesign();
@@ -37,7 +32,7 @@ const Toggle: React.FC<ToggleProps> = ({
 
   return (
     <ToggleContainer className={className}>
-      <ToggleWrapper theme={theme} >
+      <ToggleWrapper theme={theme}>
         {items.map((item) => (
           <ToggleOption
             key={item.id}
@@ -61,4 +56,4 @@ const Toggle: React.FC<ToggleProps> = ({
   );
 };
 
-export default Toggle;
+export default memo(Toggle);

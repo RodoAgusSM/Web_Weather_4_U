@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import {
   CardContainer,
@@ -33,4 +33,4 @@ const WeatherCardSkeleton: React.FC<WeatherCardSkeletonProps> = ({ hasInfoButton
   );
 };
 
-export default WeatherCardSkeleton;
+export default memo(WeatherCardSkeleton);

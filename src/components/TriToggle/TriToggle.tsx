@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { memo, ReactNode } from 'react';
 import useResponsiveDesign from 'hooks/useResponsiveDesign';
 
 import { useTheme } from '../../context/ThemeContext';
@@ -48,4 +48,4 @@ const TriToggle: React.FC<TriToggleProps> = ({ items, selectedValue, onChange })
   );
 };
 
-export default TriToggle;
+export default memo(TriToggle);

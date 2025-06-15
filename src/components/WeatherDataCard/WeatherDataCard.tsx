@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import AirQualityIcon from 'images/airQuality.png';
 import CloudIcon from 'images/clouds.png';
 import DefaultIcon from 'images/default.png';
@@ -152,7 +152,7 @@ const WeatherDataCard: React.FC<WeatherDataCardProps> = ({
   );
 };
 
-export default React.memo(WeatherDataCard, (prevProps, nextProps) => {
+export default memo(WeatherDataCard, (prevProps, nextProps) => {
   return (
     prevProps.label === nextProps.label &&
     prevProps.value === nextProps.value &&

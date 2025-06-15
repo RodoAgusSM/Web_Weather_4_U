@@ -354,10 +354,13 @@ export const CurrentQualityLabel = styled.div<{ $color: string }>`
   }
 `;
 
-export const CardsGridContainer = styled.div`
+export const CardsGridContainer = styled.div<{
+  $isMobileDevice: boolean;
+  $isLandscape: boolean;
+}>`
   display: grid;
   gap: 0.8rem;
   width: 100%;
   margin: 1rem 0;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: ${({ $isLandscape, $isMobileDevice }) => $isMobileDevice && $isLandscape ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)'};
 `;

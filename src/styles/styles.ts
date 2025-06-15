@@ -63,11 +63,6 @@ const theme = {
   },
 };
 
-const orientationResponsive = {
-  landscape: `@media (orientation: landscape) and (max-height: 600px)`,
-  portrait: `@media (orientation: portrait)`,
-};
-
 const CONTAINER_MAX_WIDTH = '500px';
 const CONTAINER_MAX_WIDTH_MOBILE = '95%';
 
@@ -110,7 +105,7 @@ export const BoxContainer = styled.div<{
     $isSmallMobileDevice ? theme.spacing.sm : theme.spacing.lg};
   width: ${({ $isMobileDevice }) => ($isMobileDevice ? CONTAINER_MAX_WIDTH_MOBILE : '100%')};
   animation: ${fadeIn} 0.5s ease-out forwards;
-  max-width: ${({ $isPortrait }) => ($isPortrait ? '95vw' : CONTAINER_MAX_WIDTH)};
+  max-width: ${({ $isPortrait, $isLandscape, $isMobileDevice }) => ($isPortrait ? '95vw' : $isMobileDevice && $isLandscape ? '100%' : CONTAINER_MAX_WIDTH)};
   ${refinedGlassEffect}
 `;
 
@@ -119,24 +114,11 @@ export const BoxWrapper = styled.div<{
   $isMobileDevice: boolean;
   $isSmallMobileDevice: boolean;
 }>`
-display: flex;
-flex-direction: column;
-width: 100%;
-align-items: center;
-gap: 1rem;
-
-  ${orientationResponsive.landscape} {
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
-  gap: ${theme.spacing.sm};
-
-    & > * {
-    width: calc(50 %-${theme.spacing.sm});
-    margin: 0;
-  }
-}
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  gap: 0.7rem;
 `;
 
 export const ColumnContainer = styled.div`

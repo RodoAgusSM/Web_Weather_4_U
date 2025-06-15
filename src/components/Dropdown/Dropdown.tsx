@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import useResponsiveDesign from 'hooks/useResponsiveDesign';
 
 import { useTheme } from '../../context/ThemeContext';
@@ -196,3 +196,5 @@ export const Dropdown = <T,>({
     </DropdownContainer>
   );
 };
+
+export default memo(Dropdown);

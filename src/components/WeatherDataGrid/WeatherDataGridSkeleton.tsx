@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import WeatherCardSkeleton from 'components/WeatherDataCard/WeatherCardSkeleton';
 
 import { GridContainer } from './WeatherDataGridStyles';
@@ -18,4 +18,4 @@ const WeatherDataGridSkeleton: React.FC<WeatherDataGridSkeletonProps> = ({
   );
 };
 
-export default WeatherDataGridSkeleton;
+export default memo(WeatherDataGridSkeleton);

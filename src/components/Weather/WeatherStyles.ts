@@ -347,21 +347,9 @@ export const CustomWeatherDataContainer = styled(WeatherDataContainer)`
 export const DataColumnContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.7rem;
   width: 100%;
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
-
-  @media (max-width: 480px) {
-    gap: 0.5rem;
-  }
-
-  ${orientationResponsive.landscape} {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: ${theme.spacing.md};
-  }
 `;
 
 export const UnitsContainer = styled.div<{
@@ -455,13 +443,8 @@ export const FooterContainer = styled.div<{
 }>`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1rem;
-
-  @media (min-width: 768px) and (max-width: 1023px) {
-    & > * {
-      max-width: 95%;
-    }
-  }
 `;
 
 export const LanguageAndSocialNetworkContainer = styled.div`
@@ -617,7 +600,7 @@ export const MiInfoContainer = styled.div`
 export const WeatherContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.7rem;
   width: 100%;
   padding: 0.5rem 0;
   animation: ${fadeIn} 0.6s ease-out forwards;
@@ -627,7 +610,7 @@ export const WeatherContentContainer = styled.div`
   }
 `;
 
-export const TimeInfoContainer = styled.div<{ theme: ThemeType; $isMobile: boolean }>`
+export const TimeInfoContainer = styled.div<{ theme: ThemeType; $isMobileDevice: boolean }>`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -636,9 +619,10 @@ export const TimeInfoContainer = styled.div<{ theme: ThemeType; $isMobile: boole
   padding: 8px 12px;
   background: ${({ theme }) => theme.cardBackground};
   border-radius: 8px;
-  font-size: ${(props) => (props.$isMobile ? '0.7rem' : '0.8rem')};
+  font-size: ${(props) => (props.$isMobileDevice ? '0.7rem' : '0.8rem')};
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  min-width: 100%;
 
   &:hover {
     transform: translateY(-2px);

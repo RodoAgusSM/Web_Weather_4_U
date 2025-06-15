@@ -151,7 +151,12 @@ const AirPollutionInfo = () => {
     const qualityLabel = Object.values(AirPollutionLabels)[qualityIndex];
 
     return (
-      <AirQualityCard theme={theme} key={index} $isMobile={responsiveProps.$isMobileDevice} style={{ '--index': index } as React.CSSProperties}>
+      <AirQualityCard
+        theme={theme}
+        key={index}
+        $isMobile={responsiveProps.$isMobileDevice}
+        style={{ '--index': index } as React.CSSProperties}
+      >
         <AirQualityHeader>
           <AirQualityName>{`${airQuality.name} ${airQuality.symbol}`}</AirQualityName>
           <AirQualityValue>{`${value} μg/m³`}</AirQualityValue>
@@ -203,59 +208,65 @@ const AirPollutionInfo = () => {
       return orderA - orderB;
     });
   }, [airPollutionEntries, sortedMetricOrder]);
-  return (
-    <>
-      <GlobalStyles theme={theme} />
-      <div
-        style={{
-          width: '100%',
-          minHeight: '100vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <BoxContainer
-          {...responsiveProps}
-          theme={theme}
-          aria-label="air-pollution-info"
-          data-compact={isCompactLayout ? 'true' : 'false'}
-          data-touch={isTouchDevice ? 'true' : 'false'}
+
+    return (
+      <>
+        <GlobalStyles theme={theme} />
+        <div
+          style={{
+            width: '100%',
+            minHeight: '100vh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
         >
-          <BoxWrapper {...responsiveProps}>
-            <StarsAnimation />
-            <div style={{ width: '100%' }}>
-              <BackContainer
-                $isMobile={responsiveProps.$isMobileDevice}
-                onMouseEnter={() => setMouseOver(true)}
-                onMouseLeave={() => setMouseOver(false)}
-                onClick={() => navigate(`/`)}
+          <BoxContainer
+            {...responsiveProps}
+            theme={theme}
+            aria-label="air-pollution-info"
+            data-compact={isCompactLayout ? 'true' : 'false'}
+            data-touch={isTouchDevice ? 'true' : 'false'}
+          >
+            <BoxWrapper {...responsiveProps}>
+              <StarsAnimation />
+              <div style={{ width: '100%' }}>
+                <BackContainer
+                  $isMobile={responsiveProps.$isMobileDevice}
+                  onMouseEnter={() => setMouseOver(true)}
+                  onMouseLeave={() => setMouseOver(false)}
+                  onClick={() => navigate(`/`)}
+                >
+                  <BackIconSpotImg $mouseOver={mouseOver} />
+                  {t('words.back')}
+                </BackContainer>
+              </div>
+
+              <Title $isMobile={responsiveProps.$isMobileDevice}>
+                {t('words.airPollution.title')}
+              </Title>
+
+              <CardsGridContainer
+                $isMobileDevice={responsiveProps.$isMobileDevice}
+                $isLandscape={responsiveProps.$isLandscape}
               >
-                <BackIconSpotImg $mouseOver={mouseOver} />
-                {t('words.back')}
-              </BackContainer>
-            </div>
-
-            <Title $isMobile={responsiveProps.$isMobileDevice}>{t('words.airPollution.title')}</Title>
-
-            <CardsGridContainer>
-              {sortedAirPollutionEntries
-                .filter((entry) => {
-                  const metric = entry[0] as AirQualityMetric;
-                  const airQuality = AIR_QUALITY_LABELS[
-                    firstLowerToUppercase(metric) as AirQualityMetric
-                  ] as any;
-                  return airQuality && Object.keys(airQuality).length > 0;
-                })
-                .map((entry, index) =>
-                  renderProgressCard(entry[0] as AirQualityMetric, entry[1] as number, index)
-                )}
-            </CardsGridContainer>
-          </BoxWrapper>
-        </BoxContainer>
-      </div>
-    </>
-  );
+                {sortedAirPollutionEntries
+                  .filter((entry) => {
+                    const metric = entry[0] as AirQualityMetric;
+                    const airQuality = AIR_QUALITY_LABELS[
+                      firstLowerToUppercase(metric) as AirQualityMetric
+                    ] as any;
+                    return airQuality && Object.keys(airQuality).length > 0;
+                  })
+                  .map((entry, index) =>
+                    renderProgressCard(entry[0] as AirQualityMetric, entry[1] as number, index)
+                  )}
+              </CardsGridContainer>
+            </BoxWrapper>
+          </BoxContainer>
+        </div>
+      </>
+    );
 };
 
 export default memo(AirPollutionInfo);

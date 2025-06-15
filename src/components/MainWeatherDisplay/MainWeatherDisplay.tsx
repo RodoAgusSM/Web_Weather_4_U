@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { Units } from 'enums/index';
 import useResponsiveDesign from 'hooks/useResponsiveDesign';
 import NotFoundIcon from 'images/not_found_icon.png';
@@ -45,7 +45,6 @@ const MainWeatherDisplay: React.FC<MainWeatherDisplayProps> = ({
   const { isMobileDevice, isSmallMobileDevice } = useResponsiveDesign();
   const { isDarkMode } = useTheme();
   const theme = isDarkMode ? darkTheme : lightTheme;
-
 
   const degreeUnit =
     Units.Imperial === unit
@@ -95,4 +94,4 @@ const MainWeatherDisplay: React.FC<MainWeatherDisplayProps> = ({
   );
 };
 
-export default MainWeatherDisplay;
+export default memo(MainWeatherDisplay);

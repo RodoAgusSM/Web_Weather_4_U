@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { Dropdown, DropdownItem } from 'components/Dropdown/Dropdown';
 import { StorageKey } from 'enums/index';
 import useResponsiveDesign from 'hooks/useResponsiveDesign';
@@ -119,4 +119,4 @@ const Language = ({ changeLanguage }: LanguageProps) => {
   );
 };
 
-export default Language;
+export default memo(Language);

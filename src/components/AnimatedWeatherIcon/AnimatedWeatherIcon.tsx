@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { memo, useMemo } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 const weatherColors = {
@@ -62,7 +62,7 @@ const DefaultIcon = styled.img`
   height: 100%;
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
   transition: all 0.3s ease;
-  
+
   &:hover {
     transform: scale(1.05);
   }
@@ -104,30 +104,35 @@ const MistOverlay = styled.div`
   left: 0;
   width: 120%;
   height: 100%;
-  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
   animation: ${mistFloat} 8s ease-in-out infinite;
   pointer-events: none;
 `;
 
 const RainDrop = styled.div<{ delay: string; color: string; size: number }>`
   position: absolute;
-  width: ${props => props.size}px;
-  height: ${props => props.size * 4}px;
-  background-color: ${props => props.color};
+  width: ${(props) => props.size}px;
+  height: ${(props) => props.size * 4}px;
+  background-color: ${(props) => props.color};
   border-radius: 50%;
   animation: ${rainDrop} 1.5s linear infinite;
-  animation-delay: ${props => props.delay};
+  animation-delay: ${(props) => props.delay};
   opacity: 0.7;
 `;
 
 const SnowFlake = styled.div<{ delay: string; color: string; size: number }>`
   position: absolute;
-  width: ${props => props.size}px;
-  height: ${props => props.size}px;
-  background-color: ${props => props.color};
+  width: ${(props) => props.size}px;
+  height: ${(props) => props.size}px;
+  background-color: ${(props) => props.color};
   border-radius: 50%;
   animation: ${snowfall} 2.5s linear infinite;
-  animation-delay: ${props => props.delay};
+  animation-delay: ${(props) => props.delay};
   opacity: 0.8;
 `;
 
@@ -162,10 +167,10 @@ const AnimatedWeatherIcon: React.FC<AnimatedWeatherIconProps> = ({ iconCode, siz
           <CloudIcon src={iconUrl} alt="Rain" />
           <RainContainer>
             {particlePositions.map((pos, index) => (
-              <RainDrop 
+              <RainDrop
                 key={index}
                 delay={pos.delay}
-                color={getRandomColor('rain')} 
+                color={getRandomColor('rain')}
                 size={pos.size}
                 style={{ left: pos.left }}
               />
@@ -181,10 +186,10 @@ const AnimatedWeatherIcon: React.FC<AnimatedWeatherIconProps> = ({ iconCode, siz
           <CloudIcon src={iconUrl} alt="Snow" />
           <RainContainer>
             {particlePositions.map((pos, index) => (
-              <SnowFlake 
+              <SnowFlake
                 key={index}
                 delay={pos.delay}
-                color={getRandomColor('snow')} 
+                color={getRandomColor('snow')}
                 size={pos.size * 2}
                 style={{ left: pos.left }}
               />
@@ -201,10 +206,10 @@ const AnimatedWeatherIcon: React.FC<AnimatedWeatherIconProps> = ({ iconCode, siz
           <ThunderOverlay />
           <RainContainer>
             {particlePositions.slice(0, 5).map((pos, index) => (
-              <RainDrop 
+              <RainDrop
                 key={index}
                 delay={pos.delay}
-                color={getRandomColor('rain')} 
+                color={getRandomColor('rain')}
                 size={pos.size * 1.2}
                 style={{ left: pos.left }}
               />
@@ -233,4 +238,4 @@ const AnimatedWeatherIcon: React.FC<AnimatedWeatherIconProps> = ({ iconCode, siz
   return <Container size={size}>{renderAnimationEffects()}</Container>;
 };
 
-export default AnimatedWeatherIcon;
+export default memo(AnimatedWeatherIcon);

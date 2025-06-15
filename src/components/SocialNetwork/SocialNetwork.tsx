@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import StarsAnimation from 'components/Space/Space';
 import useResponsiveDesign from 'hooks/useResponsiveDesign';
 import socialIcons from 'images/socialIcons';
@@ -150,4 +150,4 @@ const SocialNetwork = () => {
   );
 };
 
-export default SocialNetwork;
+export default memo(SocialNetwork);

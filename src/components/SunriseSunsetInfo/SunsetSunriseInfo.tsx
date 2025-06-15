@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { StorageKey } from 'enums';
 import useDimensions from 'hooks/useDimensions';
 import { useTranslation } from 'react-i18next';
@@ -76,4 +76,4 @@ const SunriseSunsetInfo = ({
   );
 };
 
-export default SunriseSunsetInfo;
+export default memo(SunriseSunsetInfo);

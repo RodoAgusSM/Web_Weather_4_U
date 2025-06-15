@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 import { GridContainer } from './WeatherDataGridStyles';
 
@@ -11,4 +11,4 @@ const WeatherDataGrid: React.FC<WeatherDataGridProps> = ({ children}) => {
   return <GridContainer>{children}</GridContainer>;
 };
 
-export default WeatherDataGrid;
+export default memo(WeatherDataGrid);
