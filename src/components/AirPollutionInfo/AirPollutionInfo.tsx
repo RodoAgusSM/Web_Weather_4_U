@@ -77,9 +77,11 @@ const AirPollutionInfo = () => {
     isDesktopOrLaptop,
     isMobileDevice,
     isSmallMobileDevice,
-    isTouchDevice,
-    screenWidth,
     screenHeight,
+    screenWidth,
+    isTouchDevice,
+    isPortrait,
+    isLandscape,
   } = useResponsiveDesign();
   const { airPollution } = state as any;
   let navigate = useNavigate();
@@ -133,6 +135,8 @@ const AirPollutionInfo = () => {
     $isDesktopOrLaptop: isDesktopOrLaptop,
     $isMobileDevice: isMobileDevice,
     $isSmallMobileDevice: isSmallMobileDevice,
+    $isPortrait: isPortrait,
+    $isLandscape: isLandscape,
   };
 
   const renderProgressCard = (label: AirQualityMetric, value: number, index: number) => {
@@ -220,15 +224,17 @@ const AirPollutionInfo = () => {
         >
           <BoxWrapper {...responsiveProps}>
             <StarsAnimation />
-            <BackContainer
-              $isMobile={responsiveProps.$isMobileDevice}
-              onMouseEnter={() => setMouseOver(true)}
-              onMouseLeave={() => setMouseOver(false)}
-              onClick={() => navigate(`/`)}
-            >
-              <BackIconSpotImg $mouseOver={mouseOver} />
-              {t('words.back')}
-            </BackContainer>
+            <div style={{ width: '100%' }}>
+              <BackContainer
+                $isMobile={responsiveProps.$isMobileDevice}
+                onMouseEnter={() => setMouseOver(true)}
+                onMouseLeave={() => setMouseOver(false)}
+                onClick={() => navigate(`/`)}
+              >
+                <BackIconSpotImg $mouseOver={mouseOver} />
+                {t('words.back')}
+              </BackContainer>
+            </div>
 
             <Title $isMobile={responsiveProps.$isMobileDevice}>{t('words.airPollution.title')}</Title>
 

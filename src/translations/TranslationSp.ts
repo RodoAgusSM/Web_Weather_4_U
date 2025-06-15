@@ -59,7 +59,7 @@ export const TranslationSp = {
 			},
 		},
 		airPollution: {
-			title: 'Información de la qualidad del aire',
+			title: 'Información de calidad del aire',
 			aqi: 'Calidad del aire',
 			status: { 1: 'Buena', 2: 'Aceptable', 3: 'Moderada', 4: 'Pobre', 5: 'Muy pobre' },
 			moreInfo: 'i',

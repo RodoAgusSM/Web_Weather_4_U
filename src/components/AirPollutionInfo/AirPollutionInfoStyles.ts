@@ -356,20 +356,8 @@ export const CurrentQualityLabel = styled.div<{ $color: string }>`
 
 export const CardsGridContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 1rem;
+  gap: 0.8rem;
   width: 100%;
   margin: 1rem 0;
-
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (max-width: 360px) {
-    gap: 0.75rem;
-  }
-
-  @media (orientation: landscape) and (max-height: 600px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  grid-template-columns: repeat(2, 1fr);
 `;

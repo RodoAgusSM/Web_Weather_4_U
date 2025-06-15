@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import { ThemeType } from 'styles/theme';
 
-const CONTAINER_MAX_WIDTH = '500px';
-
 export const MainWeatherDisplayContainer = styled.div<{ theme: ThemeType; $isHovered?: boolean }>`
   display: flex;
   flex-direction: row;
@@ -10,7 +8,6 @@ export const MainWeatherDisplayContainer = styled.div<{ theme: ThemeType; $isHov
   justify-content: center;
   border-radius: 8px;
   margin: 0 auto;
-  max-width: ${CONTAINER_MAX_WIDTH};
   width: 100%;
   padding: 0.75rem;
   box-sizing: border-box;

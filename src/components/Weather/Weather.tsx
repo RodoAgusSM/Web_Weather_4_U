@@ -61,7 +61,7 @@ const Weather = () => {
   const navigate = useNavigate();
   const { mode, setMode, isDarkMode } = useTheme();
   const theme = isDarkMode ? darkTheme : lightTheme;
-  const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice } = useResponsiveDesign();
+  const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice, isLandscape, isPortrait } = useResponsiveDesign();
   const [isHovered, setIsHovered] = useState(false);
   const [validCoordinates, setValidCoordinates] = useState<boolean>(true);
   const [siteWorking, setIsSiteWorking] = useState<boolean>(true);
@@ -100,7 +100,6 @@ const Weather = () => {
         await fetchData();
         initialLoadRef.current = false;
       } else {
-        // On subsequent loads, just show the spinner instead of skeletons
         setShowSkeletons(false);
         setUiReady(false);
         setIsLoading(true);
@@ -124,10 +123,8 @@ const Weather = () => {
     };
   }, [lat, lon]);
 
-  // Add effect to control UI ready state
   useEffect(() => {
     if (!isLoading && weather.icon && !Object.values(cardsLoading).some((value) => value)) {
-      // Small delay before showing UI to ensure everything is ready
       const timer = setTimeout(() => {
         setUiReady(true);
       }, 100);
@@ -213,7 +210,6 @@ const Weather = () => {
       units: unit,
     };
 
-    // Modify to batch state updates
     const weatherPromise = fetchFromAPI(weatherRequest, (weatherDataAPI: any) => {
       setIsSiteWorking(true);
       setCountryNameShort(weatherDataAPI.sys.country);
@@ -346,6 +342,8 @@ const Weather = () => {
       $isDesktopOrLaptop: isDesktopOrLaptop,
       $isMobileDevice: isMobileDevice,
       $isSmallMobileDevice: isSmallMobileDevice,
+      $isPortrait: isPortrait,
+      $isLandscape: isLandscape,
     };
 
     const getUniqueKey = (prefix: string, value: string) => `${prefix}-${language}-${value}`;

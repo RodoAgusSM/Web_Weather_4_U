@@ -74,7 +74,6 @@ export const SearchBarContainer = styled.div<{
     if ($isMobileDevice || $isSmallMobileDevice) return '15%';
     return '20%';
   }};
-
   cursor: pointer;
   height: 40%;
   transform-origin: 50% 50%;
@@ -122,7 +121,7 @@ export const SearchBarContainer = styled.div<{
 
 export const StyledToastContainer = styled(ToastContainer)`
   .Toastify__toast {
-    border-radius: ${theme.radius.md};
+    border-radius: 8px;
     padding: ${theme.spacing.sm};
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(8px);

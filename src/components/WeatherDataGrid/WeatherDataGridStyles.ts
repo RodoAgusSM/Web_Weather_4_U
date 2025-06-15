@@ -6,15 +6,11 @@ export const GridContainer = styled.div`
   gap: 10px;
   width: 100%;
   box-sizing: border-box;
-
-  /* Ensure consistent width across all grid instances */
   max-width: 100%;
-  margin: 0;
 
-  /* Force equal column widths */
   & > * {
     width: 100%;
-    min-width: 0; /* Allow proper size constraint in grid */
+    min-width: 0;
   }
 
   @media (max-width: 480px) {

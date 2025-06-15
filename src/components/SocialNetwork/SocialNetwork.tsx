@@ -5,7 +5,7 @@ import socialIcons from 'images/socialIcons';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import GlobalStyles from 'styles/GlobalStyles';
-import { BackContainer, BackIconSpotImg, BoxContainer,BoxWrapper } from 'styles/styles';
+import { BackContainer, BackIconSpotImg, BoxContainer, BoxWrapper } from 'styles/styles';
 
 import { useTheme } from '../../context/ThemeContext';
 import { darkTheme, lightTheme } from '../../styles/theme';
@@ -37,8 +37,14 @@ const SocialNetwork = () => {
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
   const theme = isDarkMode ? darkTheme : lightTheme;
-  const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice, isTouchDevice } =
-    useResponsiveDesign();
+  const {
+    isDesktopOrLaptop,
+    isMobileDevice,
+    isSmallMobileDevice,
+    isTouchDevice,
+    isPortrait,
+    isLandscape,
+  } = useResponsiveDesign();
   const [mouseOver, setMouseOver] = useState<boolean>(false);
 
   const handleMouseEnter = useCallback(() => setMouseOver(true), []);
@@ -72,6 +78,8 @@ const SocialNetwork = () => {
     $isDesktopOrLaptop: isDesktopOrLaptop,
     $isMobileDevice: isMobileDevice,
     $isSmallMobileDevice: isSmallMobileDevice,
+    $isPortrait: isPortrait,
+    $isLandscape: isLandscape,
   };
 
   return (
@@ -94,16 +102,18 @@ const SocialNetwork = () => {
         >
           <BoxWrapper {...responsiveProps}>
             <StarsAnimation />
-            <BackContainer
-              $isMobile={responsiveProps.$isMobileDevice}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              onClick={handleBackClick}
-              data-animate="true"
-            >
-              <BackIconSpotImg $mouseOver={mouseOver} />
-              {t('words.back')}
-            </BackContainer>
+            <div style={{ width: '100%' }}>
+              <BackContainer
+                $isMobile={responsiveProps.$isMobileDevice}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                onClick={handleBackClick}
+                data-animate="true"
+              >
+                <BackIconSpotImg $mouseOver={mouseOver} />
+                {t('words.back')}
+              </BackContainer>
+            </div>
 
             <MiInfoContainer theme={theme} data-animate="true">
               <MiInfo $isMobile={responsiveProps.$isMobileDevice}>{myInfo.nameAndDegree}</MiInfo>
@@ -111,7 +121,9 @@ const SocialNetwork = () => {
             </MiInfoContainer>
 
             <NetworkContainer theme={theme} data-animate="true">
-              <NetworkTitle $isMobile={responsiveProps.$isMobileDevice}>{t('socialNetworks.title')}</NetworkTitle>
+              <NetworkTitle $isMobile={responsiveProps.$isMobileDevice}>
+                {t('socialNetworks.title')}
+              </NetworkTitle>
               {socialNetworks.map((socialNetworkItem: SocialNetworkItemType, index: number) => (
                 <NetworkMapContainer
                   $isMobile={responsiveProps.$isMobileDevice}

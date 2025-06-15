@@ -339,7 +339,7 @@ export const WeatherDataContainer = styled.div`
 export const CustomWeatherDataContainer = styled(WeatherDataContainer)`
   max-width: 500px;
   margin: 0 auto;
-  width: 100%;
+  min-width: 100%;
   padding: 0;
   box-sizing: border-box;
 `;

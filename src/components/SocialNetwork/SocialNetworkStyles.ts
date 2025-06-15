@@ -45,10 +45,12 @@ const fadeIn = keyframes`
 export const MiInfoContainer = styled.div<{ theme: ThemeType }>`
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: ${theme.spacing.xl} ${theme.spacing.md};
-  border-radius: ${theme.radius.lg};
+  border-radius: 8px;
   box-shadow: ${theme.shadow.sm};
-  margin: ${theme.spacing.xl} auto ${theme.spacing.lg};
+  margin: 0 auto;
+  width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.3);
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -85,7 +87,7 @@ export const NetworkContainer = styled.div<{ theme: ThemeType }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: ${theme.radius.lg};
+  border-radius: 8px;
   box-shadow: ${theme.shadow.sm};
   padding: ${theme.spacing.xl} ${theme.spacing.lg};
   margin: 0 auto;
