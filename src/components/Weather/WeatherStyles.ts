@@ -637,10 +637,10 @@ export const TimeInfoContainer = styled.div<{ theme: ThemeType; $isMobileDevice:
 
 export const TimeInfoItem = styled.div<{ theme: ThemeType; $isHovered: boolean }>`
   display: flex;
-  align-items: center;
+  justify-content: center;
   gap: 6px;
   color: ${(props) => (props.$isHovered ? props.theme.blueTextHovered : props.theme.blueText)};
-  white-space: nowrap;
+  width: 100%;
 
   svg {
     width: 16px;
@@ -666,29 +666,31 @@ export const TimeInfoDivider = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  border-radius: 25px;
   background: linear-gradient(135deg, #2006f3, #199992);
   position: relative;
-  margin: 0 20px;
+  margin: 0 22px;
+  line-height: 0;
 
   &::before,
   &::after {
     content: '';
     position: absolute;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
+    width: 6px;
+    height: 6px;
+    border-radius: 25px;
     background: linear-gradient(135deg, #2006f3, #199992);
   }
 
   &::before {
-    left: -10px;
+    left: -18px;
   }
 
   &::after {
-    right: -10px;
+    right: -18px;
   }
 `;
 
