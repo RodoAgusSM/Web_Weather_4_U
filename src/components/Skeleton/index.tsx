@@ -29,15 +29,19 @@ export const skeletonBase = css`
           );
         `}
 
-  @media (prefers-color-scheme: dark) {
-    background: linear-gradient(
-      90deg,
-      rgba(40,50,60,0.95) 15%,
-      rgba(255,255,255,0.10) 50%,
-      rgba(40,50,60,0.95) 85%
-    );
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.01);
-  }
+  ${props =>
+    !props.theme &&
+    css`
+      @media (prefers-color-scheme: dark) {
+        background: linear-gradient(
+          90deg,
+          rgba(40,50,60,0.95) 15%,
+          rgba(255,255,255,0.10) 50%,
+          rgba(40,50,60,0.95) 85%
+        );
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.01);
+      }
+    `}
 
   background-size: 200% 100%;
   animation: ${shimmer} 1.4s linear infinite;
