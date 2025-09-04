@@ -1,43 +1,23 @@
-import styled, { css, keyframes } from 'styled-components';
-
-const shimmer = keyframes`
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-`;
-
-const skeletonBase = css`
-  background: linear-gradient(90deg, 
-    rgba(155, 210, 230, 0.6) 25%, 
-    rgba(155, 210, 230, 0.9) 50%, 
-    rgba(155, 210, 230, 0.6) 75%
-  );
-  background-size: 200% 100%;
-  animation: ${shimmer} 1.5s infinite;
-  border-radius: 4px;
-`;
+import { skeletonBase } from 'components/Skeleton';
+import styled from 'styled-components';
 
 export const CardContainer = styled.div<{ $hasInfoButton?: boolean }>`
   display: grid;
-  grid-template-columns: ${props => props.$hasInfoButton ? '40px 1fr 40px' : '40px 1fr'};
+  grid-template-columns: ${(props) => (props.$hasInfoButton ? '48px 1fr 20px' : '48px 1fr')};
   align-items: center;
-  gap: 12px;
-  background-color: rgba(174, 214, 241, 0.3);
-  border-radius: 8px;
-  padding: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 250, 255, 0.98));
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 6px 18px rgba(12, 60, 90, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(4px);
-  
+
   @media (max-width: 480px) {
-    grid-template-columns: ${props => props.$hasInfoButton ? '34px 1fr 34px' : '34px 1fr'};
+    grid-template-columns: ${(props) => (props.$hasInfoButton ? '40px 1fr 34px' : '40px 1fr')};
     gap: 8px;
     padding: 10px;
   }
-  
+
   &.info-button {
     width: 22px;
     height: 22px;
@@ -58,7 +38,7 @@ export const IconContainer = styled.div`
     width: 28px;
     height: 28px;
   }
-  
+
   &.info-button {
     width: 22px;
     height: 22px;
@@ -88,13 +68,13 @@ export const HeaderContainer = styled.div`
 
 export const SkeletonLabel = styled.div`
   height: 12px;
-  width: 60%;
+  width: 65%;
   ${skeletonBase}
   margin-bottom: 4px;
 `;
 
 export const SkeletonValue = styled.div`
   height: 16px;
-  width: 80%;
+  width: 45%;
   ${skeletonBase}
 `;

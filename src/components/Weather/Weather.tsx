@@ -6,18 +6,19 @@ import MainWeatherDisplay from 'components/MainWeatherDisplay/MainWeatherDisplay
 import StarsAnimation from 'components/Space/Space';
 import Toggle from 'components/Toggle/Toggle';
 import TriToggle from 'components/TriToggle/TriToggle';
+import WeatherSkeleton from 'components/Weather/WeatherSkeleton';
 import WeatherDataCard from 'components/WeatherDataCard/WeatherDataCard';
 import WeatherDataGrid from 'components/WeatherDataGrid/WeatherDataGrid';
 import WeatherDataGridSkeleton from 'components/WeatherDataGrid/WeatherDataGridSkeleton';
-import WeatherSpinner from 'components/WeatherSpinner/WeatherSpinner';
 import { iconExtension, iconURL } from 'config/config';
 import { APIWeatherProvider, ClimateType, StorageKey, Units } from 'enums/index';
 import useResponsiveDesign from 'hooks/useResponsiveDesign';
 import DangerIcon from 'images/danger.png';
 import LocationNotFoundIcon from 'images/location_not_found_icon.png';
-import { ApiError, ApiResponse } from 'interfaces/index';
 import {
   AirPollution as AirPollutionInterface,
+  ApiError,
+  ApiResponse,
   AppRequest as AppRequestInterface,
   Weather as WeatherInterface,
 } from 'interfaces/index';
@@ -653,7 +654,7 @@ const Weather = () => {
         }}
       >
         {!dataFetched || isLoading ? (
-          <WeatherSpinner size={isDesktopOrLaptop ? 'large' : 'medium'} />
+          <WeatherSkeleton $isDesktop={isDesktopOrLaptop} />
         ) : siteWorking ? (
           renderWeatherData()
         ) : (

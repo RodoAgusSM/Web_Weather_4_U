@@ -37,8 +37,8 @@ const theme = {
 };
 
 export const AirPollutionColors = [
-  '#2ECC71',
-  '#82E0AA',
+  '#27AE60',
+  '#52BE90',
   '#F4D03F',
   '#F39C12',
   '#E74C3C',

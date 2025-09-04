@@ -1,4 +1,7 @@
-import React, { createContext, ReactNode,useContext, useEffect, useState } from 'react';
+import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import { ThemeProvider as StyledThemeProvider } from 'styled-components';
+
+import { darkTheme, lightTheme } from '../styles/theme';
 
 type ThemeMode = 'light' | 'dark' | 'system';
 
@@ -15,29 +18,33 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const savedMode = localStorage.getItem('themeMode');
     return (savedMode as ThemeMode) || 'system';
   });
-  
+
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
-  
+
   useEffect(() => {
     localStorage.setItem('themeMode', mode);
-    
+
     if (mode === 'system') {
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       setIsDarkMode(prefersDark);
-      
+
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
       const handleChange = (e: MediaQueryListEvent) => setIsDarkMode(e.matches);
-      
+
       mediaQuery.addEventListener('change', handleChange);
       return () => mediaQuery.removeEventListener('change', handleChange);
     } else {
       setIsDarkMode(mode === 'dark');
     }
   }, [mode]);
-  
+
+  const appliedTheme = isDarkMode
+    ? { ...(darkTheme as any), mode: 'dark' }
+    : { ...(lightTheme as any), mode: 'light' };
+
   return (
     <ThemeContext.Provider value={{ mode, setMode, isDarkMode }}>
-      {children}
+      <StyledThemeProvider theme={appliedTheme}>{children}</StyledThemeProvider>
     </ThemeContext.Provider>
   );
 };
