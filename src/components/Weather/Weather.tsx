@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import { Adapter, convertWeatherUnits, formatWeatherTimeByLanguage } from 'adapter/adapter';
+import { convertWeatherUnits, formatWeatherTimeByLanguage } from 'adapter/adapter';
 import CitySearchBar from 'components/CitySearchBar/CitySearchBar';
 import Language from 'components/Language/Language';
 import MainWeatherDisplay from 'components/MainWeatherDisplay/MainWeatherDisplay';
@@ -11,23 +11,17 @@ import WeatherDataCard from 'components/WeatherDataCard/WeatherDataCard';
 import WeatherDataGrid from 'components/WeatherDataGrid/WeatherDataGrid';
 import WeatherDataGridSkeleton from 'components/WeatherDataGrid/WeatherDataGridSkeleton';
 import { iconExtension, iconURL } from 'config/config';
-import { APIWeatherProvider, ClimateType, StorageKey, Units } from 'enums/index';
+import { StorageKey, Units } from 'enums/index';
 import useResponsiveDesign from 'hooks/useResponsiveDesign';
+import useWeather from 'hooks/useWeather';
 import DangerIcon from 'images/danger.png';
 import LocationNotFoundIcon from 'images/location_not_found_icon.png';
-import {
-  AirPollution as AirPollutionInterface,
-  ApiError,
-  ApiResponse,
-  AppRequest as AppRequestInterface,
-  Weather as WeatherInterface,
-} from 'interfaces/index';
+import { AirPollution as AirPollutionInterface, Weather as WeatherInterface } from 'interfaces/index';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { SingleValue } from 'react-select';
 import GlobalStyles from 'styles/GlobalStyles';
 import { BoxContainer, BoxWrapper, Code } from 'styles/styles';
-import { generateURL } from 'utils/helpers';
 
 import { useTheme } from '../../context/ThemeContext';
 import { darkTheme, lightTheme } from '../../styles/theme';
@@ -54,7 +48,6 @@ import {
 
 const defaultWeather = {} as WeatherInterface;
 const defaultAirPollution = {} as AirPollutionInterface;
-const FETCH_INTERVAL_MS = 600000;
 const LOADING_DELAY_MS = 300;
 
 const Weather = () => {
@@ -65,9 +58,8 @@ const Weather = () => {
   const { isDesktopOrLaptop, isMobileDevice, isSmallMobileDevice, isLandscape, isPortrait } =
     useResponsiveDesign();
   const [isHovered, setIsHovered] = useState(false);
-  const [validCoordinates, setValidCoordinates] = useState<boolean>(true);
-  const [siteWorking, setIsSiteWorking] = useState<boolean>(true);
-  const [iconWorking, setIsIconWorking] = useState<boolean>(true);
+  const [validCoordinates] = useState<boolean>(true);
+  // siteWorking and iconWorking are now provided by the data hook
   const [cityName, setCityName] = useState<string>(
     localStorage.getItem(StorageKey.CityName) ?? 'Montevideo'
   );
@@ -81,181 +73,90 @@ const Weather = () => {
   const [countryNameShort, setCountryNameShort] = useState<string>();
   const [weather, setWeather] = useState<WeatherInterface>(defaultWeather);
   const [airPollution, setAirPollution] = useState<AirPollutionInterface>(defaultAirPollution);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [dataFetched, setDataFetched] = useState<boolean>(false);
-  const [cardsLoading, setCardsLoading] = useState({
-    airQuality: true,
-    wind: true,
-    atmosphere: true,
-    time: true,
-  });
   const [uiReady, setUiReady] = useState<boolean>(false);
   const [showSkeletons, setShowSkeletons] = useState<boolean>(true);
 
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const initialLoadRef = useRef<boolean>(true);
+  // useWeather hook centralizes fetching + polling
+  const { weather: hwWeather, airPollution: hwAir, isLoading, siteWorking, iconWorking, refetch, rawWeather } =
+    useWeather({ lat, lon, language, unit }) as any;
+
+  // cardsLoading should reflect current loading state from the data hook
+  const cardsLoading = {
+    airQuality: isLoading,
+    wind: isLoading,
+    atmosphere: isLoading,
+    time: isLoading,
+  };
+
+  // sync hook data into local state so rest of component remains unchanged
+  useEffect(() => {
+    if (hwWeather && Object.keys(hwWeather).length > 0) {
+      setWeather(hwWeather as WeatherInterface);
+    }
+  }, [hwWeather]);
 
   useEffect(() => {
-    const fetchDataInterval = async () => {
-      if (initialLoadRef.current) {
-        setShowSkeletons(true);
-        await fetchData();
-        initialLoadRef.current = false;
-      } else {
-        setShowSkeletons(false);
-        setUiReady(false);
-        setIsLoading(true);
-        setTimeout(async () => {
-          await fetchData();
-        }, LOADING_DELAY_MS);
-      }
-    };
-
-    fetchDataInterval();
-
-    if (!intervalRef.current) {
-      intervalRef.current = setInterval(fetchData, FETCH_INTERVAL_MS);
+    if (hwAir && Object.keys(hwAir).length > 0) {
+      setAirPollution(hwAir as AirPollutionInterface);
     }
+  }, [hwAir]);
 
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
+  // when raw payload arrives, set country and fetch icon
+  useEffect(() => {
+    if (!rawWeather) return;
+    try {
+      setCountryNameShort(rawWeather.sys?.country);
+      const iconValue = rawWeather.weather?.[0]?.icon;
+      if (iconValue) {
+        (async () => {
+          try {
+            const iconUrl = `${iconURL}${iconValue}${iconExtension}`;
+            const response = await fetch(iconUrl);
+            if (response.ok) {
+              setWeather((w) => ({ ...w, icon: response.url }));
+            }
+          } catch (e) {
+            // ignore
+          }
+        })();
       }
-    };
+    } catch (e) {
+      // ignore malformed payloads
+    }
+  }, [rawWeather]);
+
+  // data loading is handled by useWeather; keep legacy UI timing behavior
+  useEffect(() => {
+    if (initialLoadRef.current) {
+      setShowSkeletons(true);
+      initialLoadRef.current = false;
+    } else {
+      setShowSkeletons(false);
+      setUiReady(false);
+      setTimeout(() => {
+        refetch();
+      }, LOADING_DELAY_MS);
+    }
   }, [lat, lon]);
 
+  // hide initial skeletons once loading finishes
   useEffect(() => {
-    if (!isLoading && weather.icon && !Object.values(cardsLoading).some((value) => value)) {
+    if (!isLoading) {
+      setShowSkeletons(false);
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (!isLoading && weather.icon) {
       const timer = setTimeout(() => {
         setUiReady(true);
       }, 100);
       return () => clearTimeout(timer);
     }
-  }, [isLoading, weather.icon, cardsLoading]);
+  }, [isLoading, weather.icon]);
 
-  const handleAPIError: ApiError = (error: any, response?: ApiResponse) => {
-    console.error('Error fetching data:', error);
-    if (response?.data !== undefined && response?.data.message === 'city not found') {
-      setValidCoordinates(false);
-    } else {
-      setIsSiteWorking(false);
-    }
-  };
-
-  const fetchFromAPI = async (
-    config: AppRequestInterface,
-    successCallback: Function,
-    errorCallback: ApiError = handleAPIError
-  ) => {
-    try {
-      const response = await fetch(generateURL(config));
-      if (response.ok) {
-        const data = await response.json();
-        successCallback(data);
-      } else {
-        console.log(response.status, await response.text());
-      }
-    } catch (error: any) {
-      errorCallback(error);
-    }
-  };
-
-  const fetchIconFromAPI = async (iconValue: string) => {
-    try {
-      setIsIconWorking(true);
-      const iconUrl = `${iconURL}${iconValue}${iconExtension}`;
-      const response = await fetch(iconUrl);
-      if (response.ok) {
-        setWeather((weather) => ({
-          ...weather,
-          icon: response.url,
-        }));
-      } else {
-        console.log(response.status, await response.text());
-      }
-    } catch (error) {
-      setIsIconWorking(false);
-    }
-  };
-
-  const fetchData = async () => {
-    if (initialLoadRef.current) {
-      setCardsLoading({
-        airQuality: true,
-        wind: true,
-        atmosphere: true,
-        time: true,
-      });
-    } else {
-      setCardsLoading({
-        airQuality: false,
-        wind: false,
-        atmosphere: false,
-        time: false,
-      });
-    }
-
-    const weatherRequest: AppRequestInterface = {
-      toFetch: ClimateType.Weather,
-      lat,
-      lon,
-      language,
-      units: unit,
-    };
-
-    const airPollutionRequest: AppRequestInterface = {
-      toFetch: ClimateType.AirPollution,
-      lat,
-      lon,
-      language,
-      units: unit,
-    };
-
-    const weatherPromise = fetchFromAPI(weatherRequest, (weatherDataAPI: any) => {
-      setIsSiteWorking(true);
-      setCountryNameShort(weatherDataAPI.sys.country);
-      fetchIconFromAPI(weatherDataAPI.weather[0].icon);
-      const weatherData = Adapter(
-        APIWeatherProvider.OpenWeatherMap,
-        ClimateType.Weather,
-        unit,
-        weatherDataAPI
-      ) as WeatherInterface;
-      setWeather(weatherData);
-    });
-
-    const airPollutionPromise = fetchFromAPI(airPollutionRequest, (airPollutionDataAPI: any) => {
-      const airPollutionData = airPollutionDataAPI.list[0];
-      setAirPollution(
-        Adapter(
-          APIWeatherProvider.OpenWeatherMap,
-          ClimateType.AirPollution,
-          unit,
-          airPollutionData
-        ) as AirPollutionInterface
-      );
-    });
-
-    await Promise.all([weatherPromise, airPollutionPromise])
-      .then(() => {
-        setDataFetched(true);
-        setCardsLoading({
-          airQuality: false,
-          wind: false,
-          atmosphere: false,
-          time: false,
-        });
-      })
-      .catch((error) => {
-        console.error('Error fetching weather data:', error);
-      })
-      .finally(() => {
-        setTimeout(() => {
-          setIsLoading(false);
-        }, LOADING_DELAY_MS);
-      });
-  };
+  // fetch logic is managed by useWeather hook; rawWeather effect handled above
 
   const changeCity = useCallback(
     (
@@ -271,7 +172,8 @@ const Weather = () => {
         setCityName(newCity.value.name);
         setLat(Number(newCity.value.lat));
         setLon(Number(newCity.value.lon));
-        setIsLoading(true);
+        setShowSkeletons(true);
+        setUiReady(false);
       }
     },
     [fullCityName]
@@ -653,7 +555,7 @@ const Weather = () => {
           alignItems: 'center',
         }}
       >
-        {!dataFetched || isLoading ? (
+        {isLoading ? (
           <WeatherSkeleton $isDesktop={isDesktopOrLaptop} />
         ) : siteWorking ? (
           renderWeatherData()

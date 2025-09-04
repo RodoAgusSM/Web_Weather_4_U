@@ -1,22 +1,30 @@
-import { APIWeatherProvider, ClimateType, Units } from "enums/index";
-import { convertOpenWeatherMapResponseToInterface } from "utils/openWeatherMapInterfaceWrapper";
-import { convertMeasurementUnits, formatTimeByLanguage } from "utils/updateWeatherWrapper";
+import { APIWeatherProvider, ClimateType, Units } from 'enums/index';
+import { AirPollution, Weather } from 'interfaces/index';
+import { convertOpenWeatherMapResponseToInterface } from 'utils/openWeatherMapInterfaceWrapper';
+import { convertMeasurementUnits, formatTimeByLanguage } from 'utils/updateWeatherWrapper';
 
-const Adapter = (apiWeatherProvider: APIWeatherProvider, climateType: ClimateType, unit: Units, object: any) => {
+type AdapterResult = Weather | AirPollution | undefined;
+
+const Adapter = (
+    apiWeatherProvider: APIWeatherProvider,
+    climateType: ClimateType,
+    unit: Units,
+    object: unknown
+): AdapterResult => {
     switch (apiWeatherProvider) {
         case APIWeatherProvider.OpenWeatherMap:
             return convertOpenWeatherMapResponseToInterface(climateType, object, unit);
         default:
-            break;
+            throw new Error(`Unsupported APIWeatherProvider: ${String(apiWeatherProvider)}`);
     }
-}
+};
 
-const formatWeatherTimeByLanguage = (weatherData: any) => {
+const formatWeatherTimeByLanguage = (weatherData: Weather) => {
     return formatTimeByLanguage(weatherData);
-}
+};
 
-const convertWeatherUnits = (targetUnit: Units, weatherData: any) => {
+const convertWeatherUnits = (targetUnit: Units, weatherData: Weather) => {
     return convertMeasurementUnits(weatherData, targetUnit);
-}
+};
 
 export { Adapter, convertWeatherUnits, formatWeatherTimeByLanguage };
