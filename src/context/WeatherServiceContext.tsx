@@ -1,21 +1,13 @@
-import React, { createContext, useContext } from 'react';
-import { IWeatherService } from 'services/IWeatherService';
-import { OpenWeatherMapService } from 'services/OpenWeatherMapService';
+// Compatibility stub
+// NOTE: The app has moved to a ServiceContainer pattern where providers are
+// created and injected by `ServiceContainerProvider`. Direct use of
+// `WeatherServiceContext` is deprecated. Keep this file as a clear failure
+// message to prevent accidental direct provider usage.
 
-export const WeatherServiceContext = createContext<IWeatherService | null>(null);
-
-export const WeatherServiceProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const ref = React.useRef<IWeatherService | null>(null);
-  if (!ref.current) ref.current = new OpenWeatherMapService();
-  return (
-    <WeatherServiceContext.Provider value={ref.current}>{children}</WeatherServiceContext.Provider>
+export function useWeatherService(): never {
+  throw new Error(
+    'useWeatherService is deprecated. Use useServiceContainer() from context/ServiceContainerContext instead.',
   );
-};
+}
 
-export const useWeatherService = (): IWeatherService => {
-  const svc = useContext(WeatherServiceContext);
-  if (!svc) throw new Error('useWeatherService must be used within WeatherServiceProvider');
-  return svc;
-};
-
-export default WeatherServiceProvider;
+export default null;

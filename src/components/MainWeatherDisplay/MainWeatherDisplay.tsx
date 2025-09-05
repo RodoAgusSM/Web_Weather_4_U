@@ -80,13 +80,23 @@ const MainWeatherDisplay: React.FC<MainWeatherDisplayProps> = ({
           </DescriptionContainer>
         </DataRowsContainer>
         <IconRowsContainer>
-          <WeatherIcon
-            theme={theme}
-            src={iconWorking ? icon : NotFoundIcon}
-            alt=""
-            $isMobile={isMobileDevice}
-            $isSmallMobile={isSmallMobileDevice}
-          />
+          {iconWorking && icon ? (
+            <WeatherIcon
+              theme={theme}
+              src={icon}
+              alt=""
+              $isMobile={isMobileDevice}
+              $isSmallMobile={isSmallMobileDevice}
+            />
+          ) : (
+            <WeatherIcon
+              theme={theme}
+              src={NotFoundIcon}
+              alt=""
+              $isMobile={isMobileDevice}
+              $isSmallMobile={isSmallMobileDevice}
+            />
+          )}
         </IconRowsContainer>
       </ColumnsContainer>
     </MainWeatherDisplayContainer>
@@ -94,3 +104,5 @@ const MainWeatherDisplay: React.FC<MainWeatherDisplayProps> = ({
 };
 
 export default memo(MainWeatherDisplay);
+// Explicit display name for better debugging and to satisfy eslint rule
+(MainWeatherDisplay as any).displayName = 'MainWeatherDisplay';

@@ -61,7 +61,14 @@ export const TranslationFr = {
     airPollution: {
       title: "Informations sur la qualité de l'air",
       aqi: "Qualité de l'aire",
-      status: { 1: 'Bonne', 2: 'Acceptable', 3: 'Modérée', 4: 'Pauvre', 5: 'Très pauvre' },
+      status: {
+        1: 'Bonne',
+        2: 'Acceptable',
+        3: 'Modérée',
+        4: 'Pauvre',
+        5: 'Très pauvre',
+        undefined: 'Aucune donnée',
+      },
       moreInfo: 'i',
       elements: {
         AQI: { label: `Qualité de l'aire`, symbol: '(AQI)' },

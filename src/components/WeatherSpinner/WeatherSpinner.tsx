@@ -87,3 +87,4 @@ const WeatherSpinner: React.FC<WeatherSpinnerProps> = ({ size = 'medium' }) => {
 };
 
 export default memo(WeatherSpinner);
+(WeatherSpinner as any).displayName = 'WeatherSpinner';

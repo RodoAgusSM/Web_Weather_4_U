@@ -195,3 +195,4 @@ export const Dropdown = <T,>({
 };
 
 export default memo(Dropdown);
+(Dropdown as any).displayName = 'Dropdown';

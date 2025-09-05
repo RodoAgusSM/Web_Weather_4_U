@@ -15,14 +15,14 @@ export const convertOpenWeatherMapResponseToInterface = (
   climateType: ClimateType,
   object: any,
   unit: Units,
-) => {
+): Weather | AirPollution => {
   switch (climateType) {
     case ClimateType.Weather:
       return convertToWeather(object, unit);
     case ClimateType.AirPollution:
       return convertToAirPollution(object);
     default:
-      break;
+      throw new Error(`Unsupported ClimateType: ${String(climateType)}`);
   }
 };
 

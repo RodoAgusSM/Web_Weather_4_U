@@ -56,3 +56,4 @@ const Toggle: React.FC<ToggleProps> = ({ items, selectedValue, onChange, classNa
 };
 
 export default memo(Toggle);
+(Toggle as any).displayName = 'Toggle';

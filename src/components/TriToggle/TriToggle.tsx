@@ -48,3 +48,4 @@ const TriToggle: React.FC<TriToggleProps> = ({ items, selectedValue, onChange })
 };
 
 export default memo(TriToggle);
+(TriToggle as any).displayName = 'TriToggle';

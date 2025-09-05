@@ -119,3 +119,4 @@ const Language = ({ changeLanguage }: LanguageProps) => {
 };
 
 export default memo(Language);
+(Language as any).displayName = 'Language';

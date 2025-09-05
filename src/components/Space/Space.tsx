@@ -38,3 +38,4 @@ const StarsAnimation = () => {
 };
 
 export default memo(StarsAnimation);
+(StarsAnimation as any).displayName = 'StarsAnimation';

@@ -1,11 +1,11 @@
-import { ClimateType } from 'enums/index';
+import { ClimateType, Units } from 'enums/index';
 
 interface AppRequest {
   toFetch: ClimateType;
   lat: number;
   lon: number;
   language: string;
-  units: string;
+  units: Units;
 }
 
 export default AppRequest;

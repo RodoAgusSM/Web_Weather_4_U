@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useWeatherService } from 'context/WeatherServiceContext';
+import { WeatherUseCase } from 'app/useCases/WeatherUseCase';
+import { useOptionalServiceContainer } from 'context/ServiceContainerContext';
 import { ClimateType, Units } from 'enums/index';
+import AirPollution from 'interfaces/AirPollution';
 import { AppRequest } from 'interfaces/index';
-import { IWeatherService } from 'services/IWeatherService';
-import { OpenWeatherMapService } from 'services/OpenWeatherMapService';
+import Weather from 'interfaces/Weather';
+import { WeatherRepository } from 'repositories/WeatherRepository';
+import { OpenWeatherMapAirRaw, OpenWeatherMapWeatherRaw } from 'types/OpenWeatherMapTypes';
 
 export interface UseWeatherOptions {
   lat: number;
@@ -14,83 +17,108 @@ export interface UseWeatherOptions {
 }
 
 export interface UseWeatherResult {
-  weather: any;
-  airPollution: any;
+  weather: Partial<Weather>;
+  airPollution: Partial<AirPollution>;
   isLoading: boolean;
   siteWorking: boolean;
   iconWorking: boolean;
-  error?: any;
+  error?: Error | null;
   refetch: () => Promise<void>;
-  rawWeather?: any;
-  rawAir?: any;
+  rawWeather?: OpenWeatherMapWeatherRaw | null;
+  rawAir?: OpenWeatherMapAirRaw | null;
 }
 
 const defaultFetchInterval = 600000;
 
-const useWeather = (
-  { lat, lon, language, unit, fetchIntervalMs }: UseWeatherOptions,
-  provider?: IWeatherService,
-): UseWeatherResult => {
-  const [weather, setWeather] = useState<any>({});
-  const [airPollution, setAirPollution] = useState<any>({});
-  const [rawWeather, setRawWeather] = useState<any>(null);
-  const [rawAir, setRawAir] = useState<any>(null);
+const useWeather = ({
+  lat,
+  lon,
+  language,
+  unit,
+  fetchIntervalMs,
+}: UseWeatherOptions): UseWeatherResult => {
+  const [weather, setWeather] = useState<Partial<Weather>>({});
+  const [airPollution, setAirPollution] = useState<Partial<AirPollution>>({});
+  const [rawWeather, setRawWeather] = useState<OpenWeatherMapWeatherRaw | null>(null);
+  const [rawAir, setRawAir] = useState<OpenWeatherMapAirRaw | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [siteWorking, setSiteWorking] = useState(true);
   const [iconWorking, setIconWorking] = useState(true);
-  const [error, setError] = useState<any>(null);
+  const [error, setError] = useState<Error | null>(null);
 
   const intervalRef = useRef<number | null>(null);
   const initialLoadRef = useRef(true);
 
-  // prefer injected provider from context when available
-  let injected: IWeatherService | null = null;
-  try {
-    injected = useWeatherService();
-  } catch (e) {
-    // not wrapped in provider, fallback to default
-  }
+  const container = useOptionalServiceContainer();
+  const repoRef = useRef<import('repositories/WeatherRepository').WeatherRepository | null>(null);
+  const useCaseRef = useRef<import('app/useCases/WeatherUseCase').WeatherUseCase | null>(null);
 
-  const weatherProvider = provider ?? injected ?? new OpenWeatherMapService();
-  const providerRef = useRef<IWeatherService | null>(null);
-  if (!providerRef.current) providerRef.current = weatherProvider;
+  if (container) {
+    if (!repoRef.current) repoRef.current = container.repository;
+    if (!useCaseRef.current) useCaseRef.current = container.useCase;
+  } else {
+    if (!repoRef.current) repoRef.current = new WeatherRepository();
+    if (!useCaseRef.current && repoRef.current)
+      useCaseRef.current = new WeatherUseCase(repoRef.current);
+  }
 
   const fetchAll = useCallback(async () => {
     setIsLoading(true);
     try {
-      const weatherReq: AppRequest = {
+      const req: AppRequest = {
         toFetch: ClimateType.Weather,
         lat,
         lon,
         language,
         units: unit,
       };
-      const airReq: AppRequest = {
-        toFetch: ClimateType.AirPollution,
-        lat,
-        lon,
-        language,
-        units: unit,
-      };
 
-      const [weatherResp, airResp] = await Promise.all([
-        providerRef.current!.getWeather(weatherReq),
-        providerRef.current!.getAirPollution(airReq),
-      ]);
+      if (!useCaseRef.current) {
+        // ensure repository is the only layer interacting with providers
+        const [weatherResp, airResp] = await Promise.all([
+          repoRef.current!.fetchWeather({ ...req, toFetch: ClimateType.Weather }),
+          repoRef.current!.fetchAirPollution({ ...req, toFetch: ClimateType.AirPollution }),
+        ]);
+
+        const w = weatherResp.adapted as Weather;
+        const a = airResp.adapted as AirPollution;
+        const rw = weatherResp.raw as OpenWeatherMapWeatherRaw;
+        const ra = airResp.raw as OpenWeatherMapAirRaw;
+
+        setSiteWorking(true);
+        setIconWorking(true);
+
+        setWeather(w ?? {});
+        setAirPollution(a ?? {});
+
+        setRawWeather(rw);
+        setRawAir(ra);
+
+        setError(null);
+        return;
+      }
+
+      const {
+        weather: w,
+        air: a,
+        rawWeather: rw,
+        rawAir: ra,
+      } = await useCaseRef.current.getCombinedWeather(req);
 
       setSiteWorking(true);
       setIconWorking(true);
 
-      setWeather(weatherResp.adapted ?? {});
-      setAirPollution(airResp.adapted ?? {});
+      setWeather(w ?? {});
+      setAirPollution(a ?? {});
 
-      setRawWeather(weatherResp.raw);
-      setRawAir(airResp.raw);
+      setRawWeather(rw);
+      setRawAir(ra);
 
       setError(null);
     } catch (err) {
       console.error('useWeather fetch error', err);
-      setError(err);
+      const e = err instanceof Error ? err : new Error(String(err));
+      setError(e);
       setSiteWorking(false);
     } finally {
       setIsLoading(false);

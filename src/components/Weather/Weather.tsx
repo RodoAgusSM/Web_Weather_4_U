@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import { convertWeatherUnits, formatWeatherTimeByLanguage } from 'adapter/adapter';
+import { convertWeatherUnits, formatWeatherTimeByLanguage } from 'adapters';
 import CitySearchBar from 'components/CitySearchBar/CitySearchBar';
 import Language from 'components/Language/Language';
 import MainWeatherDisplay from 'components/MainWeatherDisplay/MainWeatherDisplay';
@@ -566,3 +566,4 @@ const Weather = () => {
 };
 
 export default memo(Weather);
+(Weather as any).displayName = 'Weather';

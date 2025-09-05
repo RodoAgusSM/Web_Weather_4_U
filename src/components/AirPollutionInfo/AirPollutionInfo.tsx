@@ -265,3 +265,4 @@ const AirPollutionInfo = () => {
 };
 
 export default memo(AirPollutionInfo);
+(AirPollutionInfo as any).displayName = 'AirPollutionInfo';

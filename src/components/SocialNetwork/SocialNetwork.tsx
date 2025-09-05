@@ -146,3 +146,4 @@ const SocialNetwork = () => {
 };
 
 export default memo(SocialNetwork);
+(SocialNetwork as any).displayName = 'SocialNetwork';

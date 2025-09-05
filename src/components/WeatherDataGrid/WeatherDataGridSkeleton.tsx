@@ -19,3 +19,4 @@ const WeatherDataGridSkeleton: React.FC<WeatherDataGridSkeletonProps> = ({
 };
 
 export default memo(WeatherDataGridSkeleton);
+(WeatherDataGridSkeleton as any).displayName = 'WeatherDataGridSkeleton';

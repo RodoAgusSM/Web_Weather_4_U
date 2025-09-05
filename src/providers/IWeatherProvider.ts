@@ -1,6 +1,2 @@
-import { AppRequest } from 'interfaces/index';
-
-export interface IWeatherProvider {
-  getWeather(request: AppRequest): Promise<{ adapted: any; raw: any }>;
-  getAirPollution(request: AppRequest): Promise<{ adapted: any; raw: any }>;
-}
+// Compatibility alias: the canonical service interface is in services/IWeatherService.
+export type { IWeatherService as IWeatherProvider } from '../services/IWeatherService';

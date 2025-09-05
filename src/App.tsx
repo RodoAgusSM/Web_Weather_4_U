@@ -8,8 +8,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import i18n from 'translations/i18n';
 
+import ServiceContainerProvider from './context/ServiceContainerContext';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
-import { WeatherServiceProvider } from './context/WeatherServiceContext';
 import { darkTheme, lightTheme } from './styles/theme';
 
 function App() {
@@ -133,9 +133,9 @@ function App() {
   return (
     <I18nextProvider i18n={i18n}>
       <ThemeProvider>
-        <WeatherServiceProvider>
+        <ServiceContainerProvider>
           <ThemedApp />
-        </WeatherServiceProvider>
+        </ServiceContainerProvider>
       </ThemeProvider>
     </I18nextProvider>
   );

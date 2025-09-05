@@ -1,6 +1,5 @@
-import { Adapter } from 'adapter/adapter';
-import { APIWeatherProvider, ClimateType, Units } from 'enums/index';
 import { AppRequest } from 'interfaces/index';
+import { OpenWeatherMapAirRaw, OpenWeatherMapWeatherRaw } from 'types/OpenWeatherMapTypes';
 import { generateURL } from 'utils/helpers';
 
 import { IWeatherService } from './IWeatherService';
@@ -8,31 +7,19 @@ import { IWeatherService } from './IWeatherService';
 export class OpenWeatherMapService implements IWeatherService {
   constructor() {}
 
-  async getWeather(request: AppRequest) {
+  async getWeather(request: AppRequest): Promise<OpenWeatherMapWeatherRaw> {
     const url = generateURL(request);
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const raw = await res.json();
-    const units = request.units as unknown as Units;
-    const adapted = Adapter(APIWeatherProvider.OpenWeatherMap, ClimateType.Weather, units, raw);
-    return { adapted, raw };
+    const raw = (await res.json()) as OpenWeatherMapWeatherRaw;
+    return raw;
   }
 
-  async getAirPollution(request: AppRequest) {
+  async getAirPollution(request: AppRequest): Promise<OpenWeatherMapAirRaw> {
     const url = generateURL(request);
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const raw = await res.json();
-    const list = raw?.list?.[0] ?? raw;
-    const units2 = request.units as unknown as Units;
-    const adapted = Adapter(
-      APIWeatherProvider.OpenWeatherMap,
-      ClimateType.AirPollution,
-      units2,
-      list,
-    );
-    return { adapted, raw };
+    const raw = (await res.json()) as OpenWeatherMapAirRaw;
+    return raw;
   }
 }
-
-// Use named export only

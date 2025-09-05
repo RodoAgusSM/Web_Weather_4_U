@@ -280,3 +280,4 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
 };
 
 export default memo(CitySearchBar);
+(CitySearchBar as any).displayName = 'CitySearchBar';

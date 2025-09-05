@@ -159,3 +159,6 @@ export default memo(WeatherDataCard, (prevProps, nextProps) => {
     prevProps.showInfoButton === nextProps.showInfoButton
   );
 });
+
+// Explicit display name for better debugging and to satisfy eslint rule
+(WeatherDataCard as any).displayName = 'WeatherDataCard';

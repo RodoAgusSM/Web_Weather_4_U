@@ -239,3 +239,4 @@ const AnimatedWeatherIcon: React.FC<AnimatedWeatherIconProps> = ({ iconCode, siz
 };
 
 export default memo(AnimatedWeatherIcon);
+(AnimatedWeatherIcon as any).displayName = 'AnimatedWeatherIcon';

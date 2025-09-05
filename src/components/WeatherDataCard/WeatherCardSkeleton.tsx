@@ -34,3 +34,4 @@ const WeatherCardSkeleton: React.FC<WeatherCardSkeletonProps> = ({ hasInfoButton
 };
 
 export default memo(WeatherCardSkeleton);
+(WeatherCardSkeleton as any).displayName = 'WeatherCardSkeleton';

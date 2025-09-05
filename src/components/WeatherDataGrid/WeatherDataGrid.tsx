@@ -12,3 +12,4 @@ const WeatherDataGrid: React.FC<WeatherDataGridProps> = ({ children }) => {
 };
 
 export default memo(WeatherDataGrid);
+(WeatherDataGrid as any).displayName = 'WeatherDataGrid';

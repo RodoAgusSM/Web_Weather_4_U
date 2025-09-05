@@ -77,3 +77,5 @@ const SunriseSunsetInfo = ({
 };
 
 export default memo(SunriseSunsetInfo);
+// Explicit display name for better debugging and to satisfy eslint rule
+(SunriseSunsetInfo as any).displayName = 'SunriseSunsetInfo';
