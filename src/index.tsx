@@ -23,7 +23,7 @@ root.render(
         <Route path="air_pollution_info" element={<AirPollutionInfo />} />
       </Routes>
     </BrowserRouter>
-  </ThemeProvider>
+  </ThemeProvider>,
 );
 
 reportWebVitals();

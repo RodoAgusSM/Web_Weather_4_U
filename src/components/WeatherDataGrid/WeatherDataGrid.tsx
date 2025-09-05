@@ -7,7 +7,7 @@ interface WeatherDataGridProps {
   marginTop?: string;
 }
 
-const WeatherDataGrid: React.FC<WeatherDataGridProps> = ({ children}) => {
+const WeatherDataGrid: React.FC<WeatherDataGridProps> = ({ children }) => {
   return <GridContainer>{children}</GridContainer>;
 };
 

@@ -40,7 +40,9 @@
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "lint": "eslint --ext js,jsx,ts,tsx ./",
-    "prettier": "prettier --check --write ./**/*.{js, jsx,json,css}",
+    "prettier": "prettier --check --write \"**/*.{js,jsx,ts,tsx,json,css}\"",
+    "format": "prettier --write",
+    "lint:fix": "eslint --ext js,jsx,ts,tsx ./ --fix",
     "prepare": "husky install"
   },
   "eslintConfig": {
@@ -62,15 +64,16 @@
     ]
   },
   "devDependencies": {
-    "typescript": "^5.2.2"
+    "prettier": "2.8.8",
+    "typescript": "5.2.2"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
+      "npx --no -- eslint --fix",
+      "npx --no -- prettier --write"
     ],
     "*.{json,css}": [
-      "prettier --write"
+      "npx --no -- prettier --write"
     ]
   }
 }

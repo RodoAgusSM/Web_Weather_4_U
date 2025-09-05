@@ -1,4 +1,4 @@
 {
-  "*.{css,scss,sass}": ["yarn prettier"],
-  "*.{js,jsx,ts, tsx}": ["yarn prettier", "yarn eslint", "yarn test"]
+  "*.{css,scss,sass}": ["yarn prettier", "yarn lint:fix", "yarn format"],
+  "*.{js,jsx,ts,tsx}": ["yarn prettier", "yarn lint:fix", "yarn format"]
 }

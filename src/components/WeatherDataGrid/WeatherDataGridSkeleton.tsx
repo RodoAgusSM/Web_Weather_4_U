@@ -8,7 +8,7 @@ interface WeatherDataGridSkeletonProps {
 }
 
 const WeatherDataGridSkeleton: React.FC<WeatherDataGridSkeletonProps> = ({
-  hasInfoButton = false
+  hasInfoButton = false,
 }) => {
   return (
     <GridContainer>

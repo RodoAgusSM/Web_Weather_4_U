@@ -61,7 +61,7 @@ export const DropdownContainer = styled.div`
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.05));
 `;
 
-export const DropdownHeader = styled.div<{ theme: ThemeType; }>`
+export const DropdownHeader = styled.div<{ theme: ThemeType }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -101,7 +101,7 @@ export const DropdownSelected = styled.div<{ $isMobile: boolean }>`
   width: 100%;
   text-align: center;
   padding-right: 16px;
-  font-size: ${(props) => (props.$isMobile ? '0.8rem' : '0.85rem')};
+  font-size: ${props => (props.$isMobile ? '0.8rem' : '0.85rem')};
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
 `;
 
@@ -125,7 +125,7 @@ export const DropdownArrow = styled.span<{ $isOpen: boolean }>`
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   font-size: 0.7em;
   color: #1976d2;
-  transform: ${(props) => (props.$isOpen ? 'rotate(180deg)' : 'rotate(0)')};
+  transform: ${props => (props.$isOpen ? 'rotate(180deg)' : 'rotate(0)')};
   opacity: 0.8;
   position: absolute;
   right: 16px;
@@ -150,7 +150,7 @@ export const DropdownMenu = styled.ul<{ theme: ThemeType; $isClosing?: boolean }
   width: 100%;
   min-width: 150px;
 
-  animation: ${(props) =>
+  animation: ${props =>
     props.$isClosing
       ? css`
           ${menuFadeOut} 0.2s ease forwards
@@ -159,7 +159,7 @@ export const DropdownMenu = styled.ul<{ theme: ThemeType; $isClosing?: boolean }
           ${menuFadeIn} 0.2s ease forwards
         `};
 
-  animation-delay: ${(props) => (props.$isClosing ? '0.3s' : '0s')};
+  animation-delay: ${props => (props.$isClosing ? '0.3s' : '0s')};
 
   &:before {
     content: '';
@@ -188,7 +188,7 @@ export const DropdownMenuItem = styled.li<{
   $isClosing?: boolean;
   $totalItems?: number;
   $isActive?: boolean;
-  $isMobile: boolean
+  $isMobile: boolean;
 }>`
   display: flex;
   align-items: center;
@@ -199,8 +199,8 @@ export const DropdownMenuItem = styled.li<{
   cursor: pointer;
   border-radius: 8px;
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  background: ${(props) => (props.$isActive ? 'rgba(25, 118, 210, 0.15)' : 'transparent')};
-  font-size: ${(props) => (props.$isMobile ? '0.8rem' : '0.85rem')};
+  background: ${props => (props.$isActive ? 'rgba(25, 118, 210, 0.15)' : 'transparent')};
+  font-size: ${props => (props.$isMobile ? '0.8rem' : '0.85rem')};
   color: #1976d2;
   font-weight: 400;
   white-space: nowrap;
@@ -208,7 +208,7 @@ export const DropdownMenuItem = styled.li<{
   opacity: 0;
   border-bottom: 1px solid rgba(230, 240, 255, 0.4);
 
-  animation: ${(props) => {
+  animation: ${props => {
     if (!props.$isClosing) {
       const delay = (props.$index || 0) * 70 + 50;
       return css`

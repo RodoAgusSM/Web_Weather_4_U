@@ -53,7 +53,7 @@ const WeatherSpinner: React.FC<WeatherSpinnerProps> = ({ size = 'medium' }) => {
       <GlassOverlay />
       <SpinnerInner>
         <SunElement>
-          {particleConfig.sunRays.map((ray) => (
+          {particleConfig.sunRays.map(ray => (
             <SunRay key={ray.key} $angle={ray.angle} $length={ray.length} $delay={ray.delay} />
           ))}
         </SunElement>
@@ -62,7 +62,7 @@ const WeatherSpinner: React.FC<WeatherSpinnerProps> = ({ size = 'medium' }) => {
         <CloudElement $delay={2} $size={28} $distance={35} $rotation={-320} />
         <CloudElement $delay={3.5} $size={20} $distance={45} $rotation={300} />
 
-        {particleConfig.raindrops.map((drop) => (
+        {particleConfig.raindrops.map(drop => (
           <RainDrop
             key={drop.key}
             $delay={drop.delay}
@@ -72,7 +72,7 @@ const WeatherSpinner: React.FC<WeatherSpinnerProps> = ({ size = 'medium' }) => {
           />
         ))}
 
-        {particleConfig.snowflakes.map((flake) => (
+        {particleConfig.snowflakes.map(flake => (
           <SnowFlake
             key={flake.key}
             $delay={flake.delay}

@@ -9,6 +9,7 @@ import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import i18n from 'translations/i18n';
 
 import { ThemeProvider, useTheme } from './context/ThemeContext';
+import { WeatherServiceProvider } from './context/WeatherServiceContext';
 import { darkTheme, lightTheme } from './styles/theme';
 
 function App() {
@@ -90,7 +91,7 @@ function App() {
       if (viewportMeta) {
         viewportMeta.setAttribute(
           'content',
-          'width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0'
+          'width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0',
         );
       }
 
@@ -132,7 +133,9 @@ function App() {
   return (
     <I18nextProvider i18n={i18n}>
       <ThemeProvider>
-        <ThemedApp />
+        <WeatherServiceProvider>
+          <ThemedApp />
+        </WeatherServiceProvider>
       </ThemeProvider>
     </I18nextProvider>
   );

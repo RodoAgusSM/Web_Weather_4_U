@@ -115,7 +115,7 @@ export const Dropdown = <T,>({
     (item: DropdownItem<T>) => {
       return displayValue?.id === item.id;
     },
-    [displayValue]
+    [displayValue],
   );
 
   return (
@@ -127,7 +127,7 @@ export const Dropdown = <T,>({
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         tabIndex={0}
-        onKeyDown={(e) => {
+        onKeyDown={e => {
           if (e.key === 'Enter' || e.key === ' ') {
             toggleDropdown();
             e.preventDefault();
@@ -135,8 +135,7 @@ export const Dropdown = <T,>({
             setIsOpen(false);
             e.preventDefault();
           }
-        }}
-      >
+        }}>
         {displayValue ? (
           <DropdownSelected $isMobile={responsiveInfo.isMobileDevice}>
             {displayValue.icon && <DropdownIcon>{displayValue.icon}</DropdownIcon>}
@@ -160,14 +159,13 @@ export const Dropdown = <T,>({
               $isClosing={isClosing}
               $totalItems={items.length}
               $isActive={isItemActive(item)}
-              onKeyDown={(e) => {
+              onKeyDown={e => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   handleItemClick(item);
                   e.preventDefault();
                 }
               }}
-              $isMobile={responsiveInfo.isMobileDevice}
-            >
+              $isMobile={responsiveInfo.isMobileDevice}>
               {item.icon && <DropdownIcon>{item.icon}</DropdownIcon>}
               {item.label}
 
@@ -178,8 +176,7 @@ export const Dropdown = <T,>({
                   viewBox="0 0 16 16"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  style={{ marginLeft: '4px' }}
-                >
+                  style={{ marginLeft: '4px' }}>
                   <path
                     d="M13.3334 4L6.00008 11.3333L2.66675 8"
                     stroke="#1976d2"

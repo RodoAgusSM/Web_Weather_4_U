@@ -13,12 +13,12 @@ export const skeletonBase = css`
           /* dark base with a brighter mid shimmer so animation is visible */
           background: linear-gradient(
             90deg,
-            rgba(40,50,60,0.4) 15%,
-            rgba(255,255,255,0.10) 50%,
-            rgba(40,50,60,0.4) 85%
+            rgba(40, 50, 60, 0.4) 15%,
+            rgba(255, 255, 255, 0.1) 50%,
+            rgba(40, 50, 60, 0.4) 85%
           );
           /* keep a very faint inner edge for depth */
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.01);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.01);
         `
       : css`
           background: linear-gradient(
@@ -35,11 +35,11 @@ export const skeletonBase = css`
       @media (prefers-color-scheme: dark) {
         background: linear-gradient(
           90deg,
-          rgba(40,50,60,0.95) 15%,
-          rgba(255,255,255,0.10) 50%,
-          rgba(40,50,60,0.95) 85%
+          rgba(40, 50, 60, 0.95) 15%,
+          rgba(255, 255, 255, 0.1) 50%,
+          rgba(40, 50, 60, 0.95) 85%
         );
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.01);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.01);
       }
     `}
 

@@ -6,25 +6,25 @@ import { convertMeasurementUnits, formatTimeByLanguage } from 'utils/updateWeath
 type AdapterResult = Weather | AirPollution | undefined;
 
 const Adapter = (
-    apiWeatherProvider: APIWeatherProvider,
-    climateType: ClimateType,
-    unit: Units,
-    object: unknown
+  apiWeatherProvider: APIWeatherProvider,
+  climateType: ClimateType,
+  unit: Units,
+  object: unknown,
 ): AdapterResult => {
-    switch (apiWeatherProvider) {
-        case APIWeatherProvider.OpenWeatherMap:
-            return convertOpenWeatherMapResponseToInterface(climateType, object, unit);
-        default:
-            throw new Error(`Unsupported APIWeatherProvider: ${String(apiWeatherProvider)}`);
-    }
+  switch (apiWeatherProvider) {
+    case APIWeatherProvider.OpenWeatherMap:
+      return convertOpenWeatherMapResponseToInterface(climateType, object, unit);
+    default:
+      throw new Error(`Unsupported APIWeatherProvider: ${String(apiWeatherProvider)}`);
+  }
 };
 
 const formatWeatherTimeByLanguage = (weatherData: Weather) => {
-    return formatTimeByLanguage(weatherData);
+  return formatTimeByLanguage(weatherData);
 };
 
 const convertWeatherUnits = (targetUnit: Units, weatherData: Weather) => {
-    return convertMeasurementUnits(weatherData, targetUnit);
+  return convertMeasurementUnits(weatherData, targetUnit);
 };
 
 export { Adapter, convertWeatherUnits, formatWeatherTimeByLanguage };

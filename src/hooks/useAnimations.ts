@@ -26,35 +26,43 @@ const MIN_DELAY = 0.1;
 const MAX_DELAY = 2;
 
 const getRandomConfig = () => ({
-    mass: getRandomNumber(MIN_MASS, MAX_MASS),
-    tension: getRandomNumber(MIN_TENSION, MAX_TENSION),
-    friction: getRandomNumber(MIN_FRICTION, MAX_FRICTION),
-    easing: easings.steps(Math.round(getRandomNumber(MIN_STEPS, MAX_STEPS))),
-    duration: getRandomNumber(MIN_DURATION, MAX_DURATION)
+  mass: getRandomNumber(MIN_MASS, MAX_MASS),
+  tension: getRandomNumber(MIN_TENSION, MAX_TENSION),
+  friction: getRandomNumber(MIN_FRICTION, MAX_FRICTION),
+  easing: easings.steps(Math.round(getRandomNumber(MIN_STEPS, MAX_STEPS))),
+  duration: getRandomNumber(MIN_DURATION, MAX_DURATION),
 });
 
 export const useGenerateRandomStars = (count: number): Star[] => {
-    return Array.from({ length: count }, () => ({
-        top: getRandomNumber(MIN_TOP_POSITION, MAX_TOP_POSITION),
-        left: getRandomNumber(MIN_LEFT_POSITION, MAX_LEFT_POSITION),
-        delay: getRandomNumber(MIN_DELAY, MAX_DELAY),
-    }));
+  return Array.from({ length: count }, () => ({
+    top: getRandomNumber(MIN_TOP_POSITION, MAX_TOP_POSITION),
+    left: getRandomNumber(MIN_LEFT_POSITION, MAX_LEFT_POSITION),
+    delay: getRandomNumber(MIN_DELAY, MAX_DELAY),
+  }));
 };
 
 export const useSpringsAnimation = (count: number) => {
-    const springsData = Array.from({ length: count }).map(() =>
-        useSpring({
-            from: { x: getRandomNumber(MIN_XY, MAX_XY), y: getRandomNumber(MIN_XY, MAX_XY), opacity: 1 },
-            to: async (next) => {
-                while (true) {
-                    await next({ x: getRandomNumber(MIN_XY, MAX_XY), y: getRandomNumber(MIN_XY, MAX_XY), opacity: MIN_OPACITY });
-                    await next({ x: getRandomNumber(MIN_XY, MAX_XY), y: getRandomNumber(MIN_XY, MAX_XY), opacity: MAX_OPACITY });
-                }
-            },
-            config: getRandomConfig(),
-            reset: true,
-            loop: true
-        })
-    );
-    return springsData;
+  const springsData = Array.from({ length: count }).map(() =>
+    useSpring({
+      from: { x: getRandomNumber(MIN_XY, MAX_XY), y: getRandomNumber(MIN_XY, MAX_XY), opacity: 1 },
+      to: async next => {
+        while (true) {
+          await next({
+            x: getRandomNumber(MIN_XY, MAX_XY),
+            y: getRandomNumber(MIN_XY, MAX_XY),
+            opacity: MIN_OPACITY,
+          });
+          await next({
+            x: getRandomNumber(MIN_XY, MAX_XY),
+            y: getRandomNumber(MIN_XY, MAX_XY),
+            opacity: MAX_OPACITY,
+          });
+        }
+      },
+      config: getRandomConfig(),
+      reset: true,
+      loop: true,
+    }),
+  );
+  return springsData;
 };

@@ -35,7 +35,7 @@ const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
   }
 
   html {
-    font-size: ${(props) => (props.isSmallDevice || props.$isSmallMobileDevice ? '14px' : '16px')};
+    font-size: ${props => (props.isSmallDevice || props.$isSmallMobileDevice ? '14px' : '16px')};
     -webkit-text-size-adjust: 100%;
   }
 
@@ -71,7 +71,7 @@ const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
 
   button, input, select, textarea {
     font-family: 'Poppins', sans-serif;
-    font-size: ${(props) => (props.isMobileDevice ? '16px' : 'inherit')}; /* Prevent zoom on iOS */
+    font-size: ${props => (props.isMobileDevice ? '16px' : 'inherit')}; /* Prevent zoom on iOS */
   }
 
   h1, h2, h3, h4, h5, h6 {

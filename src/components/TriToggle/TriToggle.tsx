@@ -32,13 +32,12 @@ const TriToggle: React.FC<TriToggleProps> = ({ items, selectedValue, onChange })
   return (
     <ToggleContainer>
       <ToggleWrapper theme={theme}>
-        {items.map((item) => (
+        {items.map(item => (
           <ToggleButton
             key={item.id}
             $isActive={selectedValue === item.value}
             onClick={() => onChange(item.value)}
-            $isMobile={responsiveInfo.isMobileDevice}
-          >
+            $isMobile={responsiveInfo.isMobileDevice}>
             {item.icon && <IconContainer>{item.icon}</IconContainer>}
             {item.label}
           </ToggleButton>

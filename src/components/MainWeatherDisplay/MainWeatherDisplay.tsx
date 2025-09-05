@@ -58,8 +58,7 @@ const MainWeatherDisplay: React.FC<MainWeatherDisplayProps> = ({
       $isHovered={isHovered}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      style={{ touchAction: 'manipulation' }}
-    >
+      style={{ touchAction: 'manipulation' }}>
       <ColumnsContainer>
         <DataRowsContainer>
           <LocationContainer $isMobile={isMobileDevice} $isSmallMobile={isSmallMobileDevice}>

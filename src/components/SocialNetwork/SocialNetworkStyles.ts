@@ -73,10 +73,10 @@ export const MiInfo = styled.span<{ $isMobile: boolean }>`
   color: ${palette.dark};
   padding-bottom: ${theme.spacing.md};
   line-height: 1.4;
-  font-size: ${(props) => (props.$isMobile ? '1rem' : '1.2rem')};
+  font-size: ${props => (props.$isMobile ? '1rem' : '1.2rem')};
 
   &:last-child {
-    font-size: ${(props) => (props.$isMobile ? '0.8rem' : '1rem')};
+    font-size: ${props => (props.$isMobile ? '0.8rem' : '1rem')};
     font-weight: 500;
     color: ${palette.dark};
     opacity: 0.9;
@@ -101,7 +101,7 @@ export const NetworkContainer = styled.div<{ theme: ThemeType }>`
 `;
 
 export const NetworkTitle = styled.h3<{ $isMobile: boolean }>`
-  font-size: ${(props) => (props.$isMobile ? '1.1rem' : '1.2rem')};
+  font-size: ${props => (props.$isMobile ? '1.1rem' : '1.2rem')};
   font-weight: 600;
   color: ${palette.dark};
   margin-bottom: ${theme.spacing.md};
@@ -130,7 +130,7 @@ export const NetworkMapContainer = styled.div<{ $isMobile: boolean }>`
   width: 100%;
   transition: all 0.2s ease;
   border-radius: ${theme.radius.md};
-  font-size: ${(props) => (props.$isMobile ? '0.8rem' : '0.95rem')};
+  font-size: ${props => (props.$isMobile ? '0.8rem' : '0.95rem')};
   border: 1px solid transparent;
   animation: ${fadeIn} 0.5s ease-out forwards;
   animation-delay: calc(var(--index, 0) * 0.1s + 0.6s);
@@ -152,7 +152,7 @@ export const SocialNetworkIcon = styled.div<{ icon: string }>`
   height: 36px;
   border-radius: ${theme.radius.sm};
   background-color: rgba(255, 255, 255, 0.9);
-  background-image: ${(props) => `url(${props.icon})`};
+  background-image: ${props => `url(${props.icon})`};
   background-size: 65%;
   background-position: center;
   background-repeat: no-repeat;
@@ -191,7 +191,7 @@ export const SocialNetworkItem = styled.a<{ theme: ThemeType }>`
   font-weight: 500;
   position: relative;
   cursor: pointer;
-  color: ${(props) => props.theme.blueText};
+  color: ${props => props.theme.blueText};
   text-decoration: none;
   transition: all 0.2s ease;
   flex-grow: 1;
@@ -205,7 +205,7 @@ export const SocialNetworkItem = styled.a<{ theme: ThemeType }>`
   min-width: 0;
 
   &:hover {
-    color:  ${(props) => props.theme.blueTextHovered};
+    color: ${props => props.theme.blueTextHovered};
 
     &::after {
       width: 100%;

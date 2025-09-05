@@ -29,14 +29,14 @@ const SunriseSunsetInfo = ({
           new Date(sunrise * 1000).toLocaleString([], {
             timeStyle: 'short',
             timeZone: timeZone,
-          })
+          }),
         );
 
         setSunsetTime(
           new Date(sunset * 1000).toLocaleString([], {
             timeStyle: 'short',
             timeZone: timeZone,
-          })
+          }),
         );
       } else {
         setSunriseTime(
@@ -45,7 +45,7 @@ const SunriseSunsetInfo = ({
             minute: '2-digit',
             hour12: false,
             timeZone: timeZone,
-          })
+          }),
         );
         setSunsetTime(
           new Date(sunset * 1000).toLocaleString([], {
@@ -53,7 +53,7 @@ const SunriseSunsetInfo = ({
             minute: '2-digit',
             hour12: false,
             timeZone: timeZone,
-          })
+          }),
         );
       }
     } catch (error) {

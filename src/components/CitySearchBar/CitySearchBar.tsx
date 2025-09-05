@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 interface CitySearchBarProps {
   changeCity: (
-    city: SingleValue<{ label: string; value: { lat: string; lon: string; name: string } }>
+    city: SingleValue<{ label: string; value: { lat: string; lon: string; name: string } }>,
   ) => void;
 }
 
@@ -106,13 +106,13 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
 
   const handleChangeCity = useCallback(
     (
-      newCity: SingleValue<{ label: string; value: { lat: string; lon: string; name: string } }>
+      newCity: SingleValue<{ label: string; value: { lat: string; lon: string; name: string } }>,
     ) => {
       if (newCity) {
         changeCity(newCity);
       }
     },
-    [changeCity]
+    [changeCity],
   );
 
   const customStyles = {
@@ -245,8 +245,7 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
           }}
           onMouseEnter={isTouchDevice ? undefined : handleMouseEnter}
           onMouseLeave={isTouchDevice ? undefined : handleMouseLeave}
-          onTouchStart={handleTouchInteraction}
-        >
+          onTouchStart={handleTouchInteraction}>
           <AsyncSelect
             ref={selectRef}
             inputValue={inputVal}
@@ -260,7 +259,7 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
                 });
             }}
             menuIsOpen={isMenuOpen}
-            onInputChange={(value) => setInputVal(value)}
+            onInputChange={value => setInputVal(value)}
             onChange={handleChangeCity}
             loadingMessage={({ inputValue }) => inputValue && t('words.lookingForSuggestions')}
             noOptionsMessage={({ inputValue }) => inputValue && t('words.noSuggestions')}

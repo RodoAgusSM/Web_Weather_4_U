@@ -29,7 +29,7 @@ type SpecialObject = {
 };
 
 const getColorForValue = (value: number, valueRanges: number[]): string => {
-  const index = valueRanges.findIndex((range) => value < range);
+  const index = valueRanges.findIndex(range => value < range);
   return index === -1
     ? AirPollutionColors[AirPollutionColors.length - 1]
     : AirPollutionColors[index];
@@ -38,7 +38,7 @@ const getColorForValue = (value: number, valueRanges: number[]): string => {
 const getPercentageForValue = (
   value: number,
   valueRanges: number[],
-  qualityIndex: number
+  qualityIndex: number,
 ): number => {
   if (!valueRanges || valueRanges.length === 0) {
     return 0;
@@ -63,7 +63,7 @@ const getPercentageForValue = (
 };
 
 const getQualityLevelIndex = (value: number, valueRanges: number[]): number => {
-  const index = valueRanges.findIndex((range) => value < range);
+  const index = valueRanges.findIndex(range => value < range);
   return index === -1 ? AirPollutionColors.length - 1 : index;
 };
 
@@ -89,7 +89,7 @@ const AirPollutionInfo = () => {
   const airPollutionEntries = useMemo(() => Object.entries(airPollution), [airPollution]);
   const AirPollutionLabels: SpecialObject = useMemo(
     () => t('words.airPollution.status', { returnObjects: true }),
-    [t]
+    [t],
   );
 
   const AIR_QUALITY_LABELS = useMemo(
@@ -128,7 +128,7 @@ const AirPollutionInfo = () => {
       [AirQualityMetric.NitrogenMonoxide]: {},
       [AirQualityMetric.Ammonia]: {},
     }),
-    [t]
+    [t],
   );
 
   const responsiveProps = {
@@ -155,8 +155,7 @@ const AirPollutionInfo = () => {
         theme={theme}
         key={index}
         $isMobile={responsiveProps.$isMobileDevice}
-        style={{ '--index': index } as React.CSSProperties}
-      >
+        style={{ '--index': index } as React.CSSProperties}>
         <AirQualityHeader>
           <AirQualityName>{`${airQuality.name} ${airQuality.symbol}`}</AirQualityName>
           <AirQualityValue>{`${value} μg/m³`}</AirQualityValue>
@@ -189,7 +188,7 @@ const AirPollutionInfo = () => {
       AirQualityMetric.Ammonia,
       AirQualityMetric.AQI,
     ],
-    []
+    [],
   );
 
   const sortedAirPollutionEntries = useMemo(() => {
@@ -209,64 +208,60 @@ const AirPollutionInfo = () => {
     });
   }, [airPollutionEntries, sortedMetricOrder]);
 
-    return (
-      <>
-        <GlobalStyles theme={theme} />
-        <div
-          style={{
-            width: '100%',
-            minHeight: '100vh',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <BoxContainer
-            {...responsiveProps}
-            theme={theme}
-            aria-label="air-pollution-info"
-            data-compact={isCompactLayout ? 'true' : 'false'}
-            data-touch={isTouchDevice ? 'true' : 'false'}
-          >
-            <BoxWrapper {...responsiveProps}>
-              <StarsAnimation />
-              <div style={{ width: '100%' }}>
-                <BackContainer
-                  $isMobile={responsiveProps.$isMobileDevice}
-                  onMouseEnter={() => setMouseOver(true)}
-                  onMouseLeave={() => setMouseOver(false)}
-                  onClick={() => navigate(`/`)}
-                >
-                  <BackIconSpotImg $mouseOver={mouseOver} />
-                  {t('words.back')}
-                </BackContainer>
-              </div>
+  return (
+    <>
+      <GlobalStyles theme={theme} />
+      <div
+        style={{
+          width: '100%',
+          minHeight: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <BoxContainer
+          {...responsiveProps}
+          theme={theme}
+          aria-label="air-pollution-info"
+          data-compact={isCompactLayout ? 'true' : 'false'}
+          data-touch={isTouchDevice ? 'true' : 'false'}>
+          <BoxWrapper {...responsiveProps}>
+            <StarsAnimation />
+            <div style={{ width: '100%' }}>
+              <BackContainer
+                $isMobile={responsiveProps.$isMobileDevice}
+                onMouseEnter={() => setMouseOver(true)}
+                onMouseLeave={() => setMouseOver(false)}
+                onClick={() => navigate(`/`)}>
+                <BackIconSpotImg $mouseOver={mouseOver} />
+                {t('words.back')}
+              </BackContainer>
+            </div>
 
-              <Title $isMobile={responsiveProps.$isMobileDevice}>
-                {t('words.airPollution.title')}
-              </Title>
+            <Title $isMobile={responsiveProps.$isMobileDevice}>
+              {t('words.airPollution.title')}
+            </Title>
 
-              <CardsGridContainer
-                $isMobileDevice={responsiveProps.$isMobileDevice}
-                $isLandscape={responsiveProps.$isLandscape}
-              >
-                {sortedAirPollutionEntries
-                  .filter((entry) => {
-                    const metric = entry[0] as AirQualityMetric;
-                    const airQuality = AIR_QUALITY_LABELS[
-                      firstLowerToUppercase(metric) as AirQualityMetric
-                    ] as any;
-                    return airQuality && Object.keys(airQuality).length > 0;
-                  })
-                  .map((entry, index) =>
-                    renderProgressCard(entry[0] as AirQualityMetric, entry[1] as number, index)
-                  )}
-              </CardsGridContainer>
-            </BoxWrapper>
-          </BoxContainer>
-        </div>
-      </>
-    );
+            <CardsGridContainer
+              $isMobileDevice={responsiveProps.$isMobileDevice}
+              $isLandscape={responsiveProps.$isLandscape}>
+              {sortedAirPollutionEntries
+                .filter(entry => {
+                  const metric = entry[0] as AirQualityMetric;
+                  const airQuality = AIR_QUALITY_LABELS[
+                    firstLowerToUppercase(metric) as AirQualityMetric
+                  ] as any;
+                  return airQuality && Object.keys(airQuality).length > 0;
+                })
+                .map((entry, index) =>
+                  renderProgressCard(entry[0] as AirQualityMetric, entry[1] as number, index),
+                )}
+            </CardsGridContainer>
+          </BoxWrapper>
+        </BoxContainer>
+      </div>
+    </>
+  );
 };
 
 export default memo(AirPollutionInfo);

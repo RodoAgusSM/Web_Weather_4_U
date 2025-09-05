@@ -122,8 +122,7 @@ const WeatherDataCard: React.FC<WeatherDataCardProps> = ({
       $hasInfoButton={isAirQuality && showInfoButton}
       $isMobile={responsiveInfo.isMobileDevice}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+      onMouseLeave={() => setIsHovered(false)}>
       <IconContainer theme={theme} $isMobile={responsiveInfo.isMobileDevice}>
         <CardIcon src={icon} alt={label} $isMobile={responsiveInfo.isMobileDevice} />
       </IconContainer>

@@ -36,13 +36,7 @@ const theme = {
   },
 };
 
-export const AirPollutionColors = [
-  '#27AE60',
-  '#52BE90',
-  '#F4D03F',
-  '#F39C12',
-  '#E74C3C',
-];
+export const AirPollutionColors = ['#27AE60', '#52BE90', '#F4D03F', '#F39C12', '#E74C3C'];
 
 const fillProgress = keyframes`
   from {
@@ -56,11 +50,11 @@ const fillProgress = keyframes`
 export const ProgressBarFill = styled.div<{ $percentage: number; $color: string }>`
   height: 100%;
   width: 0%;
-  background-color: ${(props) => props.$color};
+  background-color: ${props => props.$color};
   border-radius: 8px;
   animation: ${fillProgress} 1.2s ease-out forwards;
   animation-delay: calc(var(--index, 0) * 0.1s + 0.3s);
-  --target-width: ${(props) => props.$percentage}%;
+  --target-width: ${props => props.$percentage}%;
 
   /* Add slight gradient for better visual appeal */
   background-image: linear-gradient(
@@ -91,7 +85,7 @@ export const AirQualityCard = styled.div<{ $isMobile: boolean; theme: ThemeType 
   border-radius: 8px;
   padding: ${theme.spacing.md};
   box-shadow: ${theme.shadow.sm};
-  font-size: ${(props) => (props.$isMobile ? '0.75rem' : '0.85rem')};
+  font-size: ${props => (props.$isMobile ? '0.75rem' : '0.85rem')};
   border: 1px solid rgba(255, 255, 255, 0.3);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   height: 100%;
@@ -216,21 +210,21 @@ export const LegendItem = styled.div<{ $color: string; $isActive: boolean }>`
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background-color: ${(props) => props.$color};
+    background-color: ${props => props.$color};
     margin-bottom: 4px;
     transition: all 0.2s ease;
-    transform: ${(props) => (props.$isActive ? 'scale(1.5)' : 'scale(1)')};
-    box-shadow: ${(props) => (props.$isActive ? '0 0 0 2px rgba(255,255,255,0.5)' : 'none')};
+    transform: ${props => (props.$isActive ? 'scale(1.5)' : 'scale(1)')};
+    box-shadow: ${props => (props.$isActive ? '0 0 0 2px rgba(255,255,255,0.5)' : 'none')};
   }
 `;
 
 export const LegendText = styled.span<{ $isActive: boolean }>`
   font-size: 0.7rem;
-  color: ${(props) => (props.$isActive ? palette.dark : 'rgba(44, 62, 80, 0.6)')};
-  font-weight: ${(props) => (props.$isActive ? '600' : '400')};
+  color: ${props => (props.$isActive ? palette.dark : 'rgba(44, 62, 80, 0.6)')};
+  font-weight: ${props => (props.$isActive ? '600' : '400')};
   text-align: center;
   white-space: nowrap;
-  transform: ${(props) => (props.$isActive ? 'scale(1)' : 'scale(0.9)')};
+  transform: ${props => (props.$isActive ? 'scale(1)' : 'scale(0.9)')};
   transition: all 0.2s ease;
 `;
 
@@ -239,7 +233,7 @@ export const AirPollutionItemSpan = styled.span<{ $color?: string }>`
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background-color: ${(props) => props.$color || palette.primary};
+  background-color: ${props => props.$color || palette.primary};
 `;
 
 export const AirPollutionLegendDesktopContainer = styled.div`
@@ -305,7 +299,7 @@ export const AirPollutionLegendMobileSubContainer = styled.div`
 `;
 
 export const Title = styled.h2<{ $isMobile: boolean }>`
-  font-size: ${(props) => (props.$isMobile ? '1.1rem' : '1.2rem')};
+  font-size: ${props => (props.$isMobile ? '1.1rem' : '1.2rem')};
   font-weight: 600;
   color: ${palette.dark};
   text-align: center;
@@ -333,7 +327,7 @@ export const CurrentQualityLabel = styled.div<{ $color: string }>`
   margin-top: ${theme.spacing.sm};
   border-radius: 8px;
   color: #fff;
-  background-color: ${(props) => props.$color};
+  background-color: ${props => props.$color};
   box-shadow: ${theme.shadow.sm};
   text-align: center;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
@@ -362,5 +356,6 @@ export const CardsGridContainer = styled.div<{
   gap: 0.8rem;
   width: 100%;
   margin: 1rem 0;
-  grid-template-columns: ${({ $isLandscape, $isMobileDevice }) => $isMobileDevice && $isLandscape ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)'};
+  grid-template-columns: ${({ $isLandscape, $isMobileDevice }) =>
+    $isMobileDevice && $isLandscape ? 'repeat(3, 1fr)' : 'repeat(2, 1fr)'};
 `;

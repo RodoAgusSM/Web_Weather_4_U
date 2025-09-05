@@ -1,9 +1,9 @@
-import { onCLS, onFCP, onINP, onLCP, onTTFB, } from 'web-vitals';
+import { onCLS, onFCP, onINP, onLCP, onTTFB } from 'web-vitals';
 
 const reportWebVitals = (onPerfEntry?: any) => {
   if (onPerfEntry && onPerfEntry instanceof Function) {
     import('web-vitals').then(() => {
-      onCLS(onPerfEntry)
+      onCLS(onPerfEntry);
       onLCP(onPerfEntry);
       onFCP(onPerfEntry);
       onINP(onPerfEntry);

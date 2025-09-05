@@ -60,7 +60,7 @@ export const LanguagesContainer = styled.div<{
 		padding: ${theme.spacing.sm} ${theme.spacing.md};
 	`}
 
-	@media (max-width: 360px) {
+  @media (max-width: 360px) {
     padding: ${theme.spacing.xs} ${theme.spacing.xs};
     gap: 0.2rem;
     margin-left: auto;
@@ -81,7 +81,7 @@ export const LanguageButton = styled.button<{
   border: none;
   padding: ${theme.spacing.xs} ${theme.spacing.sm};
   color: ${palette.muted};
-  font-weight: ${(props) => (props.$isActive ? '600' : '500')};
+  font-weight: ${props => (props.$isActive ? '600' : '500')};
   position: relative;
   transition: all 0.2s ease;
   font-family: 'Poppins', sans-serif;
@@ -91,7 +91,7 @@ export const LanguageButton = styled.button<{
     position: absolute;
     bottom: -2px;
     left: 0;
-    width: ${(props) => (props.$isActive ? '100%' : '0')};
+    width: ${props => (props.$isActive ? '100%' : '0')};
     height: 2px;
     background-color: ${palette.accent};
     transition: width 0.2s ease;

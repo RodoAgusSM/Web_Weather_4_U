@@ -10,15 +10,15 @@ export const CardContainer = styled.div<{
   display: flex;
   align-items: center;
   width: 100%;
-  height: ${(props) => (props.$isMobile ? '70px' : '80px')};
+  height: ${props => (props.$isMobile ? '70px' : '80px')};
   border-radius: 8px;
-  padding: ${(props) => (props.$isMobile ? '10px' : '14px 16px')};
+  padding: ${props => (props.$isMobile ? '10px' : '14px 16px')};
   box-sizing: border-box;
-  gap: ${(props) => (props.$isMobile ? '8px' : '12px')};
+  gap: ${props => (props.$isMobile ? '8px' : '12px')};
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   overflow: hidden;
-  min-height: ${(props) => (props.$isMobile ? '70px' : '80px')};
-  max-height: ${(props) => (props.$isMobile ? '70px' : '80px')};
+  min-height: ${props => (props.$isMobile ? '70px' : '80px')};
+  max-height: ${props => (props.$isMobile ? '70px' : '80px')};
   flex: 1;
   min-width: 0;
   margin: 0;
@@ -26,20 +26,18 @@ export const CardContainer = styled.div<{
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow:
-      0 8px 20px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.5);
   }
 `;
 
-export const IconContainer = styled.div < { theme: ThemeType; $isMobile: boolean } > `
+export const IconContainer = styled.div<{ theme: ThemeType; $isMobile: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: ${(props) => (props.$isMobile ? '32px' : '40px')};
-  height: ${(props) => (props.$isMobile ? '32px' : '40px')};
+  width: ${props => (props.$isMobile ? '32px' : '40px')};
+  height: ${props => (props.$isMobile ? '32px' : '40px')};
   background: ${({ theme }) => theme.iconBackground};
   border-radius: 50%;
   backdrop-filter: blur(4px);
@@ -49,8 +47,8 @@ export const IconContainer = styled.div < { theme: ThemeType; $isMobile: boolean
 `;
 
 export const CardIcon = styled.img<{ $isMobile: boolean; src: string }>`
-  width: ${(props) => (props.$isMobile ? '22px' : '28px')};
-  height: ${(props) => (props.$isMobile ? '22px' : '28px')};
+  width: ${props => (props.$isMobile ? '22px' : '28px')};
+  height: ${props => (props.$isMobile ? '22px' : '28px')};
   object-fit: contain;
   opacity: 0.85;
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
@@ -66,7 +64,7 @@ export const ContentContainer = styled.div<{ $isMobile: boolean }>`
   flex-direction: column;
   flex-grow: 1;
   overflow: hidden;
-  gap: ${(props) => (props.$isMobile ? '2px' : '4px')};
+  gap: ${props => (props.$isMobile ? '2px' : '4px')};
   width: 0;
 `;
 
@@ -78,10 +76,9 @@ export const HeaderContainer = styled.div`
 `;
 
 export const Label = styled.div<{ theme: ThemeType; $isHovered: boolean; $isMobile: boolean }>`
-  font-size: ${(props) => (props.$isMobile ? '0.65rem' : '0.85rem')};
+  font-size: ${props => (props.$isMobile ? '0.65rem' : '0.85rem')};
   font-weight: 700;
-  color: ${(props) =>
-    props.$isHovered ? props.theme.blueTextHovered : props.theme.blueText};
+  color: ${props => (props.$isHovered ? props.theme.blueTextHovered : props.theme.blueText)};
   transition: color 0.2s ease;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);
   white-space: nowrap;
@@ -90,7 +87,7 @@ export const Label = styled.div<{ theme: ThemeType; $isHovered: boolean; $isMobi
 `;
 
 export const ValueText = styled.div<{ $isHovered: boolean; $isMobile: boolean }>`
-  font-size: ${(props) => (props.$isMobile ? '0.75rem' : '0.95rem')};
+  font-size: ${props => (props.$isMobile ? '0.75rem' : '0.95rem')};
   font-weight: 500;
   color: #333;
   transition: color 0.2s ease;
@@ -115,8 +112,8 @@ export const InfoButton = styled.button<{ $isMobile: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${(props) => (props.$isMobile ? '20px' : '22px')};
-  height: ${(props) => (props.$isMobile ? '20px' : '22px')};
+  width: ${props => (props.$isMobile ? '20px' : '22px')};
+  height: ${props => (props.$isMobile ? '20px' : '22px')};
   border-radius: 50%;
   background: linear-gradient(135deg, #1976d2, #2196f3);
   border: none;
@@ -151,10 +148,9 @@ export const Card = styled.div<{ $isMobileDevice: boolean; $isHovered: boolean }
   overflow: hidden;
   flex: 1;
   min-width: 0;
-  height: ${(props) =>
-    props.$isMobileDevice ? '100px' : '120px'};
+  height: ${props => (props.$isMobileDevice ? '100px' : '120px')};
 
-  ${(props) =>
+  ${props =>
     props.$isMobileDevice &&
     `
     max-width: 100%;

@@ -21,9 +21,7 @@ export const MainWeatherDisplayContainer = styled.div<{ theme: ThemeType; $isHov
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow:
-      0 8px 20px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.7);
     border: 1px solid rgba(255, 255, 255, 0.5);
   }
 `;
@@ -52,13 +50,13 @@ export const LocationContainer = styled.div<{
   $isMobile: boolean;
   $isSmallMobile: boolean;
 }>`
-  font-size: ${(props) => (props.$isSmallMobile ? '18px' : props.$isMobile ? '22px' : '24px')};
+  font-size: ${props => (props.$isSmallMobile ? '18px' : props.$isMobile ? '22px' : '24px')};
   font-weight: 600;
-  white-space: ${(props) => (props.$isMobile ? 'normal' : 'nowrap')};
+  white-space: ${props => (props.$isMobile ? 'normal' : 'nowrap')};
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.2;
-  color: black
+  color: black;
 `;
 
 export const RealFeelColumnContainer = styled.div`
@@ -70,19 +68,19 @@ export const RealFeelContainer = styled.div<{
   $isMobile: boolean;
   $isSmallMobile: boolean;
 }>`
-  font-size: ${(props) => (props.$isSmallMobile ? '32px' : props.$isMobile ? '38px' : '42px')};
+  font-size: ${props => (props.$isSmallMobile ? '32px' : props.$isMobile ? '38px' : '42px')};
   font-weight: 900;
-  color: black
+  color: black;
 `;
 
 export const UnitContainer = styled.div<{
   $isMobile: boolean;
   $isSmallMobile: boolean;
 }>`
-  font-size: ${(props) => (props.$isSmallMobile ? '20px' : props.$isMobile ? '22px' : '26px')};
+  font-size: ${props => (props.$isSmallMobile ? '20px' : props.$isMobile ? '22px' : '26px')};
   font-weight: 700;
   margin-left: 4px;
-  color: black
+  color: black;
 `;
 
 export const FeelLikeContainer = styled.div<{
@@ -90,21 +88,20 @@ export const FeelLikeContainer = styled.div<{
   $isHovered: boolean;
   $isMobile: boolean;
 }>`
-   color: ${(props) =>
-    props.$isHovered ? props.theme.blueTextHovered : props.theme.blueText};
-  font-size: ${(props) => (props.$isMobile ? '13px' : '14px')};
+  color: ${props => (props.$isHovered ? props.theme.blueTextHovered : props.theme.blueText)};
+  font-size: ${props => (props.$isMobile ? '13px' : '14px')};
 `;
 
 export const DescriptionContainer = styled.div<{
   $isMobile: boolean;
   $isSmallMobile: boolean;
 }>`
-  font-size: ${(props) => (props.$isSmallMobile ? '15px' : props.$isMobile ? '16px' : '17px')};
+  font-size: ${props => (props.$isSmallMobile ? '15px' : props.$isMobile ? '16px' : '17px')};
   font-weight: 500;
-  white-space: ${(props) => (props.$isSmallMobile ? 'normal' : 'nowrap')};
+  white-space: ${props => (props.$isSmallMobile ? 'normal' : 'nowrap')};
   overflow: hidden;
   text-overflow: ellipsis;
-  color: black
+  color: black;
 `;
 
 export const WeatherIcon = styled.img<{
@@ -112,8 +109,8 @@ export const WeatherIcon = styled.img<{
   $isMobile: boolean;
   $isSmallMobile: boolean;
 }>`
-  width: ${(props) => (props.$isSmallMobile ? '4rem' : props.$isMobile ? '4.5rem' : '5rem')};
-  height: ${(props) => (props.$isSmallMobile ? '4rem' : props.$isMobile ? '4.5rem' : '5rem')};
+  width: ${props => (props.$isSmallMobile ? '4rem' : props.$isMobile ? '4.5rem' : '5rem')};
+  height: ${props => (props.$isSmallMobile ? '4rem' : props.$isMobile ? '4.5rem' : '5rem')};
   border-radius: 50%;
   background: ${({ theme }) => theme.iconBackground};
   box-shadow: '0 1px 3px rgba(0,0,0,0.08)';

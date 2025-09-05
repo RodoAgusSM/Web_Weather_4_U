@@ -11699,6 +11699,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prettier@npm:2.8.8":
+  version: 2.8.8
+  resolution: "prettier@npm:2.8.8"
+  bin:
+    prettier: bin-prettier.js
+  checksum: b49e409431bf129dd89238d64299ba80717b57ff5a6d1c1a8b1a28b590d998a34e083fa13573bc732bb8d2305becb4c9a4407f8486c81fa7d55100eb08263cf8
+  languageName: node
+  linkType: hard
+
 "pretty-bytes@npm:^5.3.0, pretty-bytes@npm:^5.4.1":
   version: 5.6.0
   resolution: "pretty-bytes@npm:5.6.0"
@@ -14118,7 +14127,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.2.2":
+"typescript@npm:5.2.2":
   version: 5.2.2
   resolution: "typescript@npm:5.2.2"
   bin:
@@ -14128,7 +14137,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^5.2.2#~builtin<compat/typescript>":
+"typescript@patch:typescript@5.2.2#~builtin<compat/typescript>":
   version: 5.2.2
   resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"
   bin:
@@ -14439,6 +14448,7 @@ __metadata:
     i18next: 23.4.6
     lint-staged: 14.0.1
     path-browserify: 1.0.1
+    prettier: 2.8.8
     pretty-format: 29.6.3
     react: 19.1.0
     react-app-rewired: 2.2.1
@@ -14451,7 +14461,7 @@ __metadata:
     react-toastify: 11.0.5
     serve: 14.2.4
     styled-components: 6.1.18
-    typescript: ^5.2.2
+    typescript: 5.2.2
     web-vitals: 5.0.2
   languageName: unknown
   linkType: soft

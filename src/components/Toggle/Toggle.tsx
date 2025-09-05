@@ -33,7 +33,7 @@ const Toggle: React.FC<ToggleProps> = ({ items, selectedValue, onChange, classNa
   return (
     <ToggleContainer className={className}>
       <ToggleWrapper theme={theme}>
-        {items.map((item) => (
+        {items.map(item => (
           <ToggleOption
             key={item.id}
             $isActive={selectedValue === item.value}
@@ -43,8 +43,7 @@ const Toggle: React.FC<ToggleProps> = ({ items, selectedValue, onChange, classNa
             role="switch"
             aria-checked={selectedValue === item.value}
             aria-label={`Select ${item.label}`}
-            $isMobile={responsiveInfo.isMobileDevice}
-          >
+            $isMobile={responsiveInfo.isMobileDevice}>
             {item.icon && (
               <ToggleIcon $isActive={selectedValue === item.value}>{item.icon}</ToggleIcon>
             )}

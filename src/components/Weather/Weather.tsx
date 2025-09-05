@@ -16,7 +16,10 @@ import useResponsiveDesign from 'hooks/useResponsiveDesign';
 import useWeather from 'hooks/useWeather';
 import DangerIcon from 'images/danger.png';
 import LocationNotFoundIcon from 'images/location_not_found_icon.png';
-import { AirPollution as AirPollutionInterface, Weather as WeatherInterface } from 'interfaces/index';
+import {
+  AirPollution as AirPollutionInterface,
+  Weather as WeatherInterface,
+} from 'interfaces/index';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { SingleValue } from 'react-select';
@@ -61,10 +64,10 @@ const Weather = () => {
   const [validCoordinates] = useState<boolean>(true);
   // siteWorking and iconWorking are now provided by the data hook
   const [cityName, setCityName] = useState<string>(
-    localStorage.getItem(StorageKey.CityName) ?? 'Montevideo'
+    localStorage.getItem(StorageKey.CityName) ?? 'Montevideo',
   );
   const [fullCityName, setFullCityName] = useState<string>(
-    localStorage.getItem(StorageKey.FullCityName) ?? 'Montevideo, Uruguay'
+    localStorage.getItem(StorageKey.FullCityName) ?? 'Montevideo, Uruguay',
   );
   const [lat, setLat] = useState<number>(Number(localStorage.getItem(StorageKey.Lat)) || -34.8335);
   const [lon, setLon] = useState<number>(Number(localStorage.getItem(StorageKey.Lon)) || -56.1674);
@@ -78,8 +81,15 @@ const Weather = () => {
 
   const initialLoadRef = useRef<boolean>(true);
   // useWeather hook centralizes fetching + polling
-  const { weather: hwWeather, airPollution: hwAir, isLoading, siteWorking, iconWorking, refetch, rawWeather } =
-    useWeather({ lat, lon, language, unit }) as any;
+  const {
+    weather: hwWeather,
+    airPollution: hwAir,
+    isLoading,
+    siteWorking,
+    iconWorking,
+    refetch,
+    rawWeather,
+  } = useWeather({ lat, lon, language, unit }) as any;
 
   // cardsLoading should reflect current loading state from the data hook
   const cardsLoading = {
@@ -114,7 +124,7 @@ const Weather = () => {
             const iconUrl = `${iconURL}${iconValue}${iconExtension}`;
             const response = await fetch(iconUrl);
             if (response.ok) {
-              setWeather((w) => ({ ...w, icon: response.url }));
+              setWeather(w => ({ ...w, icon: response.url }));
             }
           } catch (e) {
             // ignore
@@ -160,7 +170,7 @@ const Weather = () => {
 
   const changeCity = useCallback(
     (
-      newCity: SingleValue<{ label: string; value: { lat: string; lon: string; name: string } }>
+      newCity: SingleValue<{ label: string; value: { lat: string; lon: string; name: string } }>,
     ) => {
       if (newCity && fullCityName !== newCity.label) {
         localStorage.setItem(StorageKey.CityName, newCity.value.name);
@@ -176,7 +186,7 @@ const Weather = () => {
         setUiReady(false);
       }
     },
-    [fullCityName]
+    [fullCityName],
   );
 
   const changeLanguage = useCallback(
@@ -192,7 +202,7 @@ const Weather = () => {
         }
       }
     },
-    [language, i18n, weather]
+    [language, i18n, weather],
   );
 
   const changeUnit = useCallback(
@@ -205,7 +215,7 @@ const Weather = () => {
         }
       }
     },
-    [unit, weather]
+    [unit, weather],
   );
 
   useEffect(() => {
@@ -270,8 +280,7 @@ const Weather = () => {
             stroke="#FFD700"
             strokeWidth="2"
             strokeLinecap="round"
-            strokeLinejoin="round"
-          >
+            strokeLinejoin="round">
             <circle cx="12" cy="12" r="5"></circle>
             <line x1="12" y1="1" x2="12" y2="3"></line>
             <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -296,8 +305,7 @@ const Weather = () => {
             stroke="#000000"
             strokeWidth="2"
             strokeLinecap="round"
-            strokeLinejoin="round"
-          >
+            strokeLinejoin="round">
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
           </svg>
         ),
@@ -314,8 +322,7 @@ const Weather = () => {
             stroke="#36454F"
             strokeWidth="2"
             strokeLinecap="round"
-            strokeLinejoin="round"
-          >
+            strokeLinejoin="round">
             <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
             <line x1="8" y1="21" x2="16" y2="21"></line>
             <line x1="12" y1="17" x2="12" y2="21"></line>
@@ -334,14 +341,12 @@ const Weather = () => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-          }}
-        >
+          }}>
           <BoxContainer
             {...responsiveProps}
             theme={theme}
             data-animate="true"
-            onTouchStart={handleTouchStart}
-          >
+            onTouchStart={handleTouchStart}>
             <StarsAnimation />
             <CitySearchBar changeCity={changeCity} />
 
@@ -447,8 +452,7 @@ const Weather = () => {
                       theme={theme}
                       onMouseEnter={() => setIsHovered(true)}
                       onMouseLeave={() => setIsHovered(false)}
-                      $isMobileDevice={responsiveProps.$isMobileDevice}
-                    >
+                      $isMobileDevice={responsiveProps.$isMobileDevice}>
                       <TimeInfoItem theme={theme} $isHovered={isHovered}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -457,8 +461,7 @@ const Weather = () => {
                           stroke="currentColor"
                           strokeWidth="2"
                           strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
+                          strokeLinejoin="round">
                           <circle cx="12" cy="12" r="10"></circle>
                           <polyline points="12 6 12 12 16 14"></polyline>
                         </svg>
@@ -473,8 +476,7 @@ const Weather = () => {
                           stroke="currentColor"
                           strokeWidth="2"
                           strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
+                          strokeLinejoin="round">
                           <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                           <line x1="16" y1="2" x2="16" y2="6"></line>
                           <line x1="8" y1="2" x2="8" y2="6"></line>
@@ -486,19 +488,18 @@ const Weather = () => {
                     <Toggle
                       items={unitToggleItems}
                       selectedValue={unit}
-                      onChange={(value) => changeUnit(value as Units)}
+                      onChange={value => changeUnit(value as Units)}
                     />
                     <TriToggle
                       items={themeToggleItems}
                       selectedValue={mode}
-                      onChange={(value) => setMode(value as 'light' | 'dark' | 'system')}
+                      onChange={value => setMode(value as 'light' | 'dark' | 'system')}
                     />
                     <LanguageAndSocialNetworkContainer>
                       <Language changeLanguage={changeLanguage} />
                       <SocialNetworkIconContainer
                         $isDesktopOrLaptop={isDesktopOrLaptop}
-                        onClick={() => navigate(`/social_network`)}
-                      >
+                        onClick={() => navigate(`/social_network`)}>
                         <InfoButton>
                           <InfoButtonText>i</InfoButtonText>
                         </InfoButton>
@@ -513,15 +514,13 @@ const Weather = () => {
                   <LocationNotFoundSpotImg src={LocationNotFoundIcon} alt="" {...responsiveProps} />
                   <LocationNotFoundCode
                     $isMobileDevice={responsiveProps.$isMobileDevice}
-                    $isSmallMobileDevice={responsiveProps.$isSmallMobileDevice}
-                  >
+                    $isSmallMobileDevice={responsiveProps.$isSmallMobileDevice}>
                     {t('words.locationNotFound.funnyMessage')} {cityName}
                   </LocationNotFoundCode>
                   <BreakLine />
                   <LocationNotFoundCode
                     $isMobileDevice={responsiveProps.$isMobileDevice}
-                    $isSmallMobileDevice={responsiveProps.$isSmallMobileDevice}
-                  >
+                    $isSmallMobileDevice={responsiveProps.$isSmallMobileDevice}>
                     {t('words.locationNotFound.realMessage')}
                   </LocationNotFoundCode>
                 </LocationNotFoundContainer>
@@ -553,8 +552,7 @@ const Weather = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-        }}
-      >
+        }}>
         {isLoading ? (
           <WeatherSkeleton $isDesktop={isDesktopOrLaptop} />
         ) : siteWorking ? (

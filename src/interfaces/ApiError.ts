@@ -1,7 +1,7 @@
-import APIResponse from './ApiResponse'
+import APIResponse from './ApiResponse';
 
 interface ApiError {
-    (error: any, response?: APIResponse): void;
+  (error: any, response?: APIResponse): void;
 }
 
 export default ApiError;

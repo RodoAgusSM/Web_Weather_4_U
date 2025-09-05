@@ -82,14 +82,14 @@ const Language = ({ changeLanguage }: LanguageProps) => {
   }, [t]);
 
   const currentLanguageItem = useMemo(() => {
-    return languageDropdownItems.find((item) => item.value === i18n.language);
+    return languageDropdownItems.find(item => item.value === i18n.language);
   }, [languageDropdownItems, i18n.language]);
 
   const handleLanguageSelect = useCallback(
     (item: DropdownItem<string>) => {
       changeLanguage(item.value);
     },
-    [changeLanguage]
+    [changeLanguage],
   );
 
   const language = localStorage.getItem(StorageKey.Language) ?? 'sp';
@@ -106,8 +106,7 @@ const Language = ({ changeLanguage }: LanguageProps) => {
     <LanguageContainer
       $isMobileDevice={isMobileDevice}
       $isSmallMobileDevice={isSmallMobileDevice}
-      $isTouchDevice={isTouchDevice}
-    >
+      $isTouchDevice={isTouchDevice}>
       <Dropdown
         items={languageDropdownItems}
         selectedValue={currentLanguageItem}

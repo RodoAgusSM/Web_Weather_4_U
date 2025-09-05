@@ -32,7 +32,7 @@ export const ToggleButton = styled.button<{ $isActive: boolean; $isMobile: boole
   border: none;
   border-radius: 8px;
   padding: 6px 12px;
-  font-size: ${(props) => (props.$isMobile ? '0.7rem' : '0.8rem')};
+  font-size: ${props => (props.$isMobile ? '0.7rem' : '0.8rem')};
   font-weight: ${({ $isActive }) => ($isActive ? '600' : '400')};
   cursor: pointer;
   transition: all 0.2s ease;
@@ -44,8 +44,7 @@ export const ToggleButton = styled.button<{ $isActive: boolean; $isMobile: boole
   gap: 6px;
 
   &:hover {
-    background: ${(props) =>
-    props.$isActive ? '#4a8ed3' : 'rgba(255, 255, 255, 0.5)'};
+    background: ${props => (props.$isActive ? '#4a8ed3' : 'rgba(255, 255, 255, 0.5)')};
   }
 
   &:focus {

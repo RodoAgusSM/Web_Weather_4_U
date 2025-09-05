@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const CardContainer = styled.div<{ $hasInfoButton?: boolean }>`
   display: grid;
-  grid-template-columns: ${(props) => (props.$hasInfoButton ? '48px 1fr 20px' : '48px 1fr')};
+  grid-template-columns: ${props => (props.$hasInfoButton ? '48px 1fr 20px' : '48px 1fr')};
   align-items: center;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 250, 255, 0.98));
   border-radius: 10px;
@@ -13,7 +13,7 @@ export const CardContainer = styled.div<{ $hasInfoButton?: boolean }>`
   backdrop-filter: blur(4px);
 
   @media (max-width: 480px) {
-    grid-template-columns: ${(props) => (props.$hasInfoButton ? '40px 1fr 34px' : '40px 1fr')};
+    grid-template-columns: ${props => (props.$hasInfoButton ? '40px 1fr 34px' : '40px 1fr')};
     gap: 8px;
     padding: 10px;
   }

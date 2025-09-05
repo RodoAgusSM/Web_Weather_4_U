@@ -1,6 +1,6 @@
 enum Units {
-    Imperial = 'Imperial',
-    Metric = 'Metric',
+  Imperial = 'Imperial',
+  Metric = 'Metric',
 }
 
 export default Units;

@@ -55,7 +55,7 @@ const SocialNetwork = () => {
   const socialNetworks: SocialNetworkItemType[] = Object.values(
     t('socialNetworks.networks', {
       returnObjects: true,
-    })
+    }),
   );
 
   useEffect(() => {
@@ -92,14 +92,12 @@ const SocialNetwork = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-        }}
-      >
+        }}>
         <BoxContainer
           {...responsiveProps}
           theme={theme}
           data-animate="true"
-          onTouchStart={isTouchDevice ? handleTouchStart : undefined}
-        >
+          onTouchStart={isTouchDevice ? handleTouchStart : undefined}>
           <BoxWrapper {...responsiveProps}>
             <StarsAnimation />
             <div style={{ width: '100%' }}>
@@ -108,8 +106,7 @@ const SocialNetwork = () => {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 onClick={handleBackClick}
-                data-animate="true"
-              >
+                data-animate="true">
                 <BackIconSpotImg $mouseOver={mouseOver} />
                 {t('words.back')}
               </BackContainer>
@@ -128,16 +125,14 @@ const SocialNetwork = () => {
                 <NetworkMapContainer
                   $isMobile={responsiveProps.$isMobileDevice}
                   key={index}
-                  style={{ '--index': index } as React.CSSProperties}
-                >
+                  style={{ '--index': index } as React.CSSProperties}>
                   <SocialNetworkIcon icon={socialIcons[socialNetworkItem.abbreviation]} />
                   <SocialNetworkName>{socialNetworkItem.abbreviation}</SocialNetworkName>
                   <SocialNetworkItem
                     theme={theme}
                     href={socialNetworkItem.link}
                     target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                    rel="noopener noreferrer">
                     {socialNetworkItem.username}
                   </SocialNetworkItem>
                 </NetworkMapContainer>

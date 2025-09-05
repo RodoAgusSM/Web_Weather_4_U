@@ -202,7 +202,7 @@ export const WeatherMainContainer = styled.div`
   }
 `;
 
-export const CustomWeatherMainContainer = styled(WeatherMainContainer) <{ $isHovered?: boolean }>`
+export const CustomWeatherMainContainer = styled(WeatherMainContainer)<{ $isHovered?: boolean }>`
   padding: ${theme.spacing.md};
   box-sizing: border-box;
   background-color: ${({ $isHovered }) =>
@@ -619,7 +619,7 @@ export const TimeInfoContainer = styled.div<{ theme: ThemeType; $isMobileDevice:
   padding: 8px 12px;
   background: ${({ theme }) => theme.cardBackground};
   border-radius: 8px;
-  font-size: ${(props) => (props.$isMobileDevice ? '0.7rem' : '0.8rem')};
+  font-size: ${props => (props.$isMobileDevice ? '0.7rem' : '0.8rem')};
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.2);
   min-width: 100%;
@@ -639,7 +639,7 @@ export const TimeInfoItem = styled.div<{ theme: ThemeType; $isHovered: boolean }
   display: flex;
   justify-content: center;
   gap: 6px;
-  color: ${(props) => (props.$isHovered ? props.theme.blueTextHovered : props.theme.blueText)};
+  color: ${props => (props.$isHovered ? props.theme.blueTextHovered : props.theme.blueText)};
   width: 100%;
 
   svg {
@@ -695,7 +695,7 @@ export const TimeInfoDivider = styled.div`
 `;
 
 export const FadeInContainer = styled.div<{ $isVisible: boolean }>`
-  opacity: ${(props) => (props.$isVisible ? 1 : 0)};
+  opacity: ${props => (props.$isVisible ? 1 : 0)};
   transition: opacity 0.3s ease-in-out;
 `;
 

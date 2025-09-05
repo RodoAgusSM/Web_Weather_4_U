@@ -51,8 +51,8 @@ const thunderFlash = keyframes`
 
 const Container = styled.div<{ size: number }>`
   position: relative;
-  width: ${(props) => props.size}px;
-  height: ${(props) => props.size}px;
+  width: ${props => props.size}px;
+  height: ${props => props.size}px;
   border-radius: 50%;
   overflow: visible;
 `;
@@ -116,23 +116,23 @@ const MistOverlay = styled.div`
 
 const RainDrop = styled.div<{ delay: string; color: string; size: number }>`
   position: absolute;
-  width: ${(props) => props.size}px;
-  height: ${(props) => props.size * 4}px;
-  background-color: ${(props) => props.color};
+  width: ${props => props.size}px;
+  height: ${props => props.size * 4}px;
+  background-color: ${props => props.color};
   border-radius: 50%;
   animation: ${rainDrop} 1.5s linear infinite;
-  animation-delay: ${(props) => props.delay};
+  animation-delay: ${props => props.delay};
   opacity: 0.7;
 `;
 
 const SnowFlake = styled.div<{ delay: string; color: string; size: number }>`
   position: absolute;
-  width: ${(props) => props.size}px;
-  height: ${(props) => props.size}px;
-  background-color: ${(props) => props.color};
+  width: ${props => props.size}px;
+  height: ${props => props.size}px;
+  background-color: ${props => props.color};
   border-radius: 50%;
   animation: ${snowfall} 2.5s linear infinite;
-  animation-delay: ${(props) => props.delay};
+  animation-delay: ${props => props.delay};
   opacity: 0.8;
 `;
 

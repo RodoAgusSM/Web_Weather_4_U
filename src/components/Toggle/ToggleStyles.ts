@@ -39,16 +39,16 @@ export const ToggleIcon = styled.span<{ $isActive: boolean }>`
     height: 18px;
     object-fit: contain;
     transition: all 0.2s ease;
-    filter: ${(props) => (props.$isActive ? 'brightness(0) invert(1)' : 'none')};
-    opacity: ${(props) => (props.$isActive ? 1 : 0.7)};
+    filter: ${props => (props.$isActive ? 'brightness(0) invert(1)' : 'none')};
+    opacity: ${props => (props.$isActive ? 1 : 0.7)};
   }
 
   svg {
     width: 18px;
     height: 18px;
     transition: all 0.2s ease;
-    fill: ${(props) => (props.$isActive ? 'white' : '#1976d2')};
-    opacity: ${(props) => (props.$isActive ? 1 : 0.7)};
+    fill: ${props => (props.$isActive ? 'white' : '#1976d2')};
+    opacity: ${props => (props.$isActive ? 1 : 0.7)};
   }
 `;
 
@@ -59,10 +59,10 @@ export const ToggleOption = styled.button<{ $isActive: boolean; $isMobile: boole
   padding: 10px 20px;
   border-radius: 8px;
   border: none;
-  background: ${(props) => (props.$isActive ? '#4a8ed3' : 'transparent')};
-  color: ${(props) => (props.$isActive ? 'white' : '#1976d2')};
-  font-size: ${(props) => (props.$isMobile ? '0.7rem' : '0.8rem')};
-  font-weight: ${(props) => (props.$isActive ? '700' : '500')};
+  background: ${props => (props.$isActive ? '#4a8ed3' : 'transparent')};
+  color: ${props => (props.$isActive ? 'white' : '#1976d2')};
+  font-size: ${props => (props.$isMobile ? '0.7rem' : '0.8rem')};
+  font-weight: ${props => (props.$isActive ? '700' : '500')};
   letter-spacing: 0.01em;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -71,13 +71,12 @@ export const ToggleOption = styled.button<{ $isActive: boolean; $isMobile: boole
   outline: none;
   min-width: 100px;
   text-align: center;
-  box-shadow: ${(props) => (props.$isActive ? '0 2px 8px rgba(25, 118, 210, 0.3)' : 'none')};
-  text-shadow: ${(props) => (props.$isActive ? '0 1px 1px rgba(0, 0, 0, 0.1)' : 'none')};
+  box-shadow: ${props => (props.$isActive ? '0 2px 8px rgba(25, 118, 210, 0.3)' : 'none')};
+  text-shadow: ${props => (props.$isActive ? '0 1px 1px rgba(0, 0, 0, 0.1)' : 'none')};
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   &:hover {
-    background: ${(props) =>
-    props.$isActive ? '#4a8ed3' : 'rgba(255, 255, 255, 0.5)'};
+    background: ${props => (props.$isActive ? '#4a8ed3' : 'rgba(255, 255, 255, 0.5)')};
   }
 
   &:focus-visible {
@@ -85,7 +84,7 @@ export const ToggleOption = styled.button<{ $isActive: boolean; $isMobile: boole
   }
 
   &:active {
-    transform: ${(props) => (props.$isActive ? 'none' : 'scale(0.97)')};
+    transform: ${props => (props.$isActive ? 'none' : 'scale(0.97)')};
   }
 `;
 
@@ -101,11 +100,6 @@ export const ToggleContainerCentered = styled(ToggleContainer)`
     height: 1px;
     bottom: -10px;
     left: 0;
-    background: linear-gradient(
-      to right,
-      transparent,
-      rgba(255, 255, 255, 0.6),
-      transparent
-    );
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.6), transparent);
   }
 `;

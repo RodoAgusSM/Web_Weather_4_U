@@ -5,11 +5,11 @@ import linkedinIcon from './linkedinIcon.png';
 import xIcon from './xIcon.png';
 
 const socialIcons: Record<string, string> = {
-    Facebook: facebookIcon,
-    LinkedIn: linkedinIcon,
-    X: xIcon,
-    Instagram: instagramIcon,
-    GitHub: githubIcon,
+  Facebook: facebookIcon,
+  LinkedIn: linkedinIcon,
+  X: xIcon,
+  Instagram: instagramIcon,
+  GitHub: githubIcon,
 };
 
 export default socialIcons;
