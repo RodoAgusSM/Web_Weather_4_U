@@ -26,11 +26,9 @@ export class WeatherRepository {
       return;
     }
 
-    // No provider passed: create a default provider using the factory.
     const providerType =
       (typeof localStorage !== 'undefined' && localStorage.getItem('weatherProviderType')) ||
       DEFAULT_WEATHER_PROVIDER;
-    // Prefer registry function, fallback to backwards-compatible object
     try {
       this.provider = getWeatherProvider(providerType);
     } catch {
@@ -53,7 +51,6 @@ export class WeatherRepository {
       ) as Weather;
       return { adapted, raw };
     } catch (err: any) {
-      // Map common network/provider errors
       if (err instanceof Error && /network|failed to fetch/i.test(err.message)) {
         throw new NetworkError(err.message);
       }

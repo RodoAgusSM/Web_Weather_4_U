@@ -62,7 +62,6 @@ const Weather = () => {
     useResponsiveDesign();
   const [isHovered, setIsHovered] = useState(false);
   const [validCoordinates] = useState<boolean>(true);
-  // siteWorking and iconWorking are now provided by the data hook
   const [cityName, setCityName] = useState<string>(
     localStorage.getItem(StorageKey.CityName) ?? 'Montevideo',
   );
@@ -80,7 +79,7 @@ const Weather = () => {
   const [showSkeletons, setShowSkeletons] = useState<boolean>(true);
 
   const initialLoadRef = useRef<boolean>(true);
-  // useWeather hook centralizes fetching + polling
+
   const {
     weather: hwWeather,
     airPollution: hwAir,
@@ -91,7 +90,6 @@ const Weather = () => {
     rawWeather,
   } = useWeather({ lat, lon, language, unit }) as any;
 
-  // cardsLoading should reflect current loading state from the data hook
   const cardsLoading = {
     airQuality: isLoading,
     wind: isLoading,
@@ -99,7 +97,6 @@ const Weather = () => {
     time: isLoading,
   };
 
-  // sync hook data into local state so rest of component remains unchanged
   useEffect(() => {
     if (hwWeather && Object.keys(hwWeather).length > 0) {
       setWeather(hwWeather as WeatherInterface);
@@ -112,7 +109,6 @@ const Weather = () => {
     }
   }, [hwAir]);
 
-  // when raw payload arrives, set country and fetch icon
   useEffect(() => {
     if (!rawWeather) return;
     try {
@@ -136,7 +132,6 @@ const Weather = () => {
     }
   }, [rawWeather]);
 
-  // data loading is handled by useWeather; keep legacy UI timing behavior
   useEffect(() => {
     if (initialLoadRef.current) {
       setShowSkeletons(true);
@@ -150,7 +145,6 @@ const Weather = () => {
     }
   }, [lat, lon]);
 
-  // hide initial skeletons once loading finishes
   useEffect(() => {
     if (!isLoading) {
       setShowSkeletons(false);
@@ -165,8 +159,6 @@ const Weather = () => {
       return () => clearTimeout(timer);
     }
   }, [isLoading, weather.icon]);
-
-  // fetch logic is managed by useWeather hook; rawWeather effect handled above
 
   const changeCity = useCallback(
     (

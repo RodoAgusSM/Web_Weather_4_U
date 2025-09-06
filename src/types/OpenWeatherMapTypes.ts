@@ -1,6 +1,3 @@
-// Minimal raw DTOs for the OpenWeatherMap API payloads.
-// These are intentionally minimal — only the fields our adapters use.
-
 export interface OwmWeatherMain {
   temp: number;
   feels_like: number;
@@ -34,7 +31,6 @@ export interface OpenWeatherMapWeatherRaw {
   visibility?: number;
   sys: OwmWeatherSys;
   clouds: OwmWeatherClouds;
-  // keep a loose indexer for other fields we don't need typed here
   [k: string]: any;
 }
 
@@ -55,7 +51,6 @@ export interface OpenWeatherMapAirListItem {
 
 export interface OpenWeatherMapAirRaw {
   list?: OpenWeatherMapAirListItem[];
-  // some endpoints may return the item directly
   main?: { aqi?: number };
   components?: OpenWeatherMapAirListItem['components'];
   [k: string]: any;

@@ -1,7 +1,6 @@
 import { IWeatherService } from 'services/IWeatherService';
 import { OpenWeatherMapService } from 'services/OpenWeatherMapService';
 
-// ProviderType is an extensible string so new providers can be registered
 export type WeatherProviderType = string;
 
 type ProviderFactory = () => IWeatherService;
@@ -19,13 +18,10 @@ export const getWeatherProvider = (type: WeatherProviderType): IWeatherService =
   return factory();
 };
 
-// Default provider name
 export const DEFAULT_WEATHER_PROVIDER: WeatherProviderType = 'OpenWeatherMap';
 
-// Register built-in providers here (keeps module closed for modification elsewhere)
 registerWeatherProvider(DEFAULT_WEATHER_PROVIDER, () => new OpenWeatherMapService());
 
-// Backwards-compatible aliases
 export const WeatherProviderFactory = {
   getProvider: getWeatherProvider,
   registerProvider: registerWeatherProvider,

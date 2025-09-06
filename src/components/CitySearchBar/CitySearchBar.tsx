@@ -25,6 +25,7 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
   const [inputVal, setInputVal] = useState<string>('');
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const selectRef = useRef<any>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const collapseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -71,28 +72,6 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
       }
     }, 300);
   }, []);
-
-  const notifyError = (message: string) => {
-    toast.error(message);
-  };
-
-  const fetchSuggestions = useCallback(async (inputValue: string) => {
-    const fullUrl = `${openStreetMapURL}&city=${inputValue}`;
-    try {
-      const response = await fetch(fullUrl);
-      if (response.ok) {
-        const data = await response.json();
-        return handleSuggestions(data);
-      } else {
-        const errorMessage = `Error: ${response.status} ${await response.text()}`;
-        toast.error(errorMessage);
-      }
-    } catch (error) {
-      toast.error(t('errors.errorFetchingSuggestions'));
-    }
-    return [];
-  }, []);
-
   const handleSuggestions = useCallback((cities: City[]) => {
     return cities.map(({ display_name, lat, lon }) => ({
       label: display_name,
@@ -103,6 +82,44 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
       },
     }));
   }, []);
+
+  const fetchSuggestions = useCallback(
+    async (inputValue: string) => {
+      if (!inputValue) return [];
+
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+      const controller = new AbortController();
+      abortControllerRef.current = controller;
+
+      const fullUrl = `${openStreetMapURL}&city=${inputValue}`;
+      try {
+        const response = await fetch(fullUrl, { signal: controller.signal });
+        if (response.ok) {
+          const data = await response.json();
+          return handleSuggestions(data);
+        } else {
+          if (response.status >= 500) {
+            const errorMessage = `Error: ${response.status} ${await response.text()}`;
+            toast.error(errorMessage);
+          } else {
+            console.warn(`City suggestions request returned ${response.status}`);
+          }
+        }
+      } catch (error: any) {
+        if (error.name === 'AbortError') {
+          return [];
+        }
+        toast.error(t('errors.errorFetchingSuggestions'));
+      } finally {
+        abortControllerRef.current = null;
+      }
+
+      return [];
+    },
+    [t, handleSuggestions],
+  );
 
   const handleChangeCity = useCallback(
     (
@@ -253,10 +270,7 @@ const CitySearchBar = ({ changeCity }: CitySearchBarProps) => {
             loadOptions={(inputValue, callback) => {
               fetchSuggestions(inputValue)
                 .then(callback)
-                .catch(() => {
-                  notifyError(t('words.errors.errorFetchingSuggestions'));
-                  callback([]);
-                });
+                .catch(() => callback([]));
             }}
             menuIsOpen={isMenuOpen}
             onInputChange={value => setInputVal(value)}

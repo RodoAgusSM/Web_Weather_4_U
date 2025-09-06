@@ -37,7 +37,6 @@ export class WeatherUseCase {
         rawAir: airResp.raw,
       };
     } catch (err: any) {
-      // Business-level errors should be surfaced as DomainError
       const { DomainError } = await import('infrastructure/errors');
       if (err instanceof DomainError) throw err;
       throw new DomainError(err?.message ?? 'Unknown domain error');

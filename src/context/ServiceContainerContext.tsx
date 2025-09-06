@@ -11,7 +11,6 @@ type ServiceContainer = {
 const ServiceContainerContext = createContext<ServiceContainer | null>(null);
 
 export function ServiceContainerProvider({ children }: { children: React.ReactNode }) {
-  // lazy refs: repository is responsible for provider creation
   const repoRef = React.useRef<WeatherRepository | null>(null);
   if (!repoRef.current) repoRef.current = new WeatherRepository();
 

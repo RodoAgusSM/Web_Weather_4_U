@@ -74,7 +74,6 @@ const useWeather = ({
       };
 
       if (!useCaseRef.current) {
-        // ensure repository is the only layer interacting with providers
         const [weatherResp, airResp] = await Promise.all([
           repoRef.current!.fetchWeather({ ...req, toFetch: ClimateType.Weather }),
           repoRef.current!.fetchAirPollution({ ...req, toFetch: ClimateType.AirPollution }),

@@ -104,5 +104,4 @@ const MainWeatherDisplay: React.FC<MainWeatherDisplayProps> = ({
 };
 
 export default memo(MainWeatherDisplay);
-// Explicit display name for better debugging and to satisfy eslint rule
 (MainWeatherDisplay as any).displayName = 'MainWeatherDisplay';
