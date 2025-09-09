@@ -3,7 +3,8 @@ import { createGlobalStyle } from 'styled-components';
 interface GlobalStylesProps {
   isMobileDevice?: boolean;
   isSmallDevice?: boolean;
-  $isSmallMobileDevice?: boolean; // For backward compatibility
+  $isSmallMobileDevice?: boolean;
+  theme?: any;
 }
 
 const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
@@ -41,7 +42,8 @@ const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
 
   body {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background: linear-gradient(135deg, #2980B9 0%, #6DD5FA 100%);
+    background: ${props =>
+      props.theme?.body || 'linear-gradient(135deg, #2980B9 0%, #6DD5FA 100%)'};
     background-attachment: fixed;
     line-height: 1.5;
     color: #2C3E50;
@@ -58,6 +60,23 @@ const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
     /* Fix iOS height issues */
     min-height: 100vh;
     min-height: calc(var(--vh, 1vh) * 100);
+
+    /* iOS-specific background fixes */
+    &.ios-device {
+      /* Prevent white flash on theme changes */
+      transition: background-color 0.3s ease;
+      
+      /* Ensure background covers all iOS safe areas */
+      background-attachment: local;
+      
+      /* Prevent overscroll showing white background */
+      overscroll-behavior: none;
+      -webkit-overscroll-behavior: none;
+      
+      /* Force hardware acceleration for smoother transitions */
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
+    }
   }
 
   #root {
@@ -100,6 +119,24 @@ const GlobalStyles = createGlobalStyle<GlobalStylesProps>`
       align-items: flex-start;
       padding: 0.5rem;
     }
+  }
+
+  /* iOS dark mode support - ensure consistent theming */
+  @media (prefers-color-scheme: dark) {
+    .ios-device {
+      /* Override any system-level dark mode that might interfere */
+      color-scheme: light dark;
+    }
+  }
+
+  /* Smooth theme transitions for all devices */
+  * {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+
+  /* Disable transitions during theme changes to prevent flicker */
+  .theme-transitioning * {
+    transition: none !important;
   }
 
   /* Prevent pull-to-refresh on mobile Chrome */

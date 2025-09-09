@@ -70,7 +70,10 @@ const Weather = () => {
   const [lat, setLat] = useState<number>(Number(localStorage.getItem(StorageKey.Lat)) || -34.8335);
   const [lon, setLon] = useState<number>(Number(localStorage.getItem(StorageKey.Lon)) || -56.1674);
   const [language, setLanguage] = useState<string>(i18n.language);
-  const [unit, setUnit] = useState<Units>(Units.Metric);
+  const [unit, setUnit] = useState<Units>(() => {
+    const savedUnit = localStorage.getItem(StorageKey.Unit);
+    return savedUnit === Units.Imperial ? Units.Imperial : Units.Metric;
+  });
   const [countryNameShort, setCountryNameShort] = useState<string>();
   const [weather, setWeather] = useState<WeatherInterface>(defaultWeather);
   const [airPollution, setAirPollution] = useState<AirPollutionInterface>(defaultAirPollution);
@@ -208,9 +211,15 @@ const Weather = () => {
   const changeUnit = useCallback(
     (newUnit: Units) => {
       if (unit !== newUnit) {
+        // Persist unit selection to localStorage
+        localStorage.setItem(StorageKey.Unit, newUnit);
+
         if (weather && Object.keys(weather).length > 0) {
           const weatherData = convertWeatherUnits(newUnit, weather) as WeatherInterface;
           setWeather(weatherData);
+          setUnit(newUnit);
+        } else {
+          // Set unit even if no weather data is available
           setUnit(newUnit);
         }
       }

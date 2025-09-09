@@ -4,6 +4,7 @@ enum StorageKey {
   Lat = 'Lat',
   Lon = 'Lon',
   Language = 'Language',
+  Unit = 'Unit',
 }
 
 export default StorageKey;

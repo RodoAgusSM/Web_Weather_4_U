@@ -1,61 +1,185 @@
-# <u> Weather4U </u>
+# 🌤️ Weather4U
 
-## <b> Web version / Versión web. </b>
+[![React](https://img.shields.io/badge/React-18.2.0-61DAFB?style=flat&logo=react)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-3178C6?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+[![PWA](https://img.shields.io/badge/PWA-Ready-5A0FC8?style=flat&logo=pwa)](https://web.dev/progressive-web-apps/)
+[![License](https://img.shields.io/badge/License-All%20Rights%20Reserved-red?style=flat)](#license)
 
-<img src='./src/demo_images/weather_web.gif' width='550' height='550'>
+> A modern, responsive Progressive Web App for real-time weather updates and air quality monitoring
+> across the globe.
 
-<br>
+Weather4U delivers comprehensive weather information with a beautiful, intuitive interface that
+works seamlessly across all devices. Built with React, TypeScript, and modern web technologies.
 
-## <b> Mobile version / Versión móvil. </b>
+## ✨ Features
 
-<img src='./src/demo_images/weather_mobile.gif' width='350' height='650'>
+### 🌍 **Global Weather Coverage**
 
-## <u> Guide in english </u>
+- Real-time weather data for any city worldwide
+- Comprehensive weather metrics including temperature, humidity, pressure, wind, and visibility
+- Automatic location detection and manual city search
 
-Application made in React JS to view the actual weather of any city of the world. Fully responsive for mobile devices.
+### 🔄 **Smart Updates**
 
-### <u> Installation </u>
+- Auto-refresh every 10 minutes for current data
+- Manual refresh option for instant updates
+- Intelligent caching for optimal performance
 
-1. Clone the project or download it as a .zip file.
-2. Navigate to the project directory and run `yarn install` to install the necessary dependencies.
-3. Start the project with `yarn start`.
-4. Enjoy real-time weather updates from any city around the globe!
+### 🌈 **Air Quality Monitoring**
 
-#### <u> Features </u>
+- Real-time Air Quality Index (AQI) data
+- Detailed pollutant breakdown (PM2.5, PM10, O3, NO2, SO2, CO)
+- Color-coded quality indicators and health recommendations
 
-- Automatic updates every 10 minutes.
-- Manual refresh option for quicker updates.
-- Access to the Air Quality Index (AQI).
-- Toggle between imperial and metric units.
-- User-friendly loading spinner during fetch times.
-- Search functionality for global city weather lookup.
+### 🎨 **Modern UI/UX**
 
-##### <u><b> Licence </b> </u>
+- **Dark/Light/System Theme**: Automatic theme switching based on user preference
+- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+- **Progressive Web App**: Install on any device for native app-like experience
+- **Smooth Animations**: Beautiful starlight animations and transitions
+- **iOS Optimized**: Enhanced experience for iOS Safari and PWA installation
 
-Made entirely by Rodolfo Agustín Silva Messano, Software Engineer from Montevideo (Uruguay). <br>
-All rights reserved.
+### 🌐 **Internationalization**
 
-## <u> Guia en español </u>
+- **Multi-language Support**: English, Spanish, Portuguese, French
+- **Dynamic Translations**: All content adapts to selected language
+- **Localized Date/Time**: Format adapts to language preferences
 
-Aplicación hecha en React JS para ver el clima de cualquier cuidad del mundo. Hecha responsive para dispositivos móviles.
+### ⚙️ **Customization**
 
-### <u> Instalación </u>
+- **Imperial/Metric Units**: Toggle between measurement systems with persistence
+- **Theme Persistence**: Your preferences are saved across sessions
+- **Location Memory**: Remembers your last searched location
 
-1. Clona el proyecto o descárgalo como un archivo .zip.
-2. Navega al directorio del proyecto y ejecuta `yarn install` para instalar las dependencias necesarias.
-3. Inicia el proyecto con `yarn start`.
-4. ¡Disfruta de actualizaciones climáticas en tiempo real de cualquier ciudad del mundo!
+### 🔧 **Technical Excellence**
 
-#### <u> Catacterísticas </u>
+- **Clean Architecture**: Domain-driven design with clear separation of concerns
+- **TypeScript**: Full type safety and enhanced developer experience
+- **Performance Optimized**: Lazy loading, code splitting, and efficient state management
+- **Error Handling**: Robust error boundaries and graceful fallbacks
 
-- Actualizaciones automáticas cada 10 minutos.
-- Opción de actualización manual para actualizaciones más rápidas.
-- Acceso al Índice de Calidad del Aire (AQI).
-- Opción para cambiar entre unidades imperiales y métricas.
-- Spinner intuitivo durante los tiempos de carga.
-- Funcionalidad de búsqueda para consultar el clima de ciudades de todo el mundo.
+## 📱 Demo
 
-##### <u><b> Licencia </b></u>
+### Web Version
 
-Hecha en su totalidad por Rodolfo Agustín Silva Messano, Ingeniero en Sistemas de Montevideo (Uruguay). <br>
-Todos los derechos reservados.
+<img src='./src/demo_images/weather_web.gif' width='600' height='auto' alt='Weather4U Web Demo'>
+
+### Mobile Version
+
+<img src='./src/demo_images/weather_mobile.gif' width='300' height='auto' alt='Weather4U Mobile Demo'>
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn package manager
+- OpenWeatherMap API key (free at [openweathermap.org](https://openweathermap.org/api))
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/RodoAgusSM/Web_Weather_4_U.git
+   cd Web_Weather_4_U/Weather_4_U
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Set up environment variables**
+
+   Create a `.env` file in the root directory:
+
+   ```bash
+   REACT_APP_WEATHER_API_KEY=your_openweathermap_api_key_here
+   ```
+
+4. **Start development server**
+
+   ```bash
+   npm start
+   # or
+   yarn start
+   ```
+
+5. **Open your browser** Navigate to `http://localhost:3000` and enjoy real-time weather updates!
+
+### Build for Production
+
+```bash
+npm run build
+# or
+yarn build
+```
+
+## 🏗️ Architecture
+
+Weather4U follows Clean Architecture principles:
+
+```
+src/
+├── application/        # Use cases and business logic
+├── domain/            # Entities and domain models
+├── infrastructure/    # External services and data sources
+├── presentation/      # React components and UI logic
+├── shared/           # Common utilities and types
+├── styles/           # Global styles and themes
+└── translations/     # Internationalization files
+```
+
+### Key Technologies
+
+- **Frontend**: React 18, TypeScript, Styled Components
+- **State Management**: React Context API with custom hooks
+- **API Integration**: OpenWeatherMap API
+- **Styling**: CSS-in-JS with styled-components
+- **Internationalization**: react-i18next
+- **Build Tool**: Create React App with custom configurations
+
+## 🌟 Contributing
+
+Contributions are welcome! This project is actively maintained and open to improvements.
+
+### Development Guidelines
+
+1. Follow the existing code style and architecture patterns
+2. Write meaningful commit messages
+3. Test your changes across different devices and browsers
+4. Update documentation when adding new features
+
+## 📄 License
+
+**All Rights Reserved**
+
+This project is the intellectual property of **Rodolfo Agustín Silva Messano**, Software Engineer
+from Montevideo, Uruguay.
+
+Unauthorized copying, modification, distribution, or use of this software is strictly prohibited
+without explicit written permission from the author.
+
+## 👨‍💻 Author
+
+**Rodolfo Agustín Silva Messano**  
+Software Engineer | Montevideo, Uruguay
+
+- 🌐 Portfolio: [github.com/RodoAgusSM](https://github.com/RodoAgusSM)
+- 💼 LinkedIn:
+  [https://www.linkedin.com/in/rodolfosilvamessano/](https://www.linkedin.com/in/rodolfosilvamessano/)
+- 📧 Email: [rodoagussm@gmail.com](mailto:rodoagussm@gmail.com)
+
+---
+
+<div align="center">
+
+**Made with ❤️ in Uruguay**
+
+_Weather4U - Your gateway to global weather information_
+
+</div>

@@ -4,9 +4,22 @@
 <head>
   <meta charset="utf-8" />
   <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="theme-color" content="#75cfb8" />
-  <meta name="description" content="Web site created using create-react-app" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <!-- Dynamic theme color - will be updated by JavaScript -->
+  <meta name="theme-color" content="#85C1E9" id="theme-color-meta" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#85C1E9" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2C3E50" />
+
+  <!-- iOS-specific meta tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" id="apple-status-bar-style" />
+  <meta name="apple-mobile-web-app-title" content="Weather4U" />
+
+  <!-- Color scheme support -->
+  <meta name="color-scheme" content="light dark" />
+
+  <meta name="description" content="Get real-time weather updates and forecasts for any location worldwide" />
   <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
   <!--
       manifest.json provides metadata used when your web app is installed on a

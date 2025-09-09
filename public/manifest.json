@@ -2,8 +2,11 @@
   "short_name": "Weather4U",
   "name": "Weather 4 U",
   "manifest_version": 3,
-  "version": "2.3.0",
+  "version": "3.0.0",
   "author": "Rodolfo Agustín Silva Messano",
+  "description": "Get real-time weather updates and forecasts for any location worldwide",
+  "categories": ["weather", "productivity", "utilities"],
+  "orientation": "portrait-primary",
   "icons": [
     {
       "src": "favicon.ico",
@@ -13,16 +16,21 @@
     {
       "src": "logo192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
       "src": "logo512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
   "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#ffffff",
-  "background_color": "#75cfb8"
+  "display": "fullscreen",
+  "theme_color": "#85C1E9",
+  "background_color": "#85C1E9",
+  "prefer_related_applications": false,
+  "display_override": ["fullscreen", "standalone", "minimal-ui"],
+  "related_applications": []
 }

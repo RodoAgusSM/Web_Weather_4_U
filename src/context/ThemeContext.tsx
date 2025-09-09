@@ -1,7 +1,17 @@
+/* eslint-disable simple-import-sort/imports */
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 
+import useIOSThemeOptimizations from '../presentation/hooks/useIOSThemeOptimizations';
+
 import { darkTheme, lightTheme } from '../styles/theme';
+
+import {
+  enforceIOSBackgroundConsistency,
+  setupIOSThemeOptimizations,
+  updateThemeColors,
+} from '../utils/themeUtils';
 
 type ThemeMode = 'light' | 'dark' | 'system';
 
@@ -21,6 +31,14 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
+  // Setup iOS optimizations on mount
+  useEffect(() => {
+    setupIOSThemeOptimizations();
+  }, []);
+
+  // Use iOS-specific theme optimizations
+  useIOSThemeOptimizations(isDarkMode);
+
   useEffect(() => {
     localStorage.setItem('themeMode', mode);
 
@@ -37,6 +55,12 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
       setIsDarkMode(mode === 'dark');
     }
   }, [mode]);
+
+  // Update theme colors whenever dark mode changes
+  useEffect(() => {
+    updateThemeColors(isDarkMode);
+    enforceIOSBackgroundConsistency(isDarkMode);
+  }, [isDarkMode]);
 
   const appliedTheme = isDarkMode
     ? { ...(darkTheme as any), mode: 'dark' }
