@@ -62,11 +62,11 @@ works seamlessly across all devices. Built with React, TypeScript, and modern we
 
 ### Web Version
 
-<img src='https://raw.githubusercontent.com/RodoAgusSM/Web_Weather_4_U/HEAD/src/demo_images/weather_web.gif?v=2' width='600' height='auto' alt='Weather4U Web Demo'>
+<img src='./src/demo_images/weather_web.gif?raw=true&v=3' width='600' height='auto' alt='Weather4U Web Demo'>
 
 ### Mobile Version
 
-<img src='https://raw.githubusercontent.com/RodoAgusSM/Web_Weather_4_U/HEAD/src/demo_images/weather_mobile.gif?v=2' width='300' height='auto' alt='Weather4U Mobile Demo'>
+<img src='./src/demo_images/weather_mobile.gif?raw=true&v=3' width='300' height='auto' alt='Weather4U Mobile Demo'>
 
 ## 🚀 Quick Start
 
