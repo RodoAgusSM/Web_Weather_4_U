@@ -1,6 +1,6 @@
-import AirPollutionInfo from 'components/AirPollutionInfo/AirPollutionInfo';
-import SocialNetwork from 'components/SocialNetwork/SocialNetwork';
-import Weather from 'components/Weather/Weather';
+import AirPollutionInfo from 'presentation/components/AirPollutionInfo/AirPollutionInfo';
+import SocialNetwork from 'presentation/components/SocialNetwork/SocialNetwork';
+import Weather from 'presentation/components/Weather/Weather';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 

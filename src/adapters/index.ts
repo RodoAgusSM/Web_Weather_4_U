@@ -1,6 +1,8 @@
-import { APIWeatherProvider, ClimateType, Units } from 'enums/index';
-import { AirPollution, Weather } from 'interfaces/index';
+import { APIWeatherProvider, ClimateType, Units } from 'shared/enums/index';
 import { convertMeasurementUnits, formatTimeByLanguage } from 'utils/updateWeatherWrapper';
+
+import AirPollution from '../domain/entities/AirPollution';
+import Weather from '../domain/entities/Weather';
 
 import { adaptOpenWeatherMap } from './openWeatherMapAdapter';
 

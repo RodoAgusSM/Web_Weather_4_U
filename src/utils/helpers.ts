@@ -1,5 +1,6 @@
 import { openWeatherMapURL, paramsURL } from 'config/config';
-import { AppRequest } from 'interfaces';
+
+import AppRequest from '../shared/types/AppRequest';
 
 const Directions = [
   'north',

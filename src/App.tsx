@@ -1,140 +1,18 @@
-import { useEffect } from 'react';
-import AirPollutionInfo from 'components/AirPollutionInfo/AirPollutionInfo';
-import SocialNetwork from 'components/SocialNetwork/SocialNetwork';
-import Weather from 'components/Weather/Weather';
-import useResponsiveDesign from 'hooks/useResponsiveDesign';
+import ServiceContainerProvider from 'context/ServiceContainerContext';
+import { ThemeProvider } from 'context/ThemeContext';
+import { AppRouter } from 'presentation/components/AppRouter/AppRouter';
+import { ViewportManager } from 'presentation/components/ViewportManager/ViewportManager';
 import { I18nextProvider } from 'react-i18next';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import i18n from 'translations/i18n';
 
-import ServiceContainerProvider from './context/ServiceContainerContext';
-import { ThemeProvider, useTheme } from './context/ThemeContext';
-import { darkTheme, lightTheme } from './styles/theme';
-
 function App() {
-  const {
-    isMobileDevice,
-    isTabletDevice,
-    isDesktopDevice,
-    isTouchDevice,
-    isPortrait,
-    isLandscape,
-    screenWidth,
-    screenHeight,
-  } = useResponsiveDesign();
-
-  useEffect(() => {
-    const setViewport = () => {
-      const viewportMeta = document.querySelector('meta[name="viewport"]');
-      const viewportContent =
-        'width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no';
-
-      if (viewportMeta) {
-        viewportMeta.setAttribute('content', viewportContent);
-      } else {
-        const meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = viewportContent;
-        document.head.appendChild(meta);
-      }
-    };
-
-    const applyDeviceClasses = () => {
-      document.body.classList.toggle('mobile-device', isMobileDevice);
-      document.body.classList.toggle('tablet-device', isTabletDevice);
-      document.body.classList.toggle('desktop-device', isDesktopDevice);
-      document.body.classList.toggle('touch-device', isTouchDevice);
-      document.body.classList.toggle('portrait', isPortrait);
-      document.body.classList.toggle('landscape', isLandscape);
-    };
-
-    const setCustomProps = () => {
-      document.documentElement.style.setProperty('--viewport-width', `${screenWidth}px`);
-      document.documentElement.style.setProperty('--viewport-height', `${screenHeight}px`);
-
-      const vh = screenHeight * 0.01;
-      document.documentElement.style.setProperty('--vh', `${vh}px`);
-    };
-
-    setViewport();
-    applyDeviceClasses();
-    setCustomProps();
-
-    const orientationChangeHandler = () => {
-      setTimeout(() => {
-        setCustomProps();
-      }, 300);
-    };
-
-    window.addEventListener('orientationchange', orientationChangeHandler);
-    window.addEventListener('resize', setCustomProps);
-
-    return () => {
-      window.removeEventListener('orientationchange', orientationChangeHandler);
-      window.removeEventListener('resize', setCustomProps);
-    };
-  }, [
-    isMobileDevice,
-    isTabletDevice,
-    isDesktopDevice,
-    isTouchDevice,
-    isPortrait,
-    isLandscape,
-    screenWidth,
-    screenHeight,
-  ]);
-
-  useEffect(() => {
-    if (isMobileDevice || isTouchDevice) {
-      const viewportMeta = document.querySelector('meta[name="viewport"]');
-      if (viewportMeta) {
-        viewportMeta.setAttribute(
-          'content',
-          'width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0',
-        );
-      }
-
-      const setVhVariable = () => {
-        const vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
-      };
-
-      setVhVariable();
-      window.addEventListener('resize', setVhVariable);
-      window.addEventListener('orientationchange', () => {
-        setTimeout(setVhVariable, 100);
-      });
-
-      return () => {
-        window.removeEventListener('resize', setVhVariable);
-        window.removeEventListener('orientationchange', setVhVariable);
-      };
-    }
-  }, [isMobileDevice, isTouchDevice]);
-
-  const ThemedApp = () => {
-    const { isDarkMode } = useTheme();
-    const theme = isDarkMode ? darkTheme : lightTheme;
-
-    return (
-      <StyledThemeProvider theme={theme}>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Weather />} />
-            <Route path="/social_network" element={<SocialNetwork />} />
-            <Route path="/air_pollution_info" element={<AirPollutionInfo />} />
-          </Routes>
-        </Router>
-      </StyledThemeProvider>
-    );
-  };
-
   return (
     <I18nextProvider i18n={i18n}>
       <ThemeProvider>
         <ServiceContainerProvider>
-          <ThemedApp />
+          <ViewportManager>
+            <AppRouter />
+          </ViewportManager>
         </ServiceContainerProvider>
       </ThemeProvider>
     </I18nextProvider>

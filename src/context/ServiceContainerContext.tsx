@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from 'react';
 
-import { WeatherUseCase } from '../app/useCases/WeatherUseCase';
-import { WeatherRepository } from '../repositories/WeatherRepository';
+import { WeatherUseCase } from '../application/use-cases/WeatherUseCase';
+import { WeatherRepository } from '../infrastructure/repositories/WeatherRepository';
 
 type ServiceContainer = {
   repository: WeatherRepository;

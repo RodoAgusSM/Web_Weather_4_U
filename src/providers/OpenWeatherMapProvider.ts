@@ -1,1 +1,1 @@
-export { OpenWeatherMapService as OpenWeatherMapProvider } from '../services/OpenWeatherMapService';
+export { OpenWeatherMapService as OpenWeatherMapProvider } from '../infrastructure/external-services/OpenWeatherMapService';

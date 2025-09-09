@@ -1,5 +1,7 @@
-import { ClimateType, StorageKey, Units } from 'enums/index';
-import { AirPollution, Weather } from 'interfaces/index';
+import { ClimateType, StorageKey, Units } from 'shared/enums/index';
+
+import AirPollution from '../domain/entities/AirPollution';
+import Weather from '../domain/entities/Weather';
 
 import {
   formatTimeToPreferredFormat,
@@ -33,7 +35,9 @@ const convertToWeather = (object: any, unit: Units) => {
     description:
       object.weather[0].description.charAt(0).toUpperCase() +
       object.weather[0].description.substring(1),
-    icon: '',
+    icon: object.weather[0]?.icon
+      ? `https://openweathermap.org/img/wn/${object.weather[0].icon}@4x.png`
+      : '',
     humidity: object.main.humidity,
     pressure: object.main.pressure,
     windSpeed:

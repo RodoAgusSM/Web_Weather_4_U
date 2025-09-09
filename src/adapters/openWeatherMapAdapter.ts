@@ -1,6 +1,8 @@
-import { ClimateType, Units } from 'enums/index';
-import { AirPollution, Weather } from 'interfaces/index';
+import { ClimateType, Units } from 'shared/enums/index';
 import { convertOpenWeatherMapResponseToInterface } from 'utils/openWeatherMapInterfaceWrapper';
+
+import AirPollution from '../domain/entities/AirPollution';
+import Weather from '../domain/entities/Weather';
 
 export function adaptOpenWeatherMap(
   climateType: ClimateType,

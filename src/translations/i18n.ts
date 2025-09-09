@@ -1,6 +1,6 @@
-import { StorageKey } from 'enums/index';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import { StorageKey } from 'shared/enums/index';
 
 import { TranslationEn } from './TranslationEn';
 import { TranslationFr } from './TranslationFr';

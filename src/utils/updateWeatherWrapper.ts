@@ -1,5 +1,6 @@
-import { StorageKey, Units } from 'enums/index';
-import { Weather } from 'interfaces/index';
+import { StorageKey, Units } from 'shared/enums/index';
+
+import Weather from '../domain/entities/Weather';
 
 import {
   celsiusToFahrenheit,
