@@ -2,7 +2,7 @@
   "short_name": "Weather4U",
   "name": "Weather 4 U",
   "manifest_version": 3,
-  "version": "3.0.0",
+  "version": "3.0.1",
   "author": "Rodolfo Agustín Silva Messano",
   "description": "Get real-time weather updates and forecasts for any location worldwide",
   "categories": ["weather", "productivity", "utilities"],
