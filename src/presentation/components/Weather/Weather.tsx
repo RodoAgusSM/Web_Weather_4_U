@@ -90,7 +90,7 @@ const Weather = () => {
     iconWorking,
     refetch,
     rawWeather,
-  } = useWeather({ lat, lon, language, unit, fetchIntervalMs: 10 * 60 * 1000 });
+  } = useWeather({ lat, lon, language, unit, fetchIntervalMs: 30 * 60 * 1000 });
 
   const {
     realFeel = 0,
@@ -117,7 +117,20 @@ const Weather = () => {
   };
 
   useEffect(() => {
-    setWeather(hwWeather as WeatherInterface);
+    if (hwWeather && Object.keys(hwWeather as object).length > 0) {
+      try {
+        const timeFormatted = formatWeatherTimeByLanguage(hwWeather as any) as WeatherInterface;
+
+        const unitAdjusted = convertWeatherUnits(unit, timeFormatted) as WeatherInterface;
+
+        setWeather(unitAdjusted);
+      } catch (e) {
+        console.warn('Failed to format hwWeather before setting state, falling back to raw:', e);
+        setWeather(hwWeather as WeatherInterface);
+      }
+    } else {
+      setWeather(hwWeather as WeatherInterface);
+    }
   }, [hwWeather]);
 
   useEffect(() => {
@@ -211,7 +224,6 @@ const Weather = () => {
   const changeUnit = useCallback(
     (newUnit: Units) => {
       if (unit !== newUnit) {
-        // Persist unit selection to localStorage
         localStorage.setItem(StorageKey.Unit, newUnit);
 
         if (weather && Object.keys(weather).length > 0) {
@@ -219,7 +231,6 @@ const Weather = () => {
           setWeather(weatherData);
           setUnit(newUnit);
         } else {
-          // Set unit even if no weather data is available
           setUnit(newUnit);
         }
       }

@@ -108,20 +108,60 @@ export const formatTimeToPreferredFormat = (
 };
 
 export const convertFrom24To12Hours = (time24: string): string => {
+  if (!time24 || typeof time24 !== 'string') {
+    return time24 || '';
+  }
+
+  if (time24.includes('AM') || time24.includes('PM')) {
+    return time24;
+  }
+
+  const timeRegex = /^([0-1]?[0-9]|2[0-3]):([0-5][0-9])$/;
+  if (!timeRegex.test(time24)) {
+    return time24;
+  }
+
   const [hours, minutes] = time24.split(':').map(Number);
+
+  if (isNaN(hours) || isNaN(minutes)) {
+    return time24;
+  }
+
   const period = hours >= 12 ? 'PM' : 'AM';
   const hours12 = hours % 12 || 12;
   return `${hours12}:${minutes.toString().padStart(2, '0')} ${period}`;
 };
 
 export const convertFrom12To24Hours = (time12: string): string => {
-  const [time, period] = time12.split(' ');
-  let [hours, minutes] = time.split(':').map(Number);
-  if (period === 'PM' && hours < 12) {
+  if (!time12 || typeof time12 !== 'string') {
+    return time12 || '';
+  }
+
+  if (!time12.includes('AM') && !time12.includes('PM')) {
+    return time12;
+  }
+
+  const timeRegex = /^(\d{1,2}):(\d{2})\s?(AM|PM)$/i;
+  const match = time12.match(timeRegex);
+
+  if (!match) {
+    return time12;
+  }
+
+  const [, hoursStr, minutesStr, period] = match;
+  let hours = parseInt(hoursStr, 10);
+  const minutes = parseInt(minutesStr, 10);
+
+  if (isNaN(hours) || isNaN(minutes) || hours < 1 || hours > 12 || minutes < 0 || minutes > 59) {
+    return time12;
+  }
+
+  if (period.toUpperCase() === 'PM' && hours < 12) {
     hours += 12;
-  } else if (period === 'AM' && hours === 12) {
+  } else if (period.toUpperCase() === 'AM' && hours === 12) {
     hours = 0;
   }
+
   return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
 };
 

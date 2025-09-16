@@ -21,7 +21,7 @@ works seamlessly across all devices. Built with React, TypeScript, and modern we
 
 ### 🔄 **Smart Updates**
 
-- Auto-refresh every 10 minutes for current data
+- Auto-refresh every 30 minutes for current data
 - Manual refresh option for instant updates
 - Intelligent caching for optimal performance
 
